@@ -1,0 +1,2 @@
+#!/bin/sh
+php ns.php >& ns.log &

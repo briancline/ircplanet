@@ -1,0 +1,2 @@
+#!/bin/sh
+php os.php >& os.log &

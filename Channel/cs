@@ -1,0 +1,2 @@
+#!/bin/sh
+php cs.php >& cs.log &
