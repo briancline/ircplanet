@@ -114,8 +114,9 @@
 				
 				if( count($numerics) == MAX_MODES_PER_LINE || $i == (count($num_list) - 1) )
 				{
-					$this->net->sendf( FMT_MODE_NOTS, $this->get_numeric(), $chan->get_name(), 
-						'+'. str_repeat('o', count($numerics)) .' '. join(" ", $numerics) );
+					$this->net->sendf( FMT_MODE, $this->get_numeric(), $chan->get_name(), 
+						'+'. str_repeat('o', count($numerics)) .' '. join(" ", $numerics),
+						$chan->get_ts() );
 				}
 			}
 		}
@@ -149,7 +150,7 @@
 				{
 					$this->net->sendf( FMT_MODE, $this->get_numeric(), $chan->get_name(), 
 						'-'. str_repeat('o', count($numerics)) .' '. join(" ", $numerics),
-						0 );
+						$chan->get_ts() );
 				}
 			}
 		}
@@ -183,7 +184,7 @@
 				{
 					$this->net->sendf( FMT_MODE, $this->get_numeric(), $chan->get_name(), 
 						'+'. str_repeat('v', count($numerics)) .' '. join(" ", $numerics),
-						0 );
+						$chan->get_ts() );
 				}
 			}
 		}
@@ -217,7 +218,7 @@
 				{
 					$this->net->sendf( FMT_MODE, $this->get_numeric(), $chan->get_name(), 
 						'-'. str_repeat('v', count($numerics)) .' '. join(" ", $numerics),
-						0 );
+						$chan->get_ts() );
 				}
 			}
 		}
@@ -254,8 +255,9 @@
 				
 				if( count($masks) == MAX_MODES_PER_LINE || $i == (count($mask_list) - 1) )
 				{
-					$this->net->sendf( FMT_MODE_NOTS, $this->get_numeric(), $chan->get_name(), 
-						'+'. str_repeat('b', count($masks)) .' '. join(" ", $masks) );
+					$this->net->sendf( FMT_MODE, $this->get_numeric(), $chan->get_name(), 
+						'+'. str_repeat('b', count($masks)) .' '. join(" ", $masks),
+						$chan->get_ts() );
 				}
 			}
 		}
@@ -292,8 +294,9 @@
 				
 				if( count($masks) == MAX_MODES_PER_LINE || $i == (count($mask_list) - 1) )
 				{
-					$this->net->sendf( FMT_MODE_NOTS, $this->get_numeric(), $chan->get_name(), 
-						'-'. str_repeat('b', count($masks)) .' '. join(" ", $masks) );
+					$this->net->sendf( FMT_MODE, $this->get_numeric(), $chan->get_name(), 
+						'-'. str_repeat('b', count($masks)) .' '. join(" ", $masks),
+						$chan->get_ts() );
 				}
 			}
 		}
@@ -322,13 +325,15 @@
 		
 		function clear_modes( $chan_name )
 		{
-			$this->net->sendf( FMT_MODE, $this->get_numeric(), $chan_name, '-psmntilk *', time() );
+			$chan = $this->net->get_channel( $chan_name );
+			$this->net->sendf( FMT_MODE, $this->get_numeric(), $chan_name, '-psmntilk *', $chan->get_ts() );
 //			$this->net->sendf( FMT_CLEARMODES, $this->get_numeric(), $chan_name, 'ntpsmikl' );
 		}
 
 		function mode( $chan_name, $modes )
 		{
-			$this->net->sendf( FMT_MODE, $this->get_numeric(), $chan_name, $modes, time() );
+			$chan = $this->net->get_channel( $chan_name );
+			$this->net->sendf( FMT_MODE, $this->get_numeric(), $chan_name, $modes, $chan->get_ts() );
 		}
 		
 		function kick( $chan_name, $numeric, $reason )
@@ -339,7 +344,8 @@
 		
 		function join( $chan_name )
 		{
-			$this->net->sendf( FMT_JOIN, $this->get_numeric(), $chan_name, time() );
+			$chan = $this->net->get_channel( $chan_name );
+			$this->net->sendf( FMT_JOIN, $this->get_numeric(), $chan_name, $chan->get_ts() );
 			$this->net->add_channel_user( $chan_name, $this->get_numeric() );
 		}
 

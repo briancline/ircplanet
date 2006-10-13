@@ -50,6 +50,7 @@
 		function get_nick()            { return $this->nick; }
 		function get_ident()           { return $this->ident; }
 		function get_host()            { return $this->host; }
+		function get_ip()              { return $this->ip; }
 		function get_name()            { return $this->desc; }
 		function get_away()            { return $this->away_msg; }
 		function get_numeric()         { return $this->numeric; }

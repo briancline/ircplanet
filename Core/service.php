@@ -967,12 +967,14 @@
 		
 		function clear_modes( $chan_name )
 		{
-			$this->sendf( FMT_MODE, SERVER_NUM, $chan_name, '-psmntilk *', time() );
+			$chan = $this->get_channel( $chan_name );
+			$this->sendf( FMT_MODE, SERVER_NUM, $chan_name, '-psmntilk *', $chan->get_ts() );
 		}
 		
 		function mode( $chan_name, $modes )
 		{
-			$this->sendf( FMT_MODE, SERVER_NUM, $chan_name, $modes, time() );
+			$chan = $this->get_channel( $chan_name );
+			$this->sendf( FMT_MODE, SERVER_NUM, $chan_name, $modes, $chan->get_ts() );
 		}
 		
 		function kick( $chan_name, $numeric, $reason )

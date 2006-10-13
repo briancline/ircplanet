@@ -7,7 +7,9 @@
 	$this->set_command_info( 'opermsg',          0,   1, false, '<message>' );
 	$this->set_command_info( 'ban',            200,   2, false, '<channel> <hostmask> [duration] [level] [reason]' );
 	$this->set_command_info( 'banlist',          0,   1, false, '<channel> [mask]' );
+	$this->set_command_info( 'chanlist',         0,   0, false, '[mask]' );
 	$this->set_command_info( 'clearchan',      300,   1, false, '<options> [reason]' );
+	$this->set_command_info( 'clearmodes',     200,   1, false, '<channel>' );
 	$this->set_command_info( 'deop',           100,   1, false, '<channel> [nick1 [nick2 ...]]' );
 	$this->set_command_info( 'deopall',        300,   1, false, '<channel>' );
 	$this->set_command_info( 'devoice',        100,   1, false, '<channel> [nick1 [nick2 ...]]' );
@@ -25,6 +27,7 @@
 	$this->set_command_info( 'opall',          300,   1, false, '<channel>' );
 	$this->set_command_info( 'refreshg',       500,   0, false );
 	$this->set_command_info( 'remgline',       200,   1, false, '<mask>' );
+	$this->set_command_info( 'scan',             0,   1, false, '<mask>' );
 	$this->set_command_info( 'topic',          100,   1, false, '<channel> [new topic]' );
 	$this->set_command_info( 'unban',          200,   2, false, '<channel> <hostmask>' );
 	$this->set_command_info( 'voice',          100,   1, false, '<channel> [nick1 [nick2 ...]]' );

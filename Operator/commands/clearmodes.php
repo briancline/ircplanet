@@ -6,6 +6,6 @@
 		return false;
 	}
 	
-	$bot->clear_modes( $chan_name );
+	$this->clear_modes( $chan_name );
 		
 ?>

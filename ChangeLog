@@ -1,3 +1,15 @@
+Brian Cline <brian@ircplanet.net>	2006-10-13
+
+	* Core/bot.php: Make various adjustments to ensure that we send the proper
+	timestmap with a channel mode change, thus avoiding any messy HACK(2)'s.
+	
+	* Operator/commands/*: Added chanlist and scan commands.
+	
+	* Operator/commands.php: Added chanlist and scan commands.
+
+	* Operator/commands/clearmodes.php: Mode change should go through as
+	server, not bot.
+
 Brian Cline	<brian@ircplanet.net>	2006-10-09
 
 	* Initial subversion import.
