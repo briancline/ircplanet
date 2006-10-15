@@ -1,3 +1,48 @@
+Brian Cline	<brian@ircplanet.net>	2006-10-14
+
+	* Core/core_globals.php: Increment revision count.
+
+	* Core/p10.php: Add formatter for the SETTIME token.
+
+	* Core/service.php: The 'r' mode wasn't covered in clear_modes(). Also
+	fixed a bug that wasn't updating the internal copy of a channel topic
+	whenever the service set it. Modified the kick() function to allow for
+	either a single numeric of a user to kick, or an array with multiple users.
+
+	* Core/channel.php: Added get_op_list(), get_voice_list(), and
+	get_user_list() to return an array of numerics that are ops, voices, or all
+	channel users, respectively.
+
+	* Core/user.php: Added get_signon_ts() to return the user's signon
+	timestamp, and get_channel_list() to return an array of channel names that
+	the user is joined to.
+
+	* Core/stringutils.php: Added a standard get_date() function to convert a
+	timestamp to a readable date/time in various places.
+
+	* Operator/commands.php: Rearranged command list by level. Also added
+	command lines for whois, whoison, settime, and clearchan.
+
+	* Operator/commands/whois.php: Added WHOIS command to return information
+	about a signed-on user.
+
+	* Operator/commands/settime.php: Added SETTIME command to allow operator
+	services to send out a network-wide timestamp so that all servers have the
+	correct time.
+
+	* Operator/commands/clearchan.php: Added CLEARCHAN command to allow opers
+	to clear a channel's modes, deop all its users, devoice all its users,
+	clear all its bans, kick all its users, or gline all its users. In cases
+	where an oper requests to kick or gline all channel users, the service will
+	make sure not to kick/gline the oper requesting the clearchan if they are
+	on the channel at the time. It also will not perform actions on any service
+	bots.
+
+	* Operator/commands/whoison.php: Added WHOISON command to allow opers to
+	see who is on a channel at any given time. The list is sorted
+	alphabetically and includes @ and + characters to indicate op/voice status
+	for users on the channel.
+
 Brian Cline <brian@ircplanet.net>	2006-10-13
 
 	* Core/bot.php: Make various adjustments to ensure that we send the proper

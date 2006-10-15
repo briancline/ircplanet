@@ -60,6 +60,26 @@
 				$this->add_mode(CMODE_LIMIT);
 		}
 		
+		function get_op_list()
+		{
+			$ops = array();
+			foreach( $this->users as $numeric => $chan_user )
+				if( $chan_user->is_op() )
+					$ops[] = $numeric;
+			
+			return $ops;
+		}
+		
+		function get_voice_list()
+		{
+			$voices = array();
+			foreach( $this->users as $numeric => $chan_user )
+				if( $chan_user->is_voice() )
+					$voices[] = $numeric;
+			
+			return $voices;
+		}
+
 		function get_op_count()
 		{
 			$count = 0;
@@ -284,6 +304,16 @@
 		function is_on( $numeric )     { return( array_key_exists($numeric, $this->users) ); }
 		function is_op( $numeric )     { return( $this->is_on($numeric) && $this->users[$numeric]->is_op() ); }
 		function is_voice( $numeric )  { return( $this->is_on($numeric) && $this->users[$numeric]->is_voice() ); }
+		
+		
+		function get_user_list()
+		{
+			$users = array();
+			foreach( $this->users as $numeric => $chan_user )
+				$users[] = $numeric;
+			
+			return $users;
+		}
 		
 		function get_burst_userlist()
 		{

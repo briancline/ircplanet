@@ -39,6 +39,7 @@
 	define( 'FMT_INVITE',           "%s I %s :%s" );
 	define( 'FMT_GLINE_ADD',        "%s GL * +%s %ld :%s" );
 	define( 'FMT_GLINE_REMOVE',     "%s GL * -%s" );
+	define( 'FMT_SETTIME',          "%s SE %ld :%s" );
 	
 	if( TOPIC_BURSTING )
 		define( 'FMT_TOPIC',             "%s T %s %ld %ld :%s" );

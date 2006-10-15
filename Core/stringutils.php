@@ -234,5 +234,12 @@
 		
 		return $b;
 	}
+	
+	
+	function get_date( $ts )
+	{
+		return date('D j M Y H:i:s', $ts );
+	}
+	
 
 ?>

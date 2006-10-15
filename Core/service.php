@@ -962,13 +962,17 @@
 				$this->sendf( FMT_TOPIC, SERVER_NUM, $chan_name, $chan_ts, time(), $topic );
 			else
 				$this->sendf( FMT_TOPIC, SERVER_NUM, $chan_name, $topic );
+			
+			$chan = $this->get_channel( $chan_name );
+			$chan->set_topic( $topic );
 		}
 		
 		
 		function clear_modes( $chan_name )
 		{
 			$chan = $this->get_channel( $chan_name );
-			$this->sendf( FMT_MODE, SERVER_NUM, $chan_name, '-psmntilk *', $chan->get_ts() );
+			$chan->clear_modes();
+			$this->sendf( FMT_MODE, SERVER_NUM, $chan_name, '-psmntirlk *', $chan->get_ts() );
 		}
 		
 		function mode( $chan_name, $modes )
@@ -977,10 +981,16 @@
 			$this->sendf( FMT_MODE, SERVER_NUM, $chan_name, $modes, $chan->get_ts() );
 		}
 		
-		function kick( $chan_name, $numeric, $reason )
+		function kick( $chan_name, $numerics, $reason )
 		{
-			$this->remove_channel_user( $chan_name, $numeric );
-			$this->sendf( FMT_KICK, SERVER_NUM, $chan_name, $numeric, $reason );
+			if( !is_array($numerics) )
+				$numerics = array( $numerics );
+			
+			foreach( $numerics as $numeric )
+			{
+				$this->remove_channel_user( $chan_name, $numeric );
+				$this->sendf( FMT_KICK, SERVER_NUM, $chan_name, $numeric, $reason );
+			}
 		}
 
 	}

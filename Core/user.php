@@ -57,6 +57,7 @@
 		function get_server_numeric()  { return substr($this->numeric, 0, BASE64_SERVLEN); }
 		function get_account_name()    { return $this->account_name; }
 		function get_account_id()      { return $this->account_id; }
+		function get_signon_ts()       { return $this->start_ts; }
 		
 		function set_nick($s)          { $this->nick = $s; }
 		function set_account_id($i)    { $this->account_id = $i; }
@@ -184,6 +185,11 @@
 		function remove_all_channels()
 		{
 			$this->channels = array();
+		}
+		
+		function get_channel_list()
+		{
+			return $this->channels;
 		}
 	}
 
