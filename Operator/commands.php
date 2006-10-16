@@ -3,6 +3,10 @@
 	$this->set_command_info( 'die',           1000,   0, false, '[reason]' );
 	$this->set_command_info( 'quote',         1000,   1, false, '<stuff>' );
 
+	$this->set_command_info( 'adduser',        800,   2, false, '<account> <level>' );
+	$this->set_command_info( 'moduser',        800,   3, false, '<account> <setting> <param>' );
+	$this->set_command_info( 'remuser',        800,   1, false, '<account>' );
+
 	$this->set_command_info( 'broadcast',      700,   1, false, '<message>' );
 	$this->set_command_info( 'settime',        700,   0, false );
 

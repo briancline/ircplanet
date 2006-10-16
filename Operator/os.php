@@ -59,10 +59,17 @@
 		
 		function get_user_level( $user_obj )
 		{
-			if( !is_object($user_obj) || !get_class($user_obj) == 'User' || !$user_obj->is_logged_in() )
-				return 0;
+			$acct_id = $user_obj;
 			
-			$res = db_query( "select `level` from `os_admins` where user_id = ". $user_obj->get_account_id() );
+			if( is_object($user_obj) && get_class($user_obj) == 'User' )
+			{
+				if( !$user_obj->is_logged_in() )
+					return 0;
+				
+				$acct_id = $user_obj->get_account_id();
+			}
+			
+			$res = db_query( "select `level` from `os_admins` where user_id = ". $acct_id );
 			if( $res && mysql_num_rows($res) > 0 )
 			{
 				$level = mysql_result( $res, 0 );
@@ -70,7 +77,7 @@
 				return $level;
 			}
 			
-			return 1;
+			return 0;
 		}
 		
 		

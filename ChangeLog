@@ -1,3 +1,13 @@
+Brian Cline	<brian@ircplanet.net>	2006-10-16
+
+	* Operator/commands/*: Added moduser, remuser, and adduser command
+	handlers.
+
+	* Operator/os.php: Modified get_user_level() to accept an integer as well
+	so we can search for access by an account ID.
+
+	* Operator/commands.php: Added lines for adduser, moduser, and remuser.
+
 Brian Cline	<brian@ircplanet.net>	2006-10-14
 
 	* Core/core_globals.php: Increment revision count.
