@@ -115,7 +115,15 @@
 				else
 				{
 					//$this->sendf( FMT_CREATE, $botnum, $dbchan->get_name(), time() );
-					$chan = $this->add_channel( $dbchan->get_name(), $dbchan->get_register_ts() );
+					$ts = $dbchan->get_create_ts();
+					if( $ts < $dbchan->get_register_ts() )
+					{
+						$ts = $dbchan->get_register_ts();
+						$dbchan->set_create_ts( $ts );
+						$dbchan->save();
+					}
+					
+					$chan = $this->add_channel( $dbchan->get_name(), $ts );
 					$this->add_channel_user( $dbchan->get_name(), $botnum, 'o' );
 				}
 				

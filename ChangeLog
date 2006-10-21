@@ -1,3 +1,14 @@
+Brian Cline	<brian@ircplanet.net>	2006-10-21
+
+	* Channel/commands/help.php: Fix small bug where help text variables
+	were not being substituted before the text was sent out.
+
+	* Channel/cs.php: More accomodations for proper channel bursts. If we
+	receive a channel create timestamp that is smaller than the one we have
+	stored, update it accordingly.
+
+	* Channel/globals.php: Update revision count.
+
 Brian Cline	<brian@ircplanet.net>	2006-10-16
 
 	* Operator/commands/*: Added moduser, remuser, and adduser command

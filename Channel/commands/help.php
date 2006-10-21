@@ -27,19 +27,20 @@
 			$bot->noticef( $user, "%sSyntax:%s %s %s", BOLD_START, BOLD_END, $help_topic, $help_syntax );
 			$bot->noticef( $user, "" );
 		}
-				
+
 		foreach( $lines as $line )
 		{
 			$line = str_replace( "%N", $bot->get_nick(), $line );
 			$line = str_replace( "%S", SERVER_NAME, $line );
 			$line = str_replace( "%B", BOLD_START, $line );
-			$bot->notice( $user, $line );
 
 			while(ereg('(\%[A-Z_]+\%)', $line, $regs))
 			{
 				eval('$sub_val = '. str_replace('%', '', $regs[1]) .';');
 				$line = str_replace($regs[1], $sub_val, $line);
 			}
+
+			$bot->notice( $user, $line );
 		}
 	}
 	else
