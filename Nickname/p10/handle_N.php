@@ -26,6 +26,8 @@
 			$bot->notice( $user, "$notice Please change your nick or log in to account ".
 				BOLD_START . $account->get_name() . BOLD_END . "." );
 		}
+
+		$this->add_timer( false, 60, 'enforce.php', $user->get_numeric(), $account->get_name() );
 	}
 
 ?>

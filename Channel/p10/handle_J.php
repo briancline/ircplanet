@@ -38,8 +38,6 @@
 		if(	($lev = $this->get_channel_access($chan_name, $user)) )
 		{
 			$level = $lev->get_level();
-			debug(sprintf('Level %d / a: %d / c: %d / l: %d', $level, $account->auto_ops(), $reg->auto_ops(), $lev->auto_ops()));
-			debug(sprintf('Level %d / a: %d / c: %d / l: %d', $level, $account->auto_voices(), $reg->auto_voices(), $lev->auto_voices()));
 			if( $level >= 100 && $account->auto_ops() && $reg->auto_ops() && $lev->auto_ops() )
 			{
 				$bot->op( $chan_name, $user->get_numeric() );

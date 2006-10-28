@@ -1,3 +1,22 @@
+Brian Cline	<brian@ircplanet.net>	2006-10-28
+
+	* Core/service.php: Added a kill() function to the service class. This will
+	perform a server-based kill.
+
+	* Core/p10.php: Added protocol format line for kills.
+
+	* Core/bot.php: Added a kill() function to the bot class. This will perform
+	a user-based kill.
+
+	* Channel/p10/handle_J.php: Remove old debug messages.
+
+	* Nickname/p10/handle_N.php: Added a timer line to make sure we are
+	enforcing nicks with kills.
+
+	* Nickname/timers/enforce.php: Added nick enforcement code.
+
+	* Nickname/globals.php: Added constant for the Nickserv timer directory.
+
 Brian Cline	<brian@ircplanet.net>	2006-10-21
 
 	* Channel/commands/help.php: Fix small bug where help text variables

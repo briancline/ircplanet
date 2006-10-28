@@ -9,6 +9,7 @@
 	define( 'SERVICE_CONFIG_FILE',    SERVICE_DIR .'/ns.ini' );
 	define( 'SERVICE_HANDLER_DIR',    SERVICE_DIR .'/p10/' );
 	define( 'CMD_HANDLER_DIR',        SERVICE_DIR .'/commands/' );
+	define( 'SERVICE_TIMER_DIR',      SERVICE_DIR .'/timers/' );
 
 	define( 'MAXLEN_USEREMAIL',       100 );
 	define( 'MAXLEN_INFOLINE',        150 );

@@ -359,6 +359,19 @@
 			$this->net->remove_channel_user( $chan_name, $this->get_numeric() );
 		}
 	
+		function kill( $user_num, $reason = 'So long...')
+		{
+			if( get_class($user_num) == 'User' )
+				$user_num = $user_num->get_numeric();
+			
+			if( !($user = $this->net->get_user($user_num)) )
+				return false;
+			
+			$my_serv = $this->net->get_server( $this->get_server_numeric() );
+			$this->net->sendf( FMT_KILL, $this->get_numeric(), $user_num, 
+				$this->get_nick(), $reason );
+			$this->net->remove_user( $user_num );
+		}
 	}
 
 ?>

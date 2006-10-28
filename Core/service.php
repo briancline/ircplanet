@@ -992,7 +992,18 @@
 				$this->sendf( FMT_KICK, SERVER_NUM, $chan_name, $numeric, $reason );
 			}
 		}
-
+		
+		function kill( $user_num, $reason = 'So long...')
+		{
+			if( get_class($user_num) == 'User' )
+				$user_num = $user_num->get_numeric();
+			
+			if( !($user = $this->get_user($user_num)) )
+				return false;
+			
+			$this->sendf( FMT_KILL, SERVER_NUM, $user_num, SERVER_NAME, $reason );
+			$this->remove_user( $user_num );
+		}
 	}
 	
 ?>
