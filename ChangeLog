@@ -1,5 +1,10 @@
 Brian Cline	<brian@ircplanet.net>	2006-10-28
 
+	* Nickname/p10/handle_N.php: Only enforce a nick if it's enforce setting is
+	turned on.
+
+Brian Cline	<brian@ircplanet.net>	2006-10-28
+
 	* Core/service.php: Added a kill() function to the service class. This will
 	perform a server-based kill.
 

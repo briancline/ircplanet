@@ -27,7 +27,10 @@
 				BOLD_START . $account->get_name() . BOLD_END . "." );
 		}
 
-		$this->add_timer( false, 60, 'enforce.php', $user->get_numeric(), $account->get_name() );
+		if( $account->enforces_nick() )
+		{
+			$this->add_timer( false, 60, 'enforce.php', $user->get_numeric(), $account->get_name() );
+		}
 	}
 
 ?>
