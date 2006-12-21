@@ -1,3 +1,13 @@
+Brian Cline	<brian@ircplanet.net>	2006-12-20
+
+	* Channel/db_channel.php: Delete channel bans whenever a channel is
+	deleted. This fixes a startup bug where CS would die with a message related
+	to "call to method add_ban on a non-object" when loading channel bans from
+	the database for channels that had been delchan'ed or expired in the past.
+
+	* Channel/cs.php: Added error checking for the above bug. A message will be
+	logged if we come across any channel ban for a channel that does not exist.
+
 Brian Cline	<brian@ircplanet.net>	2006-12-18
 
 	* Channel/commands/register.php: Use new cs.ini constant for the maximum

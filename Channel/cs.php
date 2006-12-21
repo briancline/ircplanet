@@ -71,6 +71,13 @@
 				
 				
 				$chan = $this->get_channel_reg_by_id( $chan_id );
+				
+				if( !$chan )
+				{
+					debug("*** Loaded ban for channel ID $chan_id, but no such channel exists!");
+					continue;
+				}
+				
 				$ban = new DB_Ban( $chan_id, $user_id, $mask );
 				$ban->load_from_row( $row );
 				$chan->add_ban( $ban );

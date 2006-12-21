@@ -339,6 +339,7 @@
 		{
 			db_query( "delete from `channels` where `id` = '". $this->id ."'" );
 			db_query( "delete from `channel_access` where `chan_id` = '". $this->id ."'" );
+			db_query( "delete from `channel_bans` where `chan_id` = '". $this->id ."'" );
 			$this->id = 0;
 		}
 		
