@@ -117,8 +117,6 @@
 				debug( "Cannot run without a database!" );
 				exit();
 			}
-			
-			debug( "*** DB connection established." );
 		}
 		
 		

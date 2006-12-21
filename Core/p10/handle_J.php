@@ -14,7 +14,6 @@
 		$channels = explode( ',', $chan_name );
 		foreach( $channels as $chan_name )
 		{
-			debug("Adding $numeric to $chan_name");
 			$this->add_channel_user( $chan_name, $numeric );
 		}
 	}

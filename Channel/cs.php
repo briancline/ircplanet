@@ -95,12 +95,12 @@
 			
 			$this->add_timer( true, 5, 'refresh_data.php' );
 			$this->add_timer( true, 300, 'save_data.php' );
+			$this->add_timer( true, 30, 'expire_channels.php' );
 		}
 		
 		
 		function service_preburst()
 		{
-			debug("*** Service Preburst");
 			$bot = $this->default_bot;
 			$botnum = $bot->get_numeric();
 
@@ -150,7 +150,6 @@
 		
 		function service_postburst( $uplink_burst = false )
 		{
-			debug("*** Service Postburst");
 			$bot = $this->default_bot;
 			$botnum = $bot->get_numeric();
 			
@@ -221,18 +220,14 @@
 		
 		function remove_channel_reg( $chan_name )
 		{
-			debug( "Chan name = $chan_name" );
 			if( is_object($chan_name) && get_class($chan_name) == 'DB_Channel' )
 				$chan_name = $chan_name->get_name();
 			
-			debug( "Chan name = $chan_name" );
 			$chan_reg = 0;
 			$chan_key = strtolower( $chan_name );
-			debug( "Chan key  = $chan_key" );
 			
 			if( array_key_exists($chan_key, $this->db_channels) )
 			{
-				debug( "Found channel reg, unsetting" );
 				$chan_reg = $this->db_channels[$chan_key];
 				unset( $this->db_channels[$chan_key] );
 			}
