@@ -1,5 +1,9 @@
 Brian Cline	<brian@ircplanet.net>	2006-12-20
 
+	* Channel/globals.php: Incremented revision.
+
+Brian Cline	<brian@ircplanet.net>	2006-12-20
+
 	* Channel/db_channel.php: Delete channel bans whenever a channel is
 	deleted. This fixes a startup bug where CS would die with a message related
 	to "call to method add_ban on a non-object" when loading channel bans from
