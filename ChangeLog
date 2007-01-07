@@ -1,4 +1,10 @@
 Brian Cline	<brian@ircplanet.net>	2007-01-07
+	
+	* Core/core_globals.php: Increment revision count.
+	
+	* Operator/globals.php: Increment revision count.
+
+Brian Cline	<brian@ircplanet.net>	2007-01-07
 
 	* Core/p10.php: Add numeric replies for client-side /whois responses. Also
 	cleaned up several minor spacing issues.

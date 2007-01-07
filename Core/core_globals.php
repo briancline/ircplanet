@@ -3,7 +3,7 @@
 	define( 'CORE_NAME',           'Services Core' );
 	define( 'CORE_VERSION_MAJOR',  1 );
 	define( 'CORE_VERSION_MINOR',  0 );
-	define( 'CORE_VERSION_REV',    9 );
+	define( 'CORE_VERSION_REV',    10 );
 	
 	define( 'CORE_VERSION',        CORE_NAME .' v'.
 	                               CORE_VERSION_MAJOR .'.'.
