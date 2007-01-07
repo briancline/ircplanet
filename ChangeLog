@@ -1,3 +1,41 @@
+Brian Cline	<brian@ircplanet.net>	2007-01-07
+
+	* Core/p10.php: Add numeric replies for client-side /whois responses. Also
+	cleaned up several minor spacing issues.
+	
+	* Core/channel.php: Add an is_secret member to return whether or not the
+	channel is +s.
+	
+	* Core/p10/handle_W.php: Added remote /whois replies to the core. These
+	mostly follow the same rules as ircu-based /whoises with regard to
+	user host-hiding and channel lists for services and regular users.
+	Since I do not like ircu's "head-in-sand" defines, you will have to hack
+	up handle_W.php if you need to hide additional information through this
+	remote whois reply. However, keep in mind that if you have remote /whoises
+	disabled on all your ircu servers, users will not be able to send whois 
+	requests to this service and making changes to this file in order to hide
+	whois info from them will not be necessary.
+	
+	* Core/user.php: Add last_spoke variable and corresponding get_idle_time 
+	function to keep track of the last time a user has spoken. It is only
+	updated inside of the Bot child class, so this is only used for remote
+	whois replies about bots running on this server. Also added is_service
+	function to return whether this user has +k, is_deaf() to return whether
+	this user has +d, and is_local() to return if this user is on this server.
+	And finally, fixed a bug that allowed a channel to be added to this user's
+	channel list more than once.
+	
+	* Core/bot.php: Updated message() and messagef() functions to update the
+	bot's last_spoke timestamp. Currently only used for whois replies about
+	the bot.
+	
+	* Operator/p10/handle_A.php: Disable needless reporting of user away 
+	status.
+	
+	* Operator/p10/handle_M.php: Disable reporting of channel mode changes.
+	This can obviously cause a substantial amount of unnecessary log channel
+	traffic on even smaller sized networks.
+
 Brian Cline	<brian@ircplanet.net>	2006-12-20
 
 	* Channel/globals.php: Incremented revision.

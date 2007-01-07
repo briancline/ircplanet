@@ -26,6 +26,7 @@
 		var $desc;
 		var $modes = 0;
 		var $away_msg;
+		var $last_spoke = START_TIME;
 		var $channels = array();
 		
 		function __construct( $num, $nick, $ident, $host, $ip, $start_ts, $desc, $modes = "", $account = "" )
@@ -42,7 +43,10 @@
 		}
 		
 		function is_bot()              { return false; }
+		function is_service()          { return $this->has_mode(UMODE_SERVICE); }
+		function is_deaf()             { return $this->has_mode(UMODE_DEAF); }
 		function is_oper()             { return $this->has_mode(UMODE_OPER); }
+		function is_local()            { return $this->get_server_numeric() == SERVER_NUM; }
 		function is_away()             { return $this->away_msg != ''; }
 		function is_logged_in()        { return $this->account_id > 0; }
 		function has_account_name()    { return strlen($this->account_name) > 0; }
@@ -58,6 +62,7 @@
 		function get_account_name()    { return $this->account_name; }
 		function get_account_id()      { return $this->account_id; }
 		function get_signon_ts()       { return $this->start_ts; }
+		function get_idle_time()       { return time() - $this->last_spoke; }
 		
 		function set_nick($s)          { $this->nick = $s; }
 		function set_account_id($i)    { $this->account_id = $i; }
@@ -164,7 +169,8 @@
 		
 		function add_channel( $name )
 		{
-			$this->channels[] = $name;
+			if(!in_array($name, $this->channels))
+				$this->channels[] = $name;
 		}
 		
 		function remove_channel( $name )

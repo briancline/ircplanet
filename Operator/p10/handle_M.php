@@ -12,6 +12,7 @@
 	
 	$modes = $args[3];
 	
-	$this->report_event( 'MODE', $source, $target, $modes, $readable_args );
+	if(!$is_chan)
+		$this->report_event( 'MODE', $source, $target, $modes, $readable_args );
 
 ?>

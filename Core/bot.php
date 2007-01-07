@@ -28,6 +28,7 @@
 				$target = $target->get_numeric();
 			
 			$this->net->sendf( FMT_PRIVMSG, $this->numeric, $target, $text );
+			$this->last_spoke = time();
 		}
 
 		function notice( $target, $text )
@@ -53,6 +54,7 @@
 			
 			$notice_text = stripslashes( $notice_text );
 			$this->net->sendf( FMT_PRIVMSG, $this->numeric, $target, $notice_text );
+			$this->last_spoke = time();
 		}
 		
 		function noticef( $target, $format )

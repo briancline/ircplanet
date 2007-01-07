@@ -33,7 +33,7 @@
 	define( 'FMT_SQ',               "%s SQ %s %ld :%s" );
 	define( 'FMT_PONG',             "%s Z %s %s" );
 	define( 'FMT_MODE_HACK',        "%s M %s %s %s %s" );
-	define( 'FMT_MODE_HACK_NOTS',        "%s M %s %s %s" );
+	define( 'FMT_MODE_HACK_NOTS',   "%s M %s %s %s" );
 	define( 'FMT_ACCOUNT',          "%s AC %s %s" );
 	define( 'FMT_QUIT',             "%s Q :%s" );
 	define( 'FMT_INVITE',           "%s I %s :%s" );
@@ -43,9 +43,9 @@
 	define( 'FMT_KILL',             "%s D %s :%s (%s)" );
 	
 	if( TOPIC_BURSTING )
-		define( 'FMT_TOPIC',             "%s T %s %ld %ld :%s" );
+		define( 'FMT_TOPIC',        "%s T %s %ld %ld :%s" );
 	else
-		define( 'FMT_TOPIC',             "%s T %s :%s" );
+		define( 'FMT_TOPIC',        "%s T %s :%s" );
 	
 	define( 'FMT_ADMIN_REPLY_1',    "%s 256 %s :%s" );
 	define( 'FMT_ADMIN_REPLY_2',    "%s 257 %s :%s" );
@@ -54,6 +54,15 @@
 	define( 'FMT_VERSION_REPLY',    "%s 351 %s %s %s :%s" );
 	define( 'FMT_STATS_U_REPLY',    "%s 242 %s :Server up %s" );
 	define( 'FMT_STATS_END',        "%s 219 %s %s :End of /STATS report" );
+	
+	define( 'FMT_WHOIS_NOTFOUND',   '%s 401 %s %s :No such nick' );
+	define( 'FMT_WHOIS_DENIED',     '%s 401 %s %s :You are not an IRC operator' );
+	define( 'FMT_WHOIS_USER',       '%s 311 %s %s %s %s * :%s' );
+	define( 'FMT_WHOIS_SERVER',     '%s 312 %s %s %s :%s' );
+	define( 'FMT_WHOIS_OPER',       '%s 313 %s %s :is an IRC Operator' );
+	define( 'FMT_WHOIS_IDLE',       '%s 317 %s %s %ld %ld' );
+	define( 'FMT_WHOIS_CHANNELS',   '%s 319 %s %s :%s' );
+	define( 'FMT_WHOIS_END',        '%s 318 %s %s :End of /WHOIS list.' );
 	
 	define( 'MAX_MODES_PER_LINE',   6 );
 

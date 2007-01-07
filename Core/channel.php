@@ -46,6 +46,8 @@
 		function get_limit()      { return $this->limit; }
 		function get_key()        { return $this->key; }
 		
+		function is_secret()      { return $this->has_mode(CMODE_SECRET); }
+		
 		function set_ts($v)    { $this->ts = $v; }
 		function set_name($v)  { $this->name = $v; }
 		function set_key($v)   { $this->key = $v; }
