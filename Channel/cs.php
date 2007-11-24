@@ -8,19 +8,16 @@
 	
 	class ChannelService extends Service
 	{
-		var $accounts = array();
 		var $db_channels = array();
 		
 		
 		function load_channels()
 		{
-			$n = 0;
 			$res = db_query( 'select * from channels order by lower(name) asc' );
 			while( $row = mysql_fetch_assoc($res) )
 			{
 				$channel_key = strtolower( $row['name'] );
-				$channel = new DB_Channel( $channel_key );
-				$channel->load_from_row( $row );
+				$channel = new DB_Channel( $row );
 				
 				if( $channel->auto_limits() && !$channel->has_pending_autolimit() )
 				{
@@ -30,10 +27,9 @@
 				}
 				
 				$this->db_channels[$channel_key] = $channel;
-				$n++;
 			}
 			
-			debug( "Loaded $n channel records." );
+			debugf( "Loaded %d channel records.", count($this->db_channels) );
 		}
 		
 		
@@ -47,8 +43,7 @@
 				$user_id = $row['user_id'];
 				
 				$chan = $this->get_channel_reg_by_id( $chan_id );
-				$access = new DB_Channel_Access( $chan_id, $user_id );
-				$access->load_from_row( $row );
+				$access = new DB_Channel_Access( $row );
 				$chan->add_access( $access );
 				
 				$n++;
@@ -100,7 +95,6 @@
 			$this->load_access();
 			$this->load_bans();
 			
-			$this->add_timer( true, 5, 'refresh_data.php' );
 			$this->add_timer( true, 300, 'save_data.php' );
 			$this->add_timer( true, 30, 'expire_channels.php' );
 		}
@@ -115,15 +109,12 @@
 			{
 				if( $chan = $this->get_channel($dbchan_key) )
 				{
-					//$this->sendf( FMT_JOIN, $botnum, $chan->get_name(), time() );
 					$this->add_channel_user( $chan->get_name(), $botnum, 'o' );
-					//$this->op( $chan->get_name(), $botnum );
 				}
 				else
 				{
-					//$this->sendf( FMT_CREATE, $botnum, $dbchan->get_name(), time() );
 					$ts = $dbchan->get_create_ts();
-					if( $ts < $dbchan->get_register_ts() )
+					if( $ts > $dbchan->get_register_ts() )
 					{
 						$ts = $dbchan->get_register_ts();
 						$dbchan->set_create_ts( $ts );
@@ -143,13 +134,7 @@
 				if( $dbchan->has_default_modes() )
 				{
 					$defmodes = $dbchan->get_default_modes();
-//						if( !$chan->has_exact_modes($defmodes) )
-//						{
-//							$chan->clear_modes();
-//							$bot->clear_modes( $chan->get_name() );
-						$chan->add_modes( $defmodes );
-						//$bot->mode( $chan->get_name(), $defmodes );
-//						}
+					$chan->add_modes( $defmodes );
 				}
 			}
 		}
@@ -160,16 +145,15 @@
 			$bot = $this->default_bot;
 			$botnum = $bot->get_numeric();
 			
-			if( $uplink_burst )
+			foreach( $this->db_channels as $dbchan_key => $dbchan )
 			{
-			}
-			else
-			{
-				foreach( $this->db_channels as $dbchan_key => $dbchan )
+				$chan = $this->get_channel( $dbchan_key );
+				if( $chan && !$chan->is_op($botnum) )
 				{
-					$chan = $this->get_channel( $dbchan_key );
-					if( $chan && !$chan->is_op($botnum) )
-						$this->op( $chan->get_name(), $botnum );
+					$this->op( $chan->get_name(), $botnum );
+					$bot->mode( $chan->get_name(), $dbchan->get_default_modes() );
+					$dbchan->set_create_ts( $chan->get_ts() );
+					$dbchan->save();
 				}
 			}
 		}
@@ -207,7 +191,7 @@
 		{
 			foreach( $this->db_channels as $chan_key => $chan )
 			{
-				if( $chan->id == $chan_id )
+				if( $chan->get_id() == $chan_id )
 					return $chan;
 			}
 			
@@ -295,23 +279,16 @@
 			$chan_key = strtolower( $chan_name );
 			
 			if( !($chan = $this->get_channel_reg($chan_name)) )
-			{
-				debug('gca> chan not regged');
 				return false;
-			}
 			if( !is_object($user_obj) || !get_class($user_obj) == 'User' || !$user_obj->is_logged_in() )
-			{
-				debug('gca> user crap failed');
 				return false;
-			}
 			
-			if( !array_key_exists($user_obj->get_account_id(), $chan->levels) )
-			{
-				debug('gca> account id does not exist in chan levels');
+			$levels = $chan->get_levels();
+			
+			if( !array_key_exists($user_obj->get_account_id(), $levels) )
 				return false;
-			}
 			
-			return $chan->levels[$user_obj->get_account_id()];
+			return $levels[$user_obj->get_account_id()];
 		}
 		
 		

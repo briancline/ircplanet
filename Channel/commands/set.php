@@ -335,6 +335,30 @@
 	
 	
 	
+	else if( $option == 'NOPURGE' && $user_admin_level >= 500 )
+	{
+		if( empty($value) )
+		{
+			$value = !$chan_reg->is_permanent();
+		}
+		else
+		{
+			$value = strtoupper($value);
+			if( $value == 'ON' )      $value = true;
+			else if( $value == 'OFF') $value = false;
+			else {
+				$bot->notice( $user, 'Value must either be ON or OFF.' );
+				return false;
+			}
+		}
+		
+		$chan_reg->set_permanent( $value );
+		$bot->noticef( $user, 'Toggled nopurge flag to %s.',
+			$value ? 'ON' : 'OFF' );
+	}
+	
+	
+	
 	else
 	{
 		$bot->noticef( $user, '%s%s%s is not a valid channel option!',

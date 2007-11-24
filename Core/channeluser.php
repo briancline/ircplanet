@@ -9,7 +9,7 @@
 	class ChannelUser
 	{
 		var $numeric;
-		var $modes;
+		var $modes = 0;
 		
 		function __construct( $numeric, $modes )
 		{

@@ -15,7 +15,7 @@
 		return false;
 	}
 	
-	if( $this->get_channel_reg_count($user->get_account_id()) >= MAX_CHAN_REGS + 8)
+	if( $this->get_channel_reg_count($user->get_account_id()) >= MAX_CHAN_REGS )
 	{
 		$bot->noticef( $user, 'You cannot register more than %d channels.', 
 			MAX_CHAN_REGS );

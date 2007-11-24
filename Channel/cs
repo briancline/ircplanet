@@ -1,2 +1,3 @@
-#!/bin/sh
+#!/bin/bash
 php cs.php >& cs.log &
+

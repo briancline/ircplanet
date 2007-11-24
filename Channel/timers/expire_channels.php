@@ -38,7 +38,7 @@
 			continue;
 		
 		$youngest_ts = 0;
-		foreach($reg->levels as $user_id => $level)
+		foreach($reg->get_levels() as $user_id => $level)
 		{
 			$user = $this->get_account_by_id($user_id);
 			

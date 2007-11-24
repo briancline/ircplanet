@@ -20,6 +20,12 @@
 		return false;
 	}
 	
+	if( $tmp_user->is_service() )
+	{
+		$bot->notice( $user, 'You cannot kick a service bot.' );
+		return false;
+	}
+	
 	$numeric = $tmp_user->get_numeric();
 	$bot->kick( $chan->get_name(), $numeric, $reason );
 	

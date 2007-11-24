@@ -11,7 +11,7 @@
 	if( $args[$num_args - 2][0] == '+' )
 		$modes = $args[$num_args - 2];
 	
-	$this->add_server( $uplink, $numeric, $name, $desc, $start_ts, $max_users, $modes );
+	$server = $this->add_server( $uplink, $numeric, $name, $desc, $start_ts, $max_users, $modes );
 
 	if( !defined('UPLINK_NUM') )
 	{

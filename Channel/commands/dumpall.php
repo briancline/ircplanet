@@ -1,5 +1,5 @@
 <?php
 	
-	print_array($this);
+	print_array($this->accounts);
 
 ?>

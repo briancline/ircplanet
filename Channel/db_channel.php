@@ -12,48 +12,70 @@
 	define( 'MIN_CHAN_AUTOLIMIT_WAIT',      1 );
 	define( 'MAX_CHAN_AUTOLIMIT_WAIT',    300 );
 	
-	class DB_Channel
+	class DB_Channel extends DB_Record 
 	{
-		var $id = 0;
-		var $name;
-		var $register_ts;
-		var $create_ts;
-		var $purpose;
-
-		var $def_topic;
-		var $def_modes;
-		var $info_lines = 0;
-		var $suspend = 0;
-		var $no_purge = 0;
-		var $auto_op = 1;
-		var $auto_op_all = 0;
-		var $auto_voice = 0;
-		var $auto_voice_all = 0;
-		var $auto_limit = 0;
-		var $auto_limit_buffer = 5;
-		var $auto_limit_wait = 30;
-		var $strict_op = 0;
-		var $strict_voice = 0;
-		var $strict_modes = 0;
-		var $strict_topic = 0;
-		var $no_op = 0;
-		var $no_voice = 0;
+		protected $_table_name = 'channels';
+		protected $_key_field = 'channel_id';
+		protected $_exclude_from_insert = array('levels', 'bans');
+		protected $_exclude_from_update = array('levels', 'bans');
+		protected $_insert_timestamp_field = 'create_date';
+		protected $_update_timestamp_field = 'update_date';
 		
-		var $levels = array();
-		var $bans = array();
+		protected $channel_id = 0;
+		protected $name;
+		protected $register_ts;
+		protected $create_ts;
+		protected $purpose;
 		
-		function __construct( $name, $owner_id = 0 )
+		protected $def_topic;
+		protected $def_modes;
+		protected $info_lines = 0;
+		protected $suspend = 0;
+		protected $no_purge = 0;
+		protected $auto_op = 1;
+		protected $auto_op_all = 0;
+		protected $auto_voice = 0;
+		protected $auto_voice_all = 0;
+		protected $auto_limit = 0;
+		protected $auto_limit_buffer = 5;
+		protected $auto_limit_wait = 30;
+		protected $strict_op = 0;
+		protected $strict_voice = 0;
+		protected $strict_modes = 0;
+		protected $strict_topic = 0;
+		protected $no_op = 0;
+		protected $no_voice = 0;
+		
+		protected $levels = array();
+		protected $bans = array();
+		
+		function record_construct($args)
 		{
-			$this->name = $name;
-			$this->register_ts = time();
+			if(count($args) > 1)
+			{
+				$name = $args[0];
+				$owner_id = $args[1];
+			}
+			
+			if(!empty($name))
+			{
+				$this->name = $name;
+				$this->register_ts = time();
+			}
 			
 			if( $owner_id > 0 )
 			{
 				$this->save();
-				$owner = new DB_Channel_Access( $owner_id, $this->id );
+				$owner = new DB_Channel_Access();
+				$owner->set_chan_id( $this->channel_id );
+				$owner->set_user_id( $owner_id );
 				$owner->set_level( 500 );
 				$this->add_access( $owner );
 			}
+		}
+		
+		function record_destruct()
+		{
 		}
 		
 
@@ -74,7 +96,7 @@
 		function no_ops()                  { return 1 == $this->no_op; }
 		function no_voices()               { return 1 == $this->no_voice; }
 		
-		function get_id()                  { return $this->id; }
+		function get_id()                  { return $this->channel_id; }
 		function get_name()                { return $this->name; }
 		function get_register_ts()         { return $this->register_ts; }
 		function get_create_ts()           { return $this->create_ts; }
@@ -83,6 +105,8 @@
 		function get_default_modes()       { return $this->def_modes; }
 		function get_auto_limit_buffer()   { return $this->auto_limit_buffer; }
 		function get_auto_limit_wait()     { return $this->auto_limit_wait; }
+		
+		function get_levels()              { return $this->levels; }
 		
 		function has_pending_autolimit()   { return $this->_alimit_pending; }
 		function set_pending_autolimit($b) { $this->_alimit_pending = $b; }
@@ -108,12 +132,6 @@
 		function set_no_op($b)             { $this->no_op = $b ? 1 : 0; }
 		function set_no_voice($b)          { $this->no_voice = $b ? 1 : 0; }
 		
-		
-		function load_from_row( $row )
-		{
-			foreach( $row as $var => $value )
-				$this->$var = $value;
-		}
 		
 		function add_access( $access_obj )
 		{
@@ -235,112 +253,33 @@
 		}
 		
 		
-		function get_update_fieldlist()
+		function record_save()
 		{
-			$fields = get_class_vars( __CLASS__ );
-			$list = '';
-			foreach( $fields as $field => $val )
-			{
-				if( $field != 'id' && $field != 'levels' && $field != 'bans' && $field[0] != '_' )
-				{
-					if( !empty($list) )
-						$list .= ', ';
-					
-					$list .= "`". $field ."` = '". addslashes($this->$field) ."'";
-				}
-			}
-			
-			return $list;
-		}
-		
-		
-		function get_insert_fieldlist()
-		{
-			$fields = get_class_vars( __CLASS__ );
-			$list = '';
-			foreach( $fields as $field => $val )
-			{
-				if( $field != 'id' && $field != 'levels' && $field != 'bans' && $field[0] != '_' )
-				{
-					if( !empty($list) )
-						$list .= ', ';
-					
-					$list .= "`$field`";
-				}
-			}
-			
-			return $list;
-		}
-		
-		
-		function get_insert_valuelist()
-		{
-			$fields = get_class_vars( __CLASS__ );
-			$list = '';
-			foreach( $fields as $field => $val )
-			{
-				if( $field != 'id' && $field != 'levels' && $field != 'bans' && $field[0] != '_' )
-				{
-					if( !empty($list) )
-						$list .= ', ';
-					
-					$list .= "'". addslashes($this->$field) ."'";
-				}
-			}
-			
-			return $list;
-		}
-		
-		
-		function save()
-		{
-			if( $this->id != 0 )
-			{
-				$fields = $this->get_update_fieldlist();
-				db_query( "update `channels` set $fields where `id` = '". $this->id ."'" );
-				
-				if( count($this->levels) > 0 )
-					db_query( "delete from `channel_access` where `chan_id` = '". $this->id ."'" );
-
-				db_query( "delete from `channel_bans` where `chan_id` = '". $this->id ."'" );
-			}
-			else
-			{
-				$fields = $this->get_insert_fieldlist();
-				$values = $this->get_insert_valuelist();
-				db_query( "insert into `channels` ($fields) values ($values)" );
-				
-				$this->id = mysql_insert_id();
-			}
-			
 			foreach( $this->levels as $user_id => $access )
 			{
-				if( empty($user_id) || $user_id == 0 || $this->id == 0 )
+				if( empty($user_id) || $user_id == 0 || $this->channel_id == 0 )
 					continue;
 				
-				$fields = $access->get_insert_fieldlist();
-				$values = $access->get_insert_valuelist();
-				db_query( "insert into `channel_access` ($fields) values ($values)" );
+				$access->save();
 			}
 			
 			foreach( $this->bans as $mask => $ban )
 			{
-				if( empty($mask) || $ban == 0 || $this->id == 0 )
+				if( empty($mask) || $ban == 0 || $this->channel_id == 0 )
 					continue;
 				
-				$fields = $ban->get_insert_fieldlist();
-				$values = $ban->get_insert_valuelist();
-				db_query( "insert into `channel_bans` ($fields) values ($values)" );
+				$ban->save();
 			}
 		}
 		
 		
-		function delete()
+		function record_delete()
 		{
-			db_query( "delete from `channels` where `id` = '". $this->id ."'" );
-			db_query( "delete from `channel_access` where `chan_id` = '". $this->id ."'" );
-			db_query( "delete from `channel_bans` where `chan_id` = '". $this->id ."'" );
-			$this->id = 0;
+			foreach( $this->bans as $mask => $ban )
+				$ban->delete();
+			
+			foreach( $this->levels as $user_id => $access )
+				$access->delete();
 		}
 		
 	}

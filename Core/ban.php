@@ -15,7 +15,6 @@
 			$at_pos = strpos( $mask, '@' );
 			$ident = substr( $mask, $ex_pos, $at_pos - $ex_pos );
 
-			//debug("Ident is $ident");
 			if( strlen($ident) > IDENT_LEN )
 				$mask = substr($mask, 0, $ex_pos) .'!*'. right($ident, IDENT_LEN) .'@'. substr($mask, $at_pos);
 			

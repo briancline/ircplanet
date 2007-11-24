@@ -7,7 +7,7 @@
 	class OperatorService extends Service
 	{
 		var $pending_events = array();
-		
+		var $tor_hosts = array();
 		
 		function service_construct()
 		{
@@ -21,6 +21,24 @@
 
 		function service_load()
 		{
+			if(defined('TOR_GLINE'))
+			{
+				if(!defined('TOR_DURATION'))
+				{
+					debug("tor_gline is enabled, but tor_duration was not defined!");
+					exit();
+				}
+				if(convert_duration(TOR_DURATION) == false)
+				{
+					debug("The duration specified in tor_duration is invalid!");
+					exit();
+				}
+				if(!defined('TOR_REASON') || TOR_REASON == '')
+				{
+					debug("tor_gline is enabled, but tor_reason was not defined!");
+					exit();
+				}
+			}
 		}
 		
 		
@@ -54,6 +72,29 @@
 		
 		function service_main()
 		{
+		}
+		
+		
+		function load_tor_hosts()
+		{
+			if(file_exists(TOR_HOSTS_FILE) && is_readable(TOR_HOSTS_FILE))
+			{
+				$this->tor_hosts = array();
+				$hosts = split("\n", file_get_contents(TOR_HOSTS_FILE));
+				foreach($hosts as $host)
+					$this->tor_hosts[$host] = 0;
+				
+				debug("Loaded ". count($this->tor_hosts) ." Tor hosts.");
+				return true;
+			}
+			
+			return false;
+		}
+		
+		
+		function is_tor_host($host)
+		{
+			return array_key_exists($host, $this->tor_hosts);
 		}
 		
 		

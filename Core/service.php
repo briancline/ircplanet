@@ -73,6 +73,7 @@
 				SERVICE_VERSION_MAJOR .'.'. SERVICE_VERSION_MINOR .'.'. SERVICE_VERSION_REV );
 			
 			$this->add_timer( true, 5, 'expire_glines.php' );
+			$this->add_timer( true, 5, 'refresh_data.php' );
 			
 			$this->service_construct();
 			$this->load_config();
@@ -86,10 +87,7 @@
 				$this->close();
 			
 			if( $this->db )
-			{
-				debug( "*** Closing DB connection..." );
 				mysql_close( $this->db );
-			}
 			
 			$this->service_destruct();
 		}
@@ -103,7 +101,6 @@
 				$this->db = 0;
 			}
 
-			debug( "*** Opening DB connection..." );
 			if( !($this->db = @mysql_connect(DB_HOST, DB_USER, DB_PASS)) )
 			{
 				debug( "MySQL Error: ". mysql_error() );
@@ -893,6 +890,8 @@
 			if( file_exists($service_script) )
 				include( $service_script );
 			
+			$timer->set_data_elements($timer_data);
+			
 			return true;
 		}
 
@@ -951,10 +950,7 @@
 		function topic( $chan_name, $topic, $chan_ts = 0 )
 		{
 			if( TOPIC_BURSTING && $chan_ts == 0 )
-			{
-				debug("*** Cannot set topic without a channel timestamp!");
 				return false;
-			}
 			
 			if( TOPIC_BURSTING )
 				$this->sendf( FMT_TOPIC, SERVER_NUM, $chan_name, $chan_ts, time(), $topic );

@@ -222,6 +222,11 @@
 				$user->clear_modes();
 		}
 		
+		function clear_bans()
+		{
+			$this->bans = array();
+		}
+		
 
 		
 		function add_ban( $mask, $ts = 0, $setby = "" )

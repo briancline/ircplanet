@@ -10,8 +10,9 @@
 		
 		if( $log || !empty($error) )
 		{
+			$rows = mysql_affected_rows();
 			debug( "DB> $query" );
-			debug( "  > $error [$error_no]" );
+			debug( "DB> $error [$error_no] ($rows affected)" );
 		}
 		
 		if( $error_no == 2006 && $fix_bad_connection )
@@ -22,7 +23,6 @@
 			 */
 			foreach( $GLOBALS['INSTANTIATED_SERVICES'] as $service )
 			{
-				debug("*** Service: ". get_class($service) );
 				$service->db_connect();
 				return db_query($query, $log, false);
 			}
@@ -30,5 +30,18 @@
 		
 		return $result;
 	}
-
+	
+	function db_queryf($format)
+	{
+		$args = array();
+		$format = addslashes($format);
+		for($i = 1; $i < func_num_args(); ++$i)
+			$args[] = addslashes(func_get_arg($i));
+		
+		$arglist = join("', '", $args);
+		eval("\$query = sprintf('$format', '$arglist');");
+		
+		return db_query($query);
+	}
+	
 ?>

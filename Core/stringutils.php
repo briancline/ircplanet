@@ -8,9 +8,7 @@
 		
 		if( strlen($ident) > IDENT_LEN )
 		{
-			debug("SU> ident of $ident in $mask");
 			$mask = substr($mask, 0, $ex_pos) .'!*'. right($ident, IDENT_LEN - 1) . substr($mask, $at_pos);
-			debug("SU> new mask is $mask");
 		}
 		
 		return $mask;
@@ -169,11 +167,12 @@
 		$found_unit = false;
 		$dur = strtolower( $dur );
 		$units = array(
-			'w' => 604800,
-			'd' =>  86400,
-			'h' =>   3600,
-			'm' =>     60,
-			's' =>      1
+			'y' => 31556926,
+			'w' =>   604800,
+			'd' =>    86400,
+			'h' =>     3600,
+			'm' =>       60,
+			's' =>        1
 		);
 		
 		for( $c = 0; $c < strlen($dur); ++$c )
@@ -229,9 +228,6 @@
 	{
 		$b = eregi( '^[a-z0-9._-]+@[a-z0-9._-]+\.[a-z]{2,4}$', $email );
 		
-		if($b == true)  debug("b is true");
-		if($b == false) debug("b is false");
-		
 		return $b;
 	}
 	
@@ -239,6 +235,12 @@
 	function get_date( $ts )
 	{
 		return date('D j M Y H:i:s', $ts );
+	}
+	
+	
+	function db_date($ts)
+	{
+		return date('Y-m-d H:i:s', $ts);
 	}
 	
 

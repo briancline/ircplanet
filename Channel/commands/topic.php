@@ -5,7 +5,6 @@
 		return false;
 	}
 	
-	debug( $cmd_num_args );
 	if( $cmd_num_args < 2 )
 	{
 		$bot->noticef( $user, 'Topic on %s%s%s is currently: %s',

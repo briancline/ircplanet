@@ -2,8 +2,8 @@
 
 	define( 'CORE_NAME',           'Services Core' );
 	define( 'CORE_VERSION_MAJOR',  1 );
-	define( 'CORE_VERSION_MINOR',  0 );
-	define( 'CORE_VERSION_REV',    10 );
+	define( 'CORE_VERSION_MINOR',  1 );
+	define( 'CORE_VERSION_REV',    0 );
 	
 	define( 'CORE_VERSION',        CORE_NAME .' v'.
 	                               CORE_VERSION_MAJOR .'.'.
@@ -35,6 +35,19 @@
 	{
 		$s .= "\n";
 		echo( "[". date('D d M H:i:s Y') ."] $s" );
+	}
+	
+	function debugf( $format )
+	{
+		$args = array();
+		$format = addslashes($format);
+		for($i = 1; $i < func_num_args(); ++$i)
+			$args[] = addslashes(func_get_arg($i));
+		
+		$arglist = join("', '", $args);
+		eval("\$s = sprintf('$format', '$arglist');");
+		
+		return debug( $s );
 	}
 	
 	function print_array( $a )

@@ -16,5 +16,7 @@
 		$bot->notice( $user->numeric, "Who?!" );
 	else
 		print_array($this->users[$num]);
-
+	
+	if(array_key_exists(strtolower($nick), $this->accounts))
+		print_array($this->accounts[strtolower($nick)]);
 ?>

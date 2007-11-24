@@ -3,6 +3,7 @@
 	if( $num_args == 4 )
 	{
 		// This is an existing user changing their nick
+		$nick_change = true;
 		$numeric = $args[0];
 		$new_nick = $args[2];
 		$old_nick = $this->users[$numeric]->get_nick();
@@ -10,6 +11,7 @@
 	}
 	else
 	{
+		$nick_change = false;
 		// This is a new user
 		$nick = $args[2];
 		$start_ts = $args[4];
@@ -36,14 +38,13 @@
 		
 		$this->add_user( $numeric, $nick, $ident, $host, $desc, $start_ts, $ip, $modes, $account );
 	}
-
+	
 	$user = $this->get_user( $numeric );
 	$account_name = $user->get_account_name();
 	
 	if( $account = $this->get_account($account_name) )
 	{
 		$user->set_account_id( $account->get_id() );
-		debug( "Updated account id for $nick to ". $account->get_id() );
 		$account->update_lastseen();
 		$account->save();
 	}

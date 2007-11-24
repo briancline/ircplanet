@@ -8,8 +8,6 @@
 	
 	$account = $this->get_account( $user->get_account_name() );
 	
-	debug( "*** $value" );
-	
 	if( $option == 'EMAIL' )
 	{
 		if( strlen($value) >= MAXLEN_USEREMAIL )

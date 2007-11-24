@@ -1,3 +1,223 @@
+Brian Cline	<brian@ircplanet.net>	2007-11-24
+
+	* Nickname/globals.php: Bumped version 1.3.5 => 1.3.6.
+
+	* Channel/globals.php: Bumped version 1.4.6 => 1.5.0.
+
+	* Core/globals.php: Bumped version 1.0.10 => 1.1.0.
+
+	* Operator/globals.php: Bumped version 1.0.1 => 1.1.0.
+
+	* Nickname/commands/set.php: Added ability for service admins to
+	modify other users' accounts with the SET command. Cleaned up debugs.
+
+	* Channel/p10/handle_I.php: Added the ability for service admins to
+	invite the channel service back into a channel when, for whatever
+	reason, it is no longer in there.
+
+	* Channel/commands/dumpall.php: Don't output everything in memory as
+	it gets large rather quickly. Just do accounts since that's all we
+	really use this for.
+
+	* Channel/commands/ban.php: Remove old debug messages and make ban
+	initialization easier to read.
+
+	* Channel/commands/dumpuser.php: Prevent PHP error/warning messages
+	from being generated when an array index (account name) doesn't exist.
+
+	* Channel/commands/topic.php: Remove old debug messages.
+
+	* Channel/commands/kick.php: Prevent users from using the channel
+	service to kick other services from a channel.
+
+	* Channel/commands/chaninfo.php: Added the CHANINFO command to provide
+	basic information about a channel.
+
+	* Channel/commands/set.php: Add the NOPURGE option for service admins
+	to mark a channel as never expiring.
+
+	* Channel/commands/acctreload.php: Add the ACCTRELOAD command for
+	developer-level debugging. This forces the service to reload an
+	account from the database.
+
+	* Channel/commands/register.php: Fix assanine typo that was probably
+	used for testing. This caused users to be able to register up to MAX+8
+	channels.
+
+	* Channel/timers/save_data.php: This is no longer necessary since we
+	now save all data whenever it is updated.
+
+	* Channel/timers/expire_channels.php: Fix loop to use OO-friendly
+	accessor.
+
+	* Channel/db_channel.php: Modified to inherit new DB_Record class,
+	which provides DB-level operations and a slick way of developing
+	record-based classes. This makes life much easier. Also make all known
+	members protected so that they cannot be directly accessed. The record
+	constructor is also more flexible now and can accept just a name, or a
+	name and owner account ID.
+
+	* Channel/db_channel_access.php: Modified to inherit new DB_Record
+	class. Also made things more OO-compliant.
+
+	* Channel/commands.php: Fix some minor spacing issues, and add the
+	CHANINFO command.
+
+	* Channel/db_ban.php: Modified to inherit new DB_Record class. Also
+	made things more OO-compliant.
+
+	* Channel/cs.php: Minor reworks to constructors and debug messages.
+	Removed the refresh_data timer since it is now part of the core.
+	Removed old commented lines and debug messages and fixed some mode
+	reconciliation issues. Also made minor OO-related changes in line with
+	the changes to each class.
+
+	* Core/core_globals.php: Added the debugf function, which acts exactly
+	like printf.
+
+	* Core/service.php: Added a core-level timer to refresh any changed DB
+	data. We only refresh data that has changed since the last refresh, to
+	save on nasty overhead. Also removed old debug messages.
+
+	* Core/ban.php: Removed old debug messages.
+
+	* Core/dbutils.php: Removed old debug messages. Added a new db_queryf
+	function that accepts a query in sprintf format. Also added an
+	affected-row count to the query logger.
+
+	* Core/channeluser.php: Initialize modes to 0. Don't know if this
+	fixed any bugs or not, but it should have been this way a long time
+	ago.
+
+	* Core/channel.php: Added a function to clear all bans.
+
+	* Core/p10/handle_B.php: Fixed some bugs in the channel burst
+	reconciliation process, and removed some needless stuff.
+
+	* Core/p10/handle_I.php: Add some basic variables so services can use
+	them by name rather than argument number.
+
+	* Core/p10/handle_J.php: Add a basic convenience variable for services
+	to use.
+
+	* Core/p10/handle_N.php: Add convenience variable to show whether the
+	nick NICK line is a new or existing user.
+
+	* Core/p10/handle_S.php: Remove old debug message and add a
+	convenience variable for the new server object.
+
+	* Core/p10/handle_SERVER.php: Add convenience variable for the new
+	server object.
+
+	* Core/timers/refresh_data.php: Heavily modified to reload only
+	recently modified data -- that is, any data that has changed since our
+	last refresh check.
+
+	* Core/timer.php: Modified to always provide and store timer data as
+	an array.
+
+	* Core/db_user.php: Modified to inherit new DB_Record class. Also made
+	things more OO-compliant.
+
+	* Core/db_record.php: Added to provide an abstraction layer between
+	record-centric classes and across-the-board record operations
+	(create/update/read/delete). This is truly a life saver.
+
+	* Core/bot.php: Removed old debug messages.
+
+	* Core/stringutils.php: Removed old debug messages. Added support for
+	year durations. Also added a db_date function that works like date
+	except returns the format we need for our DATETIME database fields.
+
+	* Operator/os.ini: Added preferences for the new Tor glining feature.
+	Admins can now specify a text file that contains one IP address or
+	hostname per line that represents a Tor node. The operator service
+	will read in this list and automatically gline any users connecting
+	from any IP/host in the list. This is mean, sure, but Tor is often
+	used by malicious users in order to quickly and very easily circumvent
+	glines, channel bans, cloning restrictions, etc.
+
+	* Operator/p10/handle_T.php: Removed old debug messages.
+
+	* Operator/commands/set.php: Removed old debug messages.
+
+	* Operator/tor-hosts: Added an example of a Tor host list file, to be
+	used with the new Tor glining capabilities in the operator service.
+
+	* Operator/os.php: Added code to verify and load all Tor preferences.
+
+	* Operator/globals.php: Added global variable for the Tor hosts file
+	name.
+
+	* Stat/p10/handle_A.php: Added AWAY handler.
+
+	* Stat/p10/handle_B.php: Added burst handler.
+
+	* Stat/p10/handle_C.php: Added channel create handler.
+
+	* Stat/p10/handle_AC.php: Added user account update handler.
+
+	* Stat/p10/handle_SQ.php: Added SQUIT handler.
+
+	* Stat/p10/handle_D.php: Added kill handler.
+
+	* Stat/p10/handle_J.php: Added join handler.
+
+	* Stat/p10/handle_K.php: Added kick handler.
+
+	* Stat/p10/handle_L.php: Added part handler.
+
+	* Stat/p10/handle_M.php: Added mode handler.
+
+	* Stat/p10/handle_N.php: Added nick handler.
+
+	* Stat/p10/handle_P.php: Added private message handler.
+
+	* Stat/p10/handle_Q.php: Added quit handler.
+
+	* Stat/p10/handle_S.php: Added server handler.
+
+	* Stat/p10/handle_T.php: Added topic handler.
+
+	* Stat/p10/handle_V.php: Added remote version handler.
+
+	* Stat/p10/handle_SERVER.php: Added uplink server handler.
+
+	* Stat/commands/quote.php: Added quote command to pass raw privmsg
+	data on as actual IRCu P10-n2k protocol.
+
+	* Stat/commands/moduser.php: Added moduser command.
+
+	* Stat/commands/inviteme.php: Added inviteme command.
+
+	* Stat/commands/die.php: Added die command.
+
+	* Stat/commands/remuser.php: Added remuser command.
+
+	* Stat/commands/showcommands.php: Added showcommands command.
+
+	* Stat/commands/uptime.php: Added uptime command.
+
+	* Stat/commands/adduser.php: Added adduser command.
+
+	* Stat/commands/help.php: Added help command.
+
+	* Stat/ss.ini: Added configuration file.
+
+	* Stat/timers/log_history.php: Added timer to automatically log basic
+	counters describing the network size every minute.
+
+	* Stat/commands.php: Added commands list.
+
+	* Stat/globals.php: Added service global list.
+
+	* Stat/ss.php: Added statistics service definition. This service will
+	constantly monitor what is happening on the network and update a
+	database copy of the user list, channel list, server list, and summary
+	data. This is meant to be used in web-based service management
+	environments (another upcoming project). This service is nowhere near
+	finished, but the basics work well.
+
 Brian Cline	<brian@ircplanet.net>	2007-01-07
 	
 	* Core/core_globals.php: Increment revision count.

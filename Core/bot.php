@@ -313,10 +313,7 @@
 		function topic( $chan_name, $topic, $chan_ts = 0 )
 		{
 			if( TOPIC_BURSTING && $chan_ts == 0 )
-			{
-				debug("*** Cannot send TOPIC without a channel timestamp!");
 				return;
-			}
 			
 			if( TOPIC_BURSTING )
 				$this->net->sendf( FMT_TOPIC, $this->get_numeric(), $chan_name, $chan_ts, time(), $topic );

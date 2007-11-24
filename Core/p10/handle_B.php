@@ -7,6 +7,7 @@
 	$limit = 0;
 	$has_banlist = false;
 	$userlist_pos = 4;
+	$cleared_local_modes = false;
 
 	/**
 	 * AE B #log.oracle 1131900616
@@ -37,25 +38,35 @@
 		$modes = $args[$modes_pos];
 	}
 
-	if( array_key_exists($chan_key, $this->channels) )
+	if( ($chan = $this->get_channel($chan_key)) )
 	{
-		if( $ts < $this->channels[$chan_key]->get_ts() )
+		if( $ts < $chan->get_ts() )
 		{
-			$this->channels[$chan_key]->set_name( $chan_name );
-			$this->channels[$chan_key]->set_ts( $ts - 1 );
-			$this->channels[$chan_key]->add_modes( $modes );
-			$this->channels[$chan_key]->set_limit( $limit );
-			$this->channels[$chan_key]->set_key( $key );
-			$this->channels[$chan_key]->clear_user_modes();
+			debugf("%s ts is %d secs older than mine", $chan_key, ($chan->get_ts() - $ts));
+			$chan->clear_bans();
+			$chan->clear_modes();
+			$chan->clear_user_modes();
+			
+			print_array($chan);
+			
+			$chan->set_name( $chan_name );
+			$chan->set_ts( $ts );
+			$chan->add_modes( $modes );
+			$chan->set_limit( $limit );
+			$chan->set_key( $key );
+			
+			$cleared_local_modes = true;
 		}
 	}
 	else
 	{
-		$this->add_channel( $chan_name, $ts, $modes, $key, $limit );
+		$chan = $this->add_channel( $chan_name, $ts, $modes, $key, $limit );
 	}
 	
-	// ircu once sent a burst line with no users, so handle it's retardation
-	// appropriately...
+	/**
+	 * ircu once sent me a burst line with no users during services testing, 
+	 * so handle it's retardation appropriately here...
+	 */
 	$userlist = array();
 	$has_userlist = $userlist_pos < $num_args;
 	if( $has_userlist )
@@ -81,7 +92,6 @@
 		// skip the % character
 		$ban_string = substr( $args[$banlist_pos], 1 );
 		$banlist = explode( ' ', $ban_string );
-		$chan = $this->get_channel( $chan_name );
 		
 		foreach( $banlist as $ban )
 			$chan->add_ban( $ban );

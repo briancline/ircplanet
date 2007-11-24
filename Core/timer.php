@@ -23,20 +23,35 @@
 				$this->data = $data;
 		}
 		
-		function is_recurring()       { return $this->recurring; }
-		function get_interval()       { return $this->ts; }
-		function get_include()        { return $this->include_file; }
-		function get_data_elements()  { return $this->data; }
-		
-		function update()             { $this->ts_last_run = time(); }
-		
-		
+		function is_recurring()        { return $this->recurring; }
+		function get_interval()        { return $this->ts; }
+		function get_include()         { return $this->include_file; }
+	
+		function get_data_elements()
+		{
+			if(!is_array($this->data))
+				return array($this->data);
+			
+			return $this->data;
+		}
+
+
 		function get_next_run()
 		{
 			if( $this->is_recurring() )
 				return $this->ts_last_run + $this->ts;
 			else
 				return $this->ts;
+		}
+
+		
+		function update()              { $this->ts_last_run = time(); }
+		function set_data_elements($v)
+		{
+			if(!is_array($v))
+				$v = array($v);
+			
+			$this->data = $v; 
 		}
 	}
 
