@@ -1,4 +1,12 @@
 Brian Cline	<brian@ircplanet.net>	2008-11-19
+	
+	* Core/timers/refresh_data.php: Attempting to resolve a critical bug
+	where a user's account is not recognized by other services the first
+	time it is created. This is because the AC message usually comes
+	through from the other service before we've loaded the DB record. When
+	this occurs, we weren't checking for any users whose account name was
+	set but whose account ID was not set. This should hopefully fix the
+	problem.
 
 	* db_schema.sql: Forgot to include the help text for all services.
 

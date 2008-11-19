@@ -27,6 +27,23 @@
 			$this->accounts[$account_key] = $account;
 			
 			debug( 'Loaded new account '. $account->get_name() );
+
+			/**
+			 * Make sure that we tie up any loose ends where we receive an AC account
+			 * message from another service before we know about the account. The account
+			 * name is stored for each user, so we just need to find any users with a set
+			 * account name but a missing account ID. If this is the matching account,
+			 * set the account ID accordingly so we will now know who they are.
+			 */
+			foreach($this->users as $numeric => $user)
+			{
+				if(!$user->is_logged_in() && $user->has_account_name()
+						&& strtolower($user->get_account_name()) == $account_key)
+				{
+					$user->set_acount_id($account->get_id());
+					debug('Associated new account with user '. $user->get_nick());
+				}
+			}
 		}
 		else 
 		{
