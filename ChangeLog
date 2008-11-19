@@ -1,3 +1,7 @@
+Brian Cline	<brian@ircplanet.net>	2008-11-19
+
+	* db_schema.sql: Forgot to include the help text for all services.
+
 Brian Cline	<brian@ircplanet.net>	2008-11-18
 	
 	* Channel/globals.php: Bumped version 1.5.0 => 1.5.1.
