@@ -32,9 +32,12 @@
 		
 		$password_md5 = md5( $password );
 		
-		$account = new DB_User( $user->get_nick() );
+		$account = new DB_User();
+		$account->set_name( $user->get_nick() );
 		$account->set_password( $password_md5 );
 		$account->set_email( $email );
+		$account->set_autoop( true );
+		$account->set_autovoice( true );
 		$account->update_lastseen();
 		$account->save();
 		

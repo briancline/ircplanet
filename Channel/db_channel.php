@@ -63,7 +63,7 @@
 				$this->register_ts = time();
 			}
 			
-			if( $owner_id > 0 )
+			if( isset($owner_id) && $owner_id > 0 )
 			{
 				$this->save();
 				$owner = new DB_Channel_Access();
@@ -101,6 +101,7 @@
 		function get_register_ts()         { return $this->register_ts; }
 		function get_create_ts()           { return $this->create_ts; }
 		function get_purpose()             { return $this->purpose; }
+		function get_url()                 { return $this->url; }
 		function get_default_topic()       { return $this->def_topic; }
 		function get_default_modes()       { return $this->def_modes; }
 		function get_auto_limit_buffer()   { return $this->auto_limit_buffer; }
@@ -113,6 +114,7 @@
 		
 		function set_create_ts($n)         { $this->create_ts = $n; }
 		function set_purpose($s)           { $this->purpose = $s; }
+		function set_url($s)               { $this->url = $s; }
 		function set_default_topic($s)     { $this->def_topic = $s; }
 		function set_default_modes($s)     { $this->def_modes = $s; }
 		function set_info_lines($b)        { $this->info_lines = $b ? 1 : 0; }

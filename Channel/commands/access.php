@@ -9,15 +9,18 @@
 	$users = array();
 	$user_mask = $pargs[2];
 	
-	foreach( $reg->levels as $user_id => $access )
+	foreach( $reg->get_levels() as $user_id => $access )
 	{
 		$tmpuser = $this->get_account_by_id( $user_id );
+		
+		if(!$tmpuser)
+			continue;
+		
 		$tmpname = $tmpuser->get_name();
 		
 		if( $tmpname == $user_mask || fnmatch($user_mask, $tmpname) )
 		{
-			$users[$tmpname] = $access;
-			$users[$tmpname]->last_ts = $tmpuser->get_lastseen_ts();
+			$users[$user_id] = $access;
 			$n++;
 		}
 	}
@@ -27,21 +30,24 @@
 		$user_num = 0;
 		for( $i = 500; $i > 0; $i-- )
 		{
-			foreach( $users as $tmpname => $access )
+			foreach( $users as $user_id => $access )
 			{
 				$level = $access->get_level();
 				if( $level == $i )
 				{
+					$tmpuser = $this->get_account_by_id( $user_id );
+					$last_ts = $tmpuser->get_lastseen_ts();
+
 					$bot->noticef( $user, '%3d) User:  %s%-20s%s     Level: %s%3d%s', 
 						++$user_num,
-						BOLD_START, $tmpname, BOLD_END,
+						BOLD_START, $tmpuser->get_name(), BOLD_END,
 						BOLD_START, $level, BOLD_END );
 					$bot->noticef( $user, '     Auto-op: %-3s   Auto-voice: %-3s   Protect: %-3s', 
 						$access->auto_ops() ? 'ON' : 'OFF',
 						$access->auto_voices() ? 'ON' : 'OFF',
 						$access->is_protected() ? 'ON' : 'OFF' );
 					$bot->noticef( $user, '     Last login: %s',
-						date('D j M Y H:i:s', $access->last_ts) );
+						date('D j M Y H:i:s', $last_ts) );
 					$bot->notice( $user, ' ' );
 				}
 			}

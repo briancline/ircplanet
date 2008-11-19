@@ -19,7 +19,7 @@
 	{
 		$account = $this->get_account($row['name']);
 		
-		if( !account )
+		if( !$account )
 		{
 			$account = new DB_User($row['account_id']);
 			$account_key = strtolower($account->get_name());

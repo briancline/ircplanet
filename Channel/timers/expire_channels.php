@@ -1,33 +1,5 @@
 <?php
 	
-	/*
-	$res = mysql_query("
-		select
-			c.id,
-			c.name,
-			u.id,
-			u.name,
-			($ts - u.lastseen_ts) as dead_time
-		from
-			channels c
-		inner join channel_access l
-			on l.chan_id = c.id
-		inner join accounts u
-			on u.id = l.user_id
-		where
-			l.level = 500
-		order by
-			dead_time desc
-	");
-
-	while($row = mysql_fetch_assoc($res))
-	{
-		extract($row);
-		$dead_days = $dead_time / 86400;
-		
-	}
-	*/
-	
 	if( !defined('MAX_CHAN_AGE') || MAX_CHAN_AGE == 0 )
 		return;
 	

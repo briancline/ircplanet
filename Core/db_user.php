@@ -60,6 +60,7 @@
 		public function auto_voices()        { return 1 == $this->auto_voice; }
 		public function enforces_nick()      { return 1 == $this->enforce_nick; }
 		
+		public function set_name($s)         { $this->name = $s; }
 		public function set_password($s)     { $this->password = $s; }
 		public function set_email($s)        { $this->email = $s; }
 		public function set_info_line($s)    { $this->info_line = $s; }

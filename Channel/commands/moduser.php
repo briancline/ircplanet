@@ -82,7 +82,7 @@
 			return false;
 		}
 		
-		$reg->save();
+		$access->save();
 	}
 	else
 	{

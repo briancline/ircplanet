@@ -756,6 +756,8 @@
 					$secs_til_run = $timer->get_next_run() - time();
 					if( $timeout > $secs_til_run && $secs_til_run >= 0 )
 						$timeout = $timer->get_next_run() - time();
+
+					// debug("Timer {$timer->include_file} has {$timeout} seconds left");
 				}
 				
 				socket_set_option( $this->sock, SOL_SOCKET, SO_RCVTIMEO, array("sec" => $timeout, "usec" => 0) );
@@ -768,7 +770,7 @@
 				$break_time = time();
 				foreach( $this->timers as $n => $timer )
 				{
-					if( $timer->get_next_run() == $break_time )
+					if( $timer->get_next_run() <= $break_time )
 						$this->run_timer( $n );
 				}
 				
@@ -863,13 +865,19 @@
 			if( !array_key_exists($timer_num, $this->timers) )
 				return;
 			
+			debug("Running timer {$timer_num}");
 			$this->execute_timer( $timer_num );
 			
 			$timer = $this->timers[$timer_num];
 			if( $timer->is_recurring() )
+			{
 				$timer->update();
+			}
 			else
+			{
+				debug("Removing timer {$timer_num}");
 				unset( $this->timers[$timer_num] );
+			}
 		}
 		
 		

@@ -43,6 +43,12 @@
 				$user_id = $row['user_id'];
 				
 				$chan = $this->get_channel_reg_by_id( $chan_id );
+				if(!$chan)
+				{
+					debug("*** Loaded channel access pair for channel ID $chan_id, but no such channel exists!");
+					continue;
+				}
+
 				$access = new DB_Channel_Access( $row );
 				$chan->add_access( $access );
 				
@@ -62,11 +68,8 @@
 				$chan_id = $row['chan_id'];
 				$user_id = $row['user_id'];
 				$mask = $row['mask'];
-				$duration_secs = time() - $row['duration'];
-				
 				
 				$chan = $this->get_channel_reg_by_id( $chan_id );
-				
 				if( !$chan )
 				{
 					debug("*** Loaded ban for channel ID $chan_id, but no such channel exists!");
@@ -244,7 +247,8 @@
 			
 			foreach( $this->db_channels as $chan_key => $chan )
 			{
-				foreach( $chan->levels as $level_uid => $level )
+				$levels = $chan->get_levels();
+				foreach( $levels as $level_uid => $level )
 				{
 					if( $level_uid == $user_id && $level->get_level() == 500 )
 						$chan_count++;
@@ -301,10 +305,11 @@
 			if( !is_object($account_obj) || !get_class($account_obj) == 'DB_User' )
 				return false;
 			
-			if( !array_key_exists($account_obj->get_id(), $chan->levels) )
+			$levels = $chan->get_levels();
+			if( !array_key_exists($account_obj->get_id(), $levels) )
 				return false;
 			
-			return $chan->levels[$account_obj->get_id()];
+			return $levels[$account_obj->get_id()];
 		}
 		
 		

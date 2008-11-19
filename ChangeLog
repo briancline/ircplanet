@@ -1,3 +1,68 @@
+Brian Cline	<brian@ircplanet.net>	2008-11-18
+	
+	* Channel/globals.php: Bumped version 1.5.0 => 1.5.1.
+
+	* Core/globals.php: Bumped version 1.1.0 => 1.1.1.
+
+	* Nickname/globals.php: Bumped version 1.3.6 => 1.3.7.
+
+	* Channel/cs.ini: Match db_name against database name in
+	db_schema.sql.
+
+	* Nickname/ns.ini: Match db_name against database name in
+	db_schema.sql.
+
+	* Operator/os.ini: Match db_name against database name in
+	db_schema.sql.
+
+	* Stats/ss.ini: Match db_name against database name in
+	db_schema.sql.
+
+	* db_schema.sql: Added script to use for mysql imports. Not sure why
+	this wasn't included in the first release, but here it is
+	nonetheless...
+
+	* Nickname/commands/register.php: Adjustment and bug fix involving
+	class member visibility.
+
+	* Channel/commands/access.php: Adjustments for class member
+	visibility.
+
+	* Channel/commands/moduser.php: Reduced unnecessary DB traffic when
+	saving channel access information.
+
+	* Channel/commands/adduser.php: Adjustments and bug fix involving
+	class member visibility.
+
+	* Channel/timer/expire_channels.php: Removed old code that had already
+	been commented out long ago.
+
+	* Channel/db_channel.php: Minor bug fix causing STDOUT output and the
+	forgotten addition of get_url and set_url.
+
+	* Channel/cs.php: Added a check to make sure a channel could be loaded
+	when we are looking for loading channel access records. Removed unused
+	code and also made minor adjustments involving class member
+	visibility.
+
+	* Core/service.php: Fixed a bug whereby timers would be skipped and
+	never heard from again. This would definitely have been observed on
+	any server that has its time adjusted periodically, as is typical with
+	a crontab running ntpdate. Also added some debug messages to verify
+	timers are not being lost.
+
+	* Core/timers/refresh_data.php: Fixed a major bug whereby new accounts
+	were not being loaded. Oops.
+
+	* Core/db_user.php: Added a set_name member function.
+
+	* Operator/tor-hosts: Updated the list.
+
+	* Operator/download_tor_hosts: Added this shell script so folks could
+	run it in a crontab to have their tor hosts file automagically
+	updated for the tor host g-lining feature. A restart is NOT necessary
+	after updating the tor hosts file.
+
 Brian Cline	<brian@ircplanet.net>	2007-11-24
 
 	* Nickname/globals.php: Bumped version 1.3.5 => 1.3.6.

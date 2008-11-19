@@ -34,10 +34,12 @@
 			return false;
 		}
 		
-		$new_access = new DB_Channel_Access( $new_user->get_id(), $reg->get_id() );
+		$new_access = new DB_Channel_Access();
+		$new_access->set_chan_id( $reg->get_id() );
+		$new_access->set_user_id( $new_user->get_id() );
 		$new_access->set_level( $level );
+		$new_access->save();
 		$reg->add_access( $new_access );
-		$reg->save();
 		
 		$bot->noticef( $user, '%s has been added to the %s access list at level %d.',
 			$new_user->get_name(), $reg->get_name(), $level );
