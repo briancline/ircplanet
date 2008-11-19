@@ -1,4 +1,12 @@
 Brian Cline	<brian@ircplanet.net>	2008-11-19
+
+	* Channel/cs: Fix stderr/stdout redirection in some versions of sh.
+	
+	* Nickname/ns: Fix stderr/stdout redirection in some versions of sh.
+	
+	* Operator/os: Fix stderr/stdout redirection in some versions of sh.
+	
+	* Stat/ss: Fix stderr/stdout redirection in some versions of sh.
 	
 	* Core/timers/refresh_data.php: Attempting to resolve a critical bug
 	where a user's account is not recognized by other services the first
@@ -27,7 +35,7 @@ Brian Cline	<brian@ircplanet.net>	2008-11-18
 	* Operator/os.ini: Match db_name against database name in
 	db_schema.sql.
 
-	* Stats/ss.ini: Match db_name against database name in
+	* Stat/ss.ini: Match db_name against database name in
 	db_schema.sql.
 
 	* db_schema.sql: Added script to use for mysql imports. Not sure why

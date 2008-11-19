@@ -1,2 +1,2 @@
 #!/bin/sh
-php os.php >& os.log &
+php os.php 2>&1 1>os.log &

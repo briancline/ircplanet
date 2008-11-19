@@ -1,3 +1,2 @@
 #!/bin/bash
-php cs.php >& cs.log &
-
+php cs.php 2>&1 1>cs.log &
