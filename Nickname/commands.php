@@ -7,6 +7,7 @@
 
 	$this->set_command_info( 'ghost',            0,   0, false, '[nickname] [password]' );
 	$this->set_command_info( 'help',             0,   0, false, '[command]' );
+	$this->set_command_info( 'info',             0,   1, false, '<nickname>' );
 	$this->set_command_info( 'login',            0,   1, false, '[account] <password>' );
 	$this->set_command_info( 'register',         0,   2, false, '<password> <email>' );
 	$this->set_command_info( 'showcommands',     0,   0, false );

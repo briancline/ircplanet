@@ -44,7 +44,7 @@
 		public function get_password()       { return $this->password; }
 		public function get_email()          { return $this->email; }
 		public function get_info_line()      { return $this->info_line; }
-		public function get_register_ts()    { return $this->register_ts; }
+		public function get_register_ts()    { return $this->create_date; }
 		public function get_lastseen_ts()    { return $this->lastseen_ts; }
 		
 		public function has_info_line()      { return !empty($this->info_line); }
@@ -58,6 +58,7 @@
 		public function set_password($s)     { $this->password = $s; }
 		public function set_email($s)        { $this->email = $s; }
 		public function set_info_line($s)    { $this->info_line = $s; }
+		public function set_register_ts($t)  { $this->register_ts = $t; }
 		public function set_suspend($b)      { $this->suspend = $b ? 1 : 0; }
 		public function set_permanent($b)    { $this->no_purge = $b ? 1 : 0; }
 		public function set_auto_op($b)      { $this->auto_op = $b ? 1 : 0; }

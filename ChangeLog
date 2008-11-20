@@ -1,3 +1,18 @@
+Brian Cline	<brian@ircplanet.net>	2008-11-20
+
+	* db_schema.sql: Added help for new NS info command.
+
+	* Nickname/commands/info.php: Added new info command to NS to display
+	detailed information about a user account.
+
+	* Nickname/commands/register.php: Just in case -- set the deprecated 
+	register_ts.
+
+	* Nickname/commands.php: Add command entry for the new info command.
+
+	* Core/db_user.php: Return the new timestamp for register time /
+	create date. Also add a set_register_ts just in case.
+
 Brian Cline	<brian@ircplanet.net>	2008-11-19
 
 	* Core/core_globals.php: Bumped version 1.1.2 => 1.1.3.

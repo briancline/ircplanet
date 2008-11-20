@@ -34,6 +34,7 @@
 		
 		$account = new DB_User();
 		$account->set_name( $user->get_nick() );
+		$account->set_register_ts( time() );
 		$account->set_password( $password_md5 );
 		$account->set_email( $email );
 		$account->set_auto_op( true );
