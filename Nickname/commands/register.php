@@ -36,8 +36,8 @@
 		$account->set_name( $user->get_nick() );
 		$account->set_password( $password_md5 );
 		$account->set_email( $email );
-		$account->set_autoop( true );
-		$account->set_autovoice( true );
+		$account->set_auto_op( true );
+		$account->set_auto_voice( true );
 		$account->update_lastseen();
 		$account->save();
 		

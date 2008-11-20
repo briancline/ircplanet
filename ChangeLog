@@ -1,5 +1,16 @@
 Brian Cline	<brian@ircplanet.net>	2008-11-19
 
+	* Core/service.php: Hide timer debug messages and fix old DB_User
+	constructor behavior.
+
+	* Core/db_user.php: We no longer need to attempt to set initial data
+	on a new DB_User.
+
+	* Core/db_record.php: Remove an unnecessary debug message.
+
+	* Nickname/commands/register.php: Fixed a few typos causing a hard
+	crash.
+
 	* Channel/cs: Fix stderr/stdout redirection in some versions of sh.
 	
 	* Nickname/ns: Fix stderr/stdout redirection in some versions of sh.

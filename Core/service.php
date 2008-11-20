@@ -160,8 +160,7 @@
 			while( $row = mysql_fetch_assoc($res) )
 			{
 				$account_key = strtolower( $row['name'] );
-				$account = new DB_User( $account_key );
-				$account->load_from_row( $row );
+				$account = new DB_User( $row );
 				
 				$this->accounts[$account_key] = $account;
 				$n++;
@@ -865,7 +864,7 @@
 			if( !array_key_exists($timer_num, $this->timers) )
 				return;
 			
-			debug("Running timer {$timer_num}");
+			// debug("Running timer {$timer_num}");
 			$this->execute_timer( $timer_num );
 			
 			$timer = $this->timers[$timer_num];
@@ -875,7 +874,7 @@
 			}
 			else
 			{
-				debug("Removing timer {$timer_num}");
+				// debug("Removing timer {$timer_num}");
 				unset( $this->timers[$timer_num] );
 			}
 		}

@@ -32,12 +32,6 @@
 				return;
 			
 			$name = func_get_arg(0);
-			
-			if(!is_int($name))
-			{
-				$this->name = $name;
-				$this->register_ts = time();
-			}
 		}
 		
 		protected function record_destruct()

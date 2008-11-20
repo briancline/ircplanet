@@ -42,7 +42,6 @@
 				
 				if(!empty($row))
 				{
-					debug("Row is not empty for id ". $row[$this->_key_field]);
 					$this->load_from_row($row);
 				}
 			}
