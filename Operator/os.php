@@ -89,7 +89,6 @@
 			$res = db_query( 'select * from os_glines order by gline_id asc' );
 			while( $row = mysql_fetch_assoc($res) )
 			{
-				debug('Got a gline record...');
 				$gline = new DB_Gline( $row );
 				
 				if( $gline->is_expired() )
