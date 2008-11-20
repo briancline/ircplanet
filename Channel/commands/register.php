@@ -24,8 +24,16 @@
 	
 	if( !($reg = $this->get_channel_reg($chan_name)) )
 	{
+		$chan = $this->get_channel( $chan_name );
+		$create_ts = time();
+
+		if($chan != NULL)
+			$create_ts = $chan->get_ts();
+
 		$reg = new DB_Channel( $chan_name, $user->get_account_id() );
 		$reg->set_purpose( $purpose );
+		$reg->set_create_ts( $create_ts );
+		$reg->set_register_date( db_date() );
 		$reg->save();
 		$reg = $this->add_channel_reg( $reg );
 		

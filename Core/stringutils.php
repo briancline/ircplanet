@@ -238,10 +238,5 @@
 	}
 	
 	
-	function db_date($ts)
-	{
-		return date('Y-m-d H:i:s', $ts);
-	}
-	
 
 ?>

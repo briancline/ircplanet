@@ -113,6 +113,7 @@
 		function set_pending_autolimit($b) { $this->_alimit_pending = $b; }
 		
 		function set_create_ts($n)         { $this->create_ts = $n; }
+		function set_register_date($d)     { $this->register_date = $d; }
 		function set_purpose($s)           { $this->purpose = $s; }
 		function set_url($s)               { $this->url = $s; }
 		function set_default_topic($s)     { $this->def_topic = $s; }

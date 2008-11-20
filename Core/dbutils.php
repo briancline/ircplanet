@@ -44,4 +44,12 @@
 		return db_query($query);
 	}
 	
+	function db_date($ts = 0)
+	{
+		if($ts == 0)
+			$ts = time();
+
+		return date('Y-m-d H:i:s', $ts);
+	}
+	
 ?>

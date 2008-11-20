@@ -1,5 +1,35 @@
 Brian Cline	<brian@ircplanet.net>	2008-11-19
 
+	* Nickname/globals.php: Bumped version 1.3.7 => 1.3.8.
+
+	* Channel/globals.php: Bumped version 1.5.1 => 1.5.2.
+
+	* Channel/commands/rdeftopic.php: Fixed broken command. Topic never
+	got changed in the actual channel.
+
+	* Channel/commands/register.php: Fixed the root of the missing
+	creation TS bug, causing CS to burst channels with a zero timestamp
+	upon startup. This will obviously cause problems with ircu when
+	sending mode hacks and other change messages. Fortunately, not any
+	more.
+
+	* Channel/cs.php: Another part of the zero-TS bug mentioned above. If
+	we don't have a create TS on record, use the register TS.
+
+	* Channel/db_channel.php: Added set_register_date member function.
+
+	* Core/core_globals.php: Bump version 1.1.1 => 1.1.2. Also added
+	CORE_VENDOR constant to be included with the core services version (as
+	seen in CTCP version replies).
+
+	* Core/dbutils.php: Moved db_date to where it really belongs and made
+	it act more like PHP's date(), where the timestamp argument is
+	optional.
+
+	* Core/stringutils.php: Moved db_date to where it really belongs.
+
+Brian Cline	<brian@ircplanet.net>	2008-11-19
+
 	* Core/service.php: Hide timer debug messages and fix old DB_User
 	constructor behavior.
 
@@ -11,6 +41,8 @@ Brian Cline	<brian@ircplanet.net>	2008-11-19
 	* Nickname/commands/register.php: Fixed a few typos causing a hard
 	crash.
 
+Brian Cline	<brian@ircplanet.net>	2008-11-19
+
 	* Channel/cs: Fix stderr/stdout redirection in some versions of sh.
 	
 	* Nickname/ns: Fix stderr/stdout redirection in some versions of sh.
@@ -19,6 +51,8 @@ Brian Cline	<brian@ircplanet.net>	2008-11-19
 	
 	* Stat/ss: Fix stderr/stdout redirection in some versions of sh.
 	
+Brian Cline	<brian@ircplanet.net>	2008-11-19
+
 	* Core/timers/refresh_data.php: Attempting to resolve a critical bug
 	where a user's account is not recognized by other services the first
 	time it is created. This is because the AC message usually comes
@@ -26,6 +60,8 @@ Brian Cline	<brian@ircplanet.net>	2008-11-19
 	this occurs, we weren't checking for any users whose account name was
 	set but whose account ID was not set. This should hopefully fix the
 	problem.
+
+Brian Cline	<brian@ircplanet.net>	2008-11-19
 
 	* db_schema.sql: Forgot to include the help text for all services.
 

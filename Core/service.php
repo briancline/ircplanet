@@ -351,7 +351,7 @@
 				
 				if( empty($userlist) )
 					continue;
-				
+
 				if( $c->modes > 0 && !empty($banlist) )
 				{
 					$this->sendf( FMT_BURST_MODES_BANS, SERVER_NUM, 

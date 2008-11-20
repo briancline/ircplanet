@@ -117,7 +117,8 @@
 				else
 				{
 					$ts = $dbchan->get_create_ts();
-					if( $ts > $dbchan->get_register_ts() )
+
+					if( $ts == 0 || ($ts > $dbchan->get_register_ts() && $dbchan->get_register_ts() > 0) )
 					{
 						$ts = $dbchan->get_register_ts();
 						$dbchan->set_create_ts( $ts );
