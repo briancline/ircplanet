@@ -194,6 +194,20 @@ CREATE TABLE `os_admins` (
 SET character_set_client = @saved_cs_client;
 
 --
+-- Table structure for table `os_glines`
+--
+
+DROP TABLE IF EXISTS `os_glines`;
+CREATE TABLE `os_glines` (
+  `gline_id` int(10) unsigned NOT NULL auto_increment,
+  `set_ts` int(11) NOT NULL default '0',
+  `expire_ts` int(11) NOT NULL default '0',
+  `mask` varchar(100) NOT NULL default '',
+  `reason` varchar(100) NOT NULL default '',
+  PRIMARY KEY  (`gline_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
 -- Table structure for table `stats_channel_users`
 --
 

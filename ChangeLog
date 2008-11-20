@@ -1,5 +1,22 @@
 Brian Cline	<brian@ircplanet.net>	2008-11-19
 
+	* Core/service.php: Add child-level event hooks for adding and
+	removing glines. If implemented in a child class, these will be called
+	automagically from the parent.
+
+	* Core/p10/handle_B.php: Remove an extraneous print_array.
+
+	* Operator/os.php: Implemented database storage of g-lines so that
+	they can be persisted across sessions. Upon startup, the service will
+	burst all glines to its uplink to ensure they are all being enforced.
+
+	* Operator/db_gline.php: Implementation of the database-level Gline
+	class.
+
+	* db_schema.sql: Added the os_glines table to store gline information.
+
+Brian Cline	<brian@ircplanet.net>	2008-11-19
+
 	* (all): Converted source files from DOS to UNIX linebreak formats.
 
 Brian Cline	<brian@ircplanet.net>	2008-11-19

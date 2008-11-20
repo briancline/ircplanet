@@ -47,8 +47,6 @@
 			$chan->clear_modes();
 			$chan->clear_user_modes();
 			
-			print_array($chan);
-			
 			$chan->set_name( $chan_name );
 			$chan->set_ts( $ts );
 			$chan->add_modes( $modes );

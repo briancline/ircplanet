@@ -2,13 +2,15 @@
 
 	require( 'globals.php' );
 	require( '../Core/service.php' );
+	require( SERVICE_DIR .'/db_gline.php' );
 	
 	
 	class OperatorService extends Service
 	{
 		var $pending_events = array();
 		var $tor_hosts = array();
-		
+		var $db_glines = array();
+
 		function service_construct()
 		{
 		}
@@ -21,6 +23,8 @@
 
 		function service_load()
 		{
+			$this->load_glines();
+
 			if(defined('TOR_GLINE'))
 			{
 				if(!defined('TOR_DURATION'))
@@ -49,6 +53,11 @@
 		
 		function service_postburst()
 		{
+			foreach($this->db_glines as $key => $db_gline)
+			{
+				$this->add_gline( $db_gline->get_mask(), $db_gline->get_remaining_secs(), $db_gline->get_reason() );
+				$this->enforce_gline( $db_gline->get_mask() );
+			}
 		}
 		
 		
@@ -75,6 +84,68 @@
 		}
 		
 		
+		function load_glines()
+		{
+			$res = db_query( 'select * from os_glines order by gline_id asc' );
+			while( $row = mysql_fetch_assoc($res) )
+			{
+				debug('Got a gline record...');
+				$gline = new DB_Gline( $row );
+				
+				if( $gline->is_expired() )
+				{
+					$gline->delete();
+					continue;
+				}
+
+				$gline_key = strtolower( $gline->get_mask() );
+				$this->db_glines[$gline_key] = $gline;
+			}
+
+			debugf( 'Loaded %d g-lines.', count($this->db_glines) );
+		}
+
+
+		function get_db_gline( $host )
+		{
+			$gline_key = strtolower( $host );
+			if( array_key_exists($gline_key, $this->db_glines) )
+				return $this->db_glines[$gline_key];
+
+			return false;
+		}
+
+
+		function service_add_gline( $host, $duration, $reason )
+		{
+			if( $this->get_db_gline($host) )
+				return false;
+
+			$gline = new DB_Gline();
+			$gline->set_ts( time() );
+			$gline->set_mask( $host );
+			$gline->set_duration( $duration );
+			$gline->set_reason( $reason );
+			$gline->save();
+
+			$gline_key = strtolower( $host );
+			$this->db_glines[$gline_key] = $gline;
+		}
+
+
+		function service_remove_gline( $host )
+		{
+			$gline = $this->get_db_gline($host);
+
+			if(!$gline)
+				return false;
+			
+			$gline->delete();
+			$gline_key = strtolower( $host );
+			unset( $this->db_glines[$gline_key] );
+		}
+
+
 		function load_tor_hosts()
 		{
 			if(file_exists(TOR_HOSTS_FILE) && is_readable(TOR_HOSTS_FILE))

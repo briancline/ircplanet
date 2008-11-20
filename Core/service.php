@@ -483,6 +483,10 @@
 		{
 			$gline_key = strtolower( $host );
 			$this->glines[$gline_key] = new GLine( $host, $duration, $reason );
+			
+			if( method_exists($this, 'service_add_gline') )
+				$this->service_add_gline( $host, $duration, $reason );
+
 			return $this->glines[$gline_key];
 		}
 		
@@ -515,6 +519,9 @@
 				return;
 			
 			unset( $this->glines[$gline_key] );
+
+			if( method_exists($this, 'service_remove_gline') )
+				$this->service_remove_gline( $host );
 		}
 		
 		
