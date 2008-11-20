@@ -1,5 +1,12 @@
 Brian Cline	<brian@ircplanet.net>	2008-11-19
 
+	* Operator/commands/topic.php: Somehow this never made it into the
+	trunk. Oops.
+
+	* Operator/globals.php: Bumped version 1.1.0 => 1.1.1.
+
+Brian Cline	<brian@ircplanet.net>	2008-11-19
+
 	* Nickname/globals.php: Bumped version 1.3.7 => 1.3.8.
 
 	* Channel/globals.php: Bumped version 1.5.1 => 1.5.2.
