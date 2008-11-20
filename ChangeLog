@@ -1,5 +1,9 @@
 Brian Cline	<brian@ircplanet.net>	2008-11-19
 
+	* (all): Converted source files from DOS to UNIX linebreak formats.
+
+Brian Cline	<brian@ircplanet.net>	2008-11-19
+
 	* (all): Removed executable flag from non-executable files.
 
 Brian Cline	<brian@ircplanet.net>	2008-11-19
