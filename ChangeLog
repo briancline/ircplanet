@@ -1,5 +1,9 @@
 Brian Cline	<brian@ircplanet.net>	2008-11-19
 
+	* (all): Removed executable flag from non-executable files.
+
+Brian Cline	<brian@ircplanet.net>	2008-11-19
+
 	* Operator/commands/topic.php: Somehow this never made it into the
 	trunk. Oops.
 
