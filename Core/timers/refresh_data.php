@@ -40,7 +40,7 @@
 				if(!$user->is_logged_in() && $user->has_account_name()
 						&& strtolower($user->get_account_name()) == $account_key)
 				{
-					$user->set_acount_id($account->get_id());
+					$user->set_account_id($account->get_id());
 					debug('Associated new account with user '. $user->get_nick());
 				}
 			}

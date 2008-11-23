@@ -1,5 +1,11 @@
 Brian Cline	<brian@ircplanet.net>	2008-11-23
 
+	* Core/core_globals.php: Bump version to 1.1.6.
+
+	* Core/timers/refresh_data.php: Fix typo causing a crash.
+
+Brian Cline	<brian@ircplanet.net>	2008-11-23
+
 	* db_schema.sql: Missing a semicolon... whoops.
 
 	* Channel/globals.php: Bump version to 1.5.5.
