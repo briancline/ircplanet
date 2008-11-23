@@ -1,5 +1,12 @@
 Brian Cline	<brian@ircplanet.net>	2008-11-23
 
+	* .: Added svn:ignore entries for some miscellaneous files.
+
+	* db_schema.sql: Attempt to resolve insert errors on some versions of
+	MySQL when the default date was not specified and none were provided.
+
+Brian Cline	<brian@ircplanet.net>	2008-11-23
+
 	* .,Channel,Operator,Nickname,Stat: Added svn:ignore entries for the
 	log files and other miscellaneous files.
 

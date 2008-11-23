@@ -97,9 +97,9 @@ CREATE TABLE `channels` (
   `name` varchar(255) NOT NULL default '',
   `register_ts` int(11) NOT NULL default '0',
   `create_ts` int(11) NOT NULL default '0',
-  `register_date` datetime NOT NULL,
-  `create_date` datetime NOT NULL,
-  `update_date` datetime NOT NULL,
+  `register_date` datetime default NULL,
+  `create_date` datetime default NULL,
+  `update_date` datetime default NULL,
   `purpose` varchar(200) NOT NULL default '',
   `url` varchar(255) NOT NULL default '',
   `def_topic` varchar(255) NOT NULL default '',
@@ -332,7 +332,7 @@ SET character_set_client = utf8;
 CREATE TABLE `stats_servers` (
   `server_name` varchar(100) NOT NULL,
   `desc` varchar(100) NOT NULL,
-  `start_date` datetime NOT NULL,
+  `start_date` datetime default NULL,
   `max_users` int(10) unsigned NOT NULL,
   `is_service` smallint(5) unsigned NOT NULL,
   PRIMARY KEY  (`server_name`)
@@ -354,7 +354,7 @@ CREATE TABLE `stats_users` (
   `server` varchar(60) NOT NULL,
   `modes` varchar(10) NOT NULL,
   `account` varchar(15) NOT NULL,
-  `signon_date` datetime NOT NULL,
+  `signon_date` datetime default NULL,
   PRIMARY KEY  (`nick`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
