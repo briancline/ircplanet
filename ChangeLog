@@ -1,4 +1,11 @@
-Brian Cline	<brian@ircplanet.net>	2008-11-20
+Brian Cline	<brian@ircplanet.net>	2008-11-22
+
+	* Operator/tor-hosts: A fresh list... why not commit. Also, renamed
+	with a .txt extension. This really should have been on there before,
+	but the operator service is looking for the file with a .txt
+	extension. It makes more sense to have it.
+
+Brian Cline	<brian@ircplanet.net>	2008-11-22
 
 	* Channel/commands/showcommands.php: Major optimization to this
 	command. Should definitely increase speed of the response.
