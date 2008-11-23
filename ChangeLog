@@ -1,5 +1,26 @@
 Brian Cline	<brian@ircplanet.net>	2008-11-22
 
+	* Nickname/commands/set.php: Fix duplicate define reference. Also add
+	the ability for admins to use SET SUSPEND on an account to suspend its
+	use.
+
+	* Nickname/commands/login.php: Do not allow users to log in if their
+	account has been suspended.
+
+	* Nickname/globals.php: Remove two defines that were already in the
+	DB_User class definition.
+
+	* Channel/timers/expire_channels.php: Remove an odd undefined
+	reference that was causing PHP warnings.
+
+	* Channel/db_channel.php: Fix a PHP warning for an undefined
+	reference.
+
+	* Core/timers/refresh_data.php: Fix a PHP warning for undefined
+	references on persisted timer data.
+
+Brian Cline	<brian@ircplanet.net>	2008-11-22
+
 	* Operator/tor-hosts: A fresh list... why not commit. Also, renamed
 	with a .txt extension. This really should have been on there before,
 	but the operator service is looking for the file with a .txt

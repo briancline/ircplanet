@@ -1,9 +1,9 @@
 <?php
 	
-	$last_update_ts = $timer_data[0];
-	
-	if(empty($last_update_ts))
-		$last_update_ts = START_TIME;
+	$last_update_ts = START_TIME;
+
+	if( empty($timer_data) )
+		$last_update_ts = $timer_data[0];
 		
 	$last_update = db_date($last_update_ts);
 	

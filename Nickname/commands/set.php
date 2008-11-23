@@ -38,7 +38,7 @@
 	}
 	else if( $option == 'INFO' )
 	{
-		if( strlen($value) >= MAXLEN_INFOLINE )
+		if( strlen($value) >= MAXLEN_USERINFOLINE )
 		{
 			$bot->notice( $user, 'That infoline is too long. Please try something shorter.' );
 			return false;
@@ -131,6 +131,27 @@
 		$account->set_permanent( $value );
 		$bot->noticef( $user, 'Toggled %s %s nopurge flag.', $who,
 			$value ? 'ON' : 'OFF' );
+	}
+	else if( $option == 'SUSPEND' && $user_level >= 500 )
+	{
+		if( empty($value) )
+		{
+			$value = !$account->is_suspended();
+		}
+		else
+		{
+			$value = strtoupper($value);
+			if ( $value == 'ON' ) $value = true;
+			else if( $value == 'OFF' ) $value = false;
+			else {
+				$bot->notice( $user, 'Value must either be ON or OFF.' );
+				return false;
+			}
+		}
+		
+		$account->set_suspend( $value );
+		$bot->noticef( $user, 'Toggled %s suspension for %s.', 
+			$value ? 'ON' : 'OFF', $who );
 	}
 	else if( $option == 'PASSWORD' )
 	{

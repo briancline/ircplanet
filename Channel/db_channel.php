@@ -109,7 +109,7 @@
 		
 		function get_levels()              { return $this->levels; }
 		
-		function has_pending_autolimit()   { return $this->_alimit_pending; }
+		function has_pending_autolimit()   { return isset($this->_alimit_pending) && $this->_alimit_pending; }
 		function set_pending_autolimit($b) { $this->_alimit_pending = $b; }
 		
 		function set_create_ts($n)         { $this->create_ts = $n; }
