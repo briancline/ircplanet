@@ -1,5 +1,19 @@
 Brian Cline	<brian@ircplanet.net>	2008-11-23
 
+	* db_schema.sql: Missing a semicolon... whoops.
+
+	* Channel/globals.php: Bump version to 1.5.5.
+
+	* Channel/cs.php: Fixed a huge, very important bug. In some instances,
+	CS was not treating channel names with case insensitivity. As a
+	result, issuing 'showcommands #test' and 'showcommands #Test' would
+	yield different results. Some level-checking and channel-locating
+	functions weren't using the case-insensitive version of the name
+	despite its already being there. The fix here appears to resolve the
+	issue.
+
+Brian Cline	<brian@ircplanet.net>	2008-11-23
+
 	* .: Added svn:ignore entries for some miscellaneous files.
 
 	* db_schema.sql: Attempt to resolve insert errors on some versions of

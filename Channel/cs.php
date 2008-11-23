@@ -288,7 +288,7 @@
 		{
 			$chan_key = strtolower( $chan_name );
 			
-			if( !($chan = $this->get_channel_reg($chan_name)) )
+			if( !($chan = $this->get_channel_reg($chan_key)) )
 				return false;
 			if( !is_object($user_obj) || !get_class($user_obj) == 'User' || !$user_obj->is_logged_in() )
 				return false;
@@ -306,7 +306,7 @@
 		{
 			$chan_key = strtolower( $chan_name );
 			
-			if( !($chan = $this->get_channel_reg($chan_name)) )
+			if( !($chan = $this->get_channel_reg($chan_key)) )
 				return false;
 			if( !is_object($account_obj) || !get_class($account_obj) == 'DB_User' )
 				return false;
@@ -323,12 +323,12 @@
 		{
 			$chan_key = strtolower( $chan_name );
 			
-			if( !array_key_exists($chan_name, $this->db_channels) )
+			if( !array_key_exists($chan_key, $this->db_channels) )
 				return 0;
 			if( !is_object($user_obj) || !get_class($user_obj) == 'User' || !$user_obj->is_logged_in() )
 				return 0;
 			
-			$chan = $this->get_channel_reg( $chan_name );
+			$chan = $this->get_channel_reg( $chan_key );
 			return $chan->get_level_by_id( $user_obj->get_account_id() );
 		}
 		
@@ -337,12 +337,12 @@
 		{
 			$chan_key = strtolower( $chan_name );
 			
-			if( !array_key_exists($chan_name, $this->db_channels) )
+			if( !array_key_exists($chan_key, $this->db_channels) )
 				return 0;
 			if( !($account = $this->get_account($user_name)) )
 				return 0;
 			
-			$chan = $this->get_channel_reg( $chan_name );
+			$chan = $this->get_channel_reg( $chan_key );
 			return $chan->get_level_by_id( $account->get_id() );
 		}
 		

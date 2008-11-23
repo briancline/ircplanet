@@ -227,7 +227,7 @@ INSERT INTO `help` VALUES
 ('CS',0,'set strictvoice','%BSyntax:%B set <channel> strictvoice [on|off]\r\n\r\nToggles strict voices. If enabled, %N will always devoice\r\nany users that do not have channel access.\r\n\r\n%BExample:%B  set #southpole strictvoice on\r\n          set #southpole strictvoice off'),
 ('CS',0,'set stricttopic','%BSyntax:%B set <channel> stricttopic [on|off]\r\n\r\nToggles strict topic. If enabled, %N will reset the \r\ntopic if anyone tries to change it without using the %Btopic%B\r\ncommand.\r\n\r\n%BExample:%B  set #southpole stricttopic on\r\n          set #southpole stricttopic off'),
 ('CS',0,'set strictmodes','%BSyntax:%B set <channel> strictmodes [on|off]\r\n\r\nToggles strict modes. If enabled, %N will undo any channel\r\nmode changes that are not performed with the %Bmode%B command.\r\n\r\n%BExample:%B  set #southpole strictmodes on\r\n          set #southpole strictmodes off'),
-('CS',0,'register','Registers a channel with the specified purpose. You may \r\nregister up to %MAX_CHAN_REGS% channels.')
+('CS',0,'register','Registers a channel with the specified purpose. You may \r\nregister up to %MAX_CHAN_REGS% channels.');
 /*!40000 ALTER TABLE `help` ENABLE KEYS */;
 UNLOCK TABLES;
 
