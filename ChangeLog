@@ -1,4 +1,35 @@
-Brian Cline	<brian@ircplanet.net>	2008-11-22
+Brian Cline	<brian@ircplanet.net>	2008-11-23
+
+	* .,Channel,Operator,Nickname,Stat: Added svn:ignore entries for the
+	log files and other miscellaneous files.
+
+	* Channel/globals.php: Bump version to 1.5.4 for last commit.
+
+	* Core/db_record.php: Hide query debugging.
+
+	* Core/core_globals.php: Bump version to 1.1.5.
+
+	* Nickname/globals.php: Bump version to 1.3.10 for last commit.
+
+	* Operator/commands/access.php: Add the ACCESS command file for
+	displaying the service's internal user list.
+
+	* Operator/commands/adduser.php: Remove query debugging.
+
+	* Operator/commands.php: Add the ACCESS command definition.
+
+	* Operator/globals.php: Bump version to 1.1.4.
+
+	* Stat/commands/access.php: Add the ACCESS command file for displaying
+	the service's internal user list.
+
+	* Stat/commands/adduser.php: Remove query debugging.
+
+	* Stat/commands.php: Add ACCESS command definition.
+
+	* Stat/globals.php: Bump version to 1.0.1.
+
+Brian Cline	<brian@ircplanet.net>	2008-11-23
 
 	* Nickname/commands/set.php: Fix duplicate define reference. Also add
 	the ability for admins to use SET SUSPEND on an account to suspend its

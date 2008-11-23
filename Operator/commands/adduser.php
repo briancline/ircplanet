@@ -34,7 +34,7 @@
 		return false;
 	}
 	
-	db_query( "insert into `os_admins` (user_id, level) values ('". $acct->get_id() ."', '$level')", true );
+	db_query( "insert into `os_admins` (user_id, level) values ('". $acct->get_id() ."', '$level')" );
 	$bot->noticef( $user, '%s now has level %d access.', $acct->get_name(), $level );
 
 ?>

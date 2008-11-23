@@ -7,6 +7,7 @@
 	$this->set_command_info( 'moduser',        800,   3, false, '<account> <setting> <param>' );
 	$this->set_command_info( 'remuser',        800,   1, false, '<account>' );
 
+	$this->set_command_info( 'access',         500,   1, '<mask>' );
 	$this->set_command_info( 'inviteme',       500,   0, false );
 
 	$this->set_command_info( 'help',             0,   0, false, '[command]' );

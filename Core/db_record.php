@@ -225,7 +225,7 @@
 					$this->$i_field = time();
 				}
 				
-				db_query("insert into `$this->_table_name` ($fields) values ($values)", true);
+				db_query("insert into `$this->_table_name` ($fields) values ($values)" );
 				
 				$this->$key_name = mysql_insert_id();
 				$this->_record_exists = true;
@@ -245,7 +245,7 @@
 					$this->$u_field = time();
 				}
 				
-				db_query("update `$this->_table_name` set $fields where `$key_name` = '$key_value'", true);
+				db_query("update `$this->_table_name` set $fields where `$key_name` = '$key_value'" );
 				$this->_record_exists = true;
 			}
 			
@@ -283,7 +283,7 @@
 		{
 			$key_value = $this->get_key_value();
 			if($key_value != 0)
-				db_query("delete from `$this->_table_name` where `$this->_key_field` = '$key_value'", true);
+				db_query("delete from `$this->_table_name` where `$this->_key_field` = '$key_value'" );
 			
 			$this->_record_exists = false;
 			

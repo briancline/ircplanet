@@ -38,6 +38,7 @@
 	$this->set_command_info( 'topic',          100,   1, false, '<channel> [new topic]' );
 	$this->set_command_info( 'voice',          100,   1, false, '<channel> [nick1 [nick2 ...]]' );
 
+	$this->set_command_info( 'access',           0,   1, false, '<mask>' );
 	$this->set_command_info( 'banlist',          0,   1, false, '<channel> [mask]' );
 	$this->set_command_info( 'chaninfo',         0,   1, false, '<channel>' );
 	$this->set_command_info( 'chanlist',         0,   0, false, '[mask]' );
