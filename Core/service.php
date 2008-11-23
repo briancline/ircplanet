@@ -39,6 +39,7 @@
 		var $bots = array();
 		
 		var $command_info = array();
+		var $command_list = array();
 		
 		var $numeric_count = -1;
 		
@@ -53,6 +54,10 @@
 			if( !defined('SERVICE_CONFIG_FILE') )
 				define( 'SERVICE_CONFIG_FILE', 'service.ini' );
 				
+			/**
+			 * The following methods are required for child classes. A service cannot exist
+			 * if it does not implement these methods.
+			 */
 			if( !method_exists($this, 'service_construct') )
 				die( "You have not defined a service constructor (service_construct)." );
 			if( !method_exists($this, 'service_destruct') )
@@ -179,6 +184,28 @@
 				$this->command_info = array();
 				include( $commands_file );
 			}
+
+
+			/**
+			 * Set up the array we use for the SHOWCOMMANDS command. It's very
+			 * expensive to sort this list and hunt/peck based on a user's level
+			 * every time the command is issued.
+			 */
+			$tmp_commands = array();
+			$this->commands_list = array();
+
+			foreach( $this->command_info as $command_key => $command_info )
+			{
+				$level = $command_info['level'];
+				$tmp_commands[$level][] = $command_key;
+			}
+
+			krsort( $tmp_commands );
+			foreach( $tmp_commands as $level => $commands )
+			{
+				asort( $commands );
+				$this->commands_list[$level] = implode( ' ', $commands );
+			}
 		}
 		
 		
@@ -191,7 +218,6 @@
 				'syntax'        =>  $syntax,
 				'arg_count'     =>  $min_arg_count,
 				'hidden'        =>  $hidden
-//				'chan_specific' =>  $chan_specific
 			);
 			
 			return $this->command_info[$command_name];

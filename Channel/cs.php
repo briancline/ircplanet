@@ -262,10 +262,15 @@
 		
 		function get_admin_level( $user_obj )
 		{
-			if( !is_object($user_obj) || !get_class($user_obj) == 'User' || !$user_obj->is_logged_in() )
+			if( !is_object($user_obj) )
 				return 0;
-			
-			$account = $this->get_account( $user_obj->get_account_name() );
+			if( get_class($user_obj) != 'DB_User' && (get_class($user_obj) != 'User' || !$user_obj->is_logged_in()) )
+				return 0;
+
+			if( get_class($user_obj) != 'DB_User' )
+				$account = $this->get_account( $user_obj->get_account_name() );
+			else
+				$account = $user_obj;
 			
 			$res = db_query( "select `level` from `cs_admins` where user_id = ". $account->get_id() );
 			if( $res && mysql_num_rows($res) > 0 )

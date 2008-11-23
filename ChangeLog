@@ -1,5 +1,36 @@
 Brian Cline	<brian@ircplanet.net>	2008-11-20
 
+	* Channel/commands/showcommands.php: Major optimization to this
+	command. Should definitely increase speed of the response.
+
+	* Channel/commands.php: Add command definitions for ADDADMIN,
+	DELADMIN, and ADMINLIST. These commands allow administrators to manage
+	the administrator access list.
+
+	* Channel/globals.php: Bump version 1.5.2 => 1.5.3.
+
+	* Core/core_globals.php: Bump version 1.1.3 => 1.1.4.
+
+	* Core/service.php: Major optimizations related to the SHOWCOMMANDS
+	command. We sort each line of the command's output and reverse sort it
+	by level whenever the commands are loaded, rather than doing it each
+	time SHOWCOMMANDS is received.
+
+	* Nickname/commands/showcommands.php: Major optimization to this
+	command. Should definitely increase speed of the response.
+
+	* Nickname/globals.php: Bump version 1.3.8 => 1.3.9.
+
+	* Operator/commands/showcommands.php: Major optimization to this
+	command. Should definitely increase speed of the response.
+
+	* Operator/globals.php: Bump version 1.1.2 => 1.1.3.
+
+	* db_schema.php: Add help for the ADDADMIN, DELADMIN, and ADMINLIST
+	commands.
+
+Brian Cline	<brian@ircplanet.net>	2008-11-20
+
 	* db_schema.sql: Added help for new NS info command.
 
 	* Nickname/commands/info.php: Added new info command to NS to display

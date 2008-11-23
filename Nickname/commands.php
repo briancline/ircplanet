@@ -1,7 +1,18 @@
 <?php
 	
+	/**
+	 * Admin-Level Commands (501 and above)
+	 */
 	$this->set_command_info( 'die',           1000,   0, false, '[reason]' );
 
+	$this->set_command_info( 'addadmin',       800,   2, false, '<user> <level>' );
+	$this->set_command_info( 'deladmin',       800,   1, false, '<user>' );
+
+	$this->set_command_info( 'adminlist',      501,   0, false, '[search mask]' );
+
+	/**
+	 * User-Level Commands (500 and below)
+	 */
 	$this->set_command_info( 'newpass',          1,   1, false, '<password>' );
 	$this->set_command_info( 'set',              1,   1, false, '<option> [value]' );
 
