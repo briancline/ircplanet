@@ -2,13 +2,13 @@
 	
 	$last_update_ts = START_TIME;
 
-	if( empty($timer_data) )
+	if( !empty($timer_data) )
 		$last_update_ts = $timer_data[0];
 		
 	$last_update = db_date($last_update_ts);
 	
 	/**
-	 * Check for new and updated account records
+	 * Check for new and updated account records since this timer last ran
 	 */
 	$res = db_query( 
 		'select account_id, name, update_date '.
@@ -21,12 +21,14 @@
 		
 		if( !$account )
 		{
+			/**
+			 * We've never seen this account before, so load it into memory and associate
+			 * it with any users who are using it.
+			 */
 			$account = new DB_User($row['account_id']);
 			$account_key = strtolower($account->get_name());
 			
 			$this->accounts[$account_key] = $account;
-			
-			debug( 'Loaded new account '. $account->get_name() );
 
 			/**
 			 * Make sure that we tie up any loose ends where we receive an AC account
@@ -47,19 +49,18 @@
 		}
 		else 
 		{
-			debug("Account $row[name] has updated recently!");
-			
+			/**
+			 * It appears we updated the account internally, so skip this account.
+			 */
 			if($account->get_update_ts() >= $last_update_ts)
-			{
-				debug($account->get_name() ." was updated internally. Skipping...");
 				continue;
-			}
 			
-			$account = $this->get_account($row['name']);
+			/**
+			 * Another service updated this account, so refresh its information.
+			 */
 			$account->refresh();
 		}
 	}
-	
 	
 	$timer_data = time();
 	

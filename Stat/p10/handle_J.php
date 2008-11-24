@@ -1,4 +1,6 @@
 <?php
+
+	$user = $this->get_user($numeric);
 	
 	if($parted_all_chans)
 	{

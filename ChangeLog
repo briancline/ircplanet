@@ -1,3 +1,17 @@
+Brian Cline	<brian@ircplanet.net>	2008-11-24
+
+	* LICENSE: Added the new BSD license.
+
+	* Core/timers/refresh_data.php: Fixed a huge bug causing lots of DB
+	traffic. Oops. Also removed some unnecessary debug messages.
+
+	* Operator/download_tor_hosts: Forgot to reflect the tor-hosts file
+	rename here.
+
+	* Stat/p10/handle_J.php: Fixed a crash bug.
+
+	* Stat/p10/handle_L.php: Fixed a crash bug.
+	
 Brian Cline	<brian@ircplanet.net>	2008-11-23
 
 	* Core/core_globals.php: Bump version to 1.1.6.
