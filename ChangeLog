@@ -1,4 +1,8 @@
 Brian Cline	<brian@ircplanet.net>	2008-11-29
+
+	* db_schema.sql: Forgot to add the table definition for badchans.
+	
+Brian Cline	<brian@ircplanet.net>	2008-11-29
 	
 	* Core/bot.php: Convert messagef and noticef to use vsprintf.
 

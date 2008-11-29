@@ -259,6 +259,17 @@ CREATE TABLE `os_admins` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Operserv Admins';
 SET character_set_client = @saved_cs_client;
 
+-- 
+-- Table structure for table `os_badchans`
+-- 
+
+CREATE TABLE `os_badchans` (
+  `badchan_id` int(11) NOT NULL auto_increment,
+  `chan_mask` varchar(50) NOT NULL,
+  `create_date` datetime default NULL,
+  PRIMARY KEY  (`badchan_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Bad Channel Words/Masks';
+
 --
 -- Table structure for table `os_glines`
 --
