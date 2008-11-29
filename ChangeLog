@@ -1,5 +1,12 @@
 Brian Cline	<brian@ircplanet.net>	2008-11-28
 
+	* LICENSE: Add project name to license file.
+
+	* (all php files): Add license declaration to the top of each source
+	code file.
+
+Brian Cline	<brian@ircplanet.net>	2008-11-28
+
 	* Channel/commands/set.php: Fix a critical crash bug, caused by a
 	simple typo.
 
