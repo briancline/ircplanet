@@ -4,7 +4,7 @@
 	define( 'CORE_NAME',           'Services Core' );
 	define( 'CORE_VERSION_MAJOR',  1 );
 	define( 'CORE_VERSION_MINOR',  1 );
-	define( 'CORE_VERSION_REV',    6 );
+	define( 'CORE_VERSION_REV',    7 );
 	
 	define( 'CORE_VERSION',        CORE_VENDOR .' '.
 	                               CORE_NAME .' v'.
@@ -31,8 +31,16 @@
 	define( 'BOLD_CHAR',           chr(2) );
 	define( 'BOLD_START',          BOLD_CHAR );
 	define( 'BOLD_END',            BOLD_CHAR );
-	
-	
+
+	define( 'NOTIFY_ACCOUNT',        'A'  );
+	define( 'NOTIFY_CHANNEL',        'C'  );
+	define( 'NOTIFY_CHANNEL_ACCESS', 'CA' );
+
+	define( 'NOTIFY_LOAD',           'L'  );
+	define( 'NOTIFY_RELOAD',         'R'  );
+	define( 'NOTIFY_DELETE',         'D'  );
+
+
 	function debug( $s )
 	{
 		$s .= "\n";

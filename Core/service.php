@@ -37,6 +37,7 @@
 		var $glines = array();
 		
 		var $bots = array();
+		var $default_bot = null;
 		
 		var $command_info = array();
 		var $command_list = array();
@@ -172,6 +173,31 @@
 			}
 			
 			debug( "Loaded $n account records." );
+		}
+
+
+		function load_single_account( $name_or_id )
+		{
+			$name_or_id = addslashes( $name_or_id );
+			
+			if( is_numeric($name_or_id) )
+				$criteria = "account_id = '$name_or_id'";
+			else
+				$criteria = "name = '$name_or_id'";
+
+			$res = db_query( 'select * from accounts where '. $criteria );
+			if( $row = mysql_fetch_assoc($res) )
+			{
+				$account_key = strtolower( $row['name'] );
+				$account = new DB_User( $row );
+
+				$this->accounts[$account_key] = $account;
+			}
+
+			if( isset($account) )
+				debug( "Loaded single account record for {$account->get_name()}." );
+
+			return isset( $account );
 		}
 		
 		
@@ -761,6 +787,23 @@
 			
 			return false;
 		}
+
+
+		function remove_account( $account )
+		{
+			if( is_object($account) && get_class($account) == 'DB_User' )
+				$account = $account->get_name();
+			elseif( is_object($account) )
+				return false; // What kind of object are you giving me?!
+
+			$account_key = strtolower( $account );
+
+			if( !array_key_exists($account_key, $this->accounts) )
+				return false;
+
+			unset( $this->accounts[$account_key] );
+			return true;
+		}
 		
 		
 		function main()
@@ -1029,7 +1072,7 @@
 		
 		function kill( $user_num, $reason = 'So long...')
 		{
-			if( get_class($user_num) == 'User' )
+			if( is_user($user_num) )
 				$user_num = $user_num->get_numeric();
 			
 			if( !($user = $this->get_user($user_num)) )
@@ -1037,6 +1080,31 @@
 			
 			$this->sendf( FMT_KILL, SERVER_NUM, $user_num, SERVER_NAME, $reason );
 			$this->remove_user( $user_num );
+		}
+
+		function notify_services( $type, $request, $primary_id, $secondary_id = 0 )
+		{
+			$text = '|IPSVC|'. $type .'|'. $request .'|'. $primary_id .'|';
+
+			if( $type == NOTIFY_CHANNEL_ACCESS && $secondary_id > 0 )
+				$text .= $secondary_id .'|';
+			elseif( $type == NOTIFY_CHANNEL_ACCESS )
+				return false;
+
+			debugf('Notify text: %s', $text);
+
+			foreach( $this->users as $numeric => $user )
+			{
+				if( !$user->is_service() )
+				{
+					debugf('%s is not a service, skipping (%s)', $user->get_nick(), $user->get_modes());
+					continue;
+				}
+
+				debugf('%s *IS* a service, sending notice (%s)', $user->get_nick(), $user->get_modes());
+
+				$this->default_bot->notice( $user, $text );
+			}
 		}
 	}
 	

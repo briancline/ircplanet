@@ -22,13 +22,17 @@
 	$this->set_command_info( 'opall',          300,   1, false, '<channel>' );
 	$this->set_command_info( 'voiceall',       300,   1, false, '<channel>' );
 	
+	$this->set_command_info( 'addgchan',       200,   3, false, '<channel> <duration> <reason>' );
+	$this->set_command_info( 'addgname',       200,   3, false, '<realname> <duration> <reason>' );
 	$this->set_command_info( 'ban',            200,   2, false, '<channel> <hostmask> [duration] [level] [reason]' );
 	$this->set_command_info( 'clearmodes',     200,   1, false, '<channel>' );
 	$this->set_command_info( 'gline',          200,   3, false, '<mask> <duration> <reason>' );
 	$this->set_command_info( 'invite',         200,   1, false, '<channel> [nick1 [nick2 ...]]' );
 	$this->set_command_info( 'kickban',        200,   2, false, '<channel> <nick|hostmask> [reason]' );
 	$this->set_command_info( 'mode',           200,   2, false, '<channel> <modes>' );
+	$this->set_command_info( 'remgchan',       200,   1, false, '<channel>' );
 	$this->set_command_info( 'remgline',       200,   1, false, '<mask>' );
+	$this->set_command_info( 'remgname',       200,   1, false, '<realname>' );
 	$this->set_command_info( 'unban',          200,   2, false, '<channel> <hostmask>' );
 	
 	$this->set_command_info( 'deop',           100,   1, false, '<channel> [nick1 [nick2 ...]]' );

@@ -13,6 +13,14 @@
 		foreach($reg->get_levels() as $user_id => $level)
 		{
 			$user = $this->get_account_by_id($user_id);
+
+			if( !$user )
+			{
+				debugf( 'Found an orphaned access record for user ID %d in %s, deleting',
+					$user_id, $reg->get_name(), $reg->remove_access( $user_id ) );
+				$level->delete();
+				continue;
+			}
 			
 			if($level->get_level() == 500 && $youngest_ts < $user->get_lastseen_ts())
 				$youngest_ts = $user->get_lastseen_ts();

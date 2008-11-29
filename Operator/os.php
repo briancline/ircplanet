@@ -172,7 +172,7 @@
 		{
 			$acct_id = $user_obj;
 			
-			if( is_object($user_obj) && get_class($user_obj) == 'User' )
+			if( is_object($user_obj) && is_user($user_obj) )
 			{
 				if( !$user_obj->is_logged_in() )
 					return 0;

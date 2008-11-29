@@ -145,7 +145,10 @@
 		function remove_access( $user_id )
 		{
 			if( array_key_exists($user_id, $this->levels) )
+			{
+				$this->levels[$user_id]->delete();
 				unset( $this->levels[$user_id] );
+			}
 		}
 		
 		

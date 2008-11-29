@@ -328,7 +328,7 @@
 			}
 		}
 		
-		$chan_reg->set_strict_mode( $value );
+		$chan_reg->set_strict_modes( $value );
 		$bot->noticef( $user, 'Toggled channel strict modes to %s.',
 			$value ? 'ON' : 'OFF' );
 	}

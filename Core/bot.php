@@ -24,7 +24,7 @@
 		
 		function message( $target, $text )
 		{
-			if( is_object($target) && get_class($target) == 'User' )
+			if( is_object($target) && is_user($target) )
 				$target = $target->get_numeric();
 			
 			$this->net->sendf( FMT_PRIVMSG, $this->numeric, $target, $text );
@@ -33,7 +33,7 @@
 
 		function notice( $target, $text )
 		{
-			if( is_object($target) && get_class($target) == 'User' )
+			if( is_object($target) && is_user($target) )
 				$target = $target->get_numeric();
 			
 			$this->net->sendf( FMT_NOTICE, $this->numeric, $target, $text );
@@ -41,7 +41,7 @@
 
 		function messagef( $target, $format )
 		{
-			if( is_object($target) && get_class($target) == 'User' )
+			if( is_object($target) && is_user($target) )
 				$target = $target->get_numeric();
 			
 			$args = array();
@@ -59,7 +59,7 @@
 		
 		function noticef( $target, $format )
 		{
-			if( is_object($target) && get_class($target) == 'User' )
+			if( is_object($target) && is_user($target) )
 				$target = $target->get_numeric();
 			
 			$args = array();
@@ -360,7 +360,7 @@
 	
 		function kill( $user_num, $reason = 'So long...')
 		{
-			if( get_class($user_num) == 'User' )
+			if( is_user($user_num) )
 				$user_num = $user_num->get_numeric();
 			
 			if( !($user = $this->net->get_user($user_num)) )

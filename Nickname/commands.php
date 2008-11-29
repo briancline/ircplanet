@@ -8,6 +8,7 @@
 	$this->set_command_info( 'addadmin',       800,   2, false, '<user> <level>' );
 	$this->set_command_info( 'deladmin',       800,   1, false, '<user>' );
 
+	$this->set_command_info( 'drop',           501,   1, false, '<user>' );
 	$this->set_command_info( 'adminlist',      501,   0, false, '[search mask]' );
 
 	/**

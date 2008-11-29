@@ -264,7 +264,7 @@
 		{
 			if( !is_object($user_obj) )
 				return 0;
-			if( get_class($user_obj) != 'DB_User' && (get_class($user_obj) != 'User' || !$user_obj->is_logged_in()) )
+			if( get_class($user_obj) != 'DB_User' && (!is_user($user_obj) || !$user_obj->is_logged_in()) )
 				return 0;
 
 			if( get_class($user_obj) != 'DB_User' )
@@ -290,7 +290,7 @@
 			
 			if( !($chan = $this->get_channel_reg($chan_key)) )
 				return false;
-			if( !is_object($user_obj) || !get_class($user_obj) == 'User' || !$user_obj->is_logged_in() )
+			if( !is_object($user_obj) || !is_user($user_obj) || !$user_obj->is_logged_in() )
 				return false;
 			
 			$levels = $chan->get_levels();
@@ -325,7 +325,7 @@
 			
 			if( !array_key_exists($chan_key, $this->db_channels) )
 				return 0;
-			if( !is_object($user_obj) || !get_class($user_obj) == 'User' || !$user_obj->is_logged_in() )
+			if( !is_object($user_obj) || !is_user($user_obj) || !$user_obj->is_logged_in() )
 				return 0;
 			
 			$chan = $this->get_channel_reg( $chan_key );

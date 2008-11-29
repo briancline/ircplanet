@@ -1,3 +1,87 @@
+Brian Cline	<brian@ircplanet.net>	2008-11-28
+
+	* Channel/commands/set.php: Fix a critical crash bug, caused by a
+	simple typo.
+
+	* Channel/p10/handle_O.php: Implemented a rough first iteration of the
+	service-to-service notification. This occurs through NOTICEs to the
+	bot.
+
+	* Channel/timers/expire_channels.php: Fix a critical crash bug when we
+	can no longer find a user account for a channel access record. This
+	never occurred before, but it is here as a safety net anyway and also
+	because the new notification system needs more testing.
+
+	* Channel/cs.php: Use the new is_user function where necessary.
+
+	* Channel/db_channel.php: When removing channel access from a user,
+	also remove the channel access record in the database.
+
+	* Channel/globals.php: Bump version.
+
+	* Core/p10/handle_O.php: Add a blank handler for O (NOTICE) so that we
+	don't get any "No core handler" warnings in the log when a service
+	receives notices.
+
+	* Core/bot.php: Use the new is_user function where necessary.
+
+	* Core/core_globals.php: Define constants for use in the notification
+	system. Bump version.
+
+	* Core/service.php: Declare the default_bot member before use. Use the
+	new is_user function where necessary. Also added load_single_account
+	and remove_account functions for use in the notification service, as
+	well as implemented the outbound notification itself. This is at the
+	core level, so any service can use it.
+
+	* Core/stringutils.php: Added is_user, which makes for much cleaner
+	code when we need to check if an object is the User class (or Bot
+	class, as it extends the User class).
+
+	* Nickname/commands/drop.php: Added the DROP command file. This will
+	allow NS admins to drop an account from the accounts database. As soon
+	as the drop occurs, NS sends a notification to all other services
+	(users with umode +k) on the network. Those other services only accept
+	this notification from other +k users and perform any cleanup
+	necessary to its own purpose (i.e., a channel service checks for any
+	channels owned or with access and removes those records.)
+
+	* Nickname/commands.php: Add the drop command info.
+
+	* Nickname/globals.php: Bump version.
+
+	* Nickname/ns.ini: Add an option for the new drop command that, when
+	set to true, will not drop or purge any accounts that owns channels in
+	CS. If this is not enabled, NS simply notifies CS of the deleted
+	account and CS purges all owned channels and removes access records
+	in channels where the account has access.
+
+	* Operator/commands/addgchan.php: Add the ADDGCHAN command, which adds
+	a badchan/glined-channel. This is a feature from u2.10.11 and up.
+	Channels that are gchanned can only be entered by opers; users will be
+	told that they are banned from the channel. They work exactly like
+	regular g-lines and take a duration and reason.
+
+	* Operator/commands/addgname.php: Add the ADDGNAME command, which adds
+	a gline based on realnames. This is a feature in u2.10.11 and up.
+	These work exactly like regular g-lines and take a duration and
+	reason.
+
+	* Operator/commands/remgchan.php: Add the REMGCHAN command, which
+	removes a badchan/glined-channel.
+
+	* Operator/commands/remgname.php: Add the REMGNAME command, which
+	removes a realname-based gline.
+
+	* Operator/commands.php: Add command info for ADDGCHAN, ADDGNAME,
+	REMGCHAN, REMGNAME.
+
+	* Operator/globals.php: Bump version.
+
+	* Operator/os.php: Use the new is_user function where necessary.
+
+	* Stat/ss.php: Use the new is_user function where necessary.
+
 Brian Cline	<brian@ircplanet.net>	2008-11-24
 
 	* LICENSE: Added the new BSD license.

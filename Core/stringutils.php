@@ -18,6 +18,12 @@
 	{
 		return eregi( '^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$', $s );
 	}
+
+
+	function is_user( $obj )
+	{
+		return ( get_class($obj) == 'User' || get_class($obj) == 'Bot' );
+	}
 	
 	
 	function line_num_args( $s )
