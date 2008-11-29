@@ -54,24 +54,31 @@
 		{
 			$this->load_glines();
 
-			if(defined('TOR_GLINE'))
+			if( defined('TOR_GLINE') && TOR_GLINE == true )
 			{
 				if(!defined('TOR_DURATION'))
-				{
-					debug("tor_gline is enabled, but tor_duration was not defined!");
-					exit();
-				}
+					die('tor_gline is enabled, but tor_duration was not defined!');
 				if(convert_duration(TOR_DURATION) == false)
-				{
-					debug("The duration specified in tor_duration is invalid!");
-					exit();
-				}
+					die('The duration specified in tor_duration is invalid!');
 				if(!defined('TOR_REASON') || TOR_REASON == '')
-				{
-					debug("tor_gline is enabled, but tor_reason was not defined!");
-					exit();
-				}
+					die('tor_gline is enabled, but tor_reason was not defined!');
+
+				$this->load_tor_hosts();
 			}
+
+                        if( defined('CLONE_GLINE') && CLONE_GLINE == true )
+                        {
+				if(!defined('CLONE_MAX'))
+					die('clone_gline is enabled, but clone_max was not defined!');
+				if(!is_numeric(CLONE_MAX) || CLONE_MAX == 0)
+					die('Invalid value specified for clone_max!');
+                                if(!defined('CLONE_DURATION'))
+                                        die('clone_gline is enabled, but clone_duration was not defined!');
+                                if(convert_duration(CLONE_DURATION) == false)
+                                        die('The duration specified in clone_duration is invalid!');
+                                if(!defined('CLONE_REASON') || CLONE_REASON == '')
+                                        die('clone_gline is enabled, but clone_reason was not defined!');
+                        }
 		}
 		
 		

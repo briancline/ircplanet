@@ -1,3 +1,22 @@
+Brian Cline	<brian@ircplanet.net>	2008-11-29
+
+	* Core/core_globals.php: Bump version.
+
+	* Core/service.php: Added get_clone_count, which returns the number of
+	connections from a specific IP address (the clone count).
+
+	* Operator/os.ini: Added the new clone glining options. If enabled, OS
+	will gline an IP address if the number of clients from a single IP
+	exceeds clone_max. It will set the gline for gline_duration and the
+	client will see the gline_reason when they are disconnected.
+
+	* Operator/p10/handle_N.php: Implement clone g-lining and clean up the
+	Tor g-lining code to use the Service::add_gline member.
+
+	* Operator/os.php: Validate clone g-lining options on startup and fix
+	a bug causing Tor g-lining not to work (we weren't loading the
+	hosts list at startup...)
+
 Brian Cline	<brian@ircplanet.net>	2008-11-28
 
 	* LICENSE: Add project name to license file.

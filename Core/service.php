@@ -618,6 +618,20 @@
 			
 			return $match_count;
 		}
+
+
+                function get_clone_count( $ip )
+                {
+                        $count = 0;
+
+                        foreach( $this->users as $numeric => $user )
+                        {
+                                if( $user->get_ip() == $ip )
+                                        $count++;
+                        }
+
+                        return $count;
+                }
 		
 		
 		function add_channel( $name, $ts, $modes = "", $key = "", $limit = 0 )
