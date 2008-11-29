@@ -33,7 +33,7 @@
 	define( 'CORE_NAME',           'Services Core' );
 	define( 'CORE_VERSION_MAJOR',  1 );
 	define( 'CORE_VERSION_MINOR',  1 );
-	define( 'CORE_VERSION_REV',    8 );
+	define( 'CORE_VERSION_REV',    9 );
 	
 	define( 'CORE_VERSION',        CORE_VENDOR .' '.
 	                               CORE_NAME .' v'.
@@ -78,15 +78,11 @@
 	
 	function debugf( $format )
 	{
-		$args = array();
-		$format = addslashes($format);
-		for($i = 1; $i < func_num_args(); ++$i)
-			$args[] = addslashes(func_get_arg($i));
-		
-		$arglist = join("', '", $args);
-		eval("\$s = sprintf('$format', '$arglist');");
-		
-		return debug( $s );
+		$args = func_get_args();
+		$format = array_shift( $args );
+		$debug = vsprintf( $format, $args );
+
+		return debug( $debug );
 	}
 	
 	function print_array( $a )

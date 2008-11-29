@@ -53,6 +53,12 @@
 	{
 		return ( get_class($obj) == 'User' || get_class($obj) == 'Bot' );
 	}
+
+
+	function is_channel( $obj )
+	{
+		return ( get_class($obj) == 'Channel' );
+	}
 	
 	
 	function line_num_args( $s )

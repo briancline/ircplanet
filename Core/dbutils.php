@@ -62,13 +62,9 @@
 	
 	function db_queryf($format)
 	{
-		$args = array();
-		$format = addslashes($format);
-		for($i = 1; $i < func_num_args(); ++$i)
-			$args[] = addslashes(func_get_arg($i));
-		
-		$arglist = join("', '", $args);
-		eval("\$query = sprintf('$format', '$arglist');");
+		$args = func_get_args();
+		$format = array_shift( $args );
+		$query = vsprintf( $format, $args );
 		
 		return db_query($query);
 	}

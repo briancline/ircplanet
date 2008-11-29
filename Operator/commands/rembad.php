@@ -28,20 +28,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
-	$chan = $this->get_channel( $chan_name );
-	if( $this->is_badchan($chan_name) && !$chan->is_secret() )
+	
+	$chan_mask = $pargs[1];
+	
+	if( !($badchan = $this->get_badchan($chan_mask)) )
 	{
-		$this->mode( $chan->get_name(), '+s' );
-		$chan->add_modes( 's' );
+		$bot->noticef( $user, 'There is no badchan entry with that name.' );
+		return false;
 	}
 
-/*	Logging bursts on a larger network can flood the channel. Enable at your own risk...
-	
-	$server = $this->get_server( $args[0] );
-	$modes = '';
-	
-	$this->report_event( 'BURST', $server, $chan, "[+". $chan->get_modes() ."]", "$user_count users, $ban_count bans" );
-*/
+	$this->remove_badchan( $chan_mask );
+	$bot->noticef( $user, '%s has been removed from the bad channels list.', $chan_mask );
 
 ?>

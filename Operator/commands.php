@@ -39,9 +39,11 @@
 	$this->set_command_info( 'broadcast',      700,   1, false, '<message>' );
 	$this->set_command_info( 'settime',        700,   0, false );
 
+	$this->set_command_info( 'addbad',         500,   1, false, '<word>' );
 	$this->set_command_info( 'inviteme',       500,   0, false );
 	$this->set_command_info( 'refreshg',       500,   0, false );
-	
+	$this->set_command_info( 'rembad',         500,   1, false, '<word>' );
+
 	$this->set_command_info( 'clearchan',      300,   1, false, '<options> [duration]' );
 	$this->set_command_info( 'deopall',        300,   1, false, '<channel>' );
 	$this->set_command_info( 'devoiceall',     300,   1, false, '<channel>' );

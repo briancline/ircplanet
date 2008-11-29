@@ -352,19 +352,11 @@
 		
 		function sendf( $format )
 		{
-			$buffer = '';
-			$args = array();
-			
+			$args = func_get_args();
+			$format = array_shift( $args );
 			$format = str_replace( '[TS]', time(), $format );
-			$format = addslashes( $format );
 			
-			for( $i = 1; $i < func_num_args(); ++$i )
-				$args[] = addslashes( func_get_arg($i) );
-			
-			$arglist = join( "', '", $args );
-			eval( "\$buffer = sprintf('$format', '$arglist');" );
-			
-			$buffer = stripslashes( $buffer );
+			$buffer = vsprintf( $format, $args );
 			$buffer = rtrim( $buffer, " " );
 			$buffer .= "\n";
 			

@@ -35,9 +35,19 @@
 		$source = $this->get_user( $args[0] );
 	
 	if( $is_chan )
+	{
 		$target = $chan;
+
+		if( $this->is_badchan($chan->get_name()) && !$chan->is_secret() )
+		{
+			$this->mode( $chan->get_name(), '+s' );
+			$chan->add_modes( 's' );
+		}
+	}
 	else 
+	{
 		$target = $user;
+	}
 	
 	$modes = $args[3];
 	

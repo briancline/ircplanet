@@ -70,36 +70,28 @@
 
 		function messagef( $target, $format )
 		{
+			$args = func_get_args();
+			$target = array_shift( $args );
+			$format = array_shift( $args );
+			
 			if( is_object($target) && is_user($target) )
 				$target = $target->get_numeric();
 			
-			$args = array();
-			$format = addslashes( $format );
-			for( $i = 2; $i < func_num_args(); ++$i )
-				$args[] = addslashes( func_get_arg($i) );
-			
-			$arglist = join( "', '", $args );
-			eval( "\$notice_text = sprintf('$format', '$arglist');" );
-			
-			$notice_text = stripslashes( $notice_text );
+			$notice_text = vsprintf( $format, $args );
 			$this->net->sendf( FMT_PRIVMSG, $this->numeric, $target, $notice_text );
 			$this->last_spoke = time();
 		}
 		
 		function noticef( $target, $format )
 		{
+			$args = func_get_args();
+			$target = array_shift( $args ); // Remove target 
+			$format = array_shift( $args ); // Remove format
+			
 			if( is_object($target) && is_user($target) )
 				$target = $target->get_numeric();
 			
-			$args = array();
-			$format = addslashes( $format );
-			for( $i = 2; $i < func_num_args(); ++$i )
-				$args[] = addslashes( func_get_arg($i) );
-			
-			$arglist = join( "', '", $args );
-			eval( "\$notice_text = sprintf('$format', '$arglist');" );
-			
-			$notice_text = stripslashes( $notice_text );
+			$notice_text = vsprintf( $format, $args );
 			$this->net->sendf( FMT_NOTICE, $this->numeric, $target, $notice_text );
 		}
 		

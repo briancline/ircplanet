@@ -32,6 +32,7 @@
 	require( 'globals.php' );
 	require( '../Core/service.php' );
 	require( SERVICE_DIR .'/db_gline.php' );
+	require( SERVICE_DIR .'/db_badchan.php' );
 	
 	
 	class OperatorService extends Service
@@ -39,6 +40,7 @@
 		var $pending_events = array();
 		var $tor_hosts = array();
 		var $db_glines = array();
+		var $db_badchans = array();
 
 		function service_construct()
 		{
@@ -53,6 +55,7 @@
 		function service_load()
 		{
 			$this->load_glines();
+			$this->load_badchans();
 
 			if( defined('TOR_GLINE') && TOR_GLINE == true )
 			{
@@ -141,6 +144,21 @@
 		}
 
 
+		function load_badchans()
+		{
+			$res = db_query( 'select * from os_badchans order by badchan_id asc' );
+			while( $row = mysql_fetch_assoc($res) )
+			{
+				$badchan = new DB_BadChan( $row );
+				
+				$badchan_key = strtolower( $badchan->get_mask() );
+				$this->db_badchans[$badchan_key] = $badchan;
+			}
+
+			debugf( 'Loaded %d badchans.', count($this->db_badchans) );
+		}
+
+
 		function get_db_gline( $host )
 		{
 			$gline_key = strtolower( $host );
@@ -204,6 +222,61 @@
 		}
 		
 		
+		function get_badchan( $mask )
+		{
+			$mask = strtolower( $mask );
+			if( array_key_exists($mask, $this->db_badchans) )
+				return $this->db_badchans[$mask];
+
+			return false;
+		}
+
+
+		function is_badchan( $chan_name )
+		{
+			if( is_channel($chan_name) )
+				$chan_name = $chan_name->get_name();
+
+			foreach( $this->db_badchans as $b_key => $badchan )
+			{
+				if( $badchan->matches($chan_name) )
+					return true;
+			}
+
+			return false;
+		}
+
+
+		function add_badchan( $mask )
+		{
+			if( $this->get_badchan($mask) != false )
+				return false;
+
+			$badchan = new DB_BadChan();
+			$badchan->set_mask( $mask );
+			$badchan->save();
+
+			$key = strtolower( $mask );
+			$this->db_badchans[$key] = $badchan;
+
+			return $this->db_badchans[$key];
+		}
+
+
+		function remove_badchan( $mask )
+		{
+			$badchan = $this->get_badchan( $mask );
+			if( $badchan == false )
+				return false;
+
+			$key = strtolower( $mask );
+			unset( $this->db_badchans[$key] );
+			$badchan->delete();
+
+			return true;
+		}
+
+
 		function get_user_level( $user_obj )
 		{
 			$acct_id = $user_obj;

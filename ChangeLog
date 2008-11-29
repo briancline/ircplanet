@@ -1,4 +1,45 @@
 Brian Cline	<brian@ircplanet.net>	2008-11-29
+	
+	* Core/bot.php: Convert messagef and noticef to use vsprintf.
+
+	* Core/core_globals.php: Convert debugf to use vsprintf. Bump version
+	to 1.1.9.
+
+	* Core/dbutils.php: Convert db_queryf to use vsprintf.
+
+	* Core/service.php: Convert sendf to use vsprintf.
+
+	* Core/stringutils.php: Added is_channel to determine if a variable is
+	a Channel object.
+
+	* Operator/commands/addbad.php: Add the ADDBAD command, which allows
+	opers to add a word to the badchan list. When a channel is created
+	and contains any words in the badchan list, it is automatically set
+	with +s and enforced.
+
+	* Operator/commands/rembad.php: Add the REMBAD command, which allows
+	opers to remove a word from the badchan list.
+
+	* Operator/p10/handle_B.php: Automatically set +s on any badchan
+	channels when received in the burst.
+
+	* Operator/p10/handle_C.php: Automatically set +s on any badchan
+	channels when a user creates it.
+
+	* Operator/p10/handle_M.php: Enforce any +s modes set on a badchan
+	channel.
+
+	* Operator/commands.php: Add the ADDBAD and REMBAD command info.
+
+	* Operator/globals.php: Bump version to 1.2.0.
+
+	* Operator/db_badchan.php: Add the DB_BadChan class, responsible for
+	badchan DB interop and matching.
+
+	* Operator/os.php: Implement badchan structures and necessary
+	functions.
+
+Brian Cline	<brian@ircplanet.net>	2008-11-29
 
 	* Core/core_globals.php: Bump version.
 

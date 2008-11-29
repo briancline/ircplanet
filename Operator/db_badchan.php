@@ -29,19 +29,29 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$chan = $this->get_channel( $chan_name );
-	if( $this->is_badchan($chan_name) && !$chan->is_secret() )
+	class DB_BadChan extends DB_Record
 	{
-		$this->mode( $chan->get_name(), '+s' );
-		$chan->add_modes( 's' );
+		protected $_table_name = 'os_badchans';
+		protected $_key_field = 'badchan_id';
+		protected $_insert_timestamp_field = 'create_date';
+		
+		protected $badchan_id;
+		protected $chan_mask;
+		protected $create_date;
+		
+		protected function record_construct() { }
+		protected function record_destruct()  { }
+		
+		public function get_mask()            { return $this->chan_mask; }
+		public function get_set_ts()          { return $this->create_date; }
+		
+		public function set_mask($s)          { $this->chan_mask = $s; }
+		
+		public function matches( $chan_name )
+		{
+			$tmp_mask = '*'. $chan_name .'*';
+			return fnmatch( $tmp_mask, $chan_name );
+		}	
 	}
-
-/*	Logging bursts on a larger network can flood the channel. Enable at your own risk...
 	
-	$server = $this->get_server( $args[0] );
-	$modes = '';
-	
-	$this->report_event( 'BURST', $server, $chan, "[+". $chan->get_modes() ."]", "$user_count users, $ban_count bans" );
-*/
-
 ?>
