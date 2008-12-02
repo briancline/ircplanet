@@ -1,3 +1,8 @@
+Brian Cline	<brian@ircplanet.net>	2008-12-01
+
+	* Operator/db_badchan.php: Fix a bug where OS considers every channel
+	to be a bad channel.
+
 Brian Cline	<brian@ircplanet.net>	2008-11-29
 
 	* db_schema.sql: Forgot to add the table definition for badchans.

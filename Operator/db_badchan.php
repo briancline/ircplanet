@@ -49,8 +49,7 @@
 		
 		public function matches( $chan_name )
 		{
-			$tmp_mask = '*'. $chan_name .'*';
-			return fnmatch( $tmp_mask, $chan_name );
+			return ( stripos($chan_name, $this->chan_mask) !== FALSE );
 		}	
 	}
 	
