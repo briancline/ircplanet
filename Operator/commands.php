@@ -81,6 +81,7 @@
 	$this->set_command_info( 'opermsg',          0,   1, false, '<message>' );
 	$this->set_command_info( 'scan',             0,   1, false, '<mask>' );
 	$this->set_command_info( 'showcommands',     0,   0, false );
+	$this->set_command_info( 'show',             0,   1, false, '<option>' );
 	$this->set_command_info( 'uptime',           0,   0, false );
 	$this->set_command_info( 'whois',            0,   1, false, '<nick>' );
 	$this->set_command_info( 'whoison',          0,   1, false, '<channel>' );

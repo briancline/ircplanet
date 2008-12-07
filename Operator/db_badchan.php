@@ -41,6 +41,8 @@
 		
 		protected function record_construct() { }
 		protected function record_destruct()  { }
+
+		function __toString()                 { return $this->get_mask(); }
 		
 		public function get_mask()            { return $this->chan_mask; }
 		public function get_set_ts()          { return $this->create_date; }

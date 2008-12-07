@@ -1,3 +1,14 @@
+Brian Cline	<brian@ircplanet.net>	2008-12-07
+
+	* Operator/commands/show.php: Added the SHOW command, which accepts
+	BAD, CLONES, GLINES, and OPERS as arguments.
+
+	* Operator/commands.php: Added the SHOW command details to the command
+	map.
+
+	* Operator/db_badchan.php: Added an implicit string conversion to the
+	DB_BadChan class.
+
 Brian Cline	<brian@ircplanet.net>	2008-12-01
 
 	* Operator/db_badchan.php: Fix a bug where OS considers every channel
