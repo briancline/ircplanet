@@ -1,5 +1,10 @@
 Brian Cline	<brian@ircplanet.net>	2008-12-07
 
+	* Operator/globals.php: Forgot to bump version to 1.2.1 in last
+	commit.
+
+Brian Cline	<brian@ircplanet.net>	2008-12-07
+
 	* Operator/commands/show.php: Added the SHOW command, which accepts
 	BAD, CLONES, GLINES, and OPERS as arguments.
 
