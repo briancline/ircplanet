@@ -39,7 +39,7 @@ CREATE TABLE `accounts` (
   `update_date` datetime default NULL,
   PRIMARY KEY  (`account_id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=121 DEFAULT CHARSET=latin1 PACK_KEYS=1 COMMENT='User accounts';
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 PACK_KEYS=1 COMMENT='User accounts';
 SET character_set_client = @saved_cs_client;
 
 --
@@ -61,7 +61,7 @@ CREATE TABLE `channel_access` (
   PRIMARY KEY  (`access_id`),
   KEY `chan_id` (`chan_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=105 DEFAULT CHARSET=latin1 COMMENT='Channel Access Records';
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Channel Access Records';
 SET character_set_client = @saved_cs_client;
 
 --
@@ -82,7 +82,7 @@ CREATE TABLE `channel_bans` (
   `reason` varchar(100) NOT NULL default '',
   PRIMARY KEY  (`ban_id`),
   KEY `chan_id` (`chan_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -122,7 +122,7 @@ CREATE TABLE `channels` (
   `no_voice` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`channel_id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=80 DEFAULT CHARSET=latin1 COMMENT='Registered Channels';
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Registered Channels';
 SET character_set_client = @saved_cs_client;
 
 --
@@ -282,7 +282,7 @@ CREATE TABLE `os_glines` (
   `mask` varchar(100) NOT NULL default '',
   `reason` varchar(100) NOT NULL default '',
   PRIMARY KEY  (`gline_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `stats_channel_users`
@@ -415,7 +415,7 @@ CREATE TABLE `web_news` (
   `title` varchar(100) NOT NULL default '',
   `body` text NOT NULL,
   PRIMARY KEY  (`news_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

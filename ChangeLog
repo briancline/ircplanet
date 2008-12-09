@@ -1,5 +1,10 @@
 Brian Cline	<brian@ircplanet.net>	2008-12-09
 
+	* db_schema.sql: Remove hardcoded autoincrement values. I knew I was
+	forgetting something when I initially committed this file.
+
+Brian Cline	<brian@ircplanet.net>	2008-12-09
+
 	* Channel/commands/clearbans.php: Check if we're in the channel first.
 
 	* Channel/commands/kickbanall.php: Check if we're in the channel first.
