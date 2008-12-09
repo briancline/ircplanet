@@ -1,5 +1,17 @@
 Brian Cline	<brian@ircplanet.net>	2008-12-09
 
+	* Channel/p10/handle_I.php: Inviting CS to a channel is no longer
+	solely for CS admins. If a user has access to a channel that is at
+	least as high enough to issue the JOIN command, then CS will accept
+	the invite and join the channel. This still works for admins as well.
+
+	* Channel/commands/register.php: Require users to be opped in a
+	channel they are attempting to register.
+
+	* Channel/globals.php: Bump version to 1.5.8.
+
+Brian Cline	<brian@ircplanet.net>	2008-12-09
+
 	* Channel/globals.php: Forgot to bump version for last CS commit.
 
 Brian Cline	<brian@ircplanet.net>	2008-12-09
