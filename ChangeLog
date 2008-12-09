@@ -1,3 +1,69 @@
+Brian Cline	<brian@ircplanet.net>	2008-12-09
+
+	* Channel/commands/clearbans.php: Check if we're in the channel first.
+
+	* Channel/commands/kickbanall.php: Check if we're in the channel first.
+
+	* Channel/commands/voiceall.php: Check if we're in the channel first.
+
+	* Channel/commands/ban.php: Check if we're in the channel first.
+
+	* Channel/commands/do.php: Check if we're in the channel first.
+
+	* Channel/commands/voice.php: Check if we're in the channel first.
+
+	* Channel/commands/devoiceall.php: Check if we're in the channel first.
+
+	* Channel/commands/opall.php: Check if we're in the channel first.
+
+	* Channel/commands/kickall.php: Check if we're in the channel first.
+
+	* Channel/commands/topic.php: Check if we're in the channel first.
+
+	* Channel/commands/clearmodes.php: Check if we're in the channel first.
+
+	* Channel/commands/kick.php: Check if we're in the channel first.
+
+	* Channel/commands/say.php: Check if we're in the channel first.
+
+	* Channel/commands/invite.php: Check if we're in the channel first.
+
+	* Channel/commands/moderate.php: Check if we're in the channel first.
+
+	* Channel/commands/kickban.php: Check if we're in the channel first.
+
+	* Channel/commands/unban.php: Check if we're in the channel first.
+
+	* Channel/commands/rdefmodes.php: Check if we're in the channel first.
+
+	* Channel/commands/devoice.php: Check if we're in the channel first.
+
+	* Channel/commands/op.php: Check if we're in the channel first.
+
+	* Channel/commands/rdeftopic.php: Check if we're in the channel first.
+
+	* Channel/commands/deopall.php: Check if we're in the channel first.
+
+	* Channel/commands/mode.php: Check if we're in the channel first.
+
+	* Channel/commands/deop.php: Check if we're in the channel first.
+
+	* Channel/commands.php: Add the JOIN and PART commands to the
+	command map.
+
+	* Core/p10.php: Removed some old debug messages.
+
+	* Core/p10/handle_J.php: Fix a crash bug where ircu was sending J
+	messages for channels that don't exist. This is due to the zombie
+	channel feature (and the +A mode) in u2.10.12 in which a channel can
+	exist either 5 minutes or 48 hours after the last user /parts it. In 
+	such a case, ircu sends a J instead of a C. Silly, but must work 
+	around it.
+
+	* Core/bot.php: Modify Bot::join to account for channels that may not
+	exist yet. If not, pretend this is a create() function and allocate
+	everything in memory first.
+
 Brian Cline	<brian@ircplanet.net>	2008-12-07
 
 	* Operator/globals.php: Forgot to bump version to 1.2.1 in last

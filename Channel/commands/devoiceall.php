@@ -37,6 +37,11 @@
 		$bot->noticef( $user, 'Nobody is in %s.', $chan_name );
 		return false;
 	}
+	if( !$chan->is_on($bot->get_numeric()) )
+	{
+		$bot->noticef( $user, 'I am not on %s.', $chan->get_name() );
+		return false;
+	}
 	
 	foreach( $chan->users as $numeric => $chanuser )
 	{

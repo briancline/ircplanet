@@ -31,6 +31,12 @@
 
 	$chan = $this->get_channel( $chan_name );
 	
+	if( !$chan->is_on($bot->get_numeric()) )
+	{
+		$bot->noticef( $user, 'I am not on %s.', $chan->get_name() );
+		return false;
+	}
+
 	if( $chan )
 	{
 		$active_bans = $chan->get_matching_bans( '*' );

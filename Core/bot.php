@@ -362,11 +362,23 @@
 			$this->net->sendf( FMT_KICK, $this->get_numeric(), $chan_name, $numeric, $reason );
 		}
 		
-		function join( $chan_name )
+		function join( $chan_name, $create_ts = 0 )
 		{
 			$chan = $this->net->get_channel( $chan_name );
-			$this->net->sendf( FMT_JOIN, $this->get_numeric(), $chan_name, $chan->get_ts() );
-			$this->net->add_channel_user( $chan_name, $this->get_numeric() );
+
+			if( !$chan )
+			{
+				$this->net->sendf( FMT_CREATE, $this->get_numeric(), $chan_name, $create_ts );
+				$this->net->add_channel( $chan_name, $create_ts );
+
+				$chan = $this->net->get_channel( $chan_name );
+				$chan->add_user( $this->get_numeric(), 'o' );
+			}
+			else
+			{
+				$this->net->sendf( FMT_JOIN, $this->get_numeric(), $chan_name, $chan->get_ts() );
+				$this->net->add_channel_user( $chan_name, $this->get_numeric() );
+			}
 		}
 
 		function part( $chan_name, $reason = "" )

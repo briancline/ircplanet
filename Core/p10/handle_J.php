@@ -45,7 +45,28 @@
 		$channels = explode( ',', $chan_name );
 		foreach( $channels as $chan_name )
 		{
-			$this->add_channel_user( $chan_name, $numeric );
+			/**
+			 * As retarded as I think this is, we now have to check and see if
+			 * a channel we receive via a J token actually exists first. This
+			 * is due to ircu2.10.12.x's new 'zannel' behavior and +A channel
+			 * mode. In some cases, ircu won't remove a channel from memory
+			 * for up to 48 hours after the last user /parts it. Thus, we may
+			 * receive a J message from the uplink if this has occurred. P10
+			 * still thinks the channel exists, but we know better...don't we.
+			 */
+
+			$chan = $this->get_channel( $chan_name );
+
+			if( !$chan )
+			{
+				$ts = $args[count($args) - 1];
+				$this->add_channel( $chan_name, $ts );
+				$this->add_channel_user( $chan_name, $numeric, 'o' );
+			}
+			else
+			{
+				$this->add_channel_user( $chan_name, $numeric );
+			}
 		}
 	}
 	

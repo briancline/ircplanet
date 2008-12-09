@@ -53,8 +53,10 @@
 	$this->set_command_info( 'unreg',          500,   1, false, '<channel>' );
 
 	$this->set_command_info( 'set',            450,   1, false, '<channel> <option> [value]' );
+	$this->set_command_info( 'join',           450,   1, false, '<channel>' );
 	$this->set_command_info( 'kickall',        450,   2, false, '<channel> <reason>' );
 	$this->set_command_info( 'kickbanall',     450,   2, false, '<channel> <reason>' );
+	$this->set_command_info( 'part',           450,   1, false, '<channel>' );
 	
 	$this->set_command_info( 'adduser',        400,   2, false, '<channel> <user> [level]' );
 	$this->set_command_info( 'moduser',        400,   3, false, '<channel> <user> <option> [value]' );

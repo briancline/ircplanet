@@ -28,18 +28,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/*	
-	if( $user->get_nick() == 'brian' )
-	{
-		$botnum = $bot->get_numeric();
-		$this->sendf( FMT_JOIN, $botnum, "#southpole", time() );
-		$this->add_channel_user( "#southpole", $botnum );
-		$this->op( "#southpole", $botnum );
-	}
-*/
 
 	if( !($chan = $this->get_channel($chan_name)) ) {
 		$bot->noticef( $user, "Nobody is on channel %s.", $chan_name );
+		return false;
+	}
+	if( !$chan->is_on($bot->get_numeric()) )
+	{
+		$bot->noticef( $user, 'I am not on %s.', $chan->get_name() );
 		return false;
 	}
 	

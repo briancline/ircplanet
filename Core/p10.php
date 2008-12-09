@@ -137,10 +137,7 @@
 
 			// Force PHP to treat this as unsigned
 			if($i < 0)
-			{
-				debug("Int $i, bit $count ended up with <0 result");
 				$i += 67108864;
-			}
 		}
 		
 		return $b;
@@ -160,10 +157,7 @@
 			
 			// Force PHP to treat this as unsigned
 			if( $i < 0 )
-			{
-				debug("Base64 $b, char $n ended up with <0 result");
 				$i += 4294967296;
-			}
 
 			$i += $BASE64_NUM_TO_INT[ ord($b[$n]) ];
 		}

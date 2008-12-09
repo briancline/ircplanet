@@ -37,6 +37,11 @@
 		$bot->noticef( $user, 'Nobody is in %s.', $chan_name );
 		return false;
 	}
+	if( !$chan->is_on($bot->get_numeric()) )
+	{
+		$bot->noticef( $user, 'I am not on %s.', $chan->get_name() );
+		return false;
+	}
 	
 //	$bot->mode( $chan_name, '+m' );
 	$this->sendf( FMT_MODE_NOTS, $bot->get_numeric(), $chan->get_name(), '+m' );
