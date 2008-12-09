@@ -1,5 +1,9 @@
 Brian Cline	<brian@ircplanet.net>	2008-12-09
 
+	* Channel/globals.php: Forgot to bump version for last CS commit.
+
+Brian Cline	<brian@ircplanet.net>	2008-12-09
+
 	* db_schema.sql: Remove hardcoded autoincrement values. I knew I was
 	forgetting something when I initially committed this file.
 
