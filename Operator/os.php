@@ -82,6 +82,8 @@
                                 if(!defined('CLONE_REASON') || CLONE_REASON == '')
                                         die('clone_gline is enabled, but clone_reason was not defined!');
                         }
+
+			$this->add_timer( true, 60, 'reload_tor_hosts.php' );
 		}
 		
 		

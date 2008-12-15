@@ -1,5 +1,17 @@
 Brian Cline	<brian@ircplanet.net>	2008-12-15
 
+	* Operator/timers/reload_tor_hosts.php: Add a timer to automatically
+	check for updates to the Tor hosts list and reload when there's been a
+	modification. This is handy since we've got a cron job updating the
+	file in the background every so often.
+
+	* Operator/os.php: Add a 60-second recurring timer to check for Tor
+	hosts file modifications.
+
+	* Operator/globals.php: Bump version to 1.2.2.
+
+Brian Cline	<brian@ircplanet.net>	2008-12-15
+
 	* Channel/globals.php: Forgot to bump version.
 
 	* Nickname/globals.php: Forgot to bump version.
