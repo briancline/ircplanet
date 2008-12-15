@@ -1,5 +1,11 @@
 Brian Cline	<brian@ircplanet.net>	2008-12-15
 
+	* Channel/globals.php: Forgot to bump version.
+
+	* Nickname/globals.php: Forgot to bump version.
+
+Brian Cline	<brian@ircplanet.net>	2008-12-15
+
 	* Channel/commands/join.php: How embarrassing... forgot to add this
 	several revisions ago.
 
