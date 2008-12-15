@@ -33,11 +33,13 @@
 	require_once( '../Core/service.php' );
 	require_once( SERVICE_DIR .'/db_channel.php' );
 	require_once( SERVICE_DIR .'/db_channel_access.php' );
+	require_once( SERVICE_DIR .'/db_badchan.php' );
 	
 	
 	class ChannelService extends Service
 	{
 		var $db_channels = array();
+		var $db_badchans = array();
 		
 		
 		function load_channels()
@@ -116,6 +118,21 @@
 		}
 		
 		
+		function load_badchans()
+		{
+			$res = db_query( 'select * from cs_badchans order by badchan_id asc' );
+			while( $row = mysql_fetch_assoc($res) )
+			{
+				$badchan = new DB_BadChan( $row );
+				
+				$badchan_key = strtolower( $badchan->get_mask() );
+				$this->db_badchans[$badchan_key] = $badchan;
+			}
+
+			debugf( 'Loaded %d badchans.', count($this->db_badchans) );
+		}
+
+
 		function service_construct()
 		{
 		}
@@ -126,6 +143,7 @@
 			$this->load_channels();
 			$this->load_access();
 			$this->load_bans();
+			$this->load_badchans();
 			
 			$this->add_timer( true, 300, 'save_data.php' );
 			$this->add_timer( true, 30, 'expire_channels.php' );
@@ -375,6 +393,62 @@
 			return $chan->get_level_by_id( $account->get_id() );
 		}
 		
+
+		function get_badchan( $mask )
+		{
+			$mask = strtolower( $mask );
+			if( array_key_exists($mask, $this->db_badchans) )
+				return $this->db_badchans[$mask];
+
+			return false;
+		}
+
+
+		function is_badchan( $chan_name )
+		{
+			if( is_channel($chan_name) )
+				$chan_name = $chan_name->get_name();
+
+			foreach( $this->db_badchans as $b_key => $badchan )
+			{
+				if( $badchan->matches($chan_name) )
+					return true;
+			}
+
+			return false;
+		}
+
+
+		function add_badchan( $mask )
+		{
+			if( $this->get_badchan($mask) != false )
+				return false;
+
+			$badchan = new DB_BadChan();
+			$badchan->set_mask( $mask );
+			$badchan->save();
+
+			$key = strtolower( $mask );
+			$this->db_badchans[$key] = $badchan;
+
+			return $this->db_badchans[$key];
+		}
+
+
+		function remove_badchan( $mask )
+		{
+			$badchan = $this->get_badchan( $mask );
+			if( $badchan == false )
+				return false;
+
+			$key = strtolower( $mask );
+			unset( $this->db_badchans[$key] );
+			$badchan->delete();
+
+			return true;
+		}
+
+
 	}
 	
 	$cs = new ChannelService();

@@ -31,10 +31,13 @@
 
 	require( 'globals.php' );
 	require( '../Core/service.php' );
+	require( SERVICE_DIR .'/db_badnick.php' );
 	
 	
 	class NicknameService extends Service
 	{
+		var $db_badnicks = array();
+
 		function service_construct()
 		{
 		}
@@ -47,6 +50,7 @@
 
 		function service_load()
 		{
+			$this->load_badnicks();
 		}
 		
 		
@@ -83,6 +87,21 @@
 		}
 		
 		
+		function load_badnicks()
+		{
+			$res = db_query( 'select * from ns_badnicks order by badnick_id asc' );
+			while( $row = mysql_fetch_assoc($res) )
+			{
+				$badnick = new DB_BadNick( $row );
+				
+				$badnick_key = strtolower( $badnick->get_mask() );
+				$this->db_badnicks[$badnick_key] = $badnick;
+			}
+
+			debugf( 'Loaded %d badnicks.', count($this->db_badnicks) );
+		}
+
+
 		function get_user_level( $user_obj )
 		{
 			if( !is_object($user_obj) )
@@ -105,6 +124,60 @@
 			
 			return 1;
 		}
+
+
+		function get_badnick( $mask )
+		{
+			$mask = strtolower( $mask );
+			if( array_key_exists($mask, $this->db_badnicks) )
+				return $this->db_badnicks[$mask];
+
+			return false;
+		}
+
+
+		function is_badnick( $nick_name )
+		{
+			foreach( $this->db_badnicks as $b_key => $badnick )
+			{
+				if( $badnick->matches($nick_name) )
+					return true;
+			}
+
+			return false;
+		}
+
+
+		function add_badnick( $mask )
+		{
+			if( $this->get_badnick($mask) != false )
+				return false;
+
+			$badnick = new DB_BadNick();
+			$badnick->set_mask( $mask );
+			$badnick->save();
+
+			$key = strtolower( $mask );
+			$this->db_badnicks[$key] = $badnick;
+
+			return $this->db_badnicks[$key];
+		}
+
+
+		function remove_badnick( $mask )
+		{
+			$badnick = $this->get_badnick( $mask );
+			if( $badnick == false )
+				return false;
+
+			$key = strtolower( $mask );
+			unset( $this->db_badnicks[$key] );
+			$badnick->delete();
+
+			return true;
+		}
+
+
 	}
 	
 	$cs = new NicknameService();

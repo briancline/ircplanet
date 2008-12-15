@@ -41,8 +41,10 @@
 	$this->set_command_info( 'addadmin',       800,   2, false, '<user> <level>' );
 	$this->set_command_info( 'deladmin',       800,   1, false, '<user>' );
 
+	$this->set_command_info( 'addbad',         700,   1, false, '<channel mask>' );
 	$this->set_command_info( 'adminreg',       700,   2, false, '<channel> <owner> [purpose]' );
 	$this->set_command_info( 'delchan',        700,   1, false, '<channel> [reason]' );
+	$this->set_command_info( 'rembad',         700,   1, false, '<channel mask>' );
 
 	$this->set_command_info( 'adminlist',      501,   0, false, '[search mask]' );
 	$this->set_command_info( 'reop',           501,   0, false );

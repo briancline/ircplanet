@@ -29,65 +29,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	$chan_name = $pargs[1];
-	$purpose = assemble( $pargs, 2 );
+	$nick_mask = $pargs[1];
 	
-	if( !$user->is_logged_in() )
+	if( !($badnick = $this->get_badnick($nick_mask)) )
 	{
-		$bot->notice( $user, 'You must register a user account before you can register a channel.' );
-		return false;
-	}
-	
-	if( $chan_name[0] != '#' )
-	{
-		$bot->notice( $user, 'Channel names must begin with the # character.' );
-		return false;
-	}
-	
-	if( $this->get_channel_reg_count($user->get_account_id()) >= MAX_CHAN_REGS )
-	{
-		$bot->noticef( $user, 'You cannot register more than %d channels.', 
-			MAX_CHAN_REGS );
+		$bot->noticef( $user, 'There is no bad nick entry with that name.' );
 		return false;
 	}
 
-	$reg = $this->get_channel_reg( $chan_name );
-	$chan = $this->get_channel( $chan_name );
-	
-	if( $reg )
-	{
-		$bot->noticef( $user, 'Sorry, %s is already registered.',
-			$reg->get_name() );
-		return false;
-	}
+	$this->remove_badnick( $nick_mask );
+	$bot->noticef( $user, '%s has been removed from the bad nicks list.', $nick_mask );
 
-	if( $this->is_badchan($chan_name) )
-	{
-		$bot->noticef( $user, 'Sorry, but you are not allowed to register %s.',
-			$chan_name );
-		return false;
-	}
-
-	if( !$chan || !$chan->is_op($user->get_numeric()) )
-	{
-		$bot->noticef( $user, 'You must be an op in %s in order to register it.',
-			$chan_name );
-		return false;
-	}
-
-	$create_ts = time();
-
-	if($chan != NULL)
-		$create_ts = $chan->get_ts();
-
-	$reg = new DB_Channel( $chan_name, $user->get_account_id() );
-	$reg->set_purpose( $purpose );
-	$reg->set_create_ts( $create_ts );
-	$reg->set_register_date( db_date() );
-	$reg->save();
-	$reg = $this->add_channel_reg( $reg );
-
-	$bot->join( $chan_name );
-	$this->op( $chan_name, $bot->get_numeric() );
-	
 ?>

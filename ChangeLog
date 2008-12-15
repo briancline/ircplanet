@@ -1,3 +1,33 @@
+Brian Cline	<brian@ircplanet.net>	2008-12-14
+
+	* Nickname/commands/addbad.php: Add the ADDBAD command.
+
+	* Nickname/commands/rembad.php: Add the REMBAD command.
+
+	* Nickname/commands/register.php: Check to see if a nick is in the
+	badnicks list before allowing it to be registered.
+
+	* Nickname/commands.php: Add the ADDBAD and REMBAD command lines.
+
+	* Nickname/ns.php: Add badnick helper functions.
+
+	* Nickname/db_badnick.php: Add the DB_BadNick class.
+
+	* Channel/commands/addbad.php: Add the ADDBAD command.
+
+	* Channel/commands/rembad.php: Add the REMBAD command.
+
+	* Channel/commands/register.php: Check to see if a channel is in the
+	badchan list before allowing it to be registered. Also fixed a bug
+	where CS was not getting opped after a user uses the REGISTER command
+	to register their channel.
+
+	* Channel/commands.php: Add the ADDBAD and REMBAD command lines.
+
+	* Channel/cs.php: Add the badchan helper functions.
+
+	* Channel/db_badchan.php: Add the DB_BadChan class.
+
 Brian Cline	<brian@ircplanet.net>	2008-12-09
 
 	* Channel/p10/handle_I.php: Inviting CS to a channel is no longer

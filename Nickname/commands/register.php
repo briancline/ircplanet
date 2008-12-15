@@ -53,9 +53,15 @@
 		
 		if( $account = $this->get_account($user_name) )
 		{
-			$bot->noticef( $numeric,
+			$bot->noticef( $user,
 				"The nickname %s%s%s has already been registered. Please choose another.",
 				BOLD_START, $user_name, BOLD_END );
+			return false;
+		}
+
+		if( $this->is_badnick($user_name) )
+		{
+			$bot->noticef( $user, 'You are not allowed to register that nickname.' );
 			return false;
 		}
 		
@@ -79,13 +85,13 @@
 			$user->set_account_name( $user_name );
 		}
 		
-		$bot->noticef( $numeric,
+		$bot->noticef( $user,
 			"Your account, %s%s%s, has been registered. You are now logged in.",
 			BOLD_START, $user_name, BOLD_END );
 	}
 	else
 	{
-		$bot->notice( $numeric, "You have already registered your nick and logged in." );
+		$bot->notice( $user, "You have already registered your nick and logged in." );
 	}
 
 ?>
