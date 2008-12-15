@@ -1,3 +1,10 @@
+Brian Cline	<brian@ircplanet.net>	2008-12-15
+
+	* Channel/commands/join.php: How embarrassing... forgot to add this
+	several revisions ago.
+
+	* Channel/commands/part.php: Forgot to add this several revisions ago. 
+
 Brian Cline	<brian@ircplanet.net>	2008-12-14
 
 	* Nickname/commands/addbad.php: Add the ADDBAD command.
