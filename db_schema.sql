@@ -139,6 +139,18 @@ CREATE TABLE `cs_admins` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Nickserv Admins';
 SET character_set_client = @saved_cs_client;
 
+-- 
+-- Table structure for table `cs_badchans`
+-- 
+
+DROP TABLE IF EXISTS `cs_badchans`;
+CREATE TABLE `cs_badchans` (
+  `badchan_id` int(11) NOT NULL auto_increment,
+  `chan_mask` varchar(50) NOT NULL,
+  `create_date` datetime default NULL,
+  PRIMARY KEY  (`badchan_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='CS Bad Channels';
+
 --
 -- Table structure for table `help`
 --
@@ -244,6 +256,18 @@ CREATE TABLE `ns_admins` (
   PRIMARY KEY  (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Nickserv Admins';
 SET character_set_client = @saved_cs_client;
+
+-- 
+-- Table structure for table `ns_badnicks`
+-- 
+
+DROP TABLE IF EXISTS `ns_badnicks`;
+CREATE TABLE `ns_badnicks` (
+  `badnick_id` int(11) NOT NULL auto_increment,
+  `nick_mask` varchar(50) NOT NULL,
+  `create_date` datetime default NULL,
+  PRIMARY KEY  (`badnick_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Bad Nick Words/Masks';
 
 --
 -- Table structure for table `os_admins`

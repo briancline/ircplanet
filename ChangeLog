@@ -1,5 +1,10 @@
 Brian Cline	<brian@ircplanet.net>	2008-12-15
 
+	* db_schema.sql: Added table definitions for all the new badchan and
+	badnick features. Forgot these in a recent commit.
+
+Brian Cline	<brian@ircplanet.net>	2008-12-15
+
 	* Operator/timers/reload_tor_hosts.php: Add a timer to automatically
 	check for updates to the Tor hosts list and reload when there's been a
 	modification. This is handy since we've got a cron job updating the
