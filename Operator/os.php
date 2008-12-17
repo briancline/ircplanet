@@ -38,7 +38,6 @@
 	class OperatorService extends Service
 	{
 		var $pending_events = array();
-		var $tor_hosts = array();
 		var $db_glines = array();
 		var $db_badchans = array();
 
@@ -65,8 +64,6 @@
 					die('The duration specified in tor_duration is invalid!');
 				if(!defined('TOR_REASON') || TOR_REASON == '')
 					die('tor_gline is enabled, but tor_reason was not defined!');
-
-				$this->load_tor_hosts();
 			}
 
                         if( defined('CLONE_GLINE') && CLONE_GLINE == true )
@@ -82,8 +79,6 @@
                                 if(!defined('CLONE_REASON') || CLONE_REASON == '')
                                         die('clone_gline is enabled, but clone_reason was not defined!');
                         }
-
-			$this->add_timer( true, 60, 'reload_tor_hosts.php' );
 		}
 		
 		
@@ -201,26 +196,48 @@
 		}
 
 
-		function load_tor_hosts()
-		{
-			if(file_exists(TOR_HOSTS_FILE) && is_readable(TOR_HOSTS_FILE))
-			{
-				$this->tor_hosts = array();
-				$hosts = split("\n", file_get_contents(TOR_HOSTS_FILE));
-				foreach($hosts as $host)
-					$this->tor_hosts[$host] = 0;
-				
-				debug("Loaded ". count($this->tor_hosts) ." Tor hosts.");
-				return true;
-			}
-			
-			return false;
-		}
-		
-		
 		function is_tor_host($host)
 		{
-			return array_key_exists($host, $this->tor_hosts);
+			if( is_private_ip($host) )
+			{
+				debugf('%s is a private address. No Tor check necessary', $host);
+				return false;
+			}
+
+			$start_ts = microtime( true );
+
+			/**
+			 * For more information on the TOR DNSBL, please see
+			 * http://www.sectoor.de/tor.php.
+			 */
+			$bl_ext = 'tor.dnsbl.sectoor.de';
+
+			/**
+			 * DNS blacklists work by storing records for ipaddr.dnsbl.com,
+			 * but with DNS all octets are reversed. So to check if 1.2.3.4
+			 * is blacklisted in a DNSBL, we need to query for the hostname
+			 * 4.3.2.1.dnsbl.com.
+			 */
+			$octets = explode( '.', $host );
+			$reverse_octets = implode( '.', array_reverse($octets) );
+			$bl_host = $reverse_octets .'.'. $bl_ext .'.';
+			debugf( 'Checking %s', $bl_host );
+			$bl_addr = gethostbyname( $bl_host );
+
+			$end_ts = microtime( true );
+			debugf( 'Tor check time elapsed: %0.4f seconds', $end_ts - $start_ts );
+
+			/**
+			 * The TOR DNSBL will return 127.0.0.1 as the address for a host
+			 * if it is a Tor server or exit node, and 127.0.0.2 if the host
+			 * is neither but one exists on the same class C subnet. We don't
+			 * care if there's one on the subnet, only if the host we query
+			 * for is actually a Tor server or exit node.
+			 */
+			if( $bl_addr == '127.0.0.1' )
+				return true;
+
+			return false;
 		}
 		
 		

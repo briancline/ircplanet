@@ -1,2 +1,0 @@
-#!/bin/sh
-wget -q --no-check-certificate -O tor-hosts.txt https://torstat.xenobite.eu/export/tor_exitnodes.csv

@@ -49,6 +49,35 @@
 	}
 
 
+	function is_private_ip( $ip )
+	{
+		$private_ranges = array(
+			'0.0.0.0/8',	  // Self-identification
+			'1.0.0.0/8',      // IANA Unallocated
+			'2.0.0.0/8',      // IANA Unallocated
+			'5.0.0.0/8',      // IANA Unallocated
+			'10.0.0.0/8',     // Private networks
+			'127.0.0.0/8',    // Loopback
+			'169.254.0.0/16', // DHCP Self-assignment
+			'172.16.0.0/12',  // Private networks
+			'192.168.0.0/16'  // Private networks
+		);
+		
+		foreach( $private_ranges as $range )
+		{
+			list( $range_start, $range_mask ) = explode( '/', $range );
+			$tmp_mask = 0xffffffff << ( 32 - $range_mask );
+			$tmp_range_mask = ip2long( $range_start ) & $tmp_mask;
+			$tmp_ip_mask = ip2long( $ip ) & $tmp_mask;
+
+			if( $tmp_ip_mask == $tmp_range_mask )
+				return true;
+		}
+
+		return false;
+	}
+
+
 	function is_user( $obj )
 	{
 		return ( get_class($obj) == 'User' || get_class($obj) == 'Bot' );

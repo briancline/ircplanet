@@ -51,7 +51,12 @@
 	{
 		$clones = array();
 		foreach( $this->users as $tmp_numeric => $tmp_user )
+		{
+			if( !array_key_exists($tmp_user->get_ip(), $clones) )
+				$clones[$tmp_user->get_ip()] = 0;
+
 			$clones[$tmp_user->get_ip()]++;
+		}
 
 		if( count($clones) == 0 )
 		{

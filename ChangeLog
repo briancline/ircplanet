@@ -1,3 +1,27 @@
+Brian Cline	<brian@ircplanet.net>	2008-12-17
+
+	* Core/stringutils.php: Added is_private_ip function, which calculates
+	whether or not a given IP address is in an IANA-declared private
+	range.
+
+	* Operator/commands/show.php: Clear up an annoying PHP warning about
+	non-existent array indices.
+
+	* Operator/timers/reload_tor_hosts.php: Removed since we now use a Tor
+	DNSBL.
+
+	* Operator/download_tor_hosts: Removed since we now use a Tor DNSBL.
+
+	* Operator/globals.php: Bump version and remove old Tor host file
+	define.
+
+	* Operator/os.php: Remove old Tor checking code and implement the new
+	Tor DNSBL checking code, courtesy of the public Tor DNSBL at
+	tor.dnsbl.sectoor.de (http://www.sectoor.de/tor.php).
+
+	* Operator/tor-hosts.txt: Removed since we now use a DNSBL for Tor
+	checks.
+
 Brian Cline	<brian@ircplanet.net>	2008-12-15
 
 	* db_schema.sql: Added table definitions for all the new badchan and
