@@ -1,5 +1,12 @@
 Brian Cline	<brian@ircplanet.net>	2008-12-17
 
+	* Core/core_globals.php: Bump version.
+
+	* Core/p10/handle_GL.php: Fix a bug causing a warning and preventing
+	the core from detecting when a gline was being removed.
+
+Brian Cline	<brian@ircplanet.net>	2008-12-17
+
 	* Core/stringutils.php: Added is_private_ip function, which calculates
 	whether or not a given IP address is in an IANA-declared private
 	range.

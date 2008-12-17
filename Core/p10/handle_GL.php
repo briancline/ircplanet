@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$add = $args[3][0];
+	$add = ( $args[3][0] == '+' );
 	
 	if( $add )
 	{
