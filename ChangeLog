@@ -1,3 +1,82 @@
+Brian Cline	<brian@ircplanet.net>	2008-12-21
+
+	* Nickname/globals.php: Bump version to 1.3.13.
+
+	* Nickname/ns.php: Bug fix - reop NS when it is deopped from its log
+	channel as the result of a burst.
+
+	* Nickname/ns.ini: Add new reporting channel options and make the
+	other settings more generic.
+
+	* Channel/commands/show.php: Add the SHOW command for CS.
+
+	* Channel/commands/adminlist.php: Removed due to obsolesence (the SHOW
+	command now performs this task).
+
+	* Channel/cs.ini: Add new reporting channel options and make the other
+	settings more generic.
+
+	* Channel/commands.php: Remove adminlist, add show.
+
+	* Channel/globals.php: Bump version to 1.5.10.
+
+	* Core/p10.php: Fix FMT_SERVER_SELF not having a spot to put in a
+	custom MAXUSERS amount. Also added P10's JUPE formats and the account
+	and away lines for WHOIS responses.
+
+	* Core/core_globals.php: Bump version to 1.2.0.
+
+	* Core/service.php: Add jupe tracking code and updated to reflect
+	different log channel options. Also fixed a longstanding bug whereby
+	no services sent the correct MAXUSERS in their server handshake line.
+	They were sending the max (262144) but now send whatever is specified
+	in server_maxusers in the service ini file.
+
+	* Core/jupe.php: Add jupe class.
+
+	* Core/p10/handle_JU.php: Add JU token handler for jupes.
+
+	* Core/p10/handle_W.php: Add code to send account and away lines where
+	appropriate in remote whois responses.
+
+	* Core/timers/expire_jupes.php: Added to remove jupes when they
+	expire.
+
+	* Operator/globals.php: Bump version to 1.3.0.
+
+	* Operator/os.ini: Add new reporting channel options and make the
+	other settings more generic.
+
+	* Operator/commands/inviteme.php: Send invites for both log channels
+	now, instead of just the old log channel.
+
+	* Operator/commands/jupe.php: Add JUPE command.
+
+	* Operator/commands/unjupe.php: Add UNJUPE command.
+
+	* Operator/commands/show.php: Add ability to list jupes, and a
+	catch-all error when an invalid option is specified.
+
+	* Operator/os.php: Added jupe-saving code, which will keep all jupes
+	in a database until they expire. This ensures jupes, just like glines,
+	will always be enforced between OS sessions. Modified OS to queue and
+	then send all network events it sees before end-of-burst, to be sent
+	to the event channel after burst. Modified the reporting code to send
+	commands and events to their appropriate channels.
+
+	* Operator/commands.php: Add JUPE and UNJUPE to command list.
+
+	* Operator/db_jupe.php: Added DB_Jupe class, to maintain jupes in the
+	services database.
+
+	* Stat/globals.php: Bump version to 1.0.2.
+
+	* Stat/ss.ini: Add new reporting channel options and make the other
+	settings more generic.
+
+	* Stat/ss.php: Make sure we reop SS if it is deopped in its log
+	channel as the result of a burst.
+
 Brian Cline	<brian@ircplanet.net>	2008-12-17
 
 	* Core/core_globals.php: Bump version.

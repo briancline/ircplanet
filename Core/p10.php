@@ -36,7 +36,7 @@
 	define( 'FMT_PASS',             "PASS :%s" );
 	// SERVER Operator.Services.Virtuanet.org 1 1130312160 1130312160 J10 Vs]]] +hs :Oper Services
 	// AE S Network.Services.Virtuanet.org 2 0 1116989941 P10 M[AB] +s :Network Services
-	define( 'FMT_SERVER_SELF',      "SERVER %s 1 [TS] [TS] J10 %s]]] +%s :%s" );
+	define( 'FMT_SERVER_SELF',      "SERVER %s 1 [TS] [TS] J10 %s%s +%s :%s" );
 	define( 'FMT_SERVER',           "%s S %s %d 0 %ld P10 %s%s %s :%s" );
 	// M[ N Global 2 1116993608 Global Network.Services.Virtuanet.org +oik AAAAAA M[AAA :Global Services
 	define( 'FMT_NICK',             "%s N %s %d %ld %s %s +%s %s %s :%s" );
@@ -68,6 +68,8 @@
 	define( 'FMT_INVITE',           "%s I %s :%s" );
 	define( 'FMT_GLINE_ADD',        "%s GL * +%s %ld :%s" );
 	define( 'FMT_GLINE_REMOVE',     "%s GL * -%s" );
+	define( 'FMT_JUPE_ACTIVE',      '%s JU * +%s %ld %ld :%s' );
+	define( 'FMT_JUPE_INACTIVE',    '%s JU * -%s %ld %ld :%s' );
 	define( 'FMT_SETTIME',          "%s SE %ld :%s" );
 	define( 'FMT_KILL',             "%s D %s :%s (%s)" );
 	
@@ -89,7 +91,9 @@
 	define( 'FMT_WHOIS_USER',       '%s 311 %s %s %s %s * :%s' );
 	define( 'FMT_WHOIS_SERVER',     '%s 312 %s %s %s :%s' );
 	define( 'FMT_WHOIS_OPER',       '%s 313 %s %s :is an IRC Operator' );
+	define( 'FMT_WHOIS_ACCOUNT',    '%s 330 %s %s %s :is logged in as' );
 	define( 'FMT_WHOIS_IDLE',       '%s 317 %s %s %ld %ld' );
+	define( 'FMT_WHOIS_AWAY',       '%s 301 %s %s :%s' );
 	define( 'FMT_WHOIS_CHANNELS',   '%s 319 %s %s :%s' );
 	define( 'FMT_WHOIS_END',        '%s 318 %s %s :End of /WHOIS list.' );
 	

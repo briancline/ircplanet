@@ -28,16 +28,39 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-	
-	define( 'SERVICE_NAME',           'Operator Service' );
-	define( 'SERVICE_VERSION_MAJOR',  1 );
-	define( 'SERVICE_VERSION_MINOR',  3 );
-	define( 'SERVICE_VERSION_REV',    0 );
-	
-	define( 'SERVICE_DIR',            dirname(__FILE__) );
-	define( 'SERVICE_CONFIG_FILE',    SERVICE_DIR .'/os.ini' );
-	define( 'SERVICE_HANDLER_DIR',    SERVICE_DIR .'/p10/' );
-	define( 'SERVICE_TIMER_DIR',      SERVICE_DIR .'/timers/' );
-	define( 'CMD_HANDLER_DIR',        SERVICE_DIR .'/commands/' );
+
+	class DB_Jupe extends DB_Record
+	{
+		protected $_table_name = 'os_jupes';
+		protected $_key_field = 'jupe_id';
+		
+		protected $jupe_id;
+		protected $active;
+		protected $set_ts = 0;
+		protected $expire_ts = 0;
+		protected $last_mod_ts = 0;
+		protected $server;
+		protected $reason;
+		
+		protected function record_construct() { }
+		protected function record_destruct()  { }
+		
+		public function get_set_ts()          { return $this->set_ts; }
+		public function get_expire_ts()       { return $this->expire_ts; }
+		public function get_last_mod()        { return $this->last_mod; }
+		public function get_remaining_secs()  { return $this->get_expire_ts() - time(); }
+		public function get_server()          { return $this->server; }
+		public function get_reason()          { return $this->reason; }
+		public function is_expired()          { return $this->expire_ts < time(); }
+		public function is_active()           { return $this->active == 1; }
+		
+		public function set_ts($n)            { $this->set_ts = $n; }
+		public function set_duration($n)      { $this->expire_ts = time() + $n; }
+		public function set_last_mod($n)      { $this->last_mod_ts = $n; }
+		public function set_server($s)        { $this->server = $s; }
+		public function set_reason($s)        { $this->reason = $s; }
+		public function set_active()          { $this->active = 1; }
+		public function set_inactive()        { $this->inactive = 1; }
+	}
 	
 ?>

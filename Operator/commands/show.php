@@ -94,6 +94,24 @@
 			$bot->noticef( $user, '       Expires:  %s', $exp_date );
 		}
 	}
+	elseif( $option == 'JUPES' )
+	{
+		if( count($this->jupes) == 0 )
+		{
+			$bot->notice( $user, 'There are no jupes.' );
+			return false;
+		}
+
+		$n = 0;
+		foreach( $this->jupes as $jupe_key => $jupe )
+		{
+			$exp_date = date( 'D d M H:i:s Y', $jupe->get_expire_ts() );
+
+			$bot->noticef( $user, '  %2d) Server:   %s', ++$n, $jupe->get_server() );
+			$bot->noticef( $user, '       Reason:   %s', $jupe->get_reason() );
+			$bot->noticef( $user, '       Expires:  %s', $exp_date );
+		}
+	}
 	elseif( $option == 'OPERS' )
 	{
 		$n = 0;
@@ -107,6 +125,11 @@
 		}
 
 		$bot->noticef( $user, '%d oper(s) are online.', $n );
+	}
+	else
+	{
+		$bot->noticef( $user, '%s is not a valid option. Please use %sHELP SHOW%s to see valid options.',
+			$option, BOLD_START, BOLD_END );
 	}
 
 ?>

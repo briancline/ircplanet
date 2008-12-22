@@ -28,16 +28,36 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
+	$server = $pargs[1];
+	$duration = $pargs[2];
+	$last_mod = time();
+	$reason = assemble( $pargs, 3 );
+
+	if( $jupe = $this->get_jupe($server) )
+	{
+		$bot->noticef( $user, 'A jupe already exists for %s.', $jupe->get_server() );
+		return false;
+	}
 	
-	define( 'SERVICE_NAME',           'Operator Service' );
-	define( 'SERVICE_VERSION_MAJOR',  1 );
-	define( 'SERVICE_VERSION_MINOR',  3 );
-	define( 'SERVICE_VERSION_REV',    0 );
+	if( !($duration_secs = convert_duration($duration)) )
+	{
+		$bot->notice( $user, 'Invalid duration specified! See help for more details.' );
+		return false;
+	}
 	
-	define( 'SERVICE_DIR',            dirname(__FILE__) );
-	define( 'SERVICE_CONFIG_FILE',    SERVICE_DIR .'/os.ini' );
-	define( 'SERVICE_HANDLER_DIR',    SERVICE_DIR .'/p10/' );
-	define( 'SERVICE_TIMER_DIR',      SERVICE_DIR .'/timers/' );
-	define( 'CMD_HANDLER_DIR',        SERVICE_DIR .'/commands/' );
+	$max_ts = 2147483647;
+	$expire_ts = time() + $duration_secs;
+	
+	if( $expire_ts > $max_ts || $expire_ts < 0 )
+	{
+		$bot->noticef( $user, 'The duration you specified is too large. Please try something more sensible.' );
+		return false;
+	}
+	
+	$jupe = $this->add_jupe( $server, $duration_secs, $last_mod, $reason );
+	
+	$this->sendf( FMT_JUPE_ACTIVE, SERVER_NUM, $jupe->get_server(), $duration_secs, 
+			$jupe->get_last_mod(), $jupe->get_reason() );
 	
 ?>

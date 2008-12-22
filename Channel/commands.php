@@ -46,7 +46,7 @@
 	$this->set_command_info( 'delchan',        700,   1, false, '<channel> [reason]' );
 	$this->set_command_info( 'rembad',         700,   1, false, '<channel mask>' );
 
-	$this->set_command_info( 'adminlist',      501,   0, false, '[search mask]' );
+	$this->set_command_info( 'show',           501,   1, false, '<option>' );
 	$this->set_command_info( 'reop',           501,   0, false );
 	
 	/**

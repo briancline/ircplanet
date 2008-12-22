@@ -28,16 +28,45 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
+	$option = strtoupper( $pargs[1] );
 	
-	define( 'SERVICE_NAME',           'Operator Service' );
-	define( 'SERVICE_VERSION_MAJOR',  1 );
-	define( 'SERVICE_VERSION_MINOR',  3 );
-	define( 'SERVICE_VERSION_REV',    0 );
-	
-	define( 'SERVICE_DIR',            dirname(__FILE__) );
-	define( 'SERVICE_CONFIG_FILE',    SERVICE_DIR .'/os.ini' );
-	define( 'SERVICE_HANDLER_DIR',    SERVICE_DIR .'/p10/' );
-	define( 'SERVICE_TIMER_DIR',      SERVICE_DIR .'/timers/' );
-	define( 'CMD_HANDLER_DIR',        SERVICE_DIR .'/commands/' );
-	
+	if( $option == 'ADMINS' )
+	{
+		$search_mask = '';
+
+		if( $cmd_num_args > 1 )
+			$search_mask = $pargs[2];
+		
+		$admins = array();
+
+		$tmp_q = db_query( '
+				select cs_admins.user_id, accounts.name, cs_admins.level 
+				from cs_admins 
+				inner join accounts on accounts.account_id = cs_admins.user_id 
+				order by level desc
+		' );
+		while( $row = mysql_fetch_assoc($tmp_q) )
+		{
+			$tmp_account = $this->get_account( $row['name'] );
+			if( !$tmp_account || (!empty($search_mask) && !fnmatch($search_mask, $tmp_account->get_name())) )
+				continue;
+
+			$admins[$tmp_account->get_name()] = $row['level'];
+		}
+		mysql_free_result( $tmp_q );
+
+
+		$bot->noticef( $user, '%s  %5s  %-15s  %-30s%s', 
+			BOLD_START, 'Level', 'User Name', 'E-mail Address', BOLD_END );
+		$bot->noticef( $user, str_repeat('-', 56) );
+
+		foreach( $admins as $tmp_name => $tmp_level )
+		{
+			$tmp_account = $this->get_account( $tmp_name );
+			$bot->noticef( $user, '  %5s  %-15s  %-30s', 
+				$tmp_level, $tmp_account->get_name(), 
+				$tmp_account->get_email() );
+		}
+	}
 ?>

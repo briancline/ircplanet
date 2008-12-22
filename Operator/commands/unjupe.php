@@ -28,16 +28,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
+	$server = $pargs[1];
+	$jupe = $this->get_jupe( $server );
 	
-	define( 'SERVICE_NAME',           'Operator Service' );
-	define( 'SERVICE_VERSION_MAJOR',  1 );
-	define( 'SERVICE_VERSION_MINOR',  3 );
-	define( 'SERVICE_VERSION_REV',    0 );
-	
-	define( 'SERVICE_DIR',            dirname(__FILE__) );
-	define( 'SERVICE_CONFIG_FILE',    SERVICE_DIR .'/os.ini' );
-	define( 'SERVICE_HANDLER_DIR',    SERVICE_DIR .'/p10/' );
-	define( 'SERVICE_TIMER_DIR',      SERVICE_DIR .'/timers/' );
-	define( 'CMD_HANDLER_DIR',        SERVICE_DIR .'/commands/' );
+	if( !$jupe )
+	{
+		$bot->noticef( $user, 'There is no jupe for %s.', $server );
+		return false;
+	}
+
+	/**
+	 * ircu doesn't actually allow you to remove a jupe; it can only be deactivated
+	 * and/or expire. Since ircu does keep track of the last modification timestamp
+	 * of a jupe, we can claim to have the most recent version by updating the
+	 * timestamp and changing the duration to 0, so as to make it expire immediately.
+	 * This effectively removes the jupe from the network.
+	 */
+	$jupe->expire_now();
+
+	if( $jupe->is_active() )
+	{
+		$this->sendf( FMT_JUPE_ACTIVE, SERVER_NUM, $jupe->get_server(), 0, 
+				$jupe->get_last_mod(), $jupe->get_reason() );
+	}
+	else
+	{
+		$this->sendf( FMT_JUPE_INACTIVE, SERVER_NUM, $jupe->get_server(), 0, 
+				$jupe->get_last_mod(), $jupe->get_reason() );
+	}
 	
 ?>

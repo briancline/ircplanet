@@ -38,6 +38,7 @@
 	require_once( CORE_DIR .'/server.php' );
 	require_once( CORE_DIR .'/channel.php' );
 	require_once( CORE_DIR .'/gline.php' );
+	require_once( CORE_DIR .'/jupe.php' );
 	require_once( CORE_DIR .'/user.php' );
 	require_once( CORE_DIR .'/bot.php' );
 	require_once( CORE_DIR .'/db_user.php' );
@@ -64,6 +65,7 @@
 		var $channels = array();
 		var $accounts = array();
 		var $glines = array();
+		var $jupes = array();
 		
 		var $bots = array();
 		var $default_bot = null;
@@ -108,6 +110,7 @@
 				SERVICE_VERSION_MAJOR .'.'. SERVICE_VERSION_MINOR .'.'. SERVICE_VERSION_REV );
 			
 			$this->add_timer( true, 5, 'expire_glines.php' );
+			$this->add_timer( true, 5, 'expire_jupes.php' );
 			$this->add_timer( true, 5, 'refresh_data.php' );
 			
 			$this->service_construct();
@@ -183,8 +186,18 @@
 			
 			$this->add_server( '', SERVER_NUM, SERVER_NAME, SERVER_DESC, START_TIME, SERVER_MAXUSERS, SERVER_MODES );
 			$this->default_bot = $this->add_bot( BOT_NICK, BOT_IDENT, BOT_HOST, BOT_DESC, START_TIME, BOT_IP, BOT_MODES );
-			$this->add_channel( BOT_CHAN, START_TIME, 'nts' );
-			$this->add_channel_user( BOT_CHAN, $this->default_bot->get_numeric(), 'o' );
+
+			if( REPORT_EVENTS && defined('EVENT_CHANNEL') )
+			{
+				$this->add_channel( EVENT_CHANNEL, START_TIME, EVENT_CHANMODES );
+				$this->add_channel_user( EVENT_CHANNEL, $this->default_bot->get_numeric(), 'o' );
+			}
+
+			if( REPORT_COMMANDS && defined('COMMAND_CHANNEL') )
+			{
+				$this->add_channel( COMMAND_CHANNEL, START_TIME, COMMAND_CHANMODES );
+				$this->add_channel_user( COMMAND_CHANNEL, $this->default_bot->get_numeric(), 'o' );
+			}
 		}
 		
 		
@@ -332,9 +345,11 @@
 			socket_set_block( $this->sock );
 			socket_set_option( $this->sock, SOL_SOCKET, SO_RCVTIMEO, array('sec' => SOCKET_TIMEOUT, 'usec' => 0) );
 			socket_set_option( $this->sock, SOL_SOCKET, SO_SNDTIMEO, array('sec' => SOCKET_TIMEOUT, 'usec' => 0) );
+
+			$maxusers = int_to_base64( SERVER_MAXUSERS, BASE64_MAXUSERLEN );
 			
 			$this->sendf( FMT_PASS, UPLINK_PASS );
-			$this->sendf( FMT_SERVER_SELF, SERVER_NAME, SERVER_NUM, SERVER_MODES, SERVER_DESC );
+			$this->sendf( FMT_SERVER_SELF, SERVER_NAME, SERVER_NUM, $maxusers, SERVER_MODES, SERVER_DESC );
 		}
 		
 
@@ -381,6 +396,9 @@
 				if( !$s->is_jupe() || $s->get_numeric() == SERVER_NUM )
 					continue;
 				
+				$b64_maxusers = int_to_base64( $s->get_max_users(), BASE64_MAXUSERLEN );
+				debugf('Server %s: max users is %d (%s) (max %s)', $s->get_name(), $s->get_max_users(), $b64_maxusers, BASE64_MAXUSERLEN);
+
 				$this->sendf( FMT_SERVER, SERVER_NUM,
 					$s->get_name(),
 					1,
@@ -562,8 +580,8 @@
 
 			return $this->glines[$gline_key];
 		}
-		
-		
+
+
 		function get_gline( $host )
 		{
 			$gline_key = strtolower( $host );
@@ -597,6 +615,41 @@
 				$this->service_remove_gline( $host );
 		}
 		
+		
+		function add_jupe( $server, $duration, $last_mod, $reason )
+		{
+			$jupe_key = strtolower( $server );
+			$this->jupes[$jupe_key] = new Jupe( $server, $duration, $last_mod, $reason );
+
+			if( method_exists($this, 'service_add_jupe') )
+				$this->service_add_jupe( $server, $duration, $last_mod, $reason );
+
+			return $this->jupes[$jupe_key];
+		}
+		
+
+		function get_jupe( $server )
+		{
+			$jupe_key = strtolower( $server );
+			if( array_key_exists($jupe_key, $this->jupes) )
+				return $this->jupes[$jupe_key];
+
+			return false;
+		}
+
+
+		function remove_jupe( $server )
+		{
+			$jupe_key = strtolower( $server );
+			if( !array_key_exists($jupe_key, $this->jupes) )
+				return;
+
+			unset( $this->jupes[$jupe_key] );
+
+			if( method_exists($this, 'service_remove_jupe') )
+				$this->service_remove_jupe( $server );
+		}
+
 		
 		function get_matching_userhost_count( $mask )
 		{

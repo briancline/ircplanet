@@ -29,15 +29,22 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	define( 'SERVICE_NAME',           'Operator Service' );
-	define( 'SERVICE_VERSION_MAJOR',  1 );
-	define( 'SERVICE_VERSION_MINOR',  3 );
-	define( 'SERVICE_VERSION_REV',    0 );
+	/**
+	 * Check for expired jupes
+	 */
 	
-	define( 'SERVICE_DIR',            dirname(__FILE__) );
-	define( 'SERVICE_CONFIG_FILE',    SERVICE_DIR .'/os.ini' );
-	define( 'SERVICE_HANDLER_DIR',    SERVICE_DIR .'/p10/' );
-	define( 'SERVICE_TIMER_DIR',      SERVICE_DIR .'/timers/' );
-	define( 'CMD_HANDLER_DIR',        SERVICE_DIR .'/commands/' );
+	$expired_jupes = array();
+
+	foreach( $this->jupes as $jupe_key => $jupe )
+	{
+		if( $jupe->is_expired() )
+		{
+			debug( "*** Jupe ". $jupe->get_server() ." has expired!" );
+			$expired_jupes[] = $jupe_key;
+		}
+	}
+	
+	foreach( $expired_jupes as $jupe_key )
+		$this->remove_jupe( $jupe_key );
 	
 ?>

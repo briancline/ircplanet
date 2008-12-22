@@ -65,6 +65,14 @@
 		
 		function service_postburst()
 		{
+			$bot_num = $this->default_bot->get_numeric();
+			foreach( $this->default_bot->channels as $chan_name )
+			{
+				$chan = $this->get_channel( $chan_name );
+				
+				if( !$chan->is_op($bot_num) )
+					$this->op( $chan->get_name(), $bot_num );
+			}
 		}
 		
 		

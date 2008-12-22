@@ -91,12 +91,10 @@
 		$server->get_name(),
 		$server->get_desc());
 	
-	if($target->is_local())
+	if($target->is_away())
 	{
-		$this->sendf(FMT_WHOIS_IDLE, SERVER_NUM, $source_num,
-			$target->get_nick(),
-			$target->get_idle_time(),
-			$target->get_signon_ts());
+		$this->sendf(FMT_WHOIS_AWAY, SERVER_NUM, $source_num,
+			$target->get_nick(), $target->get_away());
 	}
 	
 	if($target->is_oper())
@@ -104,7 +102,21 @@
 		$this->sendf(FMT_WHOIS_OPER, SERVER_NUM, $source_num, 
 			$target->get_nick());
 	}
+
+	if($target->is_logged_in())
+	{
+		$this->sendf(FMT_WHOIS_ACCOUNT, SERVER_NUM, $source_num,
+			$target->get_nick(), $target->get_account_name());
+	}
 	
+	if($target->is_local())
+	{
+		$this->sendf(FMT_WHOIS_IDLE, SERVER_NUM, $source_num,
+			$target->get_nick(),
+			$target->get_idle_time(),
+			$target->get_signon_ts());
+	}
+
 	$this->sendf(FMT_WHOIS_END, SERVER_NUM, $source_num, 
 		$target->get_nick());
 	

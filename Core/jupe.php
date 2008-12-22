@@ -28,16 +28,46 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-	
-	define( 'SERVICE_NAME',           'Operator Service' );
-	define( 'SERVICE_VERSION_MAJOR',  1 );
-	define( 'SERVICE_VERSION_MINOR',  3 );
-	define( 'SERVICE_VERSION_REV',    0 );
-	
-	define( 'SERVICE_DIR',            dirname(__FILE__) );
-	define( 'SERVICE_CONFIG_FILE',    SERVICE_DIR .'/os.ini' );
-	define( 'SERVICE_HANDLER_DIR',    SERVICE_DIR .'/p10/' );
-	define( 'SERVICE_TIMER_DIR',      SERVICE_DIR .'/timers/' );
-	define( 'CMD_HANDLER_DIR',        SERVICE_DIR .'/commands/' );
-	
+
+	class Jupe
+	{
+		var $server;
+		var $expire_ts;
+		var $last_mod;
+		var $reason;
+		var $active;
+		
+		function __construct( $server, $duration, $last_mod, $reason )
+		{
+			$this->server = $server;
+			$this->expire_ts = time() + $duration;
+			$this->last_mod = $last_mod;
+			$this->reason = $reason;
+			$this->active = true;
+		}
+		
+		function get_server()        { return $this->server; }
+		function get_expire_ts()     { return $this->expire_ts; }
+		function get_duration()      { return $this->expire_ts - time(); }
+		function get_last_mod()      { return $this->last_mod; }
+		function get_reason()        { return $this->reason; }
+		function is_expired()        { return (time() >= $this->expire_ts); }
+		function is_active()         { return $this->active; }
+
+		function set_duration($n)    { $this->expire_ts = time() + $n; }
+		function set_last_mod($n)    { $this->last_mod = $n; }
+		function set_reason($s)      { $this->reason = $s; }
+		function activate()          { $this->active = true; }
+		function deactivate()        { $this->active = false; }
+		
+		function __toString()        { return $this->server; }
+
+		function expire_now()
+		{
+			$this->active = false;
+			$this->expire_ts = time();
+			$this->last_mod = time();
+		}
+	}
+
 ?>

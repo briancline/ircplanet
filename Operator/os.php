@@ -33,12 +33,14 @@
 	require( '../Core/service.php' );
 	require( SERVICE_DIR .'/db_gline.php' );
 	require( SERVICE_DIR .'/db_badchan.php' );
+	require( SERVICE_DIR .'/db_jupe.php' );
 	
 	
 	class OperatorService extends Service
 	{
 		var $pending_events = array();
 		var $db_glines = array();
+		var $db_jupes = array();
 		var $db_badchans = array();
 
 		function service_construct()
@@ -94,6 +96,24 @@
 				$this->add_gline( $db_gline->get_mask(), $db_gline->get_remaining_secs(), $db_gline->get_reason() );
 				$this->enforce_gline( $db_gline->get_mask() );
 			}
+			
+			$bot_num = $this->default_bot->get_numeric();
+			foreach( $this->default_bot->channels as $chan_name )
+			{
+				$chan = $this->get_channel( $chan_name );
+				
+				if( !$chan->is_op($bot_num) )
+					$this->op( $chan->get_name(), $bot_num );
+			}
+
+			foreach( $this->pending_events as $event )
+			{
+				extract( $event );
+				$this->default_bot->messagef( $chan_name, '[%'. (NICKLENGTH + $margin) .'s] %s %s',
+					$source, $event_name, $misc);
+
+				$this->pending_events = array();
+			}
 		}
 		
 		
@@ -141,6 +161,27 @@
 		}
 
 
+		function load_jupes()
+		{
+			$res = db_query( 'select * from os_jupes order by jupe_id asc' );
+			while( $row = mysql_fetch_assoc($res) )
+			{
+				$jupe = new DB_Jupe( $row );
+				
+				if( $jupe->is_expired() )
+				{
+					$jupe->delete();
+					continue;
+				}
+
+				$jupe_key = strtolower( $jupe->get_server() );
+				$this->db_jupes[$jupe_key] = $jupe;
+			}
+
+			debugf( 'Loaded %d jupes.', count($this->db_jupes) );
+		}
+
+
 		function load_badchans()
 		{
 			$res = db_query( 'select * from os_badchans order by badchan_id asc' );
@@ -164,6 +205,18 @@
 
 			return false;
 		}
+
+
+		function get_db_jupe( $server )
+		{
+			$jupe_key = strtolower( $server );
+			if( array_key_exists($jupe_key, $this->db_jupes) )
+				return $this->db_jupes[$jupe_key];
+
+			return false;
+		}
+
+
 
 
 		function service_add_gline( $host, $duration, $reason )
@@ -196,7 +249,41 @@
 		}
 
 
-		function is_tor_host($host)
+		function service_add_jupe( $server, $duration, $last_mod, $reason )
+		{
+			$jupe = $this->get_db_jupe($server);
+			
+			if( !$jupe )
+				return false;
+
+			$db_jupe = new DB_Jupe();
+			$db_jupe->set_server( $jupe->get_server() );
+			$db_jupe->set_duration( $jupe->get_expire_ts() - time() );
+			$db_jupe->set_last_mod( $jupe->get_last_mod() );
+			$db_jupe->set_ts( time() );
+			$db_jupe->set_reason( $jupe->get_reason() );
+			$db_jupe->set_active( $jupe->is_active() );
+			$db_jupe->save();
+
+			$jupe_key = strtolower( $server );
+			$this->db_jupes[$jupe_key] = $jupe;
+		}
+
+
+		function service_remove_jupe( $server )
+		{
+			$jupe = $this->get_db_jupe($server);
+
+			if(!$jupe)
+				return false;
+			
+			$jupe->delete();
+			$jupe_key = strtolower( $server );
+			unset( $this->db_jupes[$jupe_key] );
+		}
+
+
+		function is_tor_host( $host )
 		{
 			if( is_private_ip($host) )
 			{
@@ -331,6 +418,11 @@
 		{
 			if( (!$is_command && !REPORT_EVENTS) || ($is_command && !REPORT_COMMANDS) )
 				return;
+
+			if( $is_command )
+				$channel = COMMAND_CHANNEL;
+			else
+				$channel = EVENT_CHANNEL;
 			
 			$bot = $this->default_bot;
 			
@@ -360,27 +452,22 @@
 			$misc = $arg1 .' '. $arg2 .' '. $arg3 .' '. $arg4 .' '. $arg5;
 			$misc = trim($misc);
 			
-			if($this->finished_burst)
-				$bot->messagef( BOT_CHAN, "[%". (NICKLENGTH + $margin) ."s] %s %s", $source, $event_name, $misc);
+			if(!$this->finished_burst)
+			{
+				$this->pending_events[] = array(
+					'chan_name'   => $channel,
+					'margin'      => $margin,
+					'source'      => $source,
+					'event_name'  => $event_name,
+					'misc'        => $misc );
+			}
+
+			$bot->messagef( $channel, '[%'. (NICKLENGTH + $margin) .'s] %s %s',
+				$source, $event_name, $misc);
 
 /*
-			$this->pending_events[] = array(
-				'margin'      => $margin,
-				'source'      => $source,
-				'event_name'  => $event_name,
-				'misc'        => $misc );
-			
 			if($this->finished_burst)
-			{
-				foreach($this->pending_events as $event)
-				{
-					extract($event);
-					$bot->messagef( BOT_CHAN, "[%". (NICKLENGTH + $margin) ."s] %s %s",
-						$source, $event_name, $misc);
-				}
-				
-				$this->pending_events = array();
-			}
+				$bot->messagef( $channel, "[%". (NICKLENGTH + $margin) ."s] %s %s", $source, $event_name, $misc);
 */
 			
 			return true;
