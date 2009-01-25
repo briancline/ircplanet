@@ -209,11 +209,17 @@
 		{
 			$mask = strtolower( $mask );
 			if( array_key_exists($mask, $this->bans) )
+			{
+				$this->bans[$mask]->delete();
 				unset( $this->bans[$mask] );
+			}
 		}
 		
 		function clear_bans()
 		{
+			foreach( $this->bans as $mask => $ban )
+				$ban->delete();
+
 			$this->bans = array();
 		}
 		

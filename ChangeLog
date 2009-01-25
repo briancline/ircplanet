@@ -1,3 +1,8 @@
+Brian Cline	<brian@ircplanet.net>	2008-01-24
+
+	* Channel/db_channel.php: Fixed a bug preventing channel bans from
+	being removed from the database.
+
 Brian Cline	<brian@ircplanet.net>	2008-12-21
 
 	* Nickname/globals.php: Bump version to 1.3.13.
