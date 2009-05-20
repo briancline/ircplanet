@@ -355,7 +355,7 @@
 			
 			// Check for a match against the provided string
 			if( is_string($pos_responses) && !empty($pos_responses)
-			 		&& $dns_result == $pos_responses )
+			 		&& $dns_result == ('127.0.0.'. $pos_responses) )
 				return true;
 			
 			// Check for a match within the provided array
@@ -363,6 +363,7 @@
 			{
 				foreach( $pos_responses as $tmp_match )
 				{
+					$tmp_match = '127.0.0.'. $tmp_match;
 					if( $tmp_match == $dns_result )
 						return true;
 				}
@@ -386,10 +387,24 @@
 			 * http://www.sectoor.de/tor.php.
 			 */
 			
-			$dns_suffix = 'tor.dnsbl.sectoor.de';
-			$pos_addr = '127.0.0.1';
+			/**
+			 * We use multiple Tor DNSBLs because sometimes you'll get a
+			 * false negative if one DNSBL isn't 100% up-to-date. Rare,
+			 * but not impossible.
+			 */
+			$blacklists = array(
+				'tor.dnsbl.sectoor.de' => array( 1 ),
+				'tor.dan.me.uk'        => array( 100 ),
+				'tor.ahbl.org'         => array( 2 )
+			);
+
+			foreach( $blacklists as $dns_suffix => $responses )
+			{
+				if( is_blacklisted_dns($host, $dns_suffix, $responses) )
+					return true;
+			}
 			
-			return is_blacklisted_dns( $host, $dns_suffix, $positive_addresses );
+			return false;
 		}
 		
 		
@@ -400,13 +415,16 @@
 			 * DNSBL services (some are IRC-centric) to see if they are listed.
 			 */
 			$blacklists = array(
+				'ircbl.ahbl.org'      => array( 2 ),
 				'dnsbl.dronebl.org'   => array(),
-				'dnsbl.proxybl.org'   => array( '127.0.0.2' ),
-				'rbl.efnetrbl.org'    => array( '127.0.0.1', '127.0.0.2', '127.0.0.3', '127.0.0.4' ),
-				'dnsbl.swiftbl.net'   => array( '127.0.0.2', '127.0.0.3', '127.0.0.4', '127.0.0.5' ),
-				'drone.abuse.ch'      => array( '127.0.0.2', '127.0.0.3', '127.0.0.4', '127.0.0.5' ),
-				'httpbl.abuse.ch'     => array( '127.0.0.2', '127.0.0.3', '127.0.0.4' ),
-				'spam.abuse.ch'       => array( '127.0.0.2' )
+				'dnsbl.proxybl.org'   => array( 2 ),
+				'rbl.efnetrbl.org'    => array( 1, 2, 3, 4 ),
+				'dnsbl.swiftbl.net'   => array( 2, 3, 4, 5 ),
+				'cbl.abuseat.org'     => array( 2 )
+				'xbl.spamhaus.org'    => array(),
+				'drone.abuse.ch'      => array( 2, 3, 4, 5 ),
+				'httpbl.abuse.ch'     => array( 2, 3, 4 ),
+				'spam.abuse.ch'       => array( 2 ),
 			);
 			
 			foreach( $blacklists as $dns_suffix => $responses )
