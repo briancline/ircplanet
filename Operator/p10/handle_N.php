@@ -45,23 +45,35 @@
 				$gline_set = true;
 			}
 		}
-
+		
 		if( defined('CLONE_GLINE') && CLONE_GLINE == true && !$gline_set
 				&& $this->get_clone_count($user->get_ip()) > CLONE_MAX )
 		{
-			$clone_mask = '*@'. $user->get_ip();
-			$clone_secs = convert_duration( CLONE_DURATION );
-			$clone_gl = $this->add_gline( $clone_mask, $clone_secs, CLONE_REASON );
-			$this->enforce_gline( $clone_gl );
+			$gline_mask = '*@'. $user->get_ip();
+			$gline_secs = convert_duration( CLONE_DURATION );
+			$new_gl = $this->add_gline( $gline_mask, $gline_secs, CLONE_REASON );
+			$this->enforce_gline( $new_gl );
+			$gline_set = true;
 		}
 		
 		if( defined('TOR_GLINE') && TOR_GLINE == true && !$gline_set 
 				&& $this->is_tor_host($user->get_ip()) )
 		{
-			$tor_mask = '*@'. $user->get_ip();
-			$tor_secs = convert_duration( TOR_DURATION );
-			$tor_gl = $this->add_gline( $tor_mask, $tor_secs, TOR_REASON );
-			$this->enforce_gline( $tor_gl );
+			$gline_mask = '*@'. $user->get_ip();
+			$gline_secs = convert_duration( TOR_DURATION );
+			$new_gl = $this->add_gline( $gline_mask, $gline_secs, TOR_REASON );
+			$this->enforce_gline( $new_gl );
+			$gline_set = true;
+		}
+		
+		if( defined('COMP_GLINE') && COMP_GLINE == true && !$gline_set
+				&& $this->is_compromised_host($user->get_ip()) )
+		{
+			$gline_mask = '*@'. $user->get_ip();
+			$gline_secs = convert_duration( COMP_DURATION );
+			$new_gl = $this->add_gline( $gline_mask, $gline_secs, COMP_REASON );
+			$this->enforce_gline( $new_gl );
+			$gline_set = true;
 		}
 	}
 

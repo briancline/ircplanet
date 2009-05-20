@@ -67,20 +67,30 @@
 				if(!defined('TOR_REASON') || TOR_REASON == '')
 					die('tor_gline is enabled, but tor_reason was not defined!');
 			}
-
-                        if( defined('CLONE_GLINE') && CLONE_GLINE == true )
-                        {
+			
+			if( defined('COMP_GLINE') && COMP_GLINE == true )
+			{
+				if(!defined('COMP_DURATION'))
+					die('comp_gline is enabled, but comp_duration was not defined!');
+				if(convert_duration(COMP_DURATION) == false)
+					die('The duration specified in comp_duration is invalid!');
+				if(!defined('COMP_REASON') || COMP_REASON == '')
+					die('comp_gline is enabled, but comp_reason was not defined!');
+			}
+			
+			if( defined('CLONE_GLINE') && CLONE_GLINE == true )
+			{
 				if(!defined('CLONE_MAX'))
 					die('clone_gline is enabled, but clone_max was not defined!');
 				if(!is_numeric(CLONE_MAX) || CLONE_MAX == 0)
 					die('Invalid value specified for clone_max!');
-                                if(!defined('CLONE_DURATION'))
-                                        die('clone_gline is enabled, but clone_duration was not defined!');
-                                if(convert_duration(CLONE_DURATION) == false)
-                                        die('The duration specified in clone_duration is invalid!');
-                                if(!defined('CLONE_REASON') || CLONE_REASON == '')
-                                        die('clone_gline is enabled, but clone_reason was not defined!');
-                        }
+				if(!defined('CLONE_DURATION'))
+					die('clone_gline is enabled, but clone_duration was not defined!');
+				if(convert_duration(CLONE_DURATION) == false)
+					die('The duration specified in clone_duration is invalid!');
+				if(!defined('CLONE_REASON') || CLONE_REASON == '')
+					die('clone_gline is enabled, but clone_reason was not defined!');
+			}
 		}
 		
 		
@@ -282,23 +292,37 @@
 			unset( $this->db_jupes[$jupe_key] );
 		}
 
-
-		function is_tor_host( $host )
+		
+		/**
+		 * is_blacklisted_dns is a generic function to provide extensibility
+		 * for easily checking DNS based blacklists. It has three arguments:
+		 * 	host:    The IP address of the host you wish to check.
+		 * 	suffix:    The DNS suffix for the DNSBL service.
+		 *    pos_resp:  An array containing responses that should be considered
+		 * 	           a positive match. If not provided, will assume that ANY
+		 * 	           successful DNS resolution against the DNSBL should be
+		 * 	           considered a positive match.
+		 * 
+		 * For example:
+		 * 	is_blacklisted_dns( '1.2.3.4', 'dnsbl.com' )
+		 * 		Returns true if 4.3.2.1.dnsbl.com returns any DNS resolution.
+		 * 	is_blacklisted_dns( '1.2.3.4', 'dnsbl.com', '127.0.0.2' )
+		 * 		Returns true if 4.3.2.1.dnsbl.com contains '127.0.0.2' in its 
+		 * 		response.
+		 * 	is_blacklisted_dns( '1.2.3.4', 'dnsbl.com', array('127.0.0.2', '127.0.0.3'))
+		 * 		Returns true if 4.3.2.1.dnsbl.com contains either 127.0.0.2 or 
+		 * 		127.0.0.3 in its response.
+		 */
+		function is_blacklisted_dns( $host, $dns_suffix, $pos_responses = -1 )
 		{
 			if( is_private_ip($host) )
 			{
-				debugf('%s is a private address. No Tor check necessary', $host);
+				debugf('%s is a private address. No DNSBL check necessary', $host);
 				return false;
 			}
-
+			
 			$start_ts = microtime( true );
-
-			/**
-			 * For more information on the TOR DNSBL, please see
-			 * http://www.sectoor.de/tor.php.
-			 */
-			$bl_ext = 'tor.dnsbl.sectoor.de';
-
+			
 			/**
 			 * DNS blacklists work by storing records for ipaddr.dnsbl.com,
 			 * but with DNS all octets are reversed. So to check if 1.2.3.4
@@ -307,23 +331,90 @@
 			 */
 			$octets = explode( '.', $host );
 			$reverse_octets = implode( '.', array_reverse($octets) );
-			$bl_host = $reverse_octets .'.'. $bl_ext .'.';
-			debugf( 'Checking %s', $bl_host );
-			$bl_addr = gethostbyname( $bl_host );
-
+			$lookup_addr = $reverse_octets .'.'. $dns_suffix .'.';
+			debugf( 'DNSBL checking %s', $lookup_addr );
+			$dns_result = gethostbyname( $lookup_addr );
+			
 			$end_ts = microtime( true );
-			debugf( 'Tor check time elapsed: %0.4f seconds', $end_ts - $start_ts );
-
+			debugf( 'DNSBL check time elapsed: %0.4f seconds', $end_ts - $start_ts );
+			
+			/**
+			 * gethostbyname returns the original, unmodified host name if
+			 * DNS resolution failed. So we will assume it resolved if we
+			 * receive a response that's different from the input.
+			 */
+			$resolved = ( $dns_result != $lookup_addr );
+			
+			// If it didn't resolve, don't check anything
+			if( !$resolved )
+				return false;
+			
+			// Check for any successful resolution
+			if( $resolved && $pos_responses == -1 || empty($pos_responses) )
+				return true;
+			
+			// Check for a match against the provided string
+			if( is_string($pos_responses) && !empty($pos_responses)
+			 		&& $dns_result == $pos_responses )
+				return true;
+			
+			// Check for a match within the provided array
+			if( is_array($pos_responses) )
+			{
+				foreach( $pos_responses as $tmp_match )
+				{
+					if( $tmp_match == $dns_result )
+						return true;
+				}
+			}
+			
+			// All checks failed; host tested negative.
+			return false;
+		}
+		
+		
+		function is_tor_host( $host )
+		{
 			/**
 			 * The TOR DNSBL will return 127.0.0.1 as the address for a host
 			 * if it is a Tor server or exit node, and 127.0.0.2 if the host
 			 * is neither but one exists on the same class C subnet. We don't
 			 * care if there's one on the subnet, only if the host we query
 			 * for is actually a Tor server or exit node.
+			 * 
+			 * For more information on the TOR DNSBL, please see
+			 * http://www.sectoor.de/tor.php.
 			 */
-			if( $bl_addr == '127.0.0.1' )
-				return true;
-
+			
+			$dns_suffix = 'tor.dnsbl.sectoor.de';
+			$pos_addr = '127.0.0.1';
+			
+			return is_blacklisted_dns( $host, $dns_suffix, $positive_addresses );
+		}
+		
+		
+		function is_compromised_host( $host )
+		{
+			/**
+			 * To determine if a host is compromised, check a myriad of public
+			 * DNSBL services (some are IRC-centric) to see if they are listed.
+			 */
+			$blacklists = array(
+				'dnsbl.dronebl.org'   => array(),
+				'dnsbl.proxybl.org'   => array( '127.0.0.2' ),
+				'rbl.efnetrbl.org'    => array( '127.0.0.1', '127.0.0.2', '127.0.0.3', '127.0.0.4' ),
+				'dnsbl.swiftbl.net'   => array( '127.0.0.2', '127.0.0.3', '127.0.0.4', '127.0.0.5' ),
+				'drone.abuse.ch'      => array( '127.0.0.2', '127.0.0.3', '127.0.0.4', '127.0.0.5' ),
+				'httpbl.abuse.ch'     => array( '127.0.0.2', '127.0.0.3', '127.0.0.4' ),
+				'spam.abuse.ch'       => array( '127.0.0.2' )
+			);
+			
+			foreach( $blacklists as $dns_suffix => $responses )
+			{
+				if( is_blacklisted_dns($host, $dns_suffix, $responses) )
+					return true;
+			}
+			
 			return false;
 		}
 		
