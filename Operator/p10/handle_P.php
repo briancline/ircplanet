@@ -54,17 +54,21 @@
 		$user = $this->get_user( $user_numeric );
 		$pargs = line_get_args( $cmd_msg, false );
 		$cmd_name = strtolower( $pargs[0] );
+		$oper_bypass = false;
 		
 		$last_char = substr($cmd_msg, strlen($cmd_msg) - 1);
 		$is_ctcp = ($cmd_name[0] == CTCP_START && $last_char == CTCP_END);
 		
+		if( $user->is_service() && $cmd_name == 'gline' )
+			$oper_bypass = true;
+
 		if( $is_ctcp )
 		{
 			$cmd_msg = trim( $cmd_msg, CTCP_START . CTCP_END );
 			$cmd_name = trim( $cmd_name, CTCP_START . CTCP_END );
 			$cmd_name = "ctcp_". $cmd_name;
 		}
-		else if(!$user->is_oper())
+		else if( !$user->is_oper() && !$oper_bypass )
 		{
 			$bot->noticef($user, "You must be a global operator to use this service.");
 			return false;
@@ -79,6 +83,9 @@
 			$cmd_level = $this->get_command_level( $cmd_name );
 			$cmd_req_args = $this->get_command_arg_count( $cmd_name );
 			$cmd_num_args = count( $pargs ) - 1;
+
+			if( $user->is_service() && $cmd_name == 'gline' )
+				$user_level = $cmd_level;
 			
 			if( $cmd_num_args > 0 )
 			{

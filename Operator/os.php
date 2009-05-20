@@ -306,20 +306,18 @@
 		 * For example:
 		 * 	is_blacklisted_dns( '1.2.3.4', 'dnsbl.com' )
 		 * 		Returns true if 4.3.2.1.dnsbl.com returns any DNS resolution.
-		 * 	is_blacklisted_dns( '1.2.3.4', 'dnsbl.com', '127.0.0.2' )
+		 * 	is_blacklisted_dns( '1.2.3.4', 'dnsbl.com', 2 )
 		 * 		Returns true if 4.3.2.1.dnsbl.com contains '127.0.0.2' in its 
 		 * 		response.
-		 * 	is_blacklisted_dns( '1.2.3.4', 'dnsbl.com', array('127.0.0.2', '127.0.0.3'))
+		 * 	is_blacklisted_dns( '1.2.3.4', 'dnsbl.com', array(2, 3))
 		 * 		Returns true if 4.3.2.1.dnsbl.com contains either 127.0.0.2 or 
 		 * 		127.0.0.3 in its response.
 		 */
 		function is_blacklisted_dns( $host, $dns_suffix, $pos_responses = -1 )
 		{
+			// Don't waste time checking private class IPs.
 			if( is_private_ip($host) )
-			{
-				debugf('%s is a private address. No DNSBL check necessary', $host);
 				return false;
-			}
 			
 			$start_ts = microtime( true );
 			
@@ -334,7 +332,7 @@
 			$lookup_addr = $reverse_octets .'.'. $dns_suffix .'.';
 
 			debugf( 'DNSBL checking %s', $lookup_addr );
-			$dns_result = @dns_get_record($lookup_addr, DNS_A);
+			$dns_result = @dns_get_record( $lookup_addr, DNS_A );
 
 			if( count($dns_result) > 0 )
 			{
@@ -348,7 +346,8 @@
 			}
 			
 			$end_ts = microtime( true );
-			debugf( 'DNSBL check time elapsed: %0.4f seconds (%s = %s)', $end_ts - $start_ts, $lookup_addr, $dns_result );
+			debugf( 'DNSBL check time elapsed: %0.4f seconds (%s = %s)', 
+					$end_ts - $start_ts, $lookup_addr, $dns_result );
 			
 			// If it didn't resolve, don't check anything
 			if( !$resolved )

@@ -1,5 +1,16 @@
 Brian Cline	<brian@ircplanet.net>	2009-05-19
 
+	* Operator/p10/handle_P.php: Allow other services to issue gline commands
+	without having to be a global operator and without having an account.
+
+	* Operator/os.php: Correct documentation for DNSBL lookup and fix minor
+	code formatting issues. Remove debug message for private address exception
+	in DNSBL lookup as it gets repeated many times for each private-IP user.
+
+	* Operator/globals.php: Bump revision.
+
+Brian Cline	<brian@ircplanet.net>	2009-05-19
+
 	* Operator/os.php: Fix bugs that cropped up from testing the last few
 	changesets. New DNSBL checks appear to be working. Changed from
 	gethostbyname() to dns_get_record(), because on some systems the former
