@@ -1,3 +1,27 @@
+Brian Cline	<brian@ircplanet.net>	2009-05-19
+
+	* Operator/os.php: Fix bugs that cropped up from testing the last few
+	changesets. New DNSBL checks appear to be working. Changed from
+	gethostbyname() to dns_get_record(), because on some systems the former
+	will take 2-3 seconds each lookup for addresses that do not resolve. The
+	latter takes a fraction of a second under normal conditions.
+
+Brian Cline	<brian@ircplanet.net>	2009-05-19
+
+	* Operator/os.php: Add a few more DNSBL services for checking open proxies
+	and otherwise compromised hosts, and reprioritize a few others.
+
+Brian Cline	<brian@ircplanet.net>	2009-05-19
+
+	* Operator/os.ini: Add options for new compromised host scanning.
+
+	* Operator/os.php: Add capabilities to check a number of DNSBL blacklist
+	services to see if connecting users are running on compromised hosts. Also
+	retooled Tor DNSBL check to use the generic DNSBL check function.
+
+	* Operator/p10/handle_N.php: If COMP_GLINE is defined and enabled, run the
+	compromised host check on any connecting user.
+
 Brian Cline	<brian@ircplanet.net>	2008-01-24
 
 	* Channel/db_channel.php: Fixed a bug preventing channel bans from

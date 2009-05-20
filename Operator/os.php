@@ -332,18 +332,23 @@
 			$octets = explode( '.', $host );
 			$reverse_octets = implode( '.', array_reverse($octets) );
 			$lookup_addr = $reverse_octets .'.'. $dns_suffix .'.';
+
 			debugf( 'DNSBL checking %s', $lookup_addr );
-			$dns_result = gethostbyname( $lookup_addr );
+			$dns_result = @dns_get_record($lookup_addr, DNS_A);
+
+			if( count($dns_result) > 0 )
+			{
+				$dns_result = $dns_result[0]['ip'];
+				$resolved = true;
+			}
+			else
+			{
+				$dns_result = $lookup_addr;
+				$resolved = false;
+			}
 			
 			$end_ts = microtime( true );
-			debugf( 'DNSBL check time elapsed: %0.4f seconds', $end_ts - $start_ts );
-			
-			/**
-			 * gethostbyname returns the original, unmodified host name if
-			 * DNS resolution failed. So we will assume it resolved if we
-			 * receive a response that's different from the input.
-			 */
-			$resolved = ( $dns_result != $lookup_addr );
+			debugf( 'DNSBL check time elapsed: %0.4f seconds (%s = %s)', $end_ts - $start_ts, $lookup_addr, $dns_result );
 			
 			// If it didn't resolve, don't check anything
 			if( !$resolved )
@@ -400,7 +405,7 @@
 
 			foreach( $blacklists as $dns_suffix => $responses )
 			{
-				if( is_blacklisted_dns($host, $dns_suffix, $responses) )
+				if( $this->is_blacklisted_dns($host, $dns_suffix, $responses) )
 					return true;
 			}
 			
@@ -420,16 +425,16 @@
 				'dnsbl.proxybl.org'   => array( 2 ),
 				'rbl.efnetrbl.org'    => array( 1, 2, 3, 4 ),
 				'dnsbl.swiftbl.net'   => array( 2, 3, 4, 5 ),
-				'cbl.abuseat.org'     => array( 2 )
+				'cbl.abuseat.org'     => array( 2 ),
 				'xbl.spamhaus.org'    => array(),
 				'drone.abuse.ch'      => array( 2, 3, 4, 5 ),
 				'httpbl.abuse.ch'     => array( 2, 3, 4 ),
-				'spam.abuse.ch'       => array( 2 ),
+				'spam.abuse.ch'       => array( 2 )
 			);
 			
 			foreach( $blacklists as $dns_suffix => $responses )
 			{
-				if( is_blacklisted_dns($host, $dns_suffix, $responses) )
+				if( $this->is_blacklisted_dns($host, $dns_suffix, $responses) )
 					return true;
 			}
 			
