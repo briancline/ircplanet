@@ -1,3 +1,19 @@
+Brian Cline	<brian@ircplanet.net>	2009-05-21
+
+	* Core/stringutils.php: Add is_server, is_account, is_gline functions to
+	test for various types of data structures. Added array_contains to return
+	whether or not an element is found in an array. Added irc_sprintf to allow
+	for sprintf style calls with custom flags for nick names, account names,
+	channel names, server names, server numerics, user numerics, and
+	space-delimited imploded arrays while only having to provide a reference
+	to the object as an additional argument as opposed to the result of an
+	object's method.
+
+	* Channel/p10/handle_J.php: Convert infoline format to use irc_sprintf.
+
+	* Operator/p10/handle_N.php: Convert reported JOIN event to use
+	irc_sprintf.
+
 Brian Cline	<brian@ircplanet.net>	2009-05-19
 
 	* Operator/p10/handle_P.php: Allow other services to issue gline commands

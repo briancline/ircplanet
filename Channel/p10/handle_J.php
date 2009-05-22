@@ -79,7 +79,7 @@
 			}
 			
 			if( $account->has_info_line() && $reg->shows_info_lines() )
-				$infoline = sprintf( '[%s] %s', $account->get_name(), $account->get_info_line() );
+				$infoline = irc_sprintf( '[%U] %s', $account, $account->get_info_line() );
 		}
 		
 		if( !empty($infoline) )

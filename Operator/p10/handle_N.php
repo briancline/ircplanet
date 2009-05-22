@@ -83,15 +83,15 @@
 		if( $is_new_user )
 		{
 			// new user
-			$server = $this->get_server($args[0]);
-			$rest = sprintf("%s (%s@%s) [%s]", $user->get_nick(), $user->get_ident(), 
-				$user->get_host(), $user->get_name());
-			$this->report_event('NICK', $server, $rest);
+			$server = $this->get_server( $args[0] );
+			$rest = irc_sprintf( '%H (%s@%s) [%s]', $user, $user->get_ident(), 
+				$user->get_host(), $user->get_name() );
+			$this->report_event( 'NICK', $server, $rest );
 		}
 		else
 		{
 			// nick change
-			$this->report_event('NICK', $old_nick, $new_nick);
+			$this->report_event( 'NICK', $old_nick, $new_nick );
 		}
 	}
 

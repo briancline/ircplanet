@@ -78,15 +78,29 @@
 	}
 
 
+	function is_server( $obj )
+	{
+		return ( get_class($obj) == 'Server' );
+	}
+
 	function is_user( $obj )
 	{
 		return ( get_class($obj) == 'User' || get_class($obj) == 'Bot' );
 	}
 
+	function is_account( $obj )
+	{
+		return ( get_class($obj) == 'DB_User' );
+	}
 
 	function is_channel( $obj )
 	{
 		return ( get_class($obj) == 'Channel' );
+	}
+
+	function is_gline( $obj )
+	{
+		return ( get_class($obj) == 'Gline' );
 	}
 	
 	
@@ -176,6 +190,18 @@
 	}
 	
 	
+	function array_contains( $needle, $haystack )
+	{
+		foreach( $haystack as $stem )
+		{
+			if( $stem == $needle )
+				return true;
+		}
+
+		return false;
+	}
+
+
 	function assemble( $array, $start = 0, $end = -1, $delim = ' ' )
 	{
 		$newstr = '';
@@ -305,6 +331,92 @@
 	function get_date( $ts )
 	{
 		return date('D j M Y H:i:s', $ts );
+	}
+
+
+	function irc_sprintf( $format )
+	{
+		$valid_flag_list = 'ACHNU';
+
+		$args = func_get_args();
+		array_shift( $args );
+		
+		$f = -1;
+		$len = strlen( $format );
+		$pct_count = 0;
+
+		for( $i = 0; $i < $len - 1; $i++ )
+		{
+			$char = $format[$i];
+			$next = $format[$i + 1];
+
+			if( $char == '%' )
+				$pct_count++;
+			else
+				$pct_count = 0;
+
+			if( $pct_count != 1 || $next == '%' )
+				continue;
+
+			$f++;
+
+			if( false === strpos($valid_flag_list, $next) )
+				continue;
+
+			$input = $args[$f];
+			$text = '';
+
+			switch( $next )
+			{
+				case 'A':
+					$text = implode( ' ', $input );
+					break;
+
+				case 'C':
+				case 'H':
+					if( is_user($input) )
+						$text = $input->get_nick();
+					elseif( is_channel($input) || is_server($input) )
+						$text = $input->get_name();
+					elseif( is_gline($input) )
+						$text = $input->get_mask();
+
+					break;
+
+				case 'N':
+					if( is_user($input) || is_server($input) )
+						$text = $input->get_numeric();
+
+					break;
+
+				case 'U':
+					if( is_user($input) )
+						$text = $input->get_account_name();
+					elseif( is_account($input) )
+						$text = $input->get_name();
+
+					break;
+
+				default:
+					continue;
+			}
+			
+			if( $i < ($len - 1) )
+				$rhs_start_pos = $i + 2;
+			else
+				$rhs_start_pos = $len - 1;
+
+			$lhs = substr( $format, 0, $i );
+			$rhs = substr( $format, $rhs_start_pos );
+
+			$format = $lhs . $text . $rhs;
+			unset( $args[$f] );
+
+			$i += strlen( $text );
+			$len = strlen( $format );
+		}
+
+		return vsprintf( $format, $args );
 	}
 	
 	
