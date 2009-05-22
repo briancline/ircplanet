@@ -367,7 +367,7 @@
 	 *    
 	 *    sprintf('%s', $server_obj->get_name());  // Server name
 	 *    irc_sprintf('%H', $server_obj);          // Server name
-     * 
+	 * 
 	 * Note: irc_sprintf ONLY supports basic formatting of IRC objects, such as '%N'.
 	 *       It is not yet possible to format these the same way as string objects
 	 *       using alignment, padding, or width specifiers. Formatting of basic types
