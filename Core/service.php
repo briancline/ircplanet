@@ -30,8 +30,11 @@
  */
 
 	require_once( 'core_globals.php' );
-	require_once( CORE_DIR .'/stringutils.php' );
-	require_once( CORE_DIR .'/dbutils.php' );
+	require_once( CORE_DIR .'/util_string.php' );
+	require_once( CORE_DIR .'/util_array.php' );
+	require_once( CORE_DIR .'/util_datetime.php' );
+	require_once( CORE_DIR .'/util_obj.php' );
+	require_once( CORE_DIR .'/util_db.php' );
 	
 	require_once( CORE_DIR .'/p10.php' );
 	

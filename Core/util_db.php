@@ -31,6 +31,7 @@
 	
 	require_once( "core_globals.php" );
 	
+
 	function db_query( $query, $log = false, $fix_bad_connection = true )
 	{
 		$result = mysql_query( $query );
@@ -60,6 +61,7 @@
 		return $result;
 	}
 	
+
 	function db_queryf($format)
 	{
 		$args = func_get_args();
@@ -69,6 +71,7 @@
 		return db_query($query);
 	}
 	
+
 	function db_date($ts = 0)
 	{
 		if($ts == 0)
@@ -77,4 +80,5 @@
 		return date('Y-m-d H:i:s', $ts);
 	}
 	
+
 ?>

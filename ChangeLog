@@ -1,10 +1,15 @@
 Brian Cline	<brian@ircplanet.net>	2009-05-22
 
+	* Core/service.php: Change include statements to reflect new convenience
+	function file names.
+
 	* Core/util_array.php: Moved array convenience functions to their own
 	file.
 
 	* Core/util_datetime.php: Moved date/time convenience functions to their
 	own file.
+
+	* Core/util_db.php: Renamed and formatted for consistency.
 
 	* Core/util_obj.php: Moved object convenience functions to their own file.
 
