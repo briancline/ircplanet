@@ -353,13 +353,13 @@
 	 *  %C    Same as %H. Pneumonically represents channel names; provided as an extra
 	 *        flag only for readability in longer format strings.
 	 *  
-	 *  %N    The ircu numeric of the referenced object. returns the two-character
+	 *  %N    The ircu numeric of the referenced object.
 	 *        For servers:   two-character server numeric (ex., Sc).
 	 *        For users:     five-character server+user numeric (ex., ScAAA).
 	 *  
 	 *  %U    The account name of the referenced object.
-	 *        For user objects, returns the user's logged-in account name.
-	 *        For account objects, returns the account name.
+	 *        For users:     user's logged-in account name, if any.
+	 *        For accounts:  account name.
 	 *  
 	 * Examples:
 	 *    sprintf('%s', $user_obj->get_nick());    // Nick name
