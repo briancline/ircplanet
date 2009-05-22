@@ -334,6 +334,49 @@
 	}
 
 
+	/**
+	 * irc_sprintf provides a cleaner way of sending services-specific data structures
+	 * to sprintf without having to repeatedly call the desired member functions. Since
+	 * we almost always use the same ones, irc_sprintf takes a lot of legwork out of
+	 * the picture and makes for cleaner code.
+	 *
+	 * The custom flags that can be used with irc_sprintf follow:
+	 *  %A    A space-delimited string representing all of an array's elements.
+	 *        Designed for string or numeric arrays only.
+	 *  
+	 *  %H    Human-readable name of the referenced object.
+	 *        For channels:  channel name.
+	 *        For servers:   full server name.
+	 *        For users:     nick name.
+	 *        For glines:    the full mask of the gline.
+	 *  
+	 *  %C    Same as %H. Pneumonically represents channel names; provided as an extra
+	 *        flag only for readability in longer format strings.
+	 *  
+	 *  %N    The ircu numeric of the referenced object. returns the two-character
+	 *        For servers:   two-character server numeric (ex., Sc).
+	 *        For users:     five-character server+user numeric (ex., ScAAA).
+	 *  
+	 *  %U    The account name of the referenced object.
+	 *        For user objects, returns the user's logged-in account name.
+	 *        For account objects, returns the account name.
+	 *  
+	 * Examples:
+	 *    sprintf('%s', $user_obj->get_nick());    // Nick name
+	 *    irc_sprintf('%H', $user_obj);            // Nick name
+	 *    
+	 *    sprintf('%s', $server_obj->get_name());  // Server name
+	 *    irc_sprintf('%H', $server_obj);          // Server name
+     * 
+	 * Note: irc_sprintf ONLY supports basic formatting of IRC objects, such as '%N'.
+	 *       It is not yet possible to format these the same way as string objects
+	 *       using alignment, padding, or width specifiers. Formatting of basic types
+	 *       is still possible.
+	 *
+	 * TODO: Rewrite to replace custom flag type with 's', and replacing corresponding
+	 *       input with string. Should allow for printf-style formatting of objects,
+	 *       such as %'#-12N.
+	 */    
 	function irc_sprintf( $format )
 	{
 		$valid_flag_list = 'ACHNU';
