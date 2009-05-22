@@ -1,3 +1,16 @@
+Brian Cline	<brian@ircplanet.net>	2009-05-22
+
+	* Core/util_array.php: Moved array convenience functions to their own
+	file.
+
+	* Core/util_datetime.php: Moved date/time convenience functions to their
+	own file.
+
+	* Core/util_obj.php: Moved object convenience functions to their own file.
+
+	* Core/util_string.php: Renamed for consistency, trimmed down to
+	string-specific convenience functions, and rearranged to make more sense.
+
 Brian Cline	<brian@ircplanet.net>	2009-05-21
 
 	* Core/stringutils.php: Add is_server, is_account, is_gline functions to
