@@ -169,9 +169,9 @@
 	
 	/**
 	 * irc_sprintf provides a cleaner way of sending services-specific data structures
-	 * to sprintf without having to repeatedly call the desired member functions. Since
-	 * we almost always use the same ones, irc_sprintf takes a lot of legwork out of
-	 * the picture and makes for cleaner code.
+	 * to sprintf without having to repeatedly provide long member function calls as 
+	 * sprintf arguments. Since we almost always use the same member functions in
+	 * most scenarios, irc_sprintf does a lot of legwork and makes for cleaner code.
 	 *
 	 * The custom flags that can be used with irc_sprintf follow:
 	 *  %A    A space-delimited string representing all of an array's elements.
@@ -181,6 +181,7 @@
 	 *        For channels:  channel name.
 	 *        For servers:   full server name.
 	 *        For users:     nick name.
+	 *        For bots:      nick name.
 	 *        For glines:    the full mask of the gline.
 	 *  
 	 *  %C    Same as %H. Pneumonically represents channel names; provided as an extra
@@ -189,6 +190,7 @@
 	 *  %N    The ircu numeric of the referenced object.
 	 *        For servers:   two-character server numeric (ex., Sc).
 	 *        For users:     five-character server+user numeric (ex., ScAAA).
+	 *        For bots:      five-character server+user numeric (ex., ScAAA).
 	 *  
 	 *  %U    The account name of the referenced object.
 	 *        For users:     user's logged-in account name, if any.
@@ -197,28 +199,28 @@
 	 * Examples:
 	 *    sprintf('%s', $user_obj->get_nick());    // Nick name
 	 *    irc_sprintf('%H', $user_obj);            // Nick name
+	 *    irc_sprintf('[%'#-13H]', $user_obj);     // Nick name, left-aligned in brackets
+	 *                                                and padded with hash symbols
+	 *  
+	 * The following are totally equivalent; the latter saves much space and provides
+	 * visual feedback as to what each argument corresponds to (numeric, channel, etc):
 	 *    
-	 *    sprintf('%s', $server_obj->get_name());  // Server name
-	 *    irc_sprintf('%H', $server_obj);          // Server name
+	 *    sprintf('%s M %s +o %s %ld', $user_obj->get_numeric(), $chan_obj->get_name, 
+	 *            $user2_obj->get_numeric(), time());
+	 *    
+	 *    irc_sprintf('%N M %C +o %N %ld', $user_obj, $chan_obj, $user2_obj, time() );
 	 * 
-	 * Note: irc_sprintf ONLY supports basic formatting of IRC objects, such as '%N'.
-	 *       It is not yet possible to format these the same way as string objects
-	 *       using alignment, padding, or width specifiers. Formatting of basic types
-	 *       is still possible.
-	 *
-	 * TODO: Rewrite to replace custom flag type with 's', and replacing corresponding
-	 *       input with string. Should allow for printf-style formatting of objects,
-	 *       such as %'#-12N.
-	 */    
+	 */
 	function irc_sprintf( $format )
 	{
-		$valid_flag_list = 'ACHNU';
+		$std_types = 'bcdeufFosxX';
+		$custom_types = 'ACHNU';
 
-		$args = func_get_args();
-		array_shift( $args );
+		$args = func_get_args(); // Get array of all function arguments for vsprintf
+		array_shift( $args );    // Pop the format argument from the top
 		
-		$f = -1;
 		$len = strlen( $format );
+		$arg_index = -1;
 		$pct_count = 0;
 
 		for( $i = 0; $i < $len - 1; $i++ )
@@ -231,67 +233,117 @@
 			else
 				$pct_count = 0;
 
+			/**
+			 * Skip this character if we don't have the start of a spec yet, or
+			 * if we do and the following character is a '%', indicating that
+			 * vsprintf will simply substitute a percent sign.
+			 */
 			if( $pct_count != 1 || $next == '%' )
 				continue;
 
-			$f++;
+			// Found a spec; hold its place
+			$spec_start = $i;
+			$spec_end = $i + 1;
+			$type = '';
 
-			if( false === strpos($valid_flag_list, $next) )
-				continue;
-
-			$input = $args[$f];
-			$text = '';
-
-			switch( $next )
+			/**
+			 * Loop through the characters immediately following so that we can
+			 * attempt to find the type of spec this is. The formatting flags will
+			 * be preserved, so we'll ignore them.
+			 */
+			for( $j = $i + 1; $j < $len - 1; $j++ )
 			{
-				case 'A':
-					$text = implode( ' ', $input );
+				$tmp_char = $format[$j];
+				$is_std_type = ( false !== strpos($std_types, $tmp_char) );
+				$is_cust_type = ( false !== strpos($custom_types, $tmp_char) );
+
+				if( $is_std_type || $is_cust_type )
+				{
+					// Found a valid standard or custom flag, mark its place and stop
+					$type = $tmp_char;
+					$arg_index++;
+					$spec_end = $j;
 					break;
-
-				case 'C':
-				case 'H':
-					if( is_user($input) )
-						$text = $input->get_nick();
-					elseif( is_channel($input) || is_server($input) )
-						$text = $input->get_name();
-					elseif( is_gline($input) )
-						$text = $input->get_mask();
-
-					break;
-
-				case 'N':
-					if( is_user($input) || is_server($input) )
-						$text = $input->get_numeric();
-
-					break;
-
-				case 'U':
-					if( is_user($input) )
-						$text = $input->get_account_name();
-					elseif( is_account($input) )
-						$text = $input->get_name();
-
-					break;
-
-				default:
-					continue;
+				}
 			}
-			
-			if( $i < ($len - 1) )
-				$rhs_start_pos = $i + 2;
-			else
-				$rhs_start_pos = $len - 1;
 
-			$lhs = substr( $format, 0, $i );
-			$rhs = substr( $format, $rhs_start_pos );
+			// If we found a custom type in this spec, process it accordingly
+			if( $is_cust_type )
+			{
+				$arg_obj = $args[$arg_index];
+				$cust_text = '';
 
-			$format = $lhs . $text . $rhs;
-			unset( $args[$f] );
+				switch( $type )
+				{
+					/**
+					 * %A: Flat array to string conversion
+					 */
+					case 'A':
+						$cust_text = implode( ' ', $arg_obj );
+						break;
 
-			$i += strlen( $text );
-			$len = strlen( $format );
+
+					/**
+					 * %H: Human-readable name of given object
+					 */
+					case 'C':
+					case 'H':
+						if( is_user($arg_obj) )
+							$cust_text = $arg_obj->get_nick();
+						elseif( is_channel($arg_obj) || is_server($arg_obj) )
+							$cust_text = $arg_obj->get_name();
+						elseif( is_gline($arg_obj) )
+							$cust_text = $arg_obj->get_mask();
+
+						break;
+
+
+					/**
+					 * %N: ircu P10 numeric of given object
+					 */
+					case 'N':
+						if( is_user($arg_obj) || is_server($arg_obj) )
+							$cust_text = $arg_obj->get_numeric();
+
+						break;
+
+
+					/**
+					 * %U: Account name of user or account object
+					 */
+					case 'U':
+						if( is_user($arg_obj) )
+							$cust_text = $arg_obj->get_account_name();
+						elseif( is_account($arg_obj) )
+							$cust_text = $arg_obj->get_name();
+
+						break;
+
+
+					/**
+					 * I'm sorry, Dave, I'm afraid I can't do that.
+					 * Will pass this unknown spec to vsprintf as-is.
+					 */
+					default:
+						continue;
+				}
+				
+				/**
+				 * Change the custom flag to an 's' (string) and replace the argument
+				 * with whatever string we determined was most appropriate for it.
+				 */
+				$format[$spec_end] = 's';
+				$args[$arg_index] = $cust_text;
+
+				/**
+				 * No need to look at this entire spec anymore, so advance to the next
+				 * char after the end of the spec.
+				 */
+				$i = $spec_end + 1;
+			}
 		}
 
+		// vsprintf takes care of the standard flags.
 		return vsprintf( $format, $args );
 	}
 	

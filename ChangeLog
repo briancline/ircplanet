@@ -1,5 +1,11 @@
 Brian Cline	<brian@ircplanet.net>	2009-05-22
 
+	* Core/util_string.php: Completely rework irc_sprintf to make it more
+	efficient and easier to follow. Also add tons of inline documentation
+	to keep other developers sane.
+
+Brian Cline	<brian@ircplanet.net>	2009-05-22
+
 	* Core/service.php: Change include statements to reflect new convenience
 	function file names.
 
