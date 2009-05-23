@@ -173,7 +173,8 @@
 	 * sprintf arguments. Since we almost always use the same member functions in
 	 * most scenarios, irc_sprintf does a lot of legwork and makes for cleaner code.
 	 *
-	 * The custom flags that can be used with irc_sprintf follow:
+	 * The custom conversion specifiers that can be used with irc_sprintf follow:
+	 * 
 	 *  %A    A space-delimited string representing all of an array's elements.
 	 *        Designed for string or numeric arrays only.
 	 *  
