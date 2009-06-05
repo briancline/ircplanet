@@ -1,3 +1,19 @@
+Brian Cline	<brian@ircplanet.net>	2009-06-05
+
+	* Channel/commands/access.php: First go at allowing admins to specify a
+	channel wildcard in the ACCESS command, to locate all channels in which a
+	particular account may have access.
+
+	* Channel/db_channel.php: Fix a bug whereby the register_date field was
+	not being populated in the database.
+
+	* Operator/p10/handle_N.php: Fix a bug whereby clones on private IP
+	addresses were being g-lined. Typical users will not be on private IP
+	addresses so there is no real security risk here.
+
+	* Stat/timers/log_history.php: Fix bug causing PHP warnings to be thrown
+	as a variable was not initialized before use.
+
 Brian Cline	<brian@ircplanet.net>	2009-05-22
 
 	* Core/util_string.php: Completely rework irc_sprintf to make it more

@@ -31,6 +31,7 @@
 
 	$oper_count = 0;
 	$service_count = 0;
+	$service_server_count = 0;
 	
 	foreach($this->users as $num => $user)
 	{

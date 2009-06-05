@@ -90,6 +90,7 @@
 			{
 				$this->name = $name;
 				$this->register_ts = time();
+				$this->register_date = db_date();
 			}
 			
 			if( isset($owner_id) && $owner_id > 0 )

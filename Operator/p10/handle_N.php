@@ -47,7 +47,8 @@
 		}
 		
 		if( defined('CLONE_GLINE') && CLONE_GLINE == true && !$gline_set
-				&& $this->get_clone_count($user->get_ip()) > CLONE_MAX )
+				&& $this->get_clone_count($user->get_ip()) > CLONE_MAX
+				&& !is_private_ip($user->get_ip()) )
 		{
 			$gline_mask = '*@'. $user->get_ip();
 			$gline_secs = convert_duration( CLONE_DURATION );
