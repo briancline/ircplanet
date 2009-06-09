@@ -1,3 +1,21 @@
+Brian Cline	<brian@ircplanet.net>	2009-06-09
+
+	* Channel/cs.php: Add the is_channel_registered() method to return 
+	whether or not a channel has been registered. Also added the 
+	get_active_channel_users() method, which will return an array of User 
+	objects that are logged in and have access to the specified channel.
+
+	* Channel/p10/handle_K.php: Inspect all kicks in registered channels, 
+	reversing any actions performed against protected users. In this case we 
+	issue a DEOP against the offending user and invite the victim back into 
+	the channel.
+
+	* Channel/p10/handle_M.php: Inspect all mode changes in registered 
+	channels, reversing any actions performed against protected users. In 
+	this case we issue a DEOP against the offending user and either re-op or 
+	re-voice the victim, or remove a ban that matches any superior, 
+	protected, logged-in user.
+
 Brian Cline	<brian@ircplanet.net>	2009-06-05
 
 	* Channel/commands/access.php: First go at allowing admins to specify a

@@ -307,6 +307,15 @@
 		}
 		
 		
+		function is_channel_registered( $chan_name )
+		{
+			if( is_channel($chan_name) )
+				$chan_name = $chan_name->get_name();
+			
+			return false !== $this->get_channel_reg( $chan_name );
+		}
+		
+		
 		function get_admin_level( $user_obj )
 		{
 			if( !is_object($user_obj) )
@@ -391,6 +400,33 @@
 			
 			$chan = $this->get_channel_reg( $chan_key );
 			return $chan->get_level_by_id( $account->get_id() );
+		}
+		
+		
+		function get_active_channel_users( $chan_name )
+		{
+			$chan = $this->get_channel_reg( $chan_name );
+			$active_users = array();
+			
+			if( !$chan )
+				return false;
+			
+			$levels = $chan->get_levels();
+			$seek_account_ids = array();
+			
+			foreach( $levels as $tmp_level )
+				$seek_account_ids[] = $tmp_level->get_user_id();
+			
+			foreach( $this->users as $tmp_numeric => $tmp_user )
+			{
+				if( !$tmp_user->is_logged_in() )
+					continue;
+				
+				if( in_array($tmp_user->get_account_id(), $seek_account_ids) )
+					$active_users[] = $tmp_user;
+			}
+			
+			return $active_users;
 		}
 		
 
