@@ -1,3 +1,39 @@
+Brian Cline	<brian@ircplanet.net>	2009-06-13
+
+	* Core/bot.php: Update Bot::noticef and Bot::messagef to use irc_vsprintf
+	rather than the stock vsprintf.
+
+	* Core/service.php: Clean up handler processing a little, to make it more
+	readable and more sensible. Now, a handler is executed in a container
+	method. The core now also has a single method to parse a mode change line,
+	whether it be incoming or outgoing, and update the necessary memory 
+	structures. Another new method, send_mode will examine an outgoing mode
+	string, break it up if it exceeds six modes, and send it along.
+
+	* Core/util_string.php: Add irc_vsprintf, which is equivalent to 
+	vsprintf but accepts the other new, IRC-specific formatting flags as 
+	irc_sprintf.
+
+	* Core/p10/handle_M: Gutted since we now have a function to handle all
+	mode changes in the core.
+
+	* Channel/p10/handle_M.php: Fix an interesting (bugless?) typo; we were
+	using the wrong argument for our source variable.
+
+	* Channel/p10/handle_P.php: Add command reporting upon successful command
+	execution.
+
+	* Channel/commands/show.php: Add a "BAD" option to the SHOW command, so
+	that admins may review the list of prohibited channel name masks.
+
+	* Channel/commands/verify.php: Add VERIFY command to allow users to
+	determine whether or not another user is a logged-in CS administrator.
+
+	* Channel/commands.php: Add the command definition for VERIFY.
+
+	* Nickname/p10/handle_P.php: Add command reporting upon successful command
+	execution.
+
 Brian Cline	<brian@ircplanet.net>	2009-06-09
 
 	* Channel/cs.php: Add the is_channel_registered() method to return 

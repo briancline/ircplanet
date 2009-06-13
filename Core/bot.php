@@ -77,7 +77,7 @@
 			if( is_object($target) && is_user($target) )
 				$target = $target->get_numeric();
 			
-			$notice_text = vsprintf( $format, $args );
+			$notice_text = irc_vsprintf( $format, $args );
 			$this->net->sendf( FMT_PRIVMSG, $this->numeric, $target, $notice_text );
 			$this->last_spoke = time();
 		}
@@ -91,7 +91,7 @@
 			if( is_object($target) && is_user($target) )
 				$target = $target->get_numeric();
 			
-			$notice_text = vsprintf( $format, $args );
+			$notice_text = irc_vsprintf( $format, $args );
 			$this->net->sendf( FMT_NOTICE, $this->numeric, $target, $notice_text );
 		}
 		

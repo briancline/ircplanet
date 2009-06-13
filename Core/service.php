@@ -985,6 +985,7 @@
 			
 			$chan_key = '';
 			$chan_name = '';
+			$bot = false;
 			
 			for( $i = 0; $i < count($args); ++$i )
 			{
@@ -999,19 +1000,235 @@
 			if( $num_args >= 3 && !(($bot = $this->get_user($args[2])) && $bot->is_bot()) )
 				$bot = $this->default_bot;
 			
-			// construct a useless for loop so we can use 'break' in handler files.
-			for( $FAKE_ITERATOR = 0; $FAKE_ITERATOR == 0; ++$FAKE_ITERATOR )
-			{
-				if( file_exists($core_handler) )
-					include( $core_handler );
-				else
-					debug( "*** No core handler for $token" );
-				
-				if( file_exists($service_handler) )
-					include( $service_handler );
-			}
+			$core_result = $this->handler_container( $core_handler, true, $num_args, $args, $chan_name, $chan_key, $bot );
+			$service_result = $this->handler_container( $service_handler, false, $num_args, $args, $chan_name, $chan_key, $bot );
+			
+			return $core_result && $service_result;
+		}
+		
+		
+		function handler_container( $handler_file, $is_core_handler, $num_args, $args, $chan_name, $chan_key, $bot )
+		{
+			if( file_exists($handler_file) )
+				include( $handler_file );
+			elseif( $is_core_handler )
+				debug( "*** Core handler file $handler_file does not exist!" );
 			
 			return true;
+		}
+		
+		
+		function parse_mode( $full_line )
+		{
+			/**
+			 * AEBIO M brian :-i
+			 * AEBIO M brian :+id
+			 * AEBIO M brian :-d
+			 * Vs M #radio +o AEBIO 0
+			 * AEBIO M #radio +v AEBIO
+			 * AEBIO M #radio -v AEBIO
+			 * AEBIO M #radio -o+smv AEBIO AEBIO
+			 * AEBIO M #coder-com +ilk 50 haha
+			 */
+			
+			$args = explode( ' ', $full_line );
+			
+			$target = $args[2];
+			$is_chan = ($target[0] == '#');
+			$readable_args = array();
+
+			if( $is_chan )
+			{
+				$modes = $args[3];
+				$mode_arg = 4;
+				$chan = $this->channels[$chan_key];
+				$add = '';
+
+				for( $i = 0; $i < strlen($modes); ++$i )
+				{
+					$mode = $modes[$i];
+
+					if( $mode == '+' ) {
+						$add = true;
+					}
+					else if( $mode == '-' ) {
+						$add = false;
+					}
+					else if( $mode == 'l' )
+					{
+						if( $add ) {
+							$limit = $args[$mode_arg++];
+							$chan->add_mode( $mode );
+							$chan->set_limit( $limit );
+							$readable_args[] = $limit;
+						}
+						else {
+							$chan->remove_mode( $mode );
+							$chan->set_limit( 0 );
+						}
+					}
+					else if( $mode == 'k' )
+					{
+						if( $add ) {
+							$key = $args[$mode_arg++];
+							$chan->add_mode( $mode );
+							$chan->set_key( $key );
+							$readable_args[] = $key;
+						}
+						else {
+							$key = $args[$mode_arg++];
+							$chan->remove_mode( $mode );
+							$chan->set_key( '' );
+							$readable_args[] = $key;
+						}
+					}
+					else if( $mode == 'o' )
+					{
+						$numeric = $args[$mode_arg++];
+						if( $add )
+							$chan->add_op( $numeric );
+						else
+							$chan->remove_op( $numeric );
+
+						$user = $this->get_user( $numeric );
+						$readable_args[] = $user->get_nick();
+					} 
+					else if( $mode == 'v' )
+					{
+						$numeric = $args[$mode_arg++];
+						if( $add )
+							$chan->add_voice( $numeric );
+						else
+							$chan->remove_voice( $numeric );
+
+						$user = $this->get_user( $numeric );
+						$readable_args[] = $user->get_nick();
+					}
+					else if( $mode == 'b' )
+					{
+						$mask = $args[$mode_arg++];
+						if( $add )
+							$chan->add_ban( $mask, time() );
+						else
+							$chan->remove_ban( $mask );
+
+						$readable_args[] = $mask;
+					}
+					else
+					{
+						if( $add )
+							$chan->add_mode( $mode );
+						else
+							$chan->remove_mode( $mode );
+					}
+				}
+			}
+			else
+			{
+				$user = $this->get_user_by_nick( $target );
+				$modes = $args[3];
+
+				$modes = $args[3];
+				$add = '';
+
+				for( $i = 0; $i < strlen($modes); ++$i )
+				{
+					$mode = $modes[$i];
+
+					if( $mode == '+' ) {
+						$add = true;
+					}
+					else if( $mode == '-' ) {
+						$add = false;
+					}
+					else {
+						if( $add )
+							$user->add_mode( $mode );
+						else
+							$user->remove_mode( $mode );
+					}
+				}
+			}
+		}
+		
+		
+		/**
+		 * send_mode
+		 * This method is responsible for accepting a mode change string performed
+		 * against either a user or channel and sending it to the server as either
+		 * one or several different mode change strings if it exceeds the maximum
+		 * number of mode changes per line. This rule does not apply to user mode
+		 * changes, only channel mode changes.
+		 * 
+		 * For instance, the following changes would be sent:
+		 *      In:   AEBIm M brian :+owg
+		 *      Out:  AEBIm M brian :+owg
+		 * 
+		 *      In:   AEBIm M #dev +ntooovvv AEBf6 AEBf7 AEBf8 AEBf9 AEBfa Cm6Dq 112603551
+		 *      Out:  AEBIm M #dev +ntooov AEBf6 AEBf7 AEBf8 AEBf9 112603551
+		 *            AEBIm M #dev +vv AEBfa CM6Dq
+		 * 
+		 *            Note that two lines are actually sent here, since ircu limits
+		 *            mode changes to six per line.
+		 */
+		function send_mode( $proto_str )
+		{
+			$args = explode( ' ', $proto_str );
+			$source = $args[0];
+			$target = $args[2];
+			$outgoing = array();
+			$param_modes = array('l', 'k', 'b', 'v', 'o');
+			
+			$is_chan = ( $target[0] == '#' );
+			
+			if( $is_chan )
+			{
+				$modes = $args[3];
+				$arg_num = 4;
+				$tmp_modes = '';
+				$tmp_args = array();
+				$rem_args = array_copy( $args, $arg_num );
+				
+				for( $i = 0; $i < strlen($modes); $i++ )
+				{
+					$mode = $modes[$i];
+					$tmp_modes .= $mode;
+					
+					if( $mode == '+' || $mode == '-' )
+						continue;
+					
+					if( in_array($mode, $param_modes) )
+					{
+						$tmp_args[] = $args[$arg_num++];
+						array_shift( $rem_args );
+					}
+					
+					if( ++$mode_count == MAX_MODES_PER_LINE || $i == strlen($modes) - 1 );
+					{
+						$outgoing[] = irc_sprintf( "%s M %s %s %A", $source, $target, $tmp_modes, $tmp_args );
+						$mode_count = 0;
+						$tmp_modes = '';
+						$tmp_args = array();
+					}
+				}
+				
+				foreach( $outgoing as $tmp_line )
+				{
+					/**
+					 * If our remaining arguments array has one numeric value left over
+					 * that did not correspond to a mode, then it is probably a mode
+					 * hack timestamp. Append it to the previously generated line.
+					 */
+					if( count($rem_args) = 1 && is_numeric($rem_args[0]) )
+						$tmp_line .= ' '. $rem_args[0];
+					
+					$this->sendf( $outgoing );
+				}
+			}
+			else
+			{
+				$outgoing[] = $proto_str;
+			}
 		}
 		
 		

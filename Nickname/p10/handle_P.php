@@ -78,6 +78,20 @@
 				if( $cmd_num_args >= $cmd_req_args )
 				{
 					include( $cmd_handler_file );
+
+					/**
+					 * Since we use 'return false' statements inside of command handlers, if 
+					 * we reach this point then we should report a successful command to the
+					 * log channel.
+					 */
+					if( REPORT_COMMANDS )
+					{
+						$log_cmd_name = strtoupper( $cmd_name );
+						$log_cmd_args = $pargs;
+						array_shift( $log_cmd_args );
+						$bot->messagef( COMMAND_CHANNEL, '[%-'. NICKLEN .'H] %s%s%s %A',
+							$user, BOLD_START, $log_cmd_name, BOLD_END, $log_cmd_args );
+					}
 				}
 				else
 				{

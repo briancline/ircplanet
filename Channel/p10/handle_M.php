@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	$source = $args[1];
+	$source = $args[0];
 	$target = $args[2];
 	$target_is_chan = ( $target[0] == '#' );
 	

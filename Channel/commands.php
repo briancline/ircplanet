@@ -97,5 +97,6 @@
 	$this->set_command_info( 'register',         0,   2, false, '<channel> <purpose>' );
 	$this->set_command_info( 'showcommands',     0,   0, false );
 	$this->set_command_info( 'uptime',           0,   0, false );
+	$this->set_command_info( 'verify',           0,   1, false, '<nick>' );
 
 ?>

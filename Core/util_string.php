@@ -214,12 +214,21 @@
 	 */
 	function irc_sprintf( $format )
 	{
-		$std_types = 'bcdeufFosxX';
-		$custom_types = 'ACHNU';
-
 		$args = func_get_args(); // Get array of all function arguments for vsprintf
 		array_shift( $args );    // Pop the format argument from the top
 		
+		return irc_vsprintf( $format, $args );
+	}
+	
+	/**
+	 * irc_vsprintf: Identical to vsprintf, except extended to allow the IRC-specific
+	 * conversion specifiers documented with irc_sprintf.
+	 */ 
+	function irc_vsprintf( $format, $args )
+	{
+		$std_types = 'bcdeufFosxX';
+		$custom_types = 'ACHNU';
+
 		$len = strlen( $format );
 		$arg_index = -1;
 		$pct_count = 0;
