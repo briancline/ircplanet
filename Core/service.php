@@ -1153,7 +1153,7 @@
 		
 		
 		/**
-		 * send_mode
+		 * send_mode_line
 		 * This method is responsible for accepting a mode change string performed
 		 * against either a user or channel and sending it to the server as either
 		 * one or several different mode change strings if it exceeds the maximum
@@ -1171,7 +1171,7 @@
 		 *            Note that two lines are actually sent here, since ircu limits
 		 *            mode changes to six per line.
 		 */
-		function send_mode( $proto_str )
+		function send_mode_line( $proto_str )
 		{
 			$args = explode( ' ', $proto_str );
 			$source = $args[0];
@@ -1183,6 +1183,7 @@
 			
 			if( $is_chan )
 			{
+				$chan = $this->get_channel( $target );
 				$modes = $args[3];
 				$arg_num = 4;
 				$tmp_modes = '';
@@ -1220,15 +1221,37 @@
 					 * hack timestamp. Append it to the previously generated line.
 					 */
 					if( count($rem_args) = 1 && is_numeric($rem_args[0]) )
-						$tmp_line .= ' '. $rem_args[0];
+						$chan_ts = $rem_args[0];
+					else
+						$chan_ts = $chan->get_ts();
+
+					$tmp_line .= ' '. $chan_ts;
 					
 					$this->sendf( $outgoing );
+					$this->parse_mode( $outgoing );
 				}
 			}
 			else
 			{
 				$outgoing[] = $proto_str;
 			}
+		}
+
+
+		/**
+		 * send_mode
+		 * This method simply formats and sends along a mode change string
+		 * to send_mode_line for further processing.
+		 */
+		function send_mode( $source, $chan_name, $modes )
+		{
+			if( is_server($source) || is_user($source) )
+				$source = $source->get_numeric();
+			if( is_channel($chan_name) )
+				$chan_name = $chan_name->get_name();
+
+			$mode_line = irc_sprintf( FMT_MODE_NOTS, $source, $chan_name, $modes );
+			$this->send_mode_line( $mode_line );
 		}
 		
 		

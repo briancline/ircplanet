@@ -352,8 +352,7 @@
 
 		function mode( $chan_name, $modes )
 		{
-			$chan = $this->net->get_channel( $chan_name );
-			$this->net->sendf( FMT_MODE, $this->get_numeric(), $chan_name, $modes, $chan->get_ts() );
+			$this->net->send_mode( $this, $chan_name, $modes );
 		}
 		
 		function kick( $chan_name, $numeric, $reason )

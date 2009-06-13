@@ -1,5 +1,16 @@
 Brian Cline	<brian@ircplanet.net>	2009-06-13
 
+	* Core/service.php: Change send_mode to send_mode_line, and add send_mode
+	as a quick way to send a mode change with a source object or numeric, a
+	channel name, and a string with the mode change. Also, in send_mode_line,
+	append the channel timestamp if one is not provided, and pass along each
+	mode change line to parse_mode for internal processing.
+
+	* Core/bot.php: Modified Bot::mode to use the new send_mode method. So
+	much easier, and now keeps in-memory data structures accurate.
+
+Brian Cline	<brian@ircplanet.net>	2009-06-13
+
 	* Core/bot.php: Update Bot::noticef and Bot::messagef to use irc_vsprintf
 	rather than the stock vsprintf.
 
