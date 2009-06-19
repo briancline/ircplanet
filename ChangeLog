@@ -1,3 +1,9 @@
+Brian Cline	<brian@ircplanet.net>	2009-06-18
+
+	* Core/service.php: This revision of the report_command function was
+	misplaced between two different checked-out versions of the source, and
+	never made it into a commit. Probably caused some very swift crashes.
+
 Brian Cline	<brian@ircplanet.net>	2009-06-13
 
 	* Core/service.php: Change send_mode to send_mode_line, and add send_mode
