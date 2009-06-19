@@ -261,7 +261,7 @@
 			 * attempt to find the type of spec this is. The formatting flags will
 			 * be preserved, so we'll ignore them.
 			 */
-			for( $j = $i + 1; $j < $len - 1; $j++ )
+			for( $j = $i + 1; $j < $len; $j++ )
 			{
 				$tmp_char = $format[$j];
 				$is_std_type = ( false !== strpos($std_types, $tmp_char) );

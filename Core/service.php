@@ -1036,7 +1036,7 @@
 			 * AEBIO M #radio -o+smv AEBIO AEBIO
 			 * AEBIO M #coder-com +ilk 50 haha
 			 */
-			
+
 			$args = explode( ' ', $full_line );
 			
 			$target = $args[2];
@@ -1047,7 +1047,7 @@
 			{
 				$modes = $args[3];
 				$mode_arg = 4;
-				$chan = $this->channels[$chan_key];
+				$chan = $this->get_channel( $target );
 				$add = '';
 
 				for( $i = 0; $i < strlen($modes); ++$i )
@@ -1134,13 +1134,15 @@
 				$user = $this->get_user_by_nick( $target );
 				$modes = $args[3];
 
-				$modes = $args[3];
 				$add = '';
 
 				for( $i = 0; $i < strlen($modes); ++$i )
 				{
 					$mode = $modes[$i];
 
+					if( $mode == ':') {
+						continue;
+					}
 					if( $mode == '+' ) {
 						$add = true;
 					}

@@ -1,5 +1,24 @@
 Brian Cline	<brian@ircplanet.net>	2009-06-18
 
+	* Core/service.php: Fix bugs in parse_mode that were somehow causing
+	PHP to crash (an actual segmentation fault, no warnings/errors/etc).
+	Turns out we weren't ignoring the ':' mode. Also, we weren't using
+	the right name nor method to obtain the relevant channel in parse_mode.
+
+	* Core/util_string.php: Fix a bug whereby irc_sprintf and irc_vsprintf
+	wouldn't pick up a conversion specifier if its type was the last
+	character in the format string. In other words a string with '... %A'
+	would not have been totally converted, as the 'A' would have been 
+	ignored.
+
+	* Channel/p10/handle_P.php: Use built-in Service::report_command
+	instead of manually doing it.
+
+	* Nickname/p10/handle_P.php: Use built-in Service::report_command
+	instead of manually doing it.
+
+Brian Cline	<brian@ircplanet.net>	2009-06-18
+
 	* Core/service.php: Temporarily roll back contained handler processing,
 	pretty much because it will break *everything* and should be slated for
 	1.3 or 2.0. Will require a huge time investment to adjust all the 
