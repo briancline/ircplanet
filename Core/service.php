@@ -1000,8 +1000,14 @@
 			if( $num_args >= 3 && !(($bot = $this->get_user($args[2])) && $bot->is_bot()) )
 				$bot = $this->default_bot;
 			
-			$core_result = $this->handler_container( $core_handler, true, $num_args, $args, $chan_name, $chan_key, $bot );
-			$service_result = $this->handler_container( $service_handler, false, $num_args, $args, $chan_name, $chan_key, $bot );
+			if( file_exists($core_handler) )
+				include( $core_handler );
+			if( file_exists($service_handler) )
+				include( $service_handler );
+			
+			// TODO: Breaks everything; slated for 1.3 or 2.0
+			//$core_result = $this->handler_container( $core_handler, true, $num_args, $args, $chan_name, $chan_key, $bot );
+			//$service_result = $this->handler_container( $service_handler, false, $num_args, $args, $chan_name, $chan_key, $bot );
 			
 			return $core_result && $service_result;
 		}
@@ -1220,7 +1226,7 @@
 					 * that did not correspond to a mode, then it is probably a mode
 					 * hack timestamp. Append it to the previously generated line.
 					 */
-					if( count($rem_args) = 1 && is_numeric($rem_args[0]) )
+					if( count($rem_args) == 1 && is_numeric($rem_args[0]) )
 						$chan_ts = $rem_args[0];
 					else
 						$chan_ts = $chan->get_ts();
