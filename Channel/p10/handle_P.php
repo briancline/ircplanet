@@ -129,7 +129,6 @@
 				 * we reach this point then we should report a successful command to the
 				 * log channel.
 				 */
-				print_r($pargs);
 				$this->report_command( $user, $pargs );
 			}
 			else

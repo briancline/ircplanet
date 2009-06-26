@@ -1,3 +1,13 @@
+Brian Cline	<brian@ircplanet.net>	2009-06-25
+
+	* Channel/commands.php: Revise the ACCESS command's argument list so 
+	that automatic channel lookups are not performed on it. This is
+	preventing the new admin-level multi-channel search feature from
+	working (i.e., "access * brian").
+
+	* Channel/p10/handle_P.php: Forgot to remove a print_r used in
+	debugging some new stuff.
+
 Brian Cline	<brian@ircplanet.net>	2009-06-18
 
 	* Core/service.php: Fix bugs in parse_mode that were somehow causing
