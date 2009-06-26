@@ -76,7 +76,7 @@
 		$bot->noticef( $user, 'Prohibited channel words: ');
 		foreach( $this->db_badchans as $badchan )
 		{
-			$bot->noticef( $user, ' %3d) %s', ++$bad_count, $badchan->chan_mask );
+			$bot->noticef( $user, ' %3d) %s', ++$bad_count, $badchan->get_mask() );
 		}
 		
 		$bot->noticef( $user, 'Found %d prohibited channel words.', $bad_count );

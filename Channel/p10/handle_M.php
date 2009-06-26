@@ -36,15 +36,16 @@
 	if( strlen($source) == 5 )
 		$source = $this->get_user( $source );
 	
-	if( is_user($source) && !$source->is_service() && $target_is_chan && $this->is_chan_registered($target) )
+	if( is_user($source) && !$source->is_service() && $target_is_chan && $this->is_channel_registered($target) )
 	{
 		$bans_to_check = array();
 		$users_to_check = array();
 		$users_to_reop = array();
 		$deop_source = false;
 		$mode_sub = false;
-		$arg_index = 4;
-		
+		$arg_index = 3;
+		$modes = $args[3];
+
 		for( $i = 0; $i < strlen($modes); $i++ )
 		{
 			$mode = $modes[$i];
@@ -61,7 +62,7 @@
 			if( $mode_sub && ($mode == 'o' || $mode == 'v') )
 				$users_to_check[] = $this->get_user( $args[$arg_index] );
 		}
-		
+
 		$source_access = $this->get_channel_access( $target, $source );
 		$act_users = $this->get_active_channel_users( $target );
 		
@@ -80,7 +81,6 @@
 			}
 		}
 		
-		
 		foreach( $users_to_check as $tmp_target )
 		{
 			if( !is_user($tmp_target) || !$tmp_user->is_logged_in() )
@@ -89,7 +89,7 @@
 			$tmp_access = $this->get_channel_access( $target, $tmp_target );
 			if( $tmp_access == false )
 				continue;
-			
+
 			if( $tmp_access->is_protected() && 
 				(!$source_access || $source_access->get_level() <= $tmp_target->get_level()) )
 			{
@@ -105,7 +105,7 @@
 			
 			if( $deop_source )
 			{
-				$mode_buf = '-ov';
+				$mode_buf = '-o';
 				$mode_arg_buf = $source->get_numeric() .' ';
 			}
 			
@@ -118,7 +118,7 @@
 			
 			$mode_change = $mode_buf .' '. $mode_arg_buf;
 			
-			$this->default_bot->mode( $target, $full_mode_change )
+			$this->default_bot->mode( $target, $mode_change );
 		}
 	}
 

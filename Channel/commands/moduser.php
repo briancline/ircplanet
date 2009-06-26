@@ -105,6 +105,27 @@
 			$bot->noticef( $user, '%s\'s auto-voice on %s has been toggled %s.',
 				$mod_user->get_name(), $reg->get_name(), $value ? 'ON' : 'OFF' );
 		}
+		else if( $option == 'PROTECT' )
+		{
+			if( empty($value) )
+			{
+				$value = !$access->is_protected();
+			}
+			else
+			{
+				$value = strtoupper( $value );
+				if( $value == 'ON' ) $value = true;
+				else if( $value == 'OFF' ) $value = false;
+				else {
+					$bot->notice( $user, 'Value must either be ON or OFF.' );
+					return false;
+				}
+			}
+
+			$access->set_protect( $value );
+			$bot->noticef( $user, '%s\'s protection on %s has been toggled %s.',
+				$mod_user->get_name(), $reg->get_name(), $value ? 'ON' : 'OFF' );
+		}
 		else
 		{
 			$bot->noticef( $user, '%s%s%s is not a valid setting!', BOLD_START, $option, BOLD_END );

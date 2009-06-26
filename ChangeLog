@@ -1,5 +1,28 @@
 Brian Cline	<brian@ircplanet.net>	2009-06-25
 
+	* Core/globals.php: Bump version to 1.3.0 in preparation for major
+	release.
+
+	* Channel/globals.php: Bump version to 1.6.0.
+
+	* Nickname/globals.php: Bump version to 1.4.0.
+
+	* Operator/globals.php: Bump version to 1.4.0.
+
+	* Stat/globals.php: Bump version to 1.0.3.
+
+	* Channel/commands/moduser.php: Now that user protection works, channel
+	admins can use MODUSER PROTECT to toggle a user's protection on or off.
+	Finally implemented here.
+
+	* Channel/commands/show.php: Fix a critical bug encountered when
+	enumerating the badchan list.
+
+	* Channel/p10/handle_M.php: Fix crash bug due to typo, and several
+	bugs that prevented user protection from functioning correctly.
+
+Brian Cline	<brian@ircplanet.net>	2009-06-25
+
 	* Core/bot.php: Fix a bug wherein the Bot::topic method was not
 	actually sending a topic change when we don't pass it the channel
 	timestamp. If one is not passed, it is easy to determine one. This bug
