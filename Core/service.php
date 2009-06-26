@@ -1235,8 +1235,8 @@
 
 					$tmp_line .= ' '. $chan_ts;
 					
-					$this->sendf( $outgoing );
-					$this->parse_mode( $outgoing );
+					$this->sendf( $tmp_line );
+					$this->parse_mode( $tmp_line );
 				}
 			}
 			else
@@ -1334,7 +1334,12 @@
 				for( $i = 3; $i < $arg_count; ++$i )
 					$arg_list[] = func_get_arg($i);
 			}
-			
+
+			$mode_str = $mode_pol . str_repeat( $mode_char, count($arg_list) );
+			$mode_args = implode( ' ', $arg_list );
+			$mode_line = irc_sprintf( FMT_MODE_HACK, SERVER_NUM, $chan->get_name(), $mode_str, $mode_args, $chan->get_ts() );
+			return $this->send_mode_line( $mode_line );
+
 			for( $i = 0; $i < count($arg_list); ++$i )
 			{
 				$args[] = $arg_list[$i];

@@ -83,28 +83,28 @@
 			
 			if( $tmpname == $user_mask || fnmatch($user_mask, $tmpname) )
 			{
-				$users[$user_id] = $access;
+				$users[] = $access;
 				$n++;
 			}
 		}
 	}
-	
+
 	if( count($users) > 0 )
 	{
 		$user_num = 0;
 		for( $i = 500; $i > 0; $i-- )
 		{
-			foreach( $users as $user_id => $access )
+			foreach( $users as $access )
 			{
 				$level = $access->get_level();
 				if( $level == $i )
 				{
-					$tmpuser = $this->get_account_by_id( $user_id );
+					$tmpuser = $this->get_account_by_id( $access->get_user_id() );
 					$last_ts = $tmpuser->get_lastseen_ts();
 
 					if( $req_wildcard && $is_admin )
 					{
-						$tmp_reg = $this->get_channel_reg_by_id( $level->get_chan_id() );
+						$tmp_reg = $this->get_channel_reg_by_id( $access->get_chan_id() );
 
 						$bot->noticef( $user, '%3d) Channel: %s%s%s', 
 							++$user_num, BOLD_START, $tmp_reg->get_name(), BOLD_END );

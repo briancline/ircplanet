@@ -334,7 +334,14 @@
 		function topic( $chan_name, $topic, $chan_ts = 0 )
 		{
 			if( TOPIC_BURSTING && $chan_ts == 0 )
-				return;
+			{
+				$chan = $this->net->get_channel( $chan_name );
+
+				if( !$chan )
+					return;
+
+				$chan_ts = $chan->get_ts();
+			}
 
 			if( TOPIC_BURSTING )
 				$this->net->sendf( FMT_TOPIC, $this->get_numeric(), $chan_name, $chan_ts, time(), $topic );

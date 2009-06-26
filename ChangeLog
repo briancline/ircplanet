@@ -1,5 +1,23 @@
 Brian Cline	<brian@ircplanet.net>	2009-06-25
 
+	* Core/bot.php: Fix a bug wherein the Bot::topic method was not
+	actually sending a topic change when we don't pass it the channel
+	timestamp. If one is not passed, it is easy to determine one. This bug
+	only affected networks with topic bursting enabled, which adds a
+	timestamp to the topic.
+
+	* Core/service.php: send_mode_line was sending the wrong variable to
+	sendf and parse_mode. Huge bug, but corrected. Works quite well now.
+	Also, modify perform_chan_user_mode is now using send_mode_line for
+	its outgoing mode processing. The rest of it needs to be removed
+	after it has been proven to run stably.
+
+	* Channel/commands/access.php: Fix a bug wherein ACCESS * username
+	would only show one access record if there were more than one result.
+	Also fix another crash bug due to a typo.
+
+Brian Cline	<brian@ircplanet.net>	2009-06-25
+
 	* Channel/commands.php: Revise the ACCESS command's argument list so 
 	that automatic channel lookups are not performed on it. This is
 	preventing the new admin-level multi-channel search feature from
