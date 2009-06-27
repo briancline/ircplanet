@@ -96,9 +96,7 @@
 					if($cmd_result == false)
 						return false;
 					
-					$report_cmd = str_replace( "_", " ", $cmd_name );
-					$report_cmd = strtoupper( $report_cmd );
-					$this->report_command( $report_cmd, $user, assemble($pargs, 1) );
+					$this->report_command( $user, $pargs );
 				}
 				else
 				{

@@ -1,5 +1,14 @@
 Brian Cline	<brian@ircplanet.net>	2009-06-26
 
+	* Defense/p10/handle_P.php: Fix broken command reporting.
+
+	* Stat/ss.php: Remove old-style command and event reporting methods. We
+	now have a Core-level method to take care of this more efficiently.
+
+	* Stat/p10/handle_P.php: Fix broken command reporting.
+
+Brian Cline	<brian@ircplanet.net>	2009-06-26
+
 	* Defense/ds: Fix incorrect script references.
 
 	* Defense/commands/access.php: Fix incorrect table name.
