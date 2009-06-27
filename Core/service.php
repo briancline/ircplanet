@@ -190,13 +190,13 @@
 			$this->add_server( '', SERVER_NUM, SERVER_NAME, SERVER_DESC, START_TIME, SERVER_MAXUSERS, SERVER_MODES );
 			$this->default_bot = $this->add_bot( BOT_NICK, BOT_IDENT, BOT_HOST, BOT_DESC, START_TIME, BOT_IP, BOT_MODES );
 
-			if( REPORT_EVENTS && defined('EVENT_CHANNEL') )
+			if( defined('REPORT_EVENTS') && REPORT_EVENTS && defined('EVENT_CHANNEL') )
 			{
 				$this->add_channel( EVENT_CHANNEL, START_TIME, EVENT_CHANMODES );
 				$this->add_channel_user( EVENT_CHANNEL, $this->default_bot->get_numeric(), 'o' );
 			}
 
-			if( REPORT_COMMANDS && defined('COMMAND_CHANNEL') )
+			if( defined('REPORT_COMMANDS') && REPORT_COMMANDS && defined('COMMAND_CHANNEL') )
 			{
 				$this->add_channel( COMMAND_CHANNEL, START_TIME, COMMAND_CHANMODES );
 				$this->add_channel_user( COMMAND_CHANNEL, $this->default_bot->get_numeric(), 'o' );
@@ -1187,6 +1187,7 @@
 			$target = $args[2];
 			$outgoing = array();
 			$param_modes = array('l', 'k', 'b', 'v', 'o');
+			$mode_count = 0;
 			
 			$is_chan = ( $target[0] == '#' );
 			

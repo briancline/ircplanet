@@ -1,5 +1,10 @@
 Brian Cline	<brian@ircplanet.net>	2009-06-26
 
+	* Core/service.php: Fix more stdout warnings. Not sure how these weren't
+	seen in testing.
+
+Brian Cline	<brian@ircplanet.net>	2009-06-26
+
 	* Core/service.php: Fix massive stdout errors due to rolling back new
 	event handling mechanisms.
 
