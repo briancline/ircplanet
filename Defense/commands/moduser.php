@@ -75,7 +75,7 @@
 			return false;
 		}
 		
-		db_query( "update `os_admins` set `level` = '$param' where `user_id` = '". $acct->get_id() ."'" );
+		db_query( "update `ds_admins` set `level` = '$param' where `user_id` = '". $acct->get_id() ."'" );
 		$bot->noticef( $user, '%s\'s level has been changed from %d to %d.', $acct->get_name(), 
 			$curr_level, $param );
 	

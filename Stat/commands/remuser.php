@@ -51,7 +51,7 @@
 		return false;
 	}
 	
-	db_query( "delete from `os_admins` where `user_id` = '". $acct->get_id() ."'" );
+	db_query( "delete from `ss_admins` where `user_id` = '". $acct->get_id() ."'" );
 	$bot->noticef( $user, '%s\'s level %d access has been revoked.', $acct->get_name(), $curr_level );
 
 ?>

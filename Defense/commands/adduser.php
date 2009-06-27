@@ -63,7 +63,7 @@
 		return false;
 	}
 	
-	db_query( "insert into `ss_admins` (user_id, level) values ('". $acct->get_id() ."', '$level')" );
+	db_query( "insert into `ds_admins` (user_id, level) values ('". $acct->get_id() ."', '$level')" );
 	$bot->noticef( $user, '%s now has level %d access.', $acct->get_name(), $level );
 
 ?>

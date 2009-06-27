@@ -33,9 +33,9 @@
 	$search_mask = $pargs[1];
 
 	$tmp_q = db_query( '
-			select ss_admins.user_id, accounts.name, ss_admins.level 
-			from ss_admins 
-			inner join accounts on accounts.account_id = ss_admins.user_id 
+			select ds_admins.user_id, accounts.name, ds_admins.level 
+			from ds_admins 
+			inner join accounts on accounts.account_id = ds_admins.user_id 
 			order by level desc
 	' );
 	while( $row = mysql_fetch_assoc($tmp_q) )

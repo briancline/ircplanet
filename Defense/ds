@@ -1,2 +1,2 @@
 #!/bin/sh
-php ss.php 2>&1 1>ss.log &
+php ds.php 2>&1 1>ds.log &

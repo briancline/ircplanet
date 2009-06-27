@@ -1,5 +1,30 @@
 Brian Cline	<brian@ircplanet.net>	2009-06-26
 
+	* Defense/ds: Fix incorrect script references.
+
+	* Defense/commands/access.php: Fix incorrect table name.
+
+	* Defense/commands/adduser.php: Fix incorrect table name.
+
+	* Defense/commands/ctcp_*.php: Added generic CTCP handlers to Defense
+	Service.
+
+	* Defense/commands/moduser.php: Fix incorrect table name.
+
+	* Defense/commands/remuser.php: Fix incorrect table name.
+
+	* Operator/os.ini: Since the Defense Service now performs the same types
+	of scanning we were doing in the Operator Service, turn this off in the OS
+	by default.
+
+	* Stat/commands/ctcp_*.php: Add generic CTCP handlers to Stats Service.
+
+	* Stat/commands/moduser.php: Fix incorrect table name.
+
+	* Stat/commands/remuser.php: Fix incorrect table name.
+
+Brian Cline	<brian@ircplanet.net>	2009-06-26
+
 	* Channel/commands.php: Revert the ACCESS channel parameter back to the
 	way it was since we now have a special case to handle ACCESS * in the
 	PRIVMSG handler.
