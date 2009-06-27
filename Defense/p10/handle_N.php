@@ -31,7 +31,7 @@
 	
 	if(!$nick_change)
 	{
-		$gline_mask = '*@'. $user->get_gline_ip();
+		$gline_mask = '*@'. $user->get_ip();
 		$gline_set = false;
 
 		if( defined('TOR_GLINE') && TOR_GLINE == true && !$gline_set 
