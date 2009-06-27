@@ -29,13 +29,19 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if( strlen($args[0]) == BASE64_SERVLEN )
+	$source = $args[0];
+	$target = $args[2];
+	$target_is_chan = ( $target[0] == '#' );
+	$source_is_server = ( strlen($source) == BASE64_SERVLEN );
+
+	if( $source_is_server )
 		$source = $this->get_server( $args[0] );
 	else
 		$source = $this->get_user( $args[0] );
 	
-	if( $is_chan )
+	if( $target_is_chan )
 	{
+		$chan = $this->get_channel( $target );
 		$target = $chan;
 
 		if( $this->is_badchan($chan->get_name()) && !$chan->is_secret() )
@@ -46,12 +52,13 @@
 	}
 	else 
 	{
+		$user = $this->get_user( $target );
 		$target = $user;
 	}
 	
 	$modes = $args[3];
-	
-	if(!$is_chan)
-		$this->report_event( 'MODE', $source, $target, $modes, $readable_args );
+
+	if( !$target_is_chan )
+		$this->report_event( 'MODE', $source, $target, $modes );
 
 ?>

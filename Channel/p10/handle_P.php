@@ -115,7 +115,8 @@
 				}
 				
 				if( $cmd_name != 'register' && $cmd_name != 'adminreg' 
-					&& eregi("<channel>", $cmd_syntax)
+					&& !($cmd_name == 'access' && $chan_name == '*') 
+					&& eregi("<channel>", $cmd_syntax) 
 					&& !($chan_reg = $this->get_channel_reg($chan_name)) )
 				{
 					$bot->noticef( $user, '%s is not a registered channel.', $chan_name );

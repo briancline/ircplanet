@@ -92,7 +92,7 @@
 	$this->set_command_info( 'topic',           75,   1, false, '<channel> [new topic]' );
 	
 	$this->set_command_info( 'help',             0,   0, false, '[command]' );
-	$this->set_command_info( 'access',           0,   2, false, '<channel|mask> <search mask>' );
+	$this->set_command_info( 'access',           0,   2, false, '<channel> <search mask>' );
 	$this->set_command_info( 'chaninfo',         0,   1, false, '<channel>' );
 	$this->set_command_info( 'register',         0,   2, false, '<channel> <purpose>' );
 	$this->set_command_info( 'showcommands',     0,   0, false );

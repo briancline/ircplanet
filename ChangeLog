@@ -1,3 +1,19 @@
+Brian Cline	<brian@ircplanet.net>	2009-06-26
+
+	* Channel/commands.php: Revert the ACCESS channel parameter back to the
+	way it was since we now have a special case to handle ACCESS * in the
+	PRIVMSG handler.
+
+	* Channel/p10/handle_P.php: Make a special exception for the ACCESS *
+	command so we don't try to look up the '*' channel name automatically.
+
+	* Operator/p10/handle_M.php: Fixed the broken MODE log channel reporting;
+	turns out we weren't even detecting the right kinds of changes. We don't
+	log channel mode changes, only user mode changes. Fixed.
+
+	* Stat/p10/handle_M.php: Fixed broken MODE handler due to recent changes
+	in the Core-level MODE handler. This was causing crashes.
+
 Brian Cline	<brian@ircplanet.net>	2009-06-25
 
 	* Core/globals.php: Bump version to 1.3.0 in preparation for major
