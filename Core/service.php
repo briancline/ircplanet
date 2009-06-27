@@ -1008,8 +1008,9 @@
 			// TODO: Breaks everything; slated for 1.3 or 2.0
 			//$core_result = $this->handler_container( $core_handler, true, $num_args, $args, $chan_name, $chan_key, $bot );
 			//$service_result = $this->handler_container( $service_handler, false, $num_args, $args, $chan_name, $chan_key, $bot );
-			
-			return $core_result && $service_result;
+			//return $core_result && $service_result;
+
+			return true;
 		}
 		
 		

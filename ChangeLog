@@ -1,5 +1,10 @@
 Brian Cline	<brian@ircplanet.net>	2009-06-26
 
+	* Core/service.php: Fix massive stdout errors due to rolling back new
+	event handling mechanisms.
+
+Brian Cline	<brian@ircplanet.net>	2009-06-26
+
 	* Defense/p10/handle_P.php: Fix broken command reporting.
 
 	* Stat/ss.php: Remove old-style command and event reporting methods. We
