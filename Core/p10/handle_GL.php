@@ -41,6 +41,7 @@
 	}
 	else 
 	{
+		$mask = substr( $args[3], 1 );
 		$this->remove_gline( $mask );
 	}
 	

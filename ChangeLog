@@ -1,5 +1,17 @@
 Brian Cline	<brian@ircplanet.net>	2009-06-26
 
+	* Core/p10/handle_GL.php: Fix bug and PHP warning.
+
+	* Defense/p10/handle_P.php: Fix bug and PHP warning due to typo.
+
+	* Nickname/p10/handle_P.php: Fix bug and PHP warning due to typo.
+
+	* Operator/p10/handle_P.php: Fix bug and PHP warning due to typo.
+
+	* Stat/p10/handle_P.php: Fix bug and PHP warning due to typo.
+
+Brian Cline	<brian@ircplanet.net>	2009-06-26
+
 	* Defense/p10/handle_N.php: Use *@ip instead of *ident@ip for g-lines.
 	More reliable, and actually works.
 

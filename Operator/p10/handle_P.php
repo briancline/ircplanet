@@ -41,7 +41,7 @@
 		$bot = $this->users[$cmd_target];
 		$is_private = true;
 	}
-	if( !empty($chan_key) && $message[0] == '!' )
+	if( !empty($chan_key) && $cmd_msg[0] == '!' )
 	{
 		$cmd_msg = substr( $cmd_msg, 1 );
 		$bot = $this->default_bot;
