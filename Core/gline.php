@@ -33,17 +33,20 @@
 	{
 		var $mask;
 		var $expire_ts;
+		var $lastmod_ts;
 		var $reason;
 		
-		function __construct( $mask, $duration, $reason )
+		function __construct( $mask, $duration, $lastmod, $reason )
 		{
 			$this->mask = $mask;
 			$this->expire_ts = time() + $duration;
+			$this->lastmod_ts = $lastmod;
 			$this->reason = $reason;
 		}
 		
 		function get_mask()          { return $this->mask; }
 		function get_expire_ts()     { return $this->expire_ts; }
+		function get_lastmod_ts()    { return $this->lastmod_ts; }
 		function get_duration()      { return $this->expire_ts - time(); }
 		function get_reason()        { return $this->reason; }
 		function is_expired()        { return (time() >= $this->expire_ts); }

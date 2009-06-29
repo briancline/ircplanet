@@ -29,6 +29,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
+	define( 'IRCU_2_10_12_12',      true );
+
 	define( 'TOPIC_BURSTING',       true );
 	define( 'IDENT_LEN',            10 );
 	
@@ -66,7 +68,7 @@
 	define( 'FMT_ACCOUNT',          "%s AC %s %s" );
 	define( 'FMT_QUIT',             "%s Q :%s" );
 	define( 'FMT_INVITE',           "%s I %s :%s" );
-	define( 'FMT_GLINE_ADD',        "%s GL * +%s %ld :%s" );
+	define( 'FMT_GLINE_ADD',        "%s GL * +%s %ld %ld :%s" );
 	define( 'FMT_GLINE_REMOVE',     "%s GL * -%s" );
 	define( 'FMT_JUPE_ACTIVE',      '%s JU * +%s %ld %ld :%s' );
 	define( 'FMT_JUPE_INACTIVE',    '%s JU * -%s %ld %ld :%s' );

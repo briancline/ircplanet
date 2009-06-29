@@ -1,3 +1,35 @@
+Brian Cline	<brian@ircplanet.net>	2009-06-27
+
+	* Core/gline.php: Add the lastmod TS to the Gline class.
+
+	* Core/p10.php: Update GL token parameters to include the lastmod
+	timestamp, which ircu2.10.12.12 now requires. This fixes a bug causing
+	ircu to return "need more parameters" to the service every time it
+	attempts to issue a GLINE or BADCHAN. This is backwards compatible with
+	u2.10.11 and has been tested successfully on both versions.
+
+	* Core/service.php: Update add_gline to accept a lastmod timestamp.
+
+	* Defense/ds.php: Update calls to add_gline to include lastmod timestamp.
+
+	* Operator/p10/handle_N.php: Update calls to add_gline to include lastmod
+	timestamp.
+
+	* Operator/commands/addgchan.php: Update calls to add_gline to include
+	lastmod timestamp.
+
+	* Operator/commands.gline.php: Update calls to add_gline to include
+	lastmod timestamp.
+
+	* Operator/commands/addgname.php: Update calls to add_gline to include
+	lastmod timestamp.
+
+	* Operator/commands/clearchan.php: Update calls to add_gline to include
+	lastmod timestamp.
+
+	* Operator/os.php: Update service_add_gline and all calls to add_gline to
+	include lastmod timestamp.
+
 Brian Cline	<brian@ircplanet.net>	2009-06-26
 
 	* Core/p10/handle_GL.php: Fix bug and PHP warning.

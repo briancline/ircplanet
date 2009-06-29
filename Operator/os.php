@@ -103,7 +103,8 @@
 		{
 			foreach($this->db_glines as $key => $db_gline)
 			{
-				$this->add_gline( $db_gline->get_mask(), $db_gline->get_remaining_secs(), $db_gline->get_reason() );
+				$this->add_gline( $db_gline->get_mask(), $db_gline->get_remaining_secs(), 
+						$db_gline->get_set_ts(), $db_gline->get_reason() );
 				$this->enforce_gline( $db_gline->get_mask() );
 			}
 			
@@ -229,13 +230,13 @@
 
 
 
-		function service_add_gline( $host, $duration, $reason )
+		function service_add_gline( $host, $duration, $lastmod, $reason )
 		{
 			if( $this->get_db_gline($host) )
 				return false;
 
 			$gline = new DB_Gline();
-			$gline->set_ts( time() );
+			$gline->set_ts( $lastmod );
 			$gline->set_mask( $host );
 			$gline->set_duration( $duration );
 			$gline->set_reason( $reason );

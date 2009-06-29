@@ -573,13 +573,13 @@
 		}
 		
 		
-		function add_gline( $host, $duration, $reason = "" )
+		function add_gline( $host, $duration, $lastmod, $reason = "" )
 		{
 			$gline_key = strtolower( $host );
-			$this->glines[$gline_key] = new GLine( $host, $duration, $reason );
+			$this->glines[$gline_key] = new GLine( $host, $duration, $lastmod, $reason );
 			
 			if( method_exists($this, 'service_add_gline') )
-				$this->service_add_gline( $host, $duration, $reason );
+				$this->service_add_gline( $host, $duration, $lastmod, $reason );
 
 			return $this->glines[$gline_key];
 		}
@@ -601,7 +601,8 @@
 				return false;
 			
 			$this->sendf( FMT_GLINE_ADD, SERVER_NUM, $gline->get_mask(), 
-				$gline->get_duration(), $gline->get_reason() );
+				$gline->get_duration(), $gline->get_lastmod_ts(), 
+				$gline->get_reason() );
 			return true;
 		}
 		

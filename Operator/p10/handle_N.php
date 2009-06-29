@@ -52,7 +52,7 @@
 		{
 			$gline_mask = '*@'. $user->get_ip();
 			$gline_secs = convert_duration( CLONE_DURATION );
-			$new_gl = $this->add_gline( $gline_mask, $gline_secs, CLONE_REASON );
+			$new_gl = $this->add_gline( $gline_mask, $gline_secs, time(), CLONE_REASON );
 			$this->enforce_gline( $new_gl );
 			$gline_set = true;
 		}
@@ -62,7 +62,7 @@
 		{
 			$gline_mask = '*@'. $user->get_ip();
 			$gline_secs = convert_duration( TOR_DURATION );
-			$new_gl = $this->add_gline( $gline_mask, $gline_secs, TOR_REASON );
+			$new_gl = $this->add_gline( $gline_mask, $gline_secs, time(), TOR_REASON );
 			$this->enforce_gline( $new_gl );
 			$gline_set = true;
 		}
@@ -72,7 +72,7 @@
 		{
 			$gline_mask = '*@'. $user->get_ip();
 			$gline_secs = convert_duration( COMP_DURATION );
-			$new_gl = $this->add_gline( $gline_mask, $gline_secs, COMP_REASON );
+			$new_gl = $this->add_gline( $gline_mask, $gline_secs, time(), COMP_REASON );
 			$this->enforce_gline( $new_gl );
 			$gline_set = true;
 		}

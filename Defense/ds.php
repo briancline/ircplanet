@@ -286,7 +286,7 @@
 			else
 			{
 				$gline_secs = convert_duration( $gline_duration );
-				$new_gl = $this->add_gline( $gline_mask, $gline_secs, $gline_reason );
+				$new_gl = $this->add_gline( $gline_mask, $gline_secs, time(), $gline_reason );
 				$this->enforce_gline( $new_gl );
 			}
 		}

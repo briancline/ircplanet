@@ -93,7 +93,7 @@
 			$tmp_user = $this->get_user( $numeric );
 			if( $tmp_user != $user && !$tmp_user->is_bot() )
 			{
-				$gline = $this->add_gline( $tmp_user->get_gline_mask(), $gline_duration, 
+				$gline = $this->add_gline( $tmp_user->get_gline_mask(), $gline_duration, time(), 
 					"Channel g-line for ". $chan->get_name() );
 				$this->enforce_gline( $gline );
 			}

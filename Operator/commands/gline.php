@@ -67,7 +67,7 @@
 		return false;
 	}
 	
-	$gline = $this->add_gline( $mask, $duration_secs, $reason );
+	$gline = $this->add_gline( $mask, $duration_secs, time(), $reason );
 	$this->enforce_gline( $gline );
 	
 	$mask = fix_host_mask( $mask );
