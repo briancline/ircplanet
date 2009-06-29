@@ -1,5 +1,9 @@
 Brian Cline	<brian@ircplanet.net>	2009-06-27
 
+	* Core/core_globals.php: Bump revision for new Gline class changes.
+
+Brian Cline	<brian@ircplanet.net>	2009-06-27
+
 	* Core/gline.php: Add the lastmod TS to the Gline class.
 
 	* Core/p10.php: Update GL token parameters to include the lastmod
