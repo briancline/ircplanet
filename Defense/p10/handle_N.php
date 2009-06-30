@@ -34,6 +34,13 @@
 		$gline_mask = '*@'. $user->get_ip();
 		$gline_set = false;
 
+		if( defined('BLACK_GLINE') && BLACK_GLINE == true && !$gline_set 
+				&& $this->is_blacklisted_file($user->get_ip()) )
+		{
+			$this->perform_gline( $gline_mask, BLACK_DURATION, BLACK_REASON );
+			$gline_set = true;
+		}
+		
 		if( defined('TOR_GLINE') && TOR_GLINE == true && !$gline_set 
 				&& $this->is_tor_host($user->get_ip()) )
 		{

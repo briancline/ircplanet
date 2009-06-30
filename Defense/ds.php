@@ -119,6 +119,34 @@
 		}
 		
 
+		function is_blacklisted_file( $ip )
+		{
+			if( !defined('BLACK_FILE')) || !file_exists(BLACK_FILE) )
+				return false;
+
+			$file_lastmod = filemtime( BLACK_FILE );
+			if( !isset($this->black_file_lastmod) || $file_lastmod > $this->black_file_lastmod )
+			{
+				$black_contents = file_get_contents( BLACK_FILE );
+				$black_addrs = explode( "\n", $black_contents );
+				$this->black_ips = array();
+
+				foreach( $black_addrs as $tmp_ip )
+				{
+					if( !is_ip($tmp_ip) )
+						continue;
+
+					$this->black_ips[$ip] = 1;
+				}
+
+				$this->black_file_lastmod = $file_lastmod;
+				debugf( 'Reloaded %d IPs from modified blacklist file.', count($this->black_ips) );
+			}
+
+			return array_key_exists( $ip, $this->black_ips );
+		}
+
+
 		/**
 		 * is_blacklisted_dns is a generic function to provide extensibility
 		 * for easily checking DNS based blacklists. It has three arguments:

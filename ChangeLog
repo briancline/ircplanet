@@ -1,3 +1,19 @@
+Brian Cline	<brian@ircplanet.net>	2009-06-28
+
+	* Defense/ds.ini: Add forgotten option to control whether DS sends gline
+	requests directly to OS or performs them itself (os_gline = true would
+	send all glines to OS). Also add options for a blacklist flat file, which
+	by default is blacklist.txt. It should contain one IP on each line for
+	every IP you wish to have blacklisted.
+
+	* Defense/ds.php: Add is_blacklisted_file to determine whether or not the
+	provided IP address is contained in our flat-file blacklist. This list is
+	loaded after the first 'N' message comes through the wire, and re-loaded 
+	automatically after the file is modified.
+
+	* Defense/p10/handle_N.php: Perform check to see if a host is in the
+	blacklist file upon connection.
+
 Brian Cline	<brian@ircplanet.net>	2009-06-27
 
 	* Core/core_globals.php: Bump revision for new Gline class changes.
