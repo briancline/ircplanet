@@ -136,7 +136,7 @@
 					if( !is_ip($tmp_ip) )
 						continue;
 
-					$this->black_ips[$ip] = 1;
+					$this->black_ips[$tmp_ip] = 1;
 				}
 
 				$this->black_file_lastmod = $file_lastmod;
