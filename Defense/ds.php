@@ -121,7 +121,7 @@
 
 		function is_blacklisted_file( $ip )
 		{
-			if( !defined('BLACK_FILE')) || !file_exists(BLACK_FILE) )
+			if( !defined('BLACK_FILE') || !file_exists(BLACK_FILE) )
 				return false;
 
 			$file_lastmod = filemtime( BLACK_FILE );
