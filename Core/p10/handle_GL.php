@@ -35,9 +35,13 @@
 	{
 		$mask = substr( $args[3], 1 );
 		$duration = $args[4];
-		$reason = $args[5];
+		$reason = $args[$num_args - 1];
+		$lastmod = 0;
+
+		if( $num_args >= 7 )
+			$lastmod = $args[5];
 		
-		$this->add_gline( $mask, $duration, $reason );
+		$this->add_gline( $mask, $duration, $lastmod, $reason );
 	}
 	else 
 	{

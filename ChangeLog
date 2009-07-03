@@ -1,5 +1,18 @@
 Brian Cline	<brian@ircplanet.net>	2009-06-29
 
+	* Core/p10/handle_GL.php: Fix a bug caused by all the recent changes to
+	Gline and Service::add_gline. We weren't picking up the lastmod timestamp
+	when we received a GL message and as a result the reason was turning up
+	empty.
+
+	* Core/p10/handle_SQ.php: Fix a bug wherein the OS log channel message for
+	SQUITs would show an empty source name if a server SQUIT itself.
+
+	* Operator/p10/handle_SQ.php: Source determination moved to core SQ
+	handler due to aforementioned bug.
+
+Brian Cline	<brian@ircplanet.net>	2009-06-29
+
 	* Defense/ds.php: Fix another terrible typo.
 
 Brian Cline	<brian@ircplanet.net>	2009-06-29

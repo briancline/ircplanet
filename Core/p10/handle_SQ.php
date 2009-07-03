@@ -38,6 +38,11 @@
 		debug( "Uplink is squitting me! ($reason)" );
 		$this->close();
 	}
+
+	if( strlen($source) == BASE64_SERVLEN )
+		$source = $this->get_server( $source );
+	else
+		$source = $this->get_user( $source );
 	
 	$this->remove_server( $server->numeric );
 	
