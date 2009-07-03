@@ -1,4 +1,9 @@
-Brian Cline	<brian@ircplanet.net>	2009-06-29
+Brian Cline	<brian@ircplanet.net>	2009-07-03
+
+	* Operator/p10/handle_GL.php: Fix crash bug - can't report information
+	about a gline we don't have!
+
+Brian Cline	<brian@ircplanet.net>	2009-07-03
 
 	* Core/p10/handle_GL.php: Fix a bug caused by all the recent changes to
 	Gline and Service::add_gline. We weren't picking up the lastmod timestamp
