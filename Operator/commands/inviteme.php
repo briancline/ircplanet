@@ -29,7 +29,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$nicks = array();
 	$channels = array( EVENT_CHANNEL, COMMAND_CHANNEL );
 	
 	foreach( $channels as $chan_name )

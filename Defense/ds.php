@@ -124,6 +124,8 @@
 			if( !defined('BLACK_FILE') || !file_exists(BLACK_FILE) )
 				return false;
 
+			clearstatcache(); // filemtime results are cached; this clears the cache.
+
 			$file_lastmod = filemtime( BLACK_FILE );
 			if( !isset($this->black_file_lastmod) || $file_lastmod > $this->black_file_lastmod )
 			{

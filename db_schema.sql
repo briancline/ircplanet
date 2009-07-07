@@ -143,6 +143,9 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `cs_badchans`
 -- 
 
+DROP TABLE IF EXISTS `ds_admins`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 DROP TABLE IF EXISTS `cs_badchans`;
 CREATE TABLE `cs_badchans` (
   `badchan_id` int(11) NOT NULL auto_increment,
@@ -150,6 +153,21 @@ CREATE TABLE `cs_badchans` (
   `create_date` datetime default NULL,
   PRIMARY KEY  (`badchan_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='CS Bad Channels';
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `ds_admins`
+--
+
+DROP TABLE IF EXISTS `ds_admins`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ds_admins` (
+   `user_id` int(11),
+   `level` int(11),
+   PRIMARY KEY (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Defense Service Admins';
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `help`
@@ -262,12 +280,15 @@ SET character_set_client = @saved_cs_client;
 -- 
 
 DROP TABLE IF EXISTS `ns_badnicks`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `ns_badnicks` (
   `badnick_id` int(11) NOT NULL auto_increment,
   `nick_mask` varchar(50) NOT NULL,
   `create_date` datetime default NULL,
   PRIMARY KEY  (`badnick_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Bad Nick Words/Masks';
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `os_admins`
