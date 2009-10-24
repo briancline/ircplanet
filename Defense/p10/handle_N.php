@@ -35,7 +35,7 @@
 		$gline_set = false;
 
 		if( defined('BLACK_GLINE') && BLACK_GLINE == true && !$gline_set 
-				&& $this->is_blacklisted_file($user->get_ip()) )
+				&& $this->is_blacklisted_db($user->get_ip()) )
 		{
 			$this->perform_gline( $gline_mask, BLACK_DURATION, BLACK_REASON );
 			$gline_set = true;

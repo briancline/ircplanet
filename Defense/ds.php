@@ -119,33 +119,22 @@
 		}
 		
 
-		function is_blacklisted_file( $ip )
+		function is_blacklisted_db( $ip )
 		{
-			if( !defined('BLACK_FILE') || !file_exists(BLACK_FILE) )
+			if( !defined('BLACK_GLINE') || !defined('BLACK_COLUMN') )
 				return false;
-
-			clearstatcache(); // filemtime results are cached; this clears the cache.
-
-			$file_lastmod = filemtime( BLACK_FILE );
-			if( !isset($this->black_file_lastmod) || $file_lastmod > $this->black_file_lastmod )
+			
+			$res = db_query( sprintf(
+					"select count(ip_address) FROM `ds_blacklist` WHERE `ip_address` = '%s'", 
+					addslashes($ip)) );
+			if( $res && mysql_result($res, 0) > 0 )
 			{
-				$black_contents = file_get_contents( BLACK_FILE );
-				$black_addrs = explode( "\n", $black_contents );
-				$this->black_ips = array();
-
-				foreach( $black_addrs as $tmp_ip )
-				{
-					if( !is_ip($tmp_ip) )
-						continue;
-
-					$this->black_ips[$tmp_ip] = 1;
-				}
-
-				$this->black_file_lastmod = $file_lastmod;
-				debugf( 'Reloaded %d IPs from modified blacklist file.', count($this->black_ips) );
+				mysql_free_result( $res );
+				return true;
 			}
-
-			return array_key_exists( $ip, $this->black_ips );
+			
+			debugf('IP %s is NOT blacklisted.');
+			return false;
 		}
 
 

@@ -1,3 +1,17 @@
+Brian Cline	<brian@ircplanet.net>	2009-10-23
+
+	* Defense/ds.php: Changed is_blacklisted_file to is_blacklisted_db and
+	modified to check the "ds_blacklist" table in the database for an IP
+	address. This alleviates PHP maximum memory allocation errors on larger 
+	installations where blacklist.txt grew to be too large, as we were
+	previously loading it into memory. Not tested.
+
+	* Defense/ds.ini: Remove option specifying blacklist text file since it's
+	all stored in a database table now.
+	
+	* Defense/p10/handle_N.php: Modified to check is_blacklisted_db rather
+	than the old file-based method.
+	
 Brian Cline	<brian@ircplanet.net>	2009-07-06
 
 	* db_schema.sql: Add table definition for the defense service admin list.
