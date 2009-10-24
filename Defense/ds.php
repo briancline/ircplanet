@@ -130,10 +130,10 @@
 			if( $res && mysql_result($res, 0) > 0 )
 			{
 				mysql_free_result( $res );
+				debugf('IP %s blacklisted by admin.');
 				return true;
 			}
 			
-			debugf('IP %s is NOT blacklisted.');
 			return false;
 		}
 

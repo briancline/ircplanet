@@ -1,5 +1,9 @@
 Brian Cline	<brian@ircplanet.net>	2009-10-23
 
+	* Defense/ds.php: Move debug message; tested and works.
+
+Brian Cline	<brian@ircplanet.net>	2009-10-23
+
 	* Defense/ds.php: Typo.
 
 Brian Cline	<brian@ircplanet.net>	2009-10-23
