@@ -1,5 +1,9 @@
 Brian Cline	<brian@ircplanet.net>	2009-10-23
 
+	* Defense/ds.php: Typo.
+
+Brian Cline	<brian@ircplanet.net>	2009-10-23
+
 	* Defense/ds.php: Changed is_blacklisted_file to is_blacklisted_db and
 	modified to check the "ds_blacklist" table in the database for an IP
 	address. This alleviates PHP maximum memory allocation errors on larger 

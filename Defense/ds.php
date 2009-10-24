@@ -121,7 +121,7 @@
 
 		function is_blacklisted_db( $ip )
 		{
-			if( !defined('BLACK_GLINE') || !defined('BLACK_COLUMN') )
+			if( !defined('BLACK_GLINE') )
 				return false;
 			
 			$res = db_query( sprintf(
