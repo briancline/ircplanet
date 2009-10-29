@@ -125,12 +125,12 @@
 				return false;
 			
 			$res = db_query( sprintf(
-					"select count(ip_address) FROM `ds_blacklist` WHERE `ip_address` = '%s'", 
+					"select count(entry_id) FROM `ds_blacklist` WHERE `ip_address` = '%s'", 
 					addslashes($ip)) );
 			if( $res && mysql_result($res, 0) > 0 )
 			{
 				mysql_free_result( $res );
-				debugf('IP %s blacklisted by admin.');
+				debugf( 'IP %s blacklisted by admin.', $ip );
 				return true;
 			}
 			
