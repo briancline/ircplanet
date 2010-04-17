@@ -1,3 +1,9 @@
+Brian Cline	<brian@ircplanet.net>	2010-04-17
+
+	* Channel/p10/handle_K.php: Fix a critical bug causing CS to crash when
+	someone gets kicked from a channel. Wasn't checking to see if we were
+	getting a NULL back from CS::get_channel_access().
+
 Brian Cline	<brian@ircplanet.net>	2009-10-23
 
 	* Defense/ds.php: Move debug message; tested and works.

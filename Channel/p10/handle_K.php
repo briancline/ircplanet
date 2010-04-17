@@ -39,7 +39,7 @@
 		$source_access = $this->get_channel_access( $channel, $source );
 		$target_access = $this->get_channel_access( $channel, $target );
 		
-		if( $target_access->is_protected() && 
+		if( $target_access && $target_access->is_protected() && 
 				(!$source_access || $source_access->get_level() <= $target_access->get_level()) )
 		{
 			$this->default_bot->deop( $channel, $source->get_numeric() );
