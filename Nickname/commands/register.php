@@ -83,6 +83,7 @@
 		{
 			$this->sendf( FMT_ACCOUNT, SERVER_NUM, $numeric, $user_name );
 			$user->set_account_name( $user_name );
+			$user->set_account_id( $account->get_id() );
 		}
 		
 		$bot->noticef( $user,

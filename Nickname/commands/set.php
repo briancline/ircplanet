@@ -63,7 +63,7 @@
 		}
 		
 		$account->set_email( $value );
-		$bot->notice( $user, '%s e-mail address has been updated.', $Who );
+		$bot->noticef( $user, '%s e-mail address has been updated.', $Who );
 	}
 	else if( $option == 'INFO' )
 	{
