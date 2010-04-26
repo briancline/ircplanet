@@ -1,3 +1,21 @@
+Brian Cline	<brian@ircplanet.net>	2010-04-25
+
+	* Core/p10/handle_N.php: Be less strict about P10 "N" argument counts.
+	Non-standard distributions of ircu usually add more args, and I believe
+	even newer versions of u2.10 do as well. This should keep it from
+	skipping mode and/or account information in the event it gets one that
+	has a larger arg count than 12.
+
+Brian Cline	<brian@ircplanet.net>	2010-04-25
+
+	* Nickname/commands/register.php: Fix a bug causing NS not to recognize
+	newly registered users as logged in upon successful registration. We
+	weren't setting the account ID, only the name.
+
+	* Nickname/commands/set.php: Fix typo - using notice where we should
+	have been using noticef, which caused a client to see %s in the message
+	returned when they set their email address.
+
 Brian Cline	<brian@ircplanet.net>	2010-04-17
 
 	* Channel/p10/handle_K.php: Fix a critical bug causing CS to crash when

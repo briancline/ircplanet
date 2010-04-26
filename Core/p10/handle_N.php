@@ -52,7 +52,7 @@
 		$account = '';
 		$modes = '';
 		
-		if( $num_args == 12 )
+		if( $num_args >= 12 )
 		{
 			$modes = $args[7];
 			$account = $args[8];
