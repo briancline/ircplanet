@@ -1,3 +1,9 @@
+Brian Cline	<brian@ircplanet.net>	2010-04-26
+
+	* Core/p10/handle_B.php: Don't crash if we get a second burst line for
+	a channel wherein the bans are simply being spread across multiple
+	burst lines (the userlist may also be broken up the same way).
+
 Brian Cline	<brian@ircplanet.net>	2010-04-25
 
 	* Core/p10/handle_N.php: Be less strict about P10 "N" argument counts.

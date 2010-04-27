@@ -34,7 +34,7 @@
 	$modes = '';
 	$key = '';
 	$limit = 0;
-	$has_banlist = false;
+	$has_banlist = $args[$num_args - 1][0] == '%';
 	$userlist_pos = 4;
 	$cleared_local_modes = false;
 
@@ -44,6 +44,7 @@
 	 * AE B #support 1105674755 +tnl 14 AEBFh,M[AAC:ov
 	 * AE B #opers 1100986985 +smtin M[AAD:o
 	 * AE B #coder-com 1113336997 +tn AEBFh:o,M[AAC :%*!*user@*.fucker.com
+	 * AE B #coder-com 1113336997 :%*!*more@*.bans.com
 	 * AE B #testchan 1131291938 +stinlk 69 w00t3rz AEBFo:o
 	 */
 	
@@ -91,11 +92,11 @@
 	}
 	
 	/**
-	 * ircu once sent me a burst line with no users during services testing, 
-	 * so handle it's retardation appropriately here...
+	 * ircu might not send a user list with a burst line (for instance, if it's
+	 * breaking up tons of bans across multiple lines), so account for that here.
 	 */
 	$userlist = array();
-	$has_userlist = $userlist_pos < $num_args;
+	$has_userlist = $userlist_pos < ($num_args - 1);
 	if( $has_userlist )
 	{
 		$userlist = explode( ',', $args[$userlist_pos] );
@@ -112,8 +113,7 @@
 	}
 	
 	$banlist = array();
-	$banlist_pos = $userlist_pos + 1;
-	$has_banlist = $banlist_pos < $num_args;
+	$banlist_pos = $num_args - 1;
 	if( $has_banlist )
 	{
 		// skip the % character
