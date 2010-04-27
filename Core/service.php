@@ -1215,7 +1215,7 @@
 						array_shift( $rem_args );
 					}
 					
-					if( ++$mode_count == MAX_MODES_PER_LINE || $i == strlen($modes) - 1 );
+					if( ++$mode_count == MAX_MODES_PER_LINE || $i == strlen($modes) - 1 )
 					{
 						$outgoing[] = irc_sprintf( "%s M %s %s %A", $source, $target, $tmp_modes, $tmp_args );
 						$mode_count = 0;
@@ -1245,6 +1245,7 @@
 			else
 			{
 				$outgoing[] = $proto_str;
+				// TODO: This portion isn't actually used anywhere yet... but isn't there something missing here?
 			}
 		}
 

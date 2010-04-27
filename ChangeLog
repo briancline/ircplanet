@@ -1,5 +1,14 @@
 Brian Cline	<brian@ircplanet.net>	2010-04-26
 
+	* Core/service.php: Remove a SINGLE SEMICOLON that was causing CS to
+	split mode command changes across multiple MODE lines (one at a time)
+	for no real reason.
+
+	* Core/util_obj.php: Get rid of some PHP warnings by non-object-proofing
+	the is_xxx functions.
+
+Brian Cline	<brian@ircplanet.net>	2010-04-26
+
 	* Core/p10/handle_B.php: Don't crash if we get a second burst line for
 	a channel wherein the bans are simply being spread across multiple
 	burst lines (the userlist may also be broken up the same way).

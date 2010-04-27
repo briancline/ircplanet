@@ -31,27 +31,27 @@
 	
 	function is_server( $obj )
 	{
-		return ( get_class($obj) == 'Server' );
+		return ( is_object($obj) && get_class($obj) == 'Server' );
 	}
 
 	function is_user( $obj )
 	{
-		return ( get_class($obj) == 'User' || get_class($obj) == 'Bot' );
+		return ( is_object($obj) && (get_class($obj) == 'User' || get_class($obj) == 'Bot') );
 	}
 
 	function is_account( $obj )
 	{
-		return ( get_class($obj) == 'DB_User' );
+		return ( is_object($obj) && get_class($obj) == 'DB_User' );
 	}
 
 	function is_channel( $obj )
 	{
-		return ( get_class($obj) == 'Channel' );
+		return ( is_object($obj) && get_class($obj) == 'Channel' );
 	}
 
 	function is_gline( $obj )
 	{
-		return ( get_class($obj) == 'Gline' );
+		return ( is_object($obj) && get_class($obj) == 'Gline' );
 	}
 	
 	
