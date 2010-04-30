@@ -1,3 +1,11 @@
+Brian Cline	<brian@ircplanet.net>	2010-04-29
+
+	* Operator/commands/{voiceall,devoiceall,opall,deopall}.php: Fix a bug
+	causing OS to crash when using a *all command when the command could
+	not apply to any users.
+
+	* Operator/os.php: Add an object check to prevent a PHP warning.
+
 Brian Cline	<brian@ircplanet.net>	2010-04-26
 
 	* Core/service.php: Remove a SINGLE SEMICOLON that was causing CS to

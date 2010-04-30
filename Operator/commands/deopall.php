@@ -34,6 +34,7 @@
 		return false;
 	}
 	
+	$numerics = array();
 	foreach( $chan->users as $numeric => $chanuser )
 	{
 		$tmpuser = $this->get_user( $numeric );
@@ -43,6 +44,11 @@
 			$chan->remove_op( $numeric );
 			$numerics[] = $numeric;
 		}
+	}
+	
+	if( empty($numerics) ) {
+		$bot->noticef( $user, 'Nobody in %s is opped.', $chan_name );
+		return false;
 	}
 	
 	$this->deop( $chan->get_name(), $numerics );

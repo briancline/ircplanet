@@ -46,6 +46,11 @@
 		}
 	}
 	
+	if( empty($numerics) ) {
+		$bot->noticef( $user, 'Nobody in %s is devoiced.', $chan_name );
+		return false;
+	}
+	
 	$this->voice( $chan->get_name(), $numerics );
 	
 ?>

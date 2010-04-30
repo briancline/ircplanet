@@ -34,6 +34,7 @@
 		return false;
 	}
 	
+	$numerics = array();
 	foreach( $chan->users as $numeric => $chanuser )
 	{
 		if( !$chanuser->is_op() )
@@ -41,6 +42,11 @@
 			$chan->add_voice( $numeric );
 			$numerics[] = $numeric;
 		}
+	}
+	
+	if( empty($numerics) ) {
+		$bot->noticef( $user, 'Nobody in %s is deopped.', $chan_name );
+		return false;
 	}
 	
 	$this->op( $chan->get_name(), $numerics );

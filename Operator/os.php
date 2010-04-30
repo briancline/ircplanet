@@ -549,6 +549,10 @@
 			for($i = 1; $i <= 5; $i++)
 			{
 				eval('$arg = $arg'. $i .';');
+
+				if(!is_object($arg)) {
+					continue;
+				}
 				
 				$arg_type = get_class($arg);
 				if($arg_type == 'Server' || $arg_type == 'Channel')
