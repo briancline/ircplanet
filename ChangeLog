@@ -1,3 +1,27 @@
+Brian Cline	<brian@ircplanet.net>	2010-05-02
+
+	* Core/p10.php: Adjust AC format to include timestamp.
+
+	* Core/service.php: Adjust add_user to include optional account creation
+	timestamp.
+
+	* Core/user.php: Add umode for +r (logged in to services account). Also
+	add member variable to keep track of account creation timestamp, and
+	adjust the constructor to optionally accept it as another argument.
+
+	* Core/p10/handle_AC.php: If we received an account creation timestamp,
+	store it with the user.
+
+	* Core/p10/handle_N.php: Check to see if we receive an account creation
+	timestamp in the NICK message's account parameter. If so, store it.
+
+	* Nickname/commands/{login,ghost,register}.php: Send account creation 
+	timestamp with ACCOUNT lines.
+
+	* Channel/commands/login.php: And here as well.
+
+	* Operator/commands/login.php: And here.
+
 Brian Cline	<brian@ircplanet.net>	2010-04-29
 
 	* Operator/commands/{voiceall,devoiceall,opall,deopall}.php: Fix a bug

@@ -81,7 +81,7 @@
 		
 		if( !$user->has_account_name() )
 		{
-			$this->sendf( FMT_ACCOUNT, SERVER_NUM, $numeric, $user_name );
+			$this->sendf( FMT_ACCOUNT, SERVER_NUM, $numeric, $user_name, $account->get_register_ts() );
 			$user->set_account_name( $user_name );
 			$user->set_account_id( $account->get_id() );
 		}

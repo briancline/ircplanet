@@ -41,4 +41,8 @@
 		$account->save();
 	}
 
+	if( $num_args > 4 ) {
+		$user->set_account_ts( $args[4] );
+	}
+
 ?>

@@ -38,7 +38,8 @@
 		'w' => array( 'const' => 'UMODE_WALLOPS',      'uint' => 0x0010 ),
 		'k' => array( 'const' => 'UMODE_SERVICE',      'uint' => 0x0020 ),
 		'g' => array( 'const' => 'UMODE_HACKMSG',      'uint' => 0x0040 ),
-		'x' => array( 'const' => 'UMODE_HIDDENHOST',   'uint' => 0x0080 )
+		'x' => array( 'const' => 'UMODE_HIDDENHOST',   'uint' => 0x0080 ),
+		'r' => array( 'const' => 'UMODE_REGISTERED',   'uint' => 0x0100 )
 	);
 
 
@@ -48,6 +49,7 @@
 		var $nick;
 		var $account_id = 0;
 		var $account_name;
+		var $account_ts = 0;
 		var $ident;
 		var $host;
 		var $ip;
@@ -58,11 +60,12 @@
 		var $last_spoke = START_TIME;
 		var $channels = array();
 		
-		function __construct( $num, $nick, $ident, $host, $ip, $start_ts, $desc, $modes = "", $account = "" )
+		function __construct( $num, $nick, $ident, $host, $ip, $start_ts, $desc, $modes = "", $account = "", $account_ts = 0 )
 		{
 			$this->numeric = $num;
 			$this->nick = $nick;
 			$this->account_name = $account;
+			$this->account_ts = $account_ts;
 			$this->ident = $ident;
 			$this->host = $host;
 			$this->ip = $ip;
@@ -75,6 +78,7 @@
 		function is_service()          { return $this->has_mode(UMODE_SERVICE); }
 		function is_deaf()             { return $this->has_mode(UMODE_DEAF); }
 		function is_oper()             { return $this->has_mode(UMODE_OPER); }
+		function is_registered()       { return $this->has_mode(UMODE_REGISTERED); }
 		function is_local()            { return $this->get_server_numeric() == SERVER_NUM; }
 		function is_away()             { return $this->away_msg != ''; }
 		function is_logged_in()        { return $this->account_id > 0; }
@@ -90,12 +94,14 @@
 		function get_server_numeric()  { return substr($this->numeric, 0, BASE64_SERVLEN); }
 		function get_account_name()    { return $this->account_name; }
 		function get_account_id()      { return $this->account_id; }
+		function get_account_ts()      { return $this->account_ts; }
 		function get_signon_ts()       { return $this->start_ts; }
 		function get_idle_time()       { return time() - $this->last_spoke; }
 		
 		function set_nick($s)          { $this->nick = $s; }
 		function set_account_id($i)    { $this->account_id = $i; }
 		function set_account_name($s)  { $this->account_name = $s; }
+		function set_account_ts($t)    { $this->account_ts = $t; }
 		function set_away($s = "")     { $this->away_msg = $s; }
 		
 		

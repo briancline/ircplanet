@@ -48,7 +48,7 @@
 			{
 				$user_name = $account->get_name();
 				$bot->notice( $numeric, "Authentication successful as $user_name!" );
-				$this->sendf( FMT_ACCOUNT, SERVER_NUM, $numeric, $user_name );
+				$this->sendf( FMT_ACCOUNT, SERVER_NUM, $numeric, $user_name, $account->get_register_ts() );
 				$user->set_account_name( $user_name );
 			}
 		}

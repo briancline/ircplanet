@@ -534,10 +534,10 @@
 		}
 		
 		
-		function add_user( $num, $nick, $ident, $host, $desc, $start_ts, $ip = "0.0.0.0", $modes = "i", $account = "" )
+		function add_user( $num, $nick, $ident, $host, $desc, $start_ts, $ip = "0.0.0.0", $modes = "i", $account = "", $account_ts = 0 )
 		{
 			$server = substr( $num, 0, BASE64_SERVLEN );
-			$this->users[$num] = new User( $num, $nick, $ident, $host, $ip, $start_ts, $desc, $modes, $account );
+			$this->users[$num] = new User( $num, $nick, $ident, $host, $ip, $start_ts, $desc, $modes, $account, $account_ts );
 			$this->servers[$server]->add_user( $num );
 			return $this->users[$num];
 		}

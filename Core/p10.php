@@ -65,7 +65,7 @@
 	define( 'FMT_PONG',             "%s Z %s %s" );
 	define( 'FMT_MODE_HACK',        "%s M %s %s %s %s" );
 	define( 'FMT_MODE_HACK_NOTS',   "%s M %s %s %s" );
-	define( 'FMT_ACCOUNT',          "%s AC %s %s" );
+	define( 'FMT_ACCOUNT',          "%s AC %s %s %ld" );
 	define( 'FMT_QUIT',             "%s Q :%s" );
 	define( 'FMT_INVITE',           "%s I %s :%s" );
 	define( 'FMT_GLINE_ADD',        "%s GL * +%s %ld %ld :%s" );
