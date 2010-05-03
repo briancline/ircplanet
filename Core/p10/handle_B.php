@@ -96,7 +96,7 @@
 	 * breaking up tons of bans across multiple lines), so account for that here.
 	 */
 	$userlist = array();
-	$has_userlist = $userlist_pos < ($num_args - 1);
+	$has_userlist = ($userlist_pos < ($num_args - 1) || (!$has_banlist && $userlist_pos == ($num_args - 1)));
 	if( $has_userlist )
 	{
 		$userlist = explode( ',', $args[$userlist_pos] );

@@ -1,3 +1,13 @@
+Brian Cline	<brian@ircplanet.net>	2010-05-03
+
+	* Core/p10/handle_B.php: Fix a bug related to Friday's userlist-less
+	BURST bug fix; the userlist was being ignored when a banlist was not
+	present. This fixes - the userlist is picked up no matter what.
+
+	* Operator/os.ini: Remove the 'no' word from one of the INI settings,
+	since apparently PHP considers it a boolean and throws a fatal error
+	if a string contains the word 'no' anywhere. Whatever, PHP. Whatever.
+
 Brian Cline	<brian@ircplanet.net>	2010-05-02
 
 	* Core/p10.php: Adjust AC format to include timestamp.
