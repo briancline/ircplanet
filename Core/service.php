@@ -1223,7 +1223,7 @@
 					{
 						$outgoing[] = irc_sprintf( "%s M %s %s %A", $source, $target, $tmp_modes, $tmp_args );
 						$mode_count = 0;
-						$tmp_modes = $mode_pol;
+						$tmp_modes = $tmp_pol;
 						$tmp_args = array();
 					}
 				}
