@@ -29,8 +29,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	define( 'IRCU_2_10_12_12',      true );
-
 	define( 'TOPIC_BURSTING',       true );
 	define( 'IDENT_LEN',            10 );
 	

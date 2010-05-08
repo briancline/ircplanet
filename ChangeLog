@@ -1,5 +1,14 @@
 Brian Cline	<brian@ircplanet.net>	2010-05-08
 
+	* Core/p10.php: Remove unused define for u2.10.12.
+
+	* Core/channel.php: Add newer modes +R, +A, +U, +D, +d to reflect
+	what exists in ircu today. This only recognizes the modes for what
+	they are (and as valid), but does not change any existing 
+	functionality (yet).
+
+Brian Cline	<brian@ircplanet.net>	2010-05-08
+
 	* utils/*: Added several scripts to conver to and from ircu's version
 	 of base64 numerics, IP addresses, user/server numerics, and integers.
 	 Fairly self explanatory for anyone who knows what they're doing.

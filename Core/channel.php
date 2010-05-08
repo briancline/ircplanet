@@ -42,7 +42,12 @@
 		'n' => array( 'const' => 'CMODE_NOEXTMSG',     'uint' => 0x0020 ),
 		'r' => array( 'const' => 'CMODE_REGONLY',      'uint' => 0x0040 ),
 		'l' => array( 'const' => 'CMODE_LIMIT',        'uint' => 0x0080 ),
-		'k' => array( 'const' => 'CMODE_KEY',          'uint' => 0x0100 )
+		'k' => array( 'const' => 'CMODE_KEY',          'uint' => 0x0100 ),
+		'R' => array( 'const' => 'CMODE_REGISTERED',   'uint' => 0x0200 ),
+		'D' => array( 'const' => 'CMODE_DELJOINS',     'uint' => 0x0400 ),
+		'd' => array( 'const' => 'CMODE_DELJOINSPEND', 'uint' => 0x0800 ),
+		'U' => array( 'const' => 'CMODE_USERPASS',     'uint' => 0x1000 ),
+		'A' => array( 'const' => 'CMODE_ADMINPASS',    'uint' => 0x2000 )
 	);
 	
 	
