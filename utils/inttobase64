@@ -1,0 +1,12 @@
+#!/usr/bin/php
+<?php
+
+	require(dirname(__FILE__) .'/../Core/p10.php');
+
+	if($argc < 2) {
+		printf("Usage: %s <int> <length>\n", $argv[0]);
+		die();
+	}
+
+	printf("%s\n", int_to_base64($argv[1], $argv[2]));
+

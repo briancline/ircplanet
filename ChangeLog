@@ -1,3 +1,9 @@
+Brian Cline	<brian@ircplanet.net>	2010-05-08
+
+	* utils/*: Added several scripts to conver to and from ircu's version
+	 of base64 numerics, IP addresses, user/server numerics, and integers.
+	 Fairly self explanatory for anyone who knows what they're doing.
+
 Brian Cline	<brian@ircplanet.net>	2010-05-07
 
 	* Core/service.php: Fix soft tabs in get_clone_count. Fix a bug in
