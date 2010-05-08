@@ -669,18 +669,18 @@
 		}
 
 
-                function get_clone_count( $ip )
-                {
-                        $count = 0;
+		function get_clone_count( $ip )
+		{
+			$count = 0;
 
-                        foreach( $this->users as $numeric => $user )
-                        {
-                                if( $user->get_ip() == $ip )
-                                        $count++;
-                        }
+			foreach( $this->users as $numeric => $user )
+			{
+				if( $user->get_ip() == $ip )
+					$count++;
+			}
 
-                        return $count;
-                }
+			return $count;
+		}
 		
 		
 		function add_channel( $name, $ts, $modes = "", $key = "", $limit = 0 )
@@ -1198,6 +1198,7 @@
 				$modes = $args[3];
 				$arg_num = 4;
 				$tmp_modes = '';
+				$tmp_pol = '';
 				$tmp_args = array();
 				$rem_args = array_copy( $args, $arg_num );
 				
@@ -1207,7 +1208,10 @@
 					$tmp_modes .= $mode;
 					
 					if( $mode == '+' || $mode == '-' )
+					{
+						$tmp_pol = $mode;
 						continue;
+					}
 					
 					if( in_array($mode, $param_modes) )
 					{
@@ -1219,7 +1223,7 @@
 					{
 						$outgoing[] = irc_sprintf( "%s M %s %s %A", $source, $target, $tmp_modes, $tmp_args );
 						$mode_count = 0;
-						$tmp_modes = '';
+						$tmp_modes = $mode_pol;
 						$tmp_args = array();
 					}
 				}
@@ -1343,7 +1347,11 @@
 			$mode_args = implode( ' ', $arg_list );
 			$mode_line = irc_sprintf( FMT_MODE_HACK, SERVER_NUM, $chan->get_name(), $mode_str, $mode_args, $chan->get_ts() );
 			return $this->send_mode_line( $mode_line );
-
+         
+         /**
+          * The following code is deprecated by Service::send_mode_line().
+          *
+         
 			for( $i = 0; $i < count($arg_list); ++$i )
 			{
 				$args[] = $arg_list[$i];
@@ -1369,6 +1377,7 @@
 						join(" ", $args) );
 				}
 			}
+			*/
 		}
 		
 		function op( $chan_name, $num_list )       { return $this->perform_chan_user_mode($chan_name, '+', 'o', $num_list); }

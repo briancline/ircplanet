@@ -1,3 +1,11 @@
+Brian Cline	<brian@ircplanet.net>	2010-05-07
+
+	* Core/service.php: Fix soft tabs in get_clone_count. Fix a bug in
+	send_mode_line() that caused it to omit the mode polarity character
+	on subsequent lines when it broke up a long mode change line into
+	multiples. Also comment out some old code in perform_chan_user_mode()
+	to make it clear that it's no longer used.
+
 Brian Cline	<brian@ircplanet.net>	2010-05-03
 
 	* Core/p10/handle_B.php: Fix a bug related to Friday's userlist-less
