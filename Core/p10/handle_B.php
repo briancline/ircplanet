@@ -54,12 +54,12 @@
 		$userlist_pos++;
 		$modes_pos = 4;
 		
-		if( eregi('l', $args[$modes_pos]) )
+		if( preg_match('/l/', $args[$modes_pos]) )
 		{
 			$userlist_pos++;
 			$limit = $args[$userlist_pos - 1];
 		}
-		if( eregi('k', $args[$modes_pos]) )
+		if( preg_match('/k/', $args[$modes_pos]) )
 		{
 			$userlist_pos++;
 			$key = $args[$userlist_pos - 1];

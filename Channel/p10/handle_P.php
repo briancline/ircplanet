@@ -82,7 +82,7 @@
 			{
 				$chan_key = strtolower( $chan_name );
 			}
-			else if( eregi("<channel>", $cmd_syntax) && 
+			else if( preg_match("/<channel>/", $cmd_syntax) && 
 				($cmd_num_args == 0 || ($cmd_num_args > 0 && $pargs[1][0] != '#')) )
 			{
 				$new_pargs = array( $pargs[0], $args[2] );
@@ -116,7 +116,7 @@
 				
 				if( $cmd_name != 'register' && $cmd_name != 'adminreg' 
 					&& !($cmd_name == 'access' && $chan_name == '*') 
-					&& eregi("<channel>", $cmd_syntax) 
+					&& preg_match("/<channel>/", $cmd_syntax) 
 					&& !($chan_reg = $this->get_channel_reg($chan_name)) )
 				{
 					$bot->noticef( $user, '%s is not a registered channel.', $chan_name );

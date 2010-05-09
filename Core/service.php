@@ -382,7 +382,7 @@
 			$this->bytes_sent += strlen( $buffer );
 			$this->lines_sent++;
 			
-			if( !eregi("^.. [GZ] ", $buffer) )
+			if( !preg_match("/^.. [GZ] /", $buffer) )
 				debug( "[SEND] ". trim($buffer) );
 		}
 
@@ -950,7 +950,7 @@
 						$line = substr( $buffer, 0, $endpos - 1 );
 						$buffer = substr( $buffer, $endpos + 1 );
 						
-						if( !eregi("^.. [GZ] ", $line) )
+						if( !preg_match("/^.. [GZ] /", $line) )
 							debug("[RECV] $line");
 						
 						$this->parse( $line );

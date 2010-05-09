@@ -37,7 +37,7 @@
 	
 	function is_valid_email( $email )
 	{
-		$b = eregi( '^[a-z0-9._-]+@[a-z0-9._-]+\.[a-z]{2,4}$', $email );
+		$b = preg_match( '/^[a-z0-9._-%]+@[a-z0-9._-]+\.[a-z]{2,4}$/i', $email );
 		
 		return $b;
 	}
@@ -45,7 +45,7 @@
 	
 	function is_ip( $s )
 	{
-		return eregi( '^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$', $s );
+		return preg_match( '/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $s );
 	}
 
 

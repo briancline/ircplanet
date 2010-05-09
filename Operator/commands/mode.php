@@ -136,7 +136,7 @@
 	
 	if( strlen($mode_str) > 0 )
 	{
-		if( !eregi('^[+-]', $mode_str) )
+		if( !preg_match('/^[+-]/', $mode_str) )
 			$mode_str = '+'. $mode_str;
 		if( count($mode_args) > 0 )
 			$mode_str .= ' '. join(' ', $mode_args);

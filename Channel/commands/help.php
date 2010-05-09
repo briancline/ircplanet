@@ -51,7 +51,7 @@
 			BOLD_START, $help_topic, $spacing, 'Level '. $help_level, BOLD_END );
 		$bot->noticef( $user, "" );
 		
-		if(!eregi('syntax:', $row['text']))
+		if(!preg_match('/syntax:/i', $row['text']))
 		{
 			$bot->noticef( $user, "%sSyntax:%s %s %s", BOLD_START, BOLD_END, $help_topic, $help_syntax );
 			$bot->noticef( $user, "" );
@@ -63,7 +63,7 @@
 			$line = str_replace( "%S", SERVER_NAME, $line );
 			$line = str_replace( "%B", BOLD_START, $line );
 
-			while(ereg('(\%[A-Z_]+\%)', $line, $regs))
+			while(preg_match('/(\%[A-Z_]+\%)/', $line, $regs))
 			{
 				eval('$sub_val = '. str_replace('%', '', $regs[1]) .';');
 				$line = str_replace($regs[1], $sub_val, $line);

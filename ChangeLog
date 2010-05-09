@@ -1,5 +1,40 @@
 Brian Cline	<brian@ircplanet.net>	2010-05-08
 
+	* Core/service.php: Switch from ereg/eregi to preg_match, since the
+	ereg functions are now deprecated in PHP.
+
+	* Core/user.php: Same.
+
+	* Core/util_string.php: Same.
+
+	* Core/p10/handle_O.php: Same.
+
+	* Core/p10/handle_P.php: Same.
+
+	* Channel/commands/ban.php: Same.
+
+	* Channel/commands/kickban.php: Same.
+
+	* Channel/commands/mode.php: Same.
+
+	* Channel/commands/unban.php: Same.
+
+	* Operator/commands/addgchan.php: Same.
+
+	* Operator/commands/ban.php: Same.
+
+	* Operator/commands/gline.php: Same.
+
+	* Operator/commands/kickban.php: Same.
+
+	* Operator/commands/kickban.php: Same.
+
+	* Operator/commands/mode.php: Same.
+
+	* Operator/commands/unban.php: Same.
+
+Brian Cline	<brian@ircplanet.net>	2010-05-08
+
 	* Core/p10.php: Remove unused define for u2.10.12.
 
 	* Core/channel.php: Add newer modes +R, +A, +U, +D, +d to reflect

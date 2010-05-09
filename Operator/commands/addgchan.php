@@ -33,7 +33,7 @@
 	$duration = $pargs[2];
 	$reason = assemble( $pargs, 3 );
 	
-	if( !eregi('^#', $channel) )
+	if( !preg_match('/^#/', $channel) )
 	{
 		$bot->noticef( $user, '%s is not a valid channel name.', $channel );
 		return false;

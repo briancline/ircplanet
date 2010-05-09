@@ -33,14 +33,14 @@
 	$bot = $this->get_user( $args[2] );
 	$cmd_msg = assemble( $args, 3 );
 
-	$account_pattern = '^\|IPSVC\|AC\|(L|R|D)\|[0-9]+\|$';
-	$channel_pattern = '^\|IPSVC\|C\|(R|D)\|[0-9]+\|$';
-	$access_pattern = '^\|IPSVC\|CA\|(R|D)\|[0-9]+\|[0-9]+\|$';
+	$account_pattern = '/^\|IPSVC\|AC\|(L|R|D)\|[0-9]+\|$/';
+	$channel_pattern = '/^\|IPSVC\|C\|(R|D)\|[0-9]+\|$/';
+	$access_pattern = '/^\|IPSVC\|CA\|(R|D)\|[0-9]+\|[0-9]+\|$/';
 
    	if( !$user->is_service() )
 		return false;
 
-	if( eregi($account_pattern, $cmd_msg) )
+	if( preg_match($account_pattern, $cmd_msg) )
 	{
 		$nargs = explode( '|', $cmd_msg );
 		$cmd = $nargs[3];
@@ -120,7 +120,7 @@
 			}
 		}
 	}
-	elseif( eregi($channel_pattern, $cmd_msg) )
+	elseif( preg_match($channel_pattern, $cmd_msg) )
 	{
 		$nargs = explode( '|', $cmd_msg );
 		$cmd = $nargs[3];
@@ -162,7 +162,7 @@
 			}
 		}
 	}
-	elseif( eregi($access_pattern, $cmd_msg) )
+	elseif( preg_match($access_pattern, $cmd_msg) )
 	{
 		$nargs = explode( '|', $cmd_msg );
 		$cmd = $nargs[3];

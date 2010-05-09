@@ -189,7 +189,7 @@
 			{
 				for( $n = $num_levels - 1; $n > 0; $n-- )
 				{
-					if( eregi('[0-9]', $levels[$n]) )
+					if( preg_match('/[0-9]/', $levels[$n]) )
 						break;
 				}
 				
