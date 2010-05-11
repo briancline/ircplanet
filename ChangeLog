@@ -1,3 +1,33 @@
+Brian Cline	<brian@ircplanet.net>	2010-05-10
+
+	* Core/service.php:
+	(Service::main): Add another socket errno; timed-out socket reads
+	were causing the service to die on Darwin (BSD).
+	(Service::parse_mode): Implement parsing for the new +A/+U modes,
+	and parsing for oplevels.
+	(Service::send_mode_line): Fix a bug causing the password parameter
+	for +A and +U to not be sent out.
+	
+	* Core/channeluser.php: Start keeping track of op levels for channel
+	users.
+	
+	* Core/channel.php: Start keeping track of adminpass and userpass
+	settings on channels. When adding/removing modes, make sure they
+	are actually valid before attempting to access their uint property.
+	Clear out adminpass/userpass when clearing the corresponding modes.
+	Provide the necessary params when retrieving mode strings on channels
+	where +A/+U is set. Parse oplevels if any are provided when adding
+	channel users.
+	
+	* Core/p10/handle_B.php: Implement parsing for adminpass, userpass,
+	and fix a huge bug wherein channel modes, ops, and bans were not
+	being applied in memory when received via BURST on channels whose
+	uplink timestamp exactly matches the channel timestamp.
+	
+	* Channel/commands/mode.php: Allow +D, +A, and +U to be set by channel
+	managers. Add notification to inform users they cannot manually set
+	+d or +R.
+
 Brian Cline	<brian@ircplanet.net>	2010-05-08
 
 	* Core/service.php: Switch from ereg/eregi to preg_match, since the

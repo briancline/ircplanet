@@ -33,6 +33,8 @@
 	$chan_key = strtolower( $args[2] );
 	$modes = '';
 	$key = '';
+	$admin_pass = '';
+	$user_pass = '';
 	$limit = 0;
 	$has_banlist = $args[$num_args - 1][0] == '%';
 	$userlist_pos = 4;
@@ -55,15 +57,13 @@
 		$modes_pos = 4;
 		
 		if( preg_match('/l/', $args[$modes_pos]) )
-		{
-			$userlist_pos++;
-			$limit = $args[$userlist_pos - 1];
-		}
+			$limit = $args[$userlist_pos++];
 		if( preg_match('/k/', $args[$modes_pos]) )
-		{
-			$userlist_pos++;
-			$key = $args[$userlist_pos - 1];
-		}
+			$key = $args[$userlist_pos++];
+		if( preg_match('/A/', $args[$modes_pos]) )
+			$admin_pass = $args[$userlist_pos++];
+		if( preg_match('/U/', $args[$modes_pos]) )
+			$user_pass = $args[$userlist_pos++];
 		
 		$modes = $args[$modes_pos];
 	}
@@ -72,23 +72,27 @@
 	{
 		if( $ts < $chan->get_ts() )
 		{
-			debugf("%s ts is %d secs older than mine", $chan_key, ($chan->get_ts() - $ts));
 			$chan->clear_bans();
 			$chan->clear_modes();
 			$chan->clear_user_modes();
-			
+
 			$chan->set_name( $chan_name );
 			$chan->set_ts( $ts );
-			$chan->add_modes( $modes );
-			$chan->set_limit( $limit );
-			$chan->set_key( $key );
 			
 			$cleared_local_modes = true;
 		}
+		
+		$chan->add_modes( $modes );
+		$chan->set_limit( $limit );
+		$chan->set_key( $key );
+		$chan->set_admin_pass( $admin_pass );
+		$chan->set_user_pass( $user_pass );
 	}
 	else
 	{
 		$chan = $this->add_channel( $chan_name, $ts, $modes, $key, $limit );
+		$chan->set_admin_pass( $admin_pass );
+		$chan->set_user_pass( $user_pass );
 	}
 	
 	/**

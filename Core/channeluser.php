@@ -39,11 +39,13 @@
 	{
 		var $numeric;
 		var $modes = 0;
+		var $oplevel = 0;
 		
-		function __construct( $numeric, $modes )
+		function __construct( $numeric, $modes, $oplevel = 0 )
 		{
 			$this->numeric = $numeric;
 			$this->add_modes( $modes );
+			$this->set_oplevel( $oplevel );
 		}
 		
 		
@@ -113,8 +115,11 @@
 			return $modes;
 		}
 		
-		function is_op()    { return $this->has_mode( CUMODE_OP ); }
-		function is_voice() { return $this->has_mode( CUMODE_VOICE ); }
+		function is_op()         { return $this->has_mode( CUMODE_OP ); }
+		function is_voice()      { return $this->has_mode( CUMODE_VOICE ); }
+		function get_oplevel()   { return $this->oplevel; }
+		
+		function set_oplevel($v) { $this->oplevel = $v; }
 	}
 
 

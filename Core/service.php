@@ -908,7 +908,8 @@
 			
 			$noncritical_socket_errors = array( 
 				0,    // no error
-				11    // no data to read (resource temporarily unavailable)
+				11,   // no data to read (resource temporarily unavailable),
+				35    // no data to read (resource temporarily unavailable - BSD)
 			);
 			
 			$GLOBALS['INSTANTIATED_SERVICES'][] = $this;
@@ -1090,11 +1091,55 @@
 							$readable_args[] = $key;
 						}
 					}
+					else if( $mode == 'A' )
+					{
+						if( $add ) {
+							$apass = $args[$mode_arg++];
+							$chan->add_mode( $mode );
+							$chan->set_admin_pass( $apass );
+							$readable_args[] = $apass;
+						}
+						else {
+							$apass = $args[$mode_arg++];
+							$chan->remove_mode( $mode );
+							$chan->set_admin_pass( '' );
+							$readable_args[] = $apass;
+						}
+					}
+					else if( $mode == 'U' )
+					{
+						if( $add ) {
+							$upass = $args[$mode_arg++];
+							$chan->add_mode( $mode );
+							$chan->set_user_pass( $pass );
+							$readable_args[] = $upass;
+						}
+						else {
+							$upass = $args[$mode_arg++];
+							$chan->remove_mode( $mode );
+							$chan->set_user_pass( '' );
+							$readable_args[] = $upass;
+						}
+					}
 					else if( $mode == 'o' )
 					{
 						$numeric = $args[$mode_arg++];
+						$oplevel = 0;
+						$has_oplevel = (strlen($numeric) > 5 && $numeric[5] == ':');
+						
+						if( $has_oplevel )
+						{
+							$oplevel = substr( $numeric, 6 );
+							$numeric = substr( $numeric, 0, 5 );
+						}
+						
 						if( $add )
+						{
 							$chan->add_op( $numeric );
+							
+							if( $has_oplevel )
+								$chan->set_oplevel( $numeric, $oplevel );
+						}
 						else
 							$chan->remove_op( $numeric );
 
@@ -1187,7 +1232,7 @@
 			$source = $args[0];
 			$target = $args[2];
 			$outgoing = array();
-			$param_modes = array('l', 'k', 'b', 'v', 'o');
+			$param_modes = array('l', 'k', 'A', 'U', 'b', 'v', 'o');
 			$mode_count = 0;
 			
 			$is_chan = ( $target[0] == '#' );

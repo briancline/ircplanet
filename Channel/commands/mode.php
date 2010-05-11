@@ -63,6 +63,7 @@
 			case 'r':
 			case 's':
 			case 't':
+			case 'D':
 				$mode_str .= $mode;
 
 				if( $mode_add )
@@ -73,11 +74,17 @@
 				break;
 			
 			case 'k':
+			case 'A':
+			case 'U':
 				if( $mode_add )
 				{
+					$arg_term = 'key';
+					if( $mode != 'k' )
+						$arg_term = 'password';
+					
 					if( $cmd_num_args < $mode_arg )
 					{
-						$bot->notice( $user, 'You did not specify a key!' );
+						$bot->noticef( $user, 'You did not specify a %s!', $arg_term );
 						return false;
 					}
 					
@@ -129,6 +136,12 @@
 			case 'v':
 			case 'b':
 				$bot->notice( $user, 'The mode command cannot be used to change ops, voices, or bans.' );
+				return false;
+				break;
+			
+			case 'd':
+			case 'R':
+				$bot->noticef( $user, 'You cannot manually set +%s or -%s.', $mode, $mode );
 				return false;
 				break;
 			
