@@ -1111,7 +1111,7 @@
 						if( $add ) {
 							$upass = $args[$mode_arg++];
 							$chan->add_mode( $mode );
-							$chan->set_user_pass( $pass );
+							$chan->set_user_pass( $upass );
 							$readable_args[] = $upass;
 						}
 						else {

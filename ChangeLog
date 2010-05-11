@@ -1,3 +1,8 @@
+Brian Cline	<brian@ircplanet.net>	2010-05-11
+
+	* Core/service.php: Fix a typo from the last commit.
+	Must. stop. changing. code. after. successful. testing.
+
 Brian Cline	<brian@ircplanet.net>	2010-05-10
 
 	* Core/service.php:
