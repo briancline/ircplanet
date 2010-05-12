@@ -1,5 +1,11 @@
 Brian Cline	<brian@ircplanet.net>	2010-05-11
 
+	* Core/p10/handle_OM.php: Add a P10 handler in the core for the
+	opmode token, since these come across differently than regular
+	mode hacks.
+
+Brian Cline	<brian@ircplanet.net>	2010-05-11
+
 	* Core/service.php: Fix a typo from the last commit.
 	Must. stop. changing. code. after. successful. testing.
 
