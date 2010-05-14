@@ -42,4 +42,4 @@
 	
 	$server = $this->add_server( $uplink, $numeric, $name, $desc, $start_ts, $max_users, $modes );
 	
-?>
+

@@ -39,4 +39,4 @@
 	if( $chan = $this->get_channel($chan_key) )
 		$chan->set_topic( $topic );
 
-?>
+

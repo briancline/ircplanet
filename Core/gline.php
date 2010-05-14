@@ -62,4 +62,4 @@
 		function __toString() { return $this->mask; }
 	}
 
-?>
+

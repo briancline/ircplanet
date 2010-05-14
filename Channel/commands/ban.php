@@ -106,4 +106,4 @@
 	$bot->ban( $chan->get_name(), $mask );
 	$chan->add_ban( $mask );
 	
-?>
+

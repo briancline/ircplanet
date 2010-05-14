@@ -37,4 +37,4 @@
 	
 	$this->sendf( FMT_PONG, SERVER_NUM, SERVER_NUM, $ping_string );
 
-?>
+

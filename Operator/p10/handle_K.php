@@ -42,4 +42,4 @@
 	
 	$this->report_event('KICK', $source, $chan, $user, $reason );
 
-?>
+

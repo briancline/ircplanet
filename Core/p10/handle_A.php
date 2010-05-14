@@ -36,4 +36,4 @@
 	else
 		$user->set_away();
 	
-?>
+

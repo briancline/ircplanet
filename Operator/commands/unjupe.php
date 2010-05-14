@@ -58,4 +58,4 @@
 				$jupe->get_last_mod(), $jupe->get_reason() );
 	}
 	
-?>
+

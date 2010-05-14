@@ -82,4 +82,4 @@
 		$bot->noticef( $user, 'The ban for %s has been removed.', $mask );
 	}
 	
-?>
+

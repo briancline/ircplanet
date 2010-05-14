@@ -131,4 +131,4 @@
 	$user_count = count( $userlist );
 	$ban_count = count( $banlist );
 
-?>
+

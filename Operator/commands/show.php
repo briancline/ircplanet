@@ -132,4 +132,4 @@
 			$option, BOLD_START, BOLD_END );
 	}
 
-?>
+

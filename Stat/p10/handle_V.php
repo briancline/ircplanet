@@ -33,4 +33,4 @@
 	$server = $this->get_server($args[2]);
 	$this->report_event('VERSION', $user, $server);
 
-?>
+

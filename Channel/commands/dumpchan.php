@@ -39,4 +39,4 @@
 	if( array_key_exists($ckey, $this->db_channels) )
 		print_array($this->db_channels[$ckey]);
 
-?>
+

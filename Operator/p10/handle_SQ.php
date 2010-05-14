@@ -31,4 +31,4 @@
 	
 	$this->report_event( 'SQUIT', $source, $server, "($reason)" );
 
-?>
+

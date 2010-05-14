@@ -35,4 +35,4 @@
 		CORE_VERSION,
 		CTCP_END );
 
-?>
+

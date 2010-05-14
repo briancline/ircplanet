@@ -48,4 +48,4 @@
 	
 	if(array_key_exists(strtolower($nick), $this->accounts))
 		print_array($this->accounts[strtolower($nick)]);
-?>
+

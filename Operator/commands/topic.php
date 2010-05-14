@@ -47,4 +47,4 @@
 		$chan->topic = $new_topic;
 	}
 	
-?>
+

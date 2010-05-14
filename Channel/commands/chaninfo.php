@@ -51,4 +51,4 @@
 	$bot->noticef($user, 'Permanent:        %s', $chan->is_permanent() ? 'Yes' : 'No' );
 	$bot->noticef($user, 'Auto Op:          %s', $chan->auto_ops() ? 'Yes' : 'No' );
 	
-?>
+

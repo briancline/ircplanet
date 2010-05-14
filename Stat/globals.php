@@ -40,4 +40,4 @@
 	define( 'SERVICE_TIMER_DIR',      SERVICE_DIR .'/timers/' );
 	define( 'CMD_HANDLER_DIR',        SERVICE_DIR .'/commands/' );
 
-?>
+

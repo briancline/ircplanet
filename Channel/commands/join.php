@@ -56,4 +56,4 @@
 		$bot->join( $chan_name, $chan_reg->get_create_ts() );
 	}
 	
-?>
+

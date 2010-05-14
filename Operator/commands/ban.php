@@ -62,4 +62,4 @@
 	$this->ban( $chan->get_name(), $mask );
 	return true;
 	
-?>
+

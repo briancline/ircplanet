@@ -31,4 +31,4 @@
 
 	$this->parse_mode( $line );
 	
-?>
+

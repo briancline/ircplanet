@@ -55,4 +55,4 @@
 	$target->join( $chan->get_name() );
 	$this->op( $chan->get_name(), $target->get_numeric() );
 	
-?>
+

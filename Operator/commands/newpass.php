@@ -38,4 +38,4 @@
 			
 	$bot->notice( $user, "Your password has been changed." );
 
-?>
+

@@ -31,4 +31,4 @@
 	
 	print_array($this->accounts);
 
-?>
+

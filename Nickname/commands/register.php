@@ -95,4 +95,4 @@
 		$bot->notice( $user, "You have already registered your nick and logged in." );
 	}
 
-?>
+

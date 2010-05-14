@@ -59,4 +59,4 @@
 	$this->burst_channels();
 	$this->sendf( FMT_ENDOFBURST, SERVER_NUM );
 	
-?>
+

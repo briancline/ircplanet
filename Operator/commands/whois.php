@@ -75,4 +75,4 @@
 	$bot->noticef( $user, 'Server:     %s', $server->get_name() );
 	$bot->noticef( $user, 'Signed on:  '. get_date($target->get_signon_ts()) );
 
-?>
+

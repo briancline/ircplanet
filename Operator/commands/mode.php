@@ -155,4 +155,4 @@
 	
 //	$bot->noticef( $user, '%s modes are now: %s %s %s', $chan->get_name(), $chan->get_modes(), $chan->get_limit(), $chan->get_key() );
 	
-?>
+

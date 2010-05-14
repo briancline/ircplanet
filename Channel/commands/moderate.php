@@ -58,4 +58,4 @@
 	
 	$bot->voice( $chan->get_name(), $numerics );
 	
-?>
+

@@ -44,4 +44,4 @@
 			$bot->kick( $chan->get_name(), $numeric, $reason );
 	}
 	
-?>
+

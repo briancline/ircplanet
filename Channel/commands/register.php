@@ -90,4 +90,4 @@
 	$bot->join( $chan_name );
 	$this->op( $chan_name, $bot->get_numeric() );
 	
-?>
+

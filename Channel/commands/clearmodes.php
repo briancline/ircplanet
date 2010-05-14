@@ -42,4 +42,4 @@
 	
 	$bot->clear_modes( $chan_name );
 		
-?>
+

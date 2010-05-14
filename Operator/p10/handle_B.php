@@ -44,4 +44,4 @@
 	$this->report_event( 'BURST', $server, $chan, "[+". $chan->get_modes() ."]", "$user_count users, $ban_count bans" );
 */
 
-?>
+

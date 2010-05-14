@@ -41,4 +41,4 @@
 	
 	$chan_reg->clear_bans();
 	
-?>
+

@@ -37,4 +37,4 @@
 			$chan_name, $user->get_nick());
 	}
 	
-?>
+

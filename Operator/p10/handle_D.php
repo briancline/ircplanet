@@ -37,4 +37,4 @@
 	
 	$this->report_event('KILL', $source, $kill_user, $args[3]);
 
-?>
+

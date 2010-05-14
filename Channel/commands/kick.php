@@ -63,4 +63,4 @@
 	$numeric = $tmp_user->get_numeric();
 	$bot->kick( $chan->get_name(), $numeric, $reason );
 	
-?>
+

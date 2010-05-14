@@ -41,4 +41,4 @@
 	else 
 		$bot->notice( $user, 'No g-lines to enforce.' );
 	
-?>
+

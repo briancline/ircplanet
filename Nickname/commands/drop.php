@@ -78,4 +78,4 @@
 
 	$bot->noticef( $user, 'The account for %s has been purged.', $ac_name );
 
-?>
+

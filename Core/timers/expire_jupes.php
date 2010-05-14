@@ -47,4 +47,4 @@
 	foreach( $expired_jupes as $jupe_key )
 		$this->remove_jupe( $jupe_key );
 	
-?>
+

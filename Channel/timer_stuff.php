@@ -35,4 +35,4 @@
 		db_query( "update channels set create_ts = '". $chan->get_ts() ."' where id = '". $dbchan->get_id() ."'" );
 	}
 	
-?>
+

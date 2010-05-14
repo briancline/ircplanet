@@ -52,4 +52,4 @@
 	$numeric = $tmp_user->get_numeric();
 	$this->kick( $chan->get_name(), $numeric, $reason );
 	
-?>
+

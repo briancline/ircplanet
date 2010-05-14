@@ -42,4 +42,4 @@
 		$bot->invite( $user->get_nick(), $chan->get_name() );
 	}
 
-?>
+

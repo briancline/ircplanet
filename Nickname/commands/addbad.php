@@ -48,4 +48,4 @@
 
 	$bot->noticef( $user, '%s has been added to the bad nick list.', $nick_mask );
 
-?>
+

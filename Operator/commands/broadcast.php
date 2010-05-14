@@ -40,4 +40,4 @@
 			BOLD_START, BOLD_END, $message );
 	}
 
-?>
+

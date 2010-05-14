@@ -37,7 +37,7 @@
 	
 	function is_valid_email( $email )
 	{
-		$b = preg_match( '/^[a-z0-9._-%]+@[a-z0-9._-]+\.[a-z]{2,4}$/i', $email );
+		$b = preg_match( '/^[a-z0-9._\-%]+@[a-z0-9._\-]+\.[a-z]{2,4}$/i', $email );
 		
 		return $b;
 	}
@@ -379,4 +379,4 @@
 
 	
 
-?>
+

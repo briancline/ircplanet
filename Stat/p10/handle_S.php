@@ -38,4 +38,4 @@
 		$server->is_service()
 	);
 
-?>
+

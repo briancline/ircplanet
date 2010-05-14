@@ -38,4 +38,4 @@
 		get_pretty_size($this->bytes_received),
 		get_pretty_size($this->bytes_sent) );
 	
-?>
+

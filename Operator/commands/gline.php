@@ -72,4 +72,4 @@
 	
 	$mask = fix_host_mask( $mask );
 	
-?>
+

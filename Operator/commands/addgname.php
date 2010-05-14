@@ -51,4 +51,4 @@
 	$gline = $this->add_gline( $realname, $duration_secs, time(), $reason );
 	$this->enforce_gline( $gline );
 	
-?>
+

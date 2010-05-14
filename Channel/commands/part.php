@@ -39,4 +39,4 @@
 
 	$bot->part( $chan->get_name() );
 
-?>
+

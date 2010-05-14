@@ -60,4 +60,4 @@
 	$this->sendf( FMT_JUPE_ACTIVE, SERVER_NUM, $jupe->get_server(), $duration_secs, 
 			$jupe->get_last_mod(), $jupe->get_reason() );
 	
-?>
+

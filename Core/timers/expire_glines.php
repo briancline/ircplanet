@@ -47,4 +47,4 @@
 	foreach( $expired_glines as $gline_key )
 		$this->remove_gline( $gline_key );
 	
-?>
+

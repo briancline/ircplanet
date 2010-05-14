@@ -313,4 +313,4 @@
 	
 	$ds = new DefenseService();
 
-?>
+

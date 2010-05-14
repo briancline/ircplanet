@@ -40,4 +40,4 @@
 		$this->report_event( 'TOPIC', $source, $chan, $topic );
 	}
 
-?>
+

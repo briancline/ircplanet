@@ -61,4 +61,4 @@
 	if( !$target_is_chan )
 		$this->report_event( 'MODE', $source, $target, $modes );
 
-?>
+

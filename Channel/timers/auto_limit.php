@@ -44,4 +44,4 @@
 	$chan->set_limit( $new_limit );
 	$chan_reg->set_pending_autolimit( false );
 	
-?>
+

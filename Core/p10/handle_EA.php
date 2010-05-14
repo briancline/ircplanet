@@ -33,4 +33,4 @@
 	$this->service_postburst( $is_uplink );
 	$this->finished_burst = true;
 	
-?>
+

@@ -34,4 +34,4 @@
 	
 	$this->report_event('STATS', $user, $flag, 'to', $server);
 
-?>
+

@@ -36,4 +36,4 @@
 			$this->op( $chan->get_name(), $bot->get_numeric() );
 	}
 
-?>
+

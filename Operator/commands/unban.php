@@ -54,4 +54,4 @@
 	
 	$this->unban( $chan->get_name(), $mask );
 	
-?>
+

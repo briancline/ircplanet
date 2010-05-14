@@ -75,4 +75,4 @@
 	
 	$bot->deop( $chan->get_name(), $numerics );
 
-?>
+

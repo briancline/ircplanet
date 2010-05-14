@@ -34,4 +34,4 @@
 		CTCP_START,
 		$ping_text );
 
-?>
+

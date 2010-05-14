@@ -134,4 +134,4 @@
 		
 	$bot->noticef( $user, 'Found %d records matching your search.', $n );
 	
-?>
+

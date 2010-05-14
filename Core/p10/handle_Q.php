@@ -33,4 +33,4 @@
 	$user = $this->get_user($numeric);
 	$this->remove_user( $numeric );
 	
-?>
+

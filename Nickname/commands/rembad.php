@@ -40,4 +40,4 @@
 	$this->remove_badnick( $nick_mask );
 	$bot->noticef( $user, '%s has been removed from the bad nicks list.', $nick_mask );
 
-?>
+

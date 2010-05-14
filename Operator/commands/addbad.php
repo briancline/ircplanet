@@ -57,4 +57,4 @@
 
 	$bot->noticef( $user, '%s has been added to the bad channels list.', $chan_mask );
 
-?>
+

@@ -63,4 +63,4 @@
 		public function set_auto_voice($b)   { $this->auto_voice = $b ? 1 : 0; }
 	}
 	
-?>
+

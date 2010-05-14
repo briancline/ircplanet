@@ -61,4 +61,4 @@
 		$bot->noticef($user, 'Updated account %s in memory. (%s)', $dbuser->get_name(), $dbuser->password);
 	}
 	
-?>
+

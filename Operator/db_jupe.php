@@ -63,4 +63,4 @@
 		public function set_inactive()        { $this->inactive = 1; }
 	}
 	
-?>
+

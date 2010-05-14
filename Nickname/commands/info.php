@@ -87,4 +87,4 @@
 	$bot->noticef( $user, 'Registered:   %s', date('l j F Y h:i:s A T (\G\M\TO)', $account->get_register_ts()) );
 	$bot->noticef( $user, 'Last Seen:    %s', date('l j F Y h:i:s A T (\G\M\TO)', $account->get_lastseen_ts()) );
 
-?>
+

@@ -35,4 +35,4 @@
 //		$this->report_event( 'Burst complete. Ready to accept commands.', $server );
 	}
 
-?>
+

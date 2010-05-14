@@ -45,4 +45,4 @@
 		$user->set_account_ts( $args[4] );
 	}
 
-?>
+

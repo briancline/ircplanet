@@ -49,4 +49,4 @@
 		$this->remove_gline( $mask );
 	}
 	
-?>
+

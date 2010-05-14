@@ -41,4 +41,4 @@
 	
 	$this->sendf( FMT_STATS_END, $server_num, $numeric, $flag );
 
-?>
+

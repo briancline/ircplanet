@@ -46,4 +46,4 @@
 		$this->add_channel_user( $chan_name, $numeric, 'o' );
 	}
 
-?>
+

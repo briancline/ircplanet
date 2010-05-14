@@ -86,4 +86,4 @@
 			$bot->message( $chan_name, $infoline );
 	}
 
-?>
+

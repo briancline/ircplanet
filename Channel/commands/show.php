@@ -81,4 +81,4 @@
 		
 		$bot->noticef( $user, 'Found %d prohibited channel words.', $bad_count );
 	}
-?>
+

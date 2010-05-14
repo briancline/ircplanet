@@ -62,4 +62,4 @@
 	
 	$bot->notice( $user, 'End of ban list.' );
 
-?>
+

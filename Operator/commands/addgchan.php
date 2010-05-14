@@ -57,4 +57,4 @@
 	$gline = $this->add_gline( $channel, $duration_secs, time(), $reason );
 	$this->enforce_gline( $gline );
 	
-?>
+

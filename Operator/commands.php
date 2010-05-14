@@ -88,4 +88,4 @@
 	$this->set_command_info( 'whois',            0,   1, false, '<nick>' );
 	$this->set_command_info( 'whoison',          0,   1, false, '<channel>' );
 
-?>
+

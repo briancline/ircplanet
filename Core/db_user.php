@@ -96,4 +96,4 @@
 		public function update_lastseen()    { $this->lastseen_ts = time(); }
 	}
 
-?>
+

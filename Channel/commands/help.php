@@ -78,4 +78,4 @@
 			BOLD_START, $help_topic, BOLD_END );
 	}
 	
-?>
+

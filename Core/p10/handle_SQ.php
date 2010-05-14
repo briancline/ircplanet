@@ -46,4 +46,4 @@
 	
 	$this->remove_server( $server->numeric );
 	
-?>
+

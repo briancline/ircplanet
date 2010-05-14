@@ -36,4 +36,4 @@
 	
 	$this->sendf( FMT_GLINE_REMOVE, SERVER_NUM, $channel );
 	
-?>
+

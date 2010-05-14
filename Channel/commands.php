@@ -99,4 +99,4 @@
 	$this->set_command_info( 'uptime',           0,   0, false );
 	$this->set_command_info( 'verify',           0,   1, false, '<nick>' );
 
-?>
+

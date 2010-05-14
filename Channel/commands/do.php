@@ -42,4 +42,4 @@
 	$text = "\001ACTION ". assemble( $pargs, 2 ) ."\001";
 	$bot->message( $chan->get_name(), $text );
 	
-?>
+

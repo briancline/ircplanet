@@ -54,4 +54,4 @@
 	db_query( "delete from `ds_admins` where `user_id` = '". $acct->get_id() ."'" );
 	$bot->noticef( $user, '%s\'s level %d access has been revoked.', $acct->get_name(), $curr_level );
 
-?>
+

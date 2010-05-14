@@ -42,4 +42,4 @@
 	if(!empty($topic))
 		$bot->noticef( $user, "Topic:    %s", $topic );
 	
-?>
+

@@ -40,4 +40,4 @@
 	$this->remove_badchan( $chan_mask );
 	$bot->noticef( $user, '%s has been removed from the bad channels list.', $chan_mask );
 
-?>
+

@@ -78,4 +78,4 @@
 	foreach( $nicks as $nick )
 		$bot->invite( $nick, $chan->get_name() );
 	
-?>
+

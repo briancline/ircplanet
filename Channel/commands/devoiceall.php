@@ -54,4 +54,4 @@
 	
 	$bot->devoice( $chan->get_name(), $numerics );
 	
-?>
+

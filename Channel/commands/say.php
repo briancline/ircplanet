@@ -42,4 +42,4 @@
 	$text = assemble( $pargs, 2 );
 	$bot->message( $chan->get_name(), $text );
 	
-?>
+

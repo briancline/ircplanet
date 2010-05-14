@@ -58,4 +58,4 @@
 	foreach( $kicks as $kick_numeric )
 		$this->kick( $chan->get_name(), $kick_numeric, $reason );
 
-?>
+

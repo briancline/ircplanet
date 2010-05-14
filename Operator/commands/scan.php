@@ -75,4 +75,4 @@
 	
 	$bot->noticef( $user, '%d matches found.', count($matches) );
 	
-?>
+

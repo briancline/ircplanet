@@ -45,4 +45,4 @@
 		$privmsg_target = $privmsg_target_obj->get_numeric();
 	}
 	
-?>
+

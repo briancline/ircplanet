@@ -71,4 +71,4 @@
 		$bot->notice( $user, "No such account!" );
 	}
 
-?>
+

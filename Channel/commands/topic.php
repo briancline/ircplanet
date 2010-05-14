@@ -53,4 +53,4 @@
 //		$chan->set_topic( $new_topic );
 	}
 	
-?>
+

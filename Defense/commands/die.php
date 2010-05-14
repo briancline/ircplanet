@@ -36,4 +36,4 @@
 	
 	$this->close( $reason );
 
-?>
+

@@ -34,4 +34,4 @@
 		date("D M d H:i:s Y T"),
 		CTCP_END );
 
-?>
+

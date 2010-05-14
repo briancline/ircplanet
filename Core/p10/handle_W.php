@@ -120,4 +120,4 @@
 	$this->sendf(FMT_WHOIS_END, SERVER_NUM, $source_num, 
 		$target->get_nick());
 	
-?>
+

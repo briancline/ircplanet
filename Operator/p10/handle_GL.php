@@ -42,4 +42,4 @@
 		$this->report_event( 'GLINE', $server, $gline, '('. $gline->get_reason() .')' );
 	}
 
-?>
+

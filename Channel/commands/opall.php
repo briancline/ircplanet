@@ -54,4 +54,4 @@
 	
 	$bot->op( $chan->get_name(), $numerics );
 	
-?>
+
