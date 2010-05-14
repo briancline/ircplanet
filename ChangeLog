@@ -1,6 +1,10 @@
 Brian Cline	<brian@ircplanet.net>	2010-05-13
 
 	* Remove closing PHP tag from every PHP file.
+	
+	* Core/util_string.php: Fix a bug with this preg_match entry causing
+	warnings in the logs. Apparently you didn't have to escape dash literals
+	with eregi, but do with preg_match.
 
 Brian Cline	<brian@ircplanet.net>	2010-05-11
 
