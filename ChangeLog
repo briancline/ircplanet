@@ -1,9 +1,21 @@
 Brian Cline	<brian@ircplanet.net>	2010-05-15
 
-	* Core/core_globals.php: Move some existing defines from p10.php to here,
-	as they are the more appropriate place; also add a few others. This includes
-	renaming NICKLENGTH to NICK_LEN (for consistency sake), moving IDENT_LEN here,
-	adding HOST_LEN, ACCOUNT_LEN, HIDDEN_HOST, and moving TOPIC_BURSTING here.
+	* ChangeLog: Being pedantic about not exceeding 80 chars per line.
+	
+	* Core/channel.php: Add clear_ops and clear_voices methods.
+	
+	* Core/p10/handle_CM.php: Add a handler for ircu's CM (CLEARMODE) token,
+	which is capable of clearing all modes (except +R, +d, +A, +U), ops, 
+	voices, and/or bans from a channel. This is the same subset of channel
+	modes that ircu will clear.
+
+Brian Cline	<brian@ircplanet.net>	2010-05-15
+
+	* Core/core_globals.php: Move some existing defines from p10.php to here, 
+	as they are the more appropriate place; also add a few others. This 
+	includes renaming NICKLENGTH to NICK_LEN (for consistency sake), moving 
+	IDENT_LEN here, adding HOST_LEN, ACCOUNT_LEN, HIDDEN_HOST, and moving 
+	TOPIC_BURSTING here.
 	
 	* Core/p10.php: Moved IDENT_LEN and TOPIC_BURSTING to core_globals.php.
 	
@@ -14,8 +26,7 @@ Brian Cline	<brian@ircplanet.net>	2010-05-15
 	
 	* Core/service.php: Change instances of NICKLENGTH to NICK_LEN.
 	
-	* Operator/os.php: Same.
-	
+	* Operator/os.php: Same.	
 
 Brian Cline	<brian@ircplanet.net>	2010-05-15
 

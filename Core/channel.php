@@ -268,6 +268,24 @@
 				$user->clear_modes();
 		}
 		
+		function clear_ops()
+		{
+			foreach( $this->users as $user )
+			{
+				if( $user->is_op() )
+					$user->remove_mode( CUMODE_OP );
+			}
+		}
+		
+		function clear_voices()
+		{
+			foreach( $this->users as $user )
+			{
+				if( $user->is_voice() )
+					$user->remove_mode( CUMODE_VOICE );
+			}
+		}
+		
 		function clear_bans()
 		{
 			$this->bans = array();
