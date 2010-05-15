@@ -55,18 +55,13 @@
 		$reg->save();
 		$reg = $this->add_channel_reg( $reg );
 		
-		if( $chan = $this->get_channel($chan_name) )
-		{
-			$this->sendf( FMT_JOIN, $bot->get_numeric(), $chan_name, time() );
-			$chan->add_user( $bot->get_numeric(), 'o' );
-			$this->op( $chan_name, $bot->get_numeric() );
-		}
+		$bot->join( $chan_name );
+		$chan = $this->get_channel( $chan_name );
+		
+		if( !$chan->is_op($bot->get_numeric()) )
+			$this->mode( $chan_name, '+Ro '. $bot->get_numeric() );
 		else
-		{
-			$this->sendf( FMT_CREATE, $bot->get_numeric(), $chan_name, time() );
-			$this->add_channel( $chan_name, time() );
-			$this->add_channel_user( $chan_name, $bot->get_numeric(), 'o' );
-		}
+			$bot->mode( $chan_name, '+R' );
 	}
 	else
 	{

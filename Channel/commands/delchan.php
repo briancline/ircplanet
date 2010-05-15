@@ -40,6 +40,7 @@
 		
 		if( ($chan = $this->get_channel($chan_name)) && $chan->is_on($bot->get_numeric()) )
 		{
+			$bot->mode( $chan, '-R' );
 			$this->sendf( FMT_PART_REASON, $bot->get_numeric(), $chan_name, $reason );
 			$this->remove_channel_user( $chan_name, $bot->get_numeric() );
 		}

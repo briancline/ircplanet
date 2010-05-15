@@ -44,7 +44,7 @@
 		 * just issue a JOIN and op the bot.
 		 */
 		$bot->join( $chan->get_name() );
-		$this->op( $chan->get_name(), $bot->get_numeric() );
+		$this->mode( $chan->get_name(), '+Ro '. $bot->get_numeric() );
 	}
 	else
 	{
@@ -54,6 +54,7 @@
 		 */
 		$chan_reg = $this->get_channel_reg( $chan_name );
 		$bot->join( $chan_name, $chan_reg->get_create_ts() );
+		$bot->mode( $chan->get_name(), '+R' );
 	}
 	
 

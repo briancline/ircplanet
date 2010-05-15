@@ -173,6 +173,7 @@
 					}
 					
 					$chan = $this->add_channel( $dbchan->get_name(), $ts );
+					$chan->add_mode( CMODE_REGISTERED );
 					$this->add_channel_user( $dbchan->get_name(), $botnum, 'o' );
 				}
 				
@@ -202,7 +203,7 @@
 				if( $chan && !$chan->is_op($botnum) )
 				{
 					$this->op( $chan->get_name(), $botnum );
-					$bot->mode( $chan->get_name(), $dbchan->get_default_modes() );
+					$bot->mode( $chan->get_name(), 'R' . $dbchan->get_default_modes() );
 					$dbchan->set_create_ts( $chan->get_ts() );
 					$dbchan->save();
 				}

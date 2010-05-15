@@ -374,6 +374,9 @@
 
 			if( !$chan )
 			{
+				if( $create_ts == 0 )
+					$create_ts = time();
+				
 				$this->net->sendf( FMT_CREATE, $this->get_numeric(), $chan_name, $create_ts );
 				$this->net->add_channel( $chan_name, $create_ts );
 

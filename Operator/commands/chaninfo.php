@@ -30,7 +30,12 @@
  */
 
 	$chan_name = $pargs[1];
-	$chan = $this->get_channel( $chan_name );
+	
+	if( !($chan = $this->get_channel($chan_name)) )
+	{
+		$bot->noticef( $user, '%s does not exist!', $chan_name );
+		return false;
+	}
 	
 	$bot->noticef( $user, "Channel:  %s (%d users, %d ops, %d voices)", 
 		$chan->get_name(), $chan->get_user_count(),
