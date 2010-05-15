@@ -45,7 +45,12 @@
 	define( 'P10_DIR',             CORE_DIR .'/p10/' );
 	define( 'CORE_TIMER_DIR',      CORE_DIR .'/timers/' );
 	
-	define( 'NICKLENGTH',          15 );
+	define( 'NICK_LEN',            15 );
+	define( 'IDENT_LEN',           10 );
+	define( 'HOST_LEN',            64 );
+	define( 'ACCOUNT_LEN',         NICK_LEN );
+	define( 'HIDDEN_HOST',         'users.ircplanet.net' );
+	define( 'TOPIC_BURSTING',      true );
 	
 	define( 'SOCKET_TIMEOUT',       5 );
 	

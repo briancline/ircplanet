@@ -1515,7 +1515,7 @@
 				return;
 
 			$command = array_shift( $args );
-			$log_msg = irc_sprintf('[%'. NICKLENGTH .'H] %s%s%s %A',
+			$log_msg = irc_sprintf('[%'. NICK_LEN .'H] %s%s%s %A',
 				$user, BOLD_START, $command, BOLD_END, $args );
 
 			$this->default_bot->message( COMMAND_CHANNEL, $log_msg );

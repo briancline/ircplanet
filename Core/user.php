@@ -79,6 +79,7 @@
 		function is_deaf()             { return $this->has_mode(UMODE_DEAF); }
 		function is_oper()             { return $this->has_mode(UMODE_OPER); }
 		function is_registered()       { return $this->has_mode(UMODE_REGISTERED); }
+		function is_host_hidden()      { return $this->has_mode(UMODE_HIDDENHOST); }
 		function is_local()            { return $this->get_server_numeric() == SERVER_NUM; }
 		function is_away()             { return $this->away_msg != ''; }
 		function is_logged_in()        { return $this->account_id > 0; }
@@ -176,6 +177,10 @@
 		{
 			$mask = '*!*'. right( $this->ident, IDENT_LEN ) .'@';
 			$host = $this->host;
+			
+			if( $this->is_host_hidden() ) {
+				$host = $this->get_user_name() .'.'. HIDDEN_HOST;
+			}
 
 			$levels = explode( '.', $host );
 			$num_levels = count( $levels );

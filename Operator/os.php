@@ -120,7 +120,7 @@
 			foreach( $this->pending_events as $event )
 			{
 				extract( $event );
-				$this->default_bot->messagef( $chan_name, '[%'. (NICKLENGTH + $margin) .'s] %s %s',
+				$this->default_bot->messagef( $chan_name, '[%'. (NICK_LEN + $margin) .'s] %s %s',
 					$source, $event_name, $misc);
 
 				$this->pending_events = array();
@@ -542,7 +542,7 @@
 			
 			$source_type = get_class($source);
 			if($source_type == 'Server')
-				$source = BOLD_START . $source->get_name_abbrev(NICKLENGTH) . BOLD_END;
+				$source = BOLD_START . $source->get_name_abbrev(NICK_LEN) . BOLD_END;
 			else if($source_type == 'User')
 				$source = $source->get_nick();
 			
@@ -563,8 +563,8 @@
 				eval('$arg'. $i .' = $arg;');
 			}
 			
-			if(strlen($source) > NICKLENGTH)
-				$source = substr($source, 0, NICKLENGTH);
+			if(strlen($source) > NICK_LEN)
+				$source = substr($source, 0, NICK_LEN);
 			
 			$margin = substr_count( $source, BOLD_START );
 			$misc = $arg1 .' '. $arg2 .' '. $arg3 .' '. $arg4 .' '. $arg5;
@@ -580,12 +580,12 @@
 					'misc'        => $misc );
 			}
 
-			$bot->messagef( $channel, '[%'. (NICKLENGTH + $margin) .'s] %s %s',
+			$bot->messagef( $channel, '[%'. (NICK_LEN + $margin) .'s] %s %s',
 				$source, $event_name, $misc);
 
 /*
 			if($this->finished_burst)
-				$bot->messagef( $channel, "[%". (NICKLENGTH + $margin) ."s] %s %s", $source, $event_name, $misc);
+				$bot->messagef( $channel, "[%". (NICK_LEN + $margin) ."s] %s %s", $source, $event_name, $misc);
 */
 			
 			return true;

@@ -1,5 +1,24 @@
 Brian Cline	<brian@ircplanet.net>	2010-05-15
 
+	* Core/core_globals.php: Move some existing defines from p10.php to here,
+	as they are the more appropriate place; also add a few others. This includes
+	renaming NICKLENGTH to NICK_LEN (for consistency sake), moving IDENT_LEN here,
+	adding HOST_LEN, ACCOUNT_LEN, HIDDEN_HOST, and moving TOPIC_BURSTING here.
+	
+	* Core/p10.php: Moved IDENT_LEN and TOPIC_BURSTING to core_globals.php.
+	
+	* Core/user.php: When generating a user@host mask, do it with the user's
+	hidden host, if they have one. Otherwise, use their real host like before.
+	Also add an is_host_hidden() method to return whether or not the user has
+	a hidden host (+x).
+	
+	* Core/service.php: Change instances of NICKLENGTH to NICK_LEN.
+	
+	* Operator/os.php: Same.
+	
+
+Brian Cline	<brian@ircplanet.net>	2010-05-15
+
 	* Core/p10.php: Add lastmod timestamp to the predefined P10 gline removal
 	line.
 	

@@ -29,9 +29,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	define( 'TOPIC_BURSTING',       true );
-	define( 'IDENT_LEN',            10 );
-	
 	
 	define( 'FMT_PASS',             "PASS :%s" );
 	// SERVER Operator.Services.Virtuanet.org 1 1130312160 1130312160 J10 Vs]]] +hs :Oper Services
