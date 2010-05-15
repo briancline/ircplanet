@@ -1,5 +1,16 @@
 Brian Cline	<brian@ircplanet.net>	2010-05-15
 
+	* Core/util_obj.php: Add is_ban_record.
+	
+	* Core/user.php: Fix crash bug when getting a user's nick!user@host mask
+	for users with hidden hostmasks (+x).
+	
+	* Channel/db_channel.php: No longer generate a PHP warning by comparing a
+	DB_Ban object to an int ($ban == 0), by using the new is_ban_record
+	function.
+	
+Brian Cline	<brian@ircplanet.net>	2010-05-15
+
 	* Operator/os.php: Fix a small bug causing a PHP warning when 
 	determining the type of a network event source while reporting 
 	an action (in this case, it cropped up on NICK changes). Use the

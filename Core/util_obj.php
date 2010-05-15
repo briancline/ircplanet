@@ -53,6 +53,11 @@
 	{
 		return ( is_object($obj) && get_class($obj) == 'DB_Channel' );
 	}
+	
+	function is_ban_record( $obj )
+	{
+		return ( is_object($obj) && get_class($obj) == 'DB_Ban' );
+	}
 
 	function is_gline( $obj )
 	{

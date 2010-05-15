@@ -179,7 +179,7 @@
 			$host = $this->host;
 			
 			if( $this->is_host_hidden() ) {
-				$host = $this->get_user_name() .'.'. HIDDEN_HOST;
+				$host = $this->get_account_name() .'.'. HIDDEN_HOST;
 			}
 
 			$levels = explode( '.', $host );

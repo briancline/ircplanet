@@ -307,7 +307,7 @@
 			
 			foreach( $this->bans as $mask => $ban )
 			{
-				if( empty($mask) || $ban == 0 || $this->channel_id == 0 )
+				if( empty($mask) || !is_ban_record($ban) || $this->channel_id == 0 )
 					continue;
 				
 				$ban->save();
