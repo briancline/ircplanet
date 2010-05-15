@@ -43,13 +43,16 @@
 		return false;
 	}
 	
+	$numerics = array();
 	foreach( $chan->users as $numeric => $chanuser )
 	{
 		if( !$chanuser->is_op() )
-		{
-			$chan->add_op( $numeric );
 			$numerics[] = $numeric;
-		}
+	}
+	
+	if( empty($numerics) ) {
+		$bot->noticef( $user, 'Nobody in %s is deopped.', $chan->get_name() );
+		return false;
 	}
 	
 	$bot->op( $chan->get_name(), $numerics );

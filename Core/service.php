@@ -1371,7 +1371,7 @@
 		}
 
 		
-		function perform_chan_user_mode( $chan_name, $mode_pol, $mode_char, $arg_list )
+		function perform_chan_user_mode( $source_num, $chan_name, $mode_pol, $mode_char, $arg_list )
 		{
 			$args = array();
 			$chan = $this->get_channel( $chan_name );
@@ -1390,47 +1390,16 @@
 
 			$mode_str = $mode_pol . str_repeat( $mode_char, count($arg_list) );
 			$mode_args = implode( ' ', $arg_list );
-			$mode_line = irc_sprintf( FMT_MODE_HACK, SERVER_NUM, $chan->get_name(), $mode_str, $mode_args, $chan->get_ts() );
+			$mode_line = irc_sprintf( FMT_MODE_HACK, $source_num, $chan->get_name(), $mode_str, $mode_args, $chan->get_ts() );
 			return $this->send_mode_line( $mode_line );
-         
-         /**
-          * The following code is deprecated by Service::send_mode_line().
-          *
-         
-			for( $i = 0; $i < count($arg_list); ++$i )
-			{
-				$args[] = $arg_list[$i];
-				
-				if($mode_pol == '+' && $mode_char == 'o')
-					$chan->add_op( $arg_list[$i] );
-				else if($mode_pol == '-' && $mode_char == 'o')
-					$chan->remove_op( $arg_list[$i] );
-				else if($mode_pol == '+' && $mode_char == 'v')
-					$chan->add_voice( $arg_list[$i] );
-				else if($mode_pol == '-' && $mode_char == 'v')
-					$chan->remove_voice( $arg_list[$i] );
-				else if($mode_pol == '+' && $mode_char == 'b')
-					$chan->add_ban( $arg_list[$i] );
-				else if($mode_pol == '-' && $mode_char == 'b')
-					$chan->remove_ban( $arg_list[$i] );
-				
-				if( count($args) == MAX_MODES_PER_LINE || $i == (count($arg_list) - 1) )
-				{
-					$this->sendf( FMT_MODE_HACK_NOTS, SERVER_NUM, 
-						$chan->get_name(), 
-						$mode_pol . str_repeat($mode_char, count($args)),
-						join(" ", $args) );
-				}
-			}
-			*/
 		}
 		
-		function op( $chan_name, $num_list )       { return $this->perform_chan_user_mode($chan_name, '+', 'o', $num_list); }
-		function deop( $chan_name, $num_list )     { return $this->perform_chan_user_mode($chan_name, '-', 'o', $num_list); }
-		function voice( $chan_name, $num_list )    { return $this->perform_chan_user_mode($chan_name, '+', 'v', $num_list); }
-		function devoice( $chan_name, $num_list )  { return $this->perform_chan_user_mode($chan_name, '-', 'v', $num_list); }
-		function ban( $chan_name, $num_list )      { return $this->perform_chan_user_mode($chan_name, '+', 'b', $num_list); }
-		function unban( $chan_name, $num_list )    { return $this->perform_chan_user_mode($chan_name, '-', 'b', $num_list); }
+		function op( $chan_name, $num_list )       { return $this->perform_chan_user_mode(SERVER_NUM, $chan_name, '+', 'o', $num_list); }
+		function deop( $chan_name, $num_list )     { return $this->perform_chan_user_mode(SERVER_NUM, $chan_name, '-', 'o', $num_list); }
+		function voice( $chan_name, $num_list )    { return $this->perform_chan_user_mode(SERVER_NUM, $chan_name, '+', 'v', $num_list); }
+		function devoice( $chan_name, $num_list )  { return $this->perform_chan_user_mode(SERVER_NUM, $chan_name, '-', 'v', $num_list); }
+		function ban( $chan_name, $num_list )      { return $this->perform_chan_user_mode(SERVER_NUM, $chan_name, '+', 'b', $num_list); }
+		function unban( $chan_name, $num_list )    { return $this->perform_chan_user_mode(SERVER_NUM, $chan_name, '-', 'b', $num_list); }
 
 		function topic( $chan_name, $topic, $chan_ts = 0 )
 		{

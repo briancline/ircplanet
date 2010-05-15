@@ -1,5 +1,26 @@
 Brian Cline	<brian@ircplanet.net>	2010-05-15
 
+	* Core/service.php: Modify Service::perform_chan_user_mode to accept
+	a source numeric, so we can use it in the Bot class.
+	
+	* Core/bot.php: Consolidate all the old, ugly, op/deop/voice/devoice
+	code into the same format as their equivalents in the Service class.
+	This way, everything gets formatted and broken up the same way when
+	sending to the uplink, and subsequently gets processed the exact same
+	way by Service::parse_mode. Also make sure we send out the same way
+	in Bot::clear_modes. 
+	
+	* Channel/commands/voiceall.php: Prevent a PHP warning, and warn the
+	user if the requested action results in nothing happening.
+	
+	* Channel/commands/opall.php: Same.
+	
+	* Channel/commands/devoiceall.php: Same.
+	
+	* Channel/commands/deopall.php: Same.
+
+Brian Cline	<brian@ircplanet.net>	2010-05-15
+
 	* Channel/cs.php: Fix something in the last commit - don't simply prefix
 	a post-burst default mode change with 'R', issue it with the mode hack
 	that reops CS instead.

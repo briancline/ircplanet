@@ -43,13 +43,16 @@
 		return false;
 	}
 	
+	$numerics = array();
 	foreach( $chan->users as $numeric => $chanuser )
 	{
 		if( $chanuser->is_voice() )
-		{
-			$chan->remove_voice( $numeric );
 			$numerics[] = $numeric;
-		}
+	}
+	
+	if( empty($numerics) ) {
+		$bot->noticef( $user, 'Nobody in %s is voiced.', $chan->get_name() );
+		return false;
 	}
 	
 	$bot->devoice( $chan->get_name(), $numerics );
