@@ -262,7 +262,7 @@
 		
 		function remove_channel_reg( $chan_name )
 		{
-			if( is_object($chan_name) && get_class($chan_name) == 'DB_Channel' )
+			if( is_channel_record($chan_name) )
 				$chan_name = $chan_name->get_name();
 			
 			$chan_reg = 0;
@@ -320,10 +320,10 @@
 		{
 			if( !is_object($user_obj) )
 				return 0;
-			if( get_class($user_obj) != 'DB_User' && (!is_user($user_obj) || !$user_obj->is_logged_in()) )
+			if( !is_account($user_obj) && (!is_user($user_obj) || !$user_obj->is_logged_in()) )
 				return 0;
 
-			if( get_class($user_obj) != 'DB_User' )
+			if( !is_account($user_obj) )
 				$account = $this->get_account( $user_obj->get_account_name() );
 			else
 				$account = $user_obj;
@@ -364,7 +364,7 @@
 			
 			if( !($chan = $this->get_channel_reg($chan_key)) )
 				return false;
-			if( !is_object($account_obj) || !get_class($account_obj) == 'DB_User' )
+			if( !is_account($account_obj) )
 				return false;
 			
 			$levels = $chan->get_levels();

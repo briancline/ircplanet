@@ -48,6 +48,11 @@
 	{
 		return ( is_object($obj) && get_class($obj) == 'Channel' );
 	}
+	
+	function is_channel_record( $obj )
+	{
+		return ( is_object($obj) && get_class($obj) == 'DB_Channel' );
+	}
 
 	function is_gline( $obj )
 	{

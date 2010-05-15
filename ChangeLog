@@ -1,5 +1,22 @@
 Brian Cline	<brian@ircplanet.net>	2010-05-15
 
+	* Operator/os.php: Fix a small bug causing a PHP warning when 
+	determining the type of a network event source while reporting 
+	an action (in this case, it cropped up on NICK changes). Use the
+	newer is_* functions instead of get_class etc.
+
+	* Core/util_obj.php: Add is_channel_record, which checks to see if the
+	provided object is a DB_Channel object.
+
+	* Core/service.php: Change all cases of the uber-ugly is_object/get_class
+	combos to the proper is_type function calls. WAY better readability.
+
+	* Nickname/ns.php: Same.
+	
+	* Channel/cs.php: Same.
+
+Brian Cline	<brian@ircplanet.net>	2010-05-15
+
 	* ChangeLog: Being pedantic about not exceeding 80 chars per line.
 	
 	* Core/channel.php: Add clear_ops and clear_voices methods.

@@ -114,10 +114,10 @@
 		{
 			if( !is_object($user_obj) )
 				return 0;
-			if( get_class($user_obj) != 'DB_User' && (get_class($user_obj) != 'User' || !$user_obj->is_logged_in()) )
+			if( !is_account($user_obj) && (!is_user($user_obj) || !$user_obj->is_logged_in()) )
 				return 0;
 
-			if( get_class($user_obj) != 'DB_User' )
+			if( !is_account($user_obj) )
 				$account = $this->get_account( $user_obj->get_account_name() );
 			else
 				$account = $user_obj;

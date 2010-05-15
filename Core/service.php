@@ -597,7 +597,7 @@
 		
 		function enforce_gline( $gline )
 		{
-			if( get_class($gline) != 'Gline' && !($gline = $this->get_gline($gline)) )
+			if( !is_gline($gline) && !($gline = $this->get_gline($gline)) )
 				return false;
 			
 			$this->sendf( FMT_GLINE_ADD, SERVER_NUM, $gline->get_mask(), 
@@ -883,7 +883,7 @@
 
 		function remove_account( $account )
 		{
-			if( is_object($account) && get_class($account) == 'DB_User' )
+			if( is_account($account) )
 				$account = $account->get_name();
 			elseif( is_object($account) )
 				return false; // What kind of object are you giving me?!

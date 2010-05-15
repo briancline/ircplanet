@@ -540,10 +540,9 @@
 			
 			$bot = $this->default_bot;
 			
-			$source_type = get_class($source);
-			if($source_type == 'Server')
+			if( is_server($source) )
 				$source = BOLD_START . $source->get_name_abbrev(NICK_LEN) . BOLD_END;
-			else if($source_type == 'User')
+			else if( is_user($source) )
 				$source = $source->get_nick();
 			
 			for($i = 1; $i <= 5; $i++)
@@ -554,10 +553,9 @@
 					continue;
 				}
 				
-				$arg_type = get_class($arg);
-				if($arg_type == 'Server' || $arg_type == 'Channel')
+				if( is_server($arg) || is_channel($arg) )
 					$arg = $arg->get_name();
-				else if($arg_type == 'User')
+				else if( is_user($arg) )
 					$arg = $arg->get_nick();
 				
 				eval('$arg'. $i .' = $arg;');
