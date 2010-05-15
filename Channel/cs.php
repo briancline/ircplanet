@@ -202,8 +202,8 @@
 				$chan = $this->get_channel( $dbchan_key );
 				if( $chan && !$chan->is_op($botnum) )
 				{
-					$this->op( $chan->get_name(), $botnum );
-					$bot->mode( $chan->get_name(), 'R' . $dbchan->get_default_modes() );
+					$this->mode( $chan->get_name(), '+Ro '. $botnum );
+					$bot->mode( $chan->get_name(), $dbchan->get_default_modes() );
 					$dbchan->set_create_ts( $chan->get_ts() );
 					$dbchan->save();
 				}

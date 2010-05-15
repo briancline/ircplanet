@@ -1,5 +1,11 @@
 Brian Cline	<brian@ircplanet.net>	2010-05-15
 
+	* Channel/cs.php: Fix something in the last commit - don't simply prefix
+	a post-burst default mode change with 'R', issue it with the mode hack
+	that reops CS instead.
+
+Brian Cline	<brian@ircplanet.net>	2010-05-15
+
 	* Core/db_record.php: Prevent a PHP warning from cropping up in 
 	DB_Record::save() on unsaved record instances.
 	
