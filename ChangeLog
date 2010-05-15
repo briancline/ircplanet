@@ -1,3 +1,17 @@
+Brian Cline	<brian@ircplanet.net>	2010-05-15
+
+	* Core/p10.php: Add lastmod timestamp to the predefined P10 gline removal
+	line.
+	
+	* Operator/commands/remgname.php: Include the lastmod timestamp for glines
+	when sending out the P10 line to remove them from the network; if we don't
+	have a copy of the gline, send it out anyway but use the current timestamp
+	as the lastmod timestamp.
+	
+	* Operator/commands/remgchan.php: Same.
+	
+	* Operator/commands/remgline.php: Same.
+
 Brian Cline	<brian@ircplanet.net>	2010-05-13
 
 	* Remove closing PHP tag from every PHP file.

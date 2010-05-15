@@ -67,7 +67,7 @@
 	define( 'FMT_QUIT',             "%s Q :%s" );
 	define( 'FMT_INVITE',           "%s I %s :%s" );
 	define( 'FMT_GLINE_ADD',        "%s GL * +%s %ld %ld :%s" );
-	define( 'FMT_GLINE_REMOVE',     "%s GL * -%s" );
+	define( 'FMT_GLINE_REMOVE',     "%s GL * -%s %ld" );
 	define( 'FMT_JUPE_ACTIVE',      '%s JU * +%s %ld %ld :%s' );
 	define( 'FMT_JUPE_INACTIVE',    '%s JU * -%s %ld %ld :%s' );
 	define( 'FMT_SETTIME',          "%s SE %ld :%s" );
