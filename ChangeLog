@@ -1,5 +1,20 @@
 Brian Cline	<brian@ircplanet.net>	2010-05-15
 
+	* Core/service.php: Increment starting numeric arg number in 
+	perform_chan_user_mode. Was causing services to send an extra erroneous
+	argument with the mode command where a real numeric should have been.
+	
+	* Channel/commands/delchan.php: Remove manual part code and call 
+	Bot::part instead.
+	
+	* Channel/commands/unreg.php: Same, and set -R when leaving.
+	
+	* Channel/cs.php: Make CS reop itself in the reporting channel when
+	the uplink has an older copy of the channel and CS effectively gets
+	deopped.
+
+Brian Cline	<brian@ircplanet.net>	2010-05-15
+
 	* Core/service.php: Modify Service::perform_chan_user_mode to accept
 	a source numeric, so we can use it in the Bot class.
 	

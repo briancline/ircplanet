@@ -208,6 +208,14 @@
 					$dbchan->save();
 				}
 			}
+
+			foreach( $this->default_bot->channels as $chan_name )
+			{
+				$chan = $this->get_channel( $chan_name );
+				
+				if( !$chan->is_op($botnum) )
+					$this->op( $chan->get_name(), $botnum );
+			}
 		}
 		
 		

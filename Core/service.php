@@ -1384,7 +1384,7 @@
 				$arg_list = array();
 				$arg_count = func_num_args();
 
-				for( $i = 3; $i < $arg_count; ++$i )
+				for( $i = 4; $i < $arg_count; ++$i )
 					$arg_list[] = func_get_arg($i);
 			}
 
