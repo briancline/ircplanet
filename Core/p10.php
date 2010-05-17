@@ -69,6 +69,7 @@
 	define( 'FMT_JUPE_INACTIVE',    '%s JU * -%s %ld %ld :%s' );
 	define( 'FMT_SETTIME',          "%s SE %ld :%s" );
 	define( 'FMT_KILL',             "%s D %s :%s (%s)" );
+	define( 'FMT_FAKEHOST',         "%s FA %s %s" );
 	
 	if( TOPIC_BURSTING )
 		define( 'FMT_TOPIC',        "%s T %s %ld %ld :%s" );

@@ -1,3 +1,49 @@
+Brian Cline	<brian@ircplanet.net>	2010-05-17
+
+	* db_schema.sql: Add field for storing custom user hosts help for SET HOST
+	on NS, and documentation for it.
+	
+	* Core/p10.php: Add the FMT_FAKEHOST format for sending out fakehost
+	changes. This is designed to be used in the following format:
+	<servernum> FA <usernum> <hostname>
+	
+	* Core/user.php: Add the +f user mode for FAKEHOST support, as well as
+	the necessary members and methods to keep track of it. If one is present
+	then use it when generating a hostmask (for bans, etc). Also add the new
+	method get_full_mask_safe() which returns the full nick!user@host string,
+	but will use a hidden or fake host if either is present.
+	
+	* Core/db_user.php: Add the fakehost column and the necessary methods to
+	keep track of it on the back end.
+	
+	* Core/p10/handle_AC.php: Set the +r mode on a user in memory once we
+	receive their account information. Previously this was only being set
+	in memory if we'd explicitly received it during a burst.
+	
+	* Core/p10/handle_N.php: Rework the way mode args are parsed from a
+	NICK line. It's now done the almost-right way. It will be done the
+	right way in a future commit. Also, if we detect +f in the mode line,
+	pick up the fakehost and set it in memory accordingly.
+	
+	* Nickname/commands/info.php: Don't show real hosts on logged-in,
+	host-hidden users shown through the INFO command.
+	
+	* Nickname/commands/set.php: Allow NS admins to SET HOST on any user
+	account.
+	
+	* Nickname/commands/login.php: Set a user's fakehost, if one has been
+	given to them, upon successful login.
+	
+	* Nickname/commands/ghost.php: Same.
+	
+	* Operator/commands.php: Add the FAKEHOST command at level 700.
+
+	* Operator/commands/fakehost.php: Add new FAKEHOST command to allow opers
+	to set a user's fakehost.
+	
+	* Operator/commands/whois.php: Modified OS WHOIS command to show a user's
+	hidden host, if present.
+
 Brian Cline	<brian@ircplanet.net>	2010-05-15
 
 	* Core/service.php: Increment starting numeric arg number in 

@@ -32,6 +32,7 @@
 	define( 'MAXLEN_USERINFOLINE', 150 );
 	define( 'MAXLEN_USERNAME',      20 );
 	define( 'MAXLEN_USEREMAIL',    100 );
+	define( 'MAXLEN_FAKEHOST',      63 );
 	
 	require_once('db_record.php');
 	
@@ -47,6 +48,7 @@
 		protected $password;
 		protected $email;
 		protected $info_line;
+		protected $fakehost;
 		protected $lastseen_ts = 0;
 		protected $register_ts = 0;
 		protected $suspend = 0;
@@ -73,10 +75,12 @@
 		public function get_password()       { return $this->password; }
 		public function get_email()          { return $this->email; }
 		public function get_info_line()      { return $this->info_line; }
+		public function get_fakehost()       { return $this->fakehost; }
 		public function get_register_ts()    { return $this->create_date; }
 		public function get_lastseen_ts()    { return $this->lastseen_ts; }
 		
 		public function has_info_line()      { return !empty($this->info_line); }
+		public function has_fakehost()       { return !empty($this->fakehost); }
 		public function is_suspended()       { return 1 == $this->suspend; }
 		public function is_permanent()       { return 1 == $this->no_purge; }
 		public function auto_ops()           { return 1 == $this->auto_op; }
@@ -87,6 +91,7 @@
 		public function set_password($s)     { $this->password = $s; }
 		public function set_email($s)        { $this->email = $s; }
 		public function set_info_line($s)    { $this->info_line = $s; }
+		public function set_fakehost($s)     { $this->fakehost = $s; }
 		public function set_register_ts($t)  { $this->register_ts = $t; }
 		public function set_suspend($b)      { $this->suspend = $b ? 1 : 0; }
 		public function set_permanent($b)    { $this->no_purge = $b ? 1 : 0; }

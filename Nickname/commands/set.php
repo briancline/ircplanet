@@ -77,6 +77,18 @@
 		$bot->noticef( $user, '%s info line has been %s.', $Who,
 			empty($value) ? 'cleared' : 'updated' );
 	}
+	else if( $option == 'HOST' && $user_level >= 500 )
+	{
+		if( strlen($value) >= MAXLEN_FAKEHOST )
+		{
+			$bot->notice( $user, 'That host is too long. Please try something shorter.' );
+			return false;
+		}
+		
+		$account->set_fakehost( $value );
+		$bot->noticef( $user, '%s host has been %s.', $Who,
+			empty($value) ? 'cleared' : 'updated' );
+	}
 	else if( $option == 'AUTOOP' )
 	{
 		if( empty($value) )

@@ -39,7 +39,8 @@
 		'k' => array( 'const' => 'UMODE_SERVICE',      'uint' => 0x0020 ),
 		'g' => array( 'const' => 'UMODE_HACKMSG',      'uint' => 0x0040 ),
 		'x' => array( 'const' => 'UMODE_HIDDENHOST',   'uint' => 0x0080 ),
-		'r' => array( 'const' => 'UMODE_REGISTERED',   'uint' => 0x0100 )
+		'r' => array( 'const' => 'UMODE_REGISTERED',   'uint' => 0x0100 ),
+		'f' => array( 'const' => 'UMODE_FAKEHOST',     'uint' => 0x0200 )
 	);
 
 
@@ -52,6 +53,7 @@
 		var $account_ts = 0;
 		var $ident;
 		var $host;
+		var $fakehost;
 		var $ip;
 		var $start_ts;
 		var $desc;
@@ -84,10 +86,12 @@
 		function is_away()             { return $this->away_msg != ''; }
 		function is_logged_in()        { return $this->account_id > 0; }
 		function has_account_name()    { return strlen($this->account_name) > 0; }
+		function has_fakehost()        { return $this->has_mode(UMODE_FAKEHOST); }
 		
 		function get_nick()            { return $this->nick; }
 		function get_ident()           { return $this->ident; }
 		function get_host()            { return $this->host; }
+		function get_fakehost()        { return $this->fakehost; }
 		function get_ip()              { return $this->ip; }
 		function get_name()            { return $this->desc; }
 		function get_away()            { return $this->away_msg; }
@@ -100,6 +104,7 @@
 		function get_idle_time()       { return time() - $this->last_spoke; }
 		
 		function set_nick($s)          { $this->nick = $s; }
+		function set_fakehost($s)      { $this->fakehost = $s; }
 		function set_account_id($i)    { $this->account_id = $i; }
 		function set_account_name($s)  { $this->account_name = $s; }
 		function set_account_ts($t)    { $this->account_ts = $t; }
@@ -169,6 +174,18 @@
 		
 		function get_full_mask()     { return $this->nick .'!'. $this->ident .'@'. $this->host; }
 		function get_full_ip_mask()  { return $this->nick .'!'. $this->ident .'@'. $this->ip; }
+		function get_full_mask_safe()
+		{
+			$mask = $this->nick .'!'. $this->ident .'@';
+			
+			if( $this->has_fakehost() )
+				$mask .= $this->get_fakehost();
+			elseif( $this->is_host_hidden() && $this->has_account_name() )
+				$mask .= $this->get_account_name() .'.'. HIDDEN_HOST;
+				
+			return $mask;
+		}
+
 		function get_gline_host()    { return $this->ident .'@'. $this->host; }
 		function get_gline_ip()      { return $this->ident .'@'. $this->ip; }
 		function get_gline_mask()    { return substr( $this->get_host_mask(), 2 ); }
@@ -178,7 +195,10 @@
 			$mask = '*!*'. right( $this->ident, IDENT_LEN ) .'@';
 			$host = $this->host;
 			
-			if( $this->is_host_hidden() ) {
+			if( $this->has_fakehost() ) {
+				$host = $this->fakehost;
+			}
+			else if( $this->is_host_hidden() ) {
 				$host = $this->get_account_name() .'.'. HIDDEN_HOST;
 			}
 

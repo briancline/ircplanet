@@ -51,21 +51,20 @@
 		$desc = $args[$num_args - 1];
 		$account = '';
 		$account_ts = 0;
+		$fakehost = '';
 		$modes = '';
+		$mode_arg = 8;
 		
-		if( $num_args >= 12 )
+		if( $args[7][0] == '+' )
 		{
 			$modes = $args[7];
-			$account = $args[8];
+			
+			if( preg_match('/r/', $modes) )
+				$account = $args[$mode_arg++];
+			if( preg_match('/f/', $modes) )
+				$fakehost = $args[$mode_arg++];
 		}
-		if( $num_args == 11 )
-		{
-			if( $args[7][0] == '+')
-				$modes = $args[7];
-			else
-				$account = $args[7];
-		}
-
+		
 		if( $ts_idx = strpos($account, ':') )
 		{
 			$account_ts = substr($account, $ts_idx + 1);
@@ -80,7 +79,11 @@
 			}
 		}
 		
-		$this->add_user( $numeric, $nick, $ident, $host, $desc, $start_ts, $ip, $modes, $account, $account_ts );
+		$user = $this->add_user( $numeric, $nick, $ident, $host, $desc, $start_ts, $ip, $modes, $account, $account_ts );
+		
+		if( !empty($fakehost) ) {
+			$user->set_fakehost( $fakehost );
+		}
 	}
 	
 	$user = $this->get_user( $numeric );

@@ -94,6 +94,16 @@
 		$this->sendf( FMT_ACCOUNT, SERVER_NUM, $user->get_numeric(), $user_name, $account->get_register_ts() );
 		$user->set_account_name( $user_name );
 		$user->set_account_id( $account->get_id() );
+		
+		if( $account->has_fakehost() )
+		{
+			$this->sendf( FMT_FAKEHOST, SERVER_NUM, $user->get_numeric(), $account->get_fakehost() );
+			
+			if( !$user->has_mode(UMODE_HIDDENHOST) ) {
+				$bot->noticef( $user, 'Enable usermode +x (/mode %s +x) in order to cloak your host.',
+					$user->get_nick() );
+			}
+		}
 	}
 	
 

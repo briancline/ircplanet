@@ -43,7 +43,7 @@
 	{
 		if($tmp_user->get_account_id() == $account->get_id())
 		{
-			$instances[] = $tmp_user->get_full_mask();
+			$instances[] = $tmp_user->get_full_mask_safe();
 		}
 	}
 
