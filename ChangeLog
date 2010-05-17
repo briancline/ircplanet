@@ -1,5 +1,13 @@
 Brian Cline	<brian@ircplanet.net>	2010-05-17
 
+	* Core/p10.php: Add 401 numeric for "No such nick" error.
+	
+	* Core/p10/handle_P.php: Send the source a 401 "No such nick" error if
+	they attempt to securely message a non-existent nick on this server.
+	This fixes a critical crash bug.
+
+Brian Cline	<brian@ircplanet.net>	2010-05-17
+
 	* db_schema.sql: Add field for storing custom user hosts help for SET HOST
 	on NS, and documentation for it.
 	

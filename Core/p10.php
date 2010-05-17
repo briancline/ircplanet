@@ -76,6 +76,8 @@
 	else
 		define( 'FMT_TOPIC',        "%s T %s :%s" );
 	
+	define( 'FMT_NOSUCHNICK',       "%s 401 %s %s :No such nick");
+	
 	define( 'FMT_ADMIN_REPLY_1',    "%s 256 %s :%s" );
 	define( 'FMT_ADMIN_REPLY_2',    "%s 257 %s :%s" );
 	define( 'FMT_ADMIN_REPLY_3',    "%s 258 %s :%s" );
