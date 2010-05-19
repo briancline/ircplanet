@@ -1,3 +1,10 @@
+Brian Cline	<brian@ircplanet.net>	2010-05-18
+
+	* Channel/commands/access.php: Fix a bug causing ACCESS #chan USERNAME
+	not to show matching results when users specified a full nick (not a 
+	mask) that didn't match the exact case of the account name. No longer
+	case sensitive.
+
 Brian Cline	<brian@ircplanet.net>	2010-05-17
 
 	* Core/p10.php: Add 401 numeric for "No such nick" error.

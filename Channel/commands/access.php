@@ -81,7 +81,7 @@
 			
 			$tmpname = $tmpuser->get_name();
 			
-			if( $tmpname == $user_mask || fnmatch($user_mask, $tmpname) )
+			if( strtolower($tmpname) == strtolower($user_mask) || fnmatch($user_mask, $tmpname) )
 			{
 				$users[] = $access;
 				$n++;
