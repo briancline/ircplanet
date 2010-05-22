@@ -43,9 +43,6 @@
 	$t_host = $target->get_host_safe();
 	$t_chans = '';
 	
-	if($target->is_service() || $source->is_oper() || $source == $target)
-		$t_host = $target->get_host();
-	
 	if(!$target->is_service())
 	{
 		$chans = array();
@@ -107,6 +104,14 @@
 	{
 		$this->sendf(FMT_WHOIS_ACCOUNT, SERVER_NUM, $source_num,
 			$target->get_nick(), $target->get_account_name());
+	}
+	
+	if($target->is_registered() && ($target->has_fakehost() || $target->is_logged_in()) 
+		&& ($source->is_service() || $source->is_oper() || $source == $target))
+	{
+		$this->sendf(FMT_WHOIS_REALHOST, SERVER_NUM, $source_num,
+			$target->get_nick(), $target->get_ident(), $target->get_host(), 
+			$target->get_ip());
 	}
 	
 	if($target->is_local())

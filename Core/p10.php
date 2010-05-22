@@ -92,6 +92,7 @@
 	define( 'FMT_WHOIS_SERVER',     '%s 312 %s %s %s :%s' );
 	define( 'FMT_WHOIS_OPER',       '%s 313 %s %s :is an IRC Operator' );
 	define( 'FMT_WHOIS_ACCOUNT',    '%s 330 %s %s %s :is logged in as' );
+	define( 'FMT_WHOIS_REALHOST',   '%s 338 %s %s %s@%s %s :Actual user@host, Actual IP' );
 	define( 'FMT_WHOIS_IDLE',       '%s 317 %s %s %ld %ld' );
 	define( 'FMT_WHOIS_AWAY',       '%s 301 %s %s :%s' );
 	define( 'FMT_WHOIS_CHANNELS',   '%s 319 %s %s :%s' );

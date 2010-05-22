@@ -1,3 +1,15 @@
+Brian Cline	<brian@ircplanet.net>	2010-05-22
+
+	* Core/p10.php: Add the reply numeric for showing actual user host/ip
+	on a remote WHOIS.
+	
+	* Core/p10/handle_W.php: Reworked to stop defaulting to 'localhost' on a
+	user's host in a remote WHOIS if the requesting user has no permission to
+	see the real host; instead, only show the real user host/ip in the 338 
+	numeric, exactly like ircu does it. This should make all services use the
+	same logic/behavior as ircu when determining what WHOIS information to 
+	reply with.
+
 Brian Cline	<brian@ircplanet.net>	2010-05-21
 
 	* Core/p10/handle_W.php: Use the "safe" host for a user on remote WHOIS.
