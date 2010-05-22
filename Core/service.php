@@ -1027,6 +1027,74 @@
 		}
 		
 		
+		/**
+		 * clean_modes: Returns a clean and parsed version of the MODE string passed
+		 * in the first argument.
+		 * 
+		 * This method does NOT parse a full MODE line; only a channel mode string line
+		 * that is structured like so:
+		 *     +ntxyzkl key limit
+		 * Then, returns a cleaned string with valid and accepted modes:
+		 *     +ntkl key limit
+		 * If $accept_user_modes is set to true, it will not remove any +o/+v/+b mode
+		 * changes. Otherwise, they will be cleansed.
+		 * 
+		 * This is currently useful for services which accept a mode change from users,
+		 * but where a subset of modes should not be accepted; for instance, setting the
+		 * default mode string on a registered channel in the channel service. In such 
+		 * a case, you wouldn't want users setting -R, -A, -o CS, and so on.
+		 */
+		function clean_modes( $modes, $accept_user_modes = false )
+		{
+			$clean_modes = '+';
+			$clean_mode_args = '';
+			$disallowed_modes = array('R', 'd', 'A', 'U');
+			$param_modes_add = array('l', 'k', 'U', 'A', 'o', 'v', 'b');
+			$param_modes_sub = array('k', 'U', 'A', 'o', 'v', 'b');
+			
+			if(!$accept_user_modes) {
+				$disallowed_modes = array_merge($disallowed_modes, 
+					array('o', 'v', 'b'));
+			}
+			
+			$in_arg = 0;
+			$in_args = split(' ', $modes);
+			if(count($in_args) > 1) {
+				$modes = array_shift($in_args);
+			}
+			
+			$is_sub = false;
+			for($i = 0; $i < strlen($modes); $i++) {
+				$arg = '';
+				$mode = $modes[$i];
+				
+				if($mode == '-')
+					$is_sub = true;
+				if($mode == '+')
+					$is_sub = false;
+				
+				if((!$is_sub && in_array($mode, $param_modes_add)) 
+						|| ($is_sub && in_array($mode, $param_modes_sub)))
+					$arg = $in_args[$in_arg++];
+				
+				if(!Channel::is_valid_mode($mode) 
+						|| in_array($mode, $disallowed_modes) 
+						|| $is_sub 
+						|| preg_match('/'. $mode .'/', $clean_modes)) {
+					continue;
+				}
+				
+				$clean_modes .= $mode;
+				
+				if(!empty($arg)) {
+					$clean_mode_args .= ' '. $arg;
+				}
+			}
+			
+			return $clean_modes . $clean_mode_args;
+		}
+		
+		
 		function parse_mode( $full_line )
 		{
 			/**

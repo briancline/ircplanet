@@ -57,6 +57,14 @@
 					$channel->set_pending_autolimit( true );
 				}
 				
+				$clean_defmodes = $this->clean_modes( $channel->get_default_modes() );
+				if( $channel->get_default_modes() != $clean_defmodes )
+				{
+					debugf("Setting defmodes for %s from [%s] to [%s]", $channel->get_name(), $channel->get_default_modes(), $clean_defmodes );
+					$channel->set_default_modes( $clean_defmodes );
+					$channel->save();
+				}
+				
 				$this->db_channels[$channel_key] = $channel;
 			}
 			

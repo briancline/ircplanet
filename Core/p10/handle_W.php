@@ -106,7 +106,7 @@
 			$target->get_nick(), $target->get_account_name());
 	}
 	
-	if($target->is_registered() && ($target->has_fakehost() || $target->is_logged_in()) 
+	if($target->is_host_hidden() && ($target->has_fakehost() || $target->is_logged_in()) 
 		&& ($source->is_service() || $source->is_oper() || $source == $target))
 	{
 		$this->sendf(FMT_WHOIS_REALHOST, SERVER_NUM, $source_num,

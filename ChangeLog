@@ -1,5 +1,23 @@
 Brian Cline	<brian@ircplanet.net>	2010-05-22
 
+	* Core/service.php: Add clean_modes, which will cleanse a user-provided
+	mode string - basically, stripping out +AURd, optionally strip out +ovb,
+	and any mode removals.
+	
+	* Core/channel.php: Fix a bug preventing Channel::is_valid_mode(char)
+	from working - it always returned false. This has been in there for 
+	ages, shamefully...
+	
+	* Core/p10/handle_W.php: Fix typo resulting in a bug - from last commit.
+
+	* Channel/commands/set.php: Clean the default channel modes when they are
+	set by a channel owner/admin.
+
+	* Channel/cs.php: Clean up default modes where necessary when they are 
+	loaded into memory at startup.
+	
+Brian Cline	<brian@ircplanet.net>	2010-05-22
+
 	* Core/p10.php: Add the reply numeric for showing actual user host/ip
 	on a remote WHOIS.
 	

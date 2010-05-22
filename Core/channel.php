@@ -146,7 +146,7 @@
 		static function is_valid_mode( $mode )
 		{
 			global $CHANNEL_MODES;
-			return in_array( $mode, $CHANNEL_MODES );
+			return array_key_exists( $mode, $CHANNEL_MODES );
 		}
 		
 		static function is_valid_mode_int( $mode )
