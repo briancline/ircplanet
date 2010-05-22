@@ -40,7 +40,7 @@
 	}
 	
 	$t_num = $target->get_numeric();
-	$t_host = 'localhost';
+	$t_host = $target->get_host_safe();
 	$t_chans = '';
 	
 	if($target->is_service() || $source->is_oper() || $source == $target)

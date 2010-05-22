@@ -1,3 +1,10 @@
+Brian Cline	<brian@ircplanet.net>	2010-05-21
+
+	* Core/p10/handle_W.php: Use the "safe" host for a user on remote WHOIS.
+
+	* Core/user.php: Move existing "safe" host code (previously only used
+	for full hostmasks) to its own method, get_safe_host.
+
 Brian Cline	<brian@ircplanet.net>	2010-05-18
 
 	* Channel/commands/access.php: Fix a bug causing ACCESS #chan USERNAME

@@ -172,18 +172,18 @@
 			return $modes;
 		}
 		
-		function get_full_mask()     { return $this->nick .'!'. $this->ident .'@'. $this->host; }
-		function get_full_ip_mask()  { return $this->nick .'!'. $this->ident .'@'. $this->ip; }
-		function get_full_mask_safe()
+		function get_full_mask()      { return $this->nick .'!'. $this->ident .'@'. $this->host; }
+		function get_full_ip_mask()   { return $this->nick .'!'. $this->ident .'@'. $this->ip; }
+		function get_full_mask_safe() { $mask = $this->nick .'!'. $this->ident .'@'. $this->get_host_safe(); }
+
+		function get_host_safe()
 		{
-			$mask = $this->nick .'!'. $this->ident .'@';
-			
 			if( $this->has_fakehost() )
-				$mask .= $this->get_fakehost();
+				return $this->get_fakehost();
 			elseif( $this->is_host_hidden() && $this->has_account_name() )
-				$mask .= $this->get_account_name() .'.'. HIDDEN_HOST;
+				return $this->get_account_name() .'.'. HIDDEN_HOST;
 				
-			return $mask;
+			return $this->get_host();
 		}
 
 		function get_gline_host()    { return $this->ident .'@'. $this->host; }
