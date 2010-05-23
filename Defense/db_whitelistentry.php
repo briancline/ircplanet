@@ -28,22 +28,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
+	class DB_WhitelistEntry extends DB_Record
+	{
+		protected $_table_name = 'ds_whitelist';
+		protected $_key_field = 'whitelist_id';
+		protected $_insert_timestamp_field = 'create_date';
+		protected $_update_timestamp_field = 'update_date';
+		
+		protected $whitelist_id;
+		protected $mask;
+		
+		protected function record_construct() { }
+		protected function record_destruct()  { }
+		
+		public function get_mask()        { return $this->mask; }
+		
+		public function set_mask($s)      { $this->mask = $s; }
+		
+		public function matches($host)
+		{
+			if(is_user($host)) {
+				return fnmatch($this->mask, $host->get_full_mask())
+					|| fnmatch($this->mask, $host->get_full_ip_mask());
+			}
+			else {
+				return fnmatch($this->mask, $host);
+			}
+		}	
+	}
 	
-	$this->set_command_info( 'die',           1000,   0, false, '[reason]' );
-	$this->set_command_info( 'quote',         1000,   1, false, '<stuff>' );
-
-	$this->set_command_info( 'adduser',        800,   2, false, '<account> <level>' );
-	$this->set_command_info( 'moduser',        800,   3, false, '<account> <setting> <param>' );
-	$this->set_command_info( 'remuser',        800,   1, false, '<account>' );
-	
-	$this->set_command_info( 'access',         500,   1, '<mask>' );
-	$this->set_command_info( 'inviteme',       500,   0, false );
-	$this->set_command_info( 'addwhite',       500,   1, false, '<hostmask>' );
-	$this->set_command_info( 'remwhite',       500,   1, false, '<hostmask>' );
-	$this->set_command_info( 'showwhite',      500,   0, false );
-
-	$this->set_command_info( 'help',             0,   0, false, '[command]' );
-	$this->set_command_info( 'showcommands',     0,   0, false );
-	$this->set_command_info( 'uptime',           0,   0, false );
-
 

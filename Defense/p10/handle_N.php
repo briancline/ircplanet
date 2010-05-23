@@ -31,24 +31,25 @@
 	
 	if(!$nick_change)
 	{
+		$whitelisted = $this->is_whitelisted($user);
 		$gline_mask = '*@'. $user->get_ip();
 		$gline_set = false;
 
-		if( defined('BLACK_GLINE') && BLACK_GLINE == true && !$gline_set 
+		if( defined('BLACK_GLINE') && BLACK_GLINE == true && !$gline_set && !$whitelisted
 				&& $this->is_blacklisted_db($user->get_ip()) )
 		{
 			$this->perform_gline( $gline_mask, BLACK_DURATION, BLACK_REASON );
 			$gline_set = true;
 		}
 		
-		if( defined('TOR_GLINE') && TOR_GLINE == true && !$gline_set 
+		if( defined('TOR_GLINE') && TOR_GLINE == true && !$gline_set && !$whitelisted
 				&& $this->is_tor_host($user->get_ip()) )
 		{
 			$this->perform_gline( $gline_mask, TOR_DURATION, TOR_REASON );
 			$gline_set = true;
 		}
 		
-		if( defined('COMP_GLINE') && COMP_GLINE == true && !$gline_set
+		if( defined('COMP_GLINE') && COMP_GLINE == true && !$gline_set && !$whitelisted
 				&& $this->is_compromised_host($user->get_ip()) )
 		{
 			$this->perform_gline( $gline_mask, COMP_DURATION, COMP_REASON );

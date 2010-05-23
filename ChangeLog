@@ -1,5 +1,34 @@
 Brian Cline	<brian@ircplanet.net>	2010-05-22
 
+	* db_schema.sql: Add the ds_whitelist table to the schema.
+	
+	* Core/util_string.php: Add fix_nick_host_mask(), which takes in a mask
+	input and ensures that it has a proper nick!user@host format. If any
+	element is missing, a * is substituted.
+	
+	* Defense/ds.php: Add methods to load, create, remove, and find whitelist
+	entries in memory. Also add a method to check whether someone is 
+	whitelisted.
+
+	* Defense/db_whitelistentry.php: Add the DB_WhitelistEntry object, which
+	manages whitelist entries in the database.
+	
+	* Defense/commands.php: Add ADDWHITE, REMWHITE, and SHOWWHITE to the
+	command map.
+	
+	* Defense/commands/addwhite.php: Add the ADDWHITE command to add entries
+	to the whitelist.
+	
+	* Defense/commands/showwhite.php: Add the SHOWWHITE command to list out
+	all entries in the whitelist.
+	
+	* Defense/commands/remwhite.php: Add the REMWHITE command to remove an
+	entry from the whitelist.
+	
+	* Defense/p10/handle_N.php: Don't scan any users who are whitelisted.
+
+Brian Cline	<brian@ircplanet.net>	2010-05-22
+
 	* Core/service.php: Add clean_modes, which will cleanse a user-provided
 	mode string - basically, stripping out +AURd, optionally strip out +ovb,
 	and any mode removals.

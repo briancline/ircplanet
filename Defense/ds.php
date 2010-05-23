@@ -31,14 +31,31 @@
 
 	require( 'globals.php' );
 	require( '../Core/service.php' );
+	require_once( SERVICE_DIR .'/db_whitelistentry.php' );
 	
 	
 	class DefenseService extends Service
 	{
 		var $pending_events = array();
 		var $pending_commands = array();
+		var $whitelist = array();
 		
 		
+		function load_whitelist_entries()
+		{
+			$res = db_query( 'select * from ds_whitelist order by whitelist_id asc' );
+			while( $row = mysql_fetch_assoc($res) )
+			{
+				$entry = new DB_WhitelistEntry( $row );
+				
+				$entry_key = strtolower( $entry->get_mask() );
+				$this->whitelist[$entry_key] = $entry;
+			}
+
+			debugf( 'Loaded %d whitelist entries.', count($this->whitelist) );
+		}
+
+
 		function service_construct()
 		{
 		}
@@ -51,6 +68,7 @@
 
 		function service_load()
 		{
+			$this->load_whitelist_entries();
 		}
 		
 		
@@ -116,6 +134,52 @@
 			}
 			
 			return 0;
+		}
+		
+		
+		function add_whitelist_entry( $mask )
+		{
+			$entry = new DB_WhitelistEntry();
+			$entry->set_mask( $mask );
+			$entry->save();
+			
+			$key = strtolower( $mask );
+			$this->whitelist[$key] = $entry;
+			
+			return $this->whitelist[$key];
+		}
+		
+		
+		function get_whitelist_entry( $mask )
+		{
+			$key = strtolower( $mask );
+			if( array_key_exists($key, $this->whitelist) )
+				return $this->whitelist[$key];
+			
+			return false;
+		}
+		
+		
+		function remove_whitelist_entry( $mask )
+		{
+			$key = strtolower( $mask );
+			if( !array_key_exists($key, $this->whitelist) )
+				return;
+			
+			$this->whitelist[$key]->delete();
+			unset( $this->whitelist[$key] );
+		}
+		
+		
+		function is_whitelisted( $mask )
+		{
+			foreach( $this->whitelist as $entry )
+			{
+				if( $entry->matches($mask) )
+					return true;
+			}
+			
+			return false;
 		}
 		
 

@@ -171,6 +171,22 @@ CREATE TABLE `ds_admins` (
 SET character_set_client = @saved_cs_client;
 
 --
+-- Table structure for table `ds_whitelist`
+--
+
+DROP TABLE IF EXISTS `ds_whitelist`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ds_whitelist` (
+  `whitelist_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `mask` varchar(200) NOT NULL,
+  `create_date` datetime NOT NULL,
+  `update_date` datetime NOT NULL,
+  PRIMARY KEY (`whitelist_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Defense Service Whitelist Entries';
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `help`
 --
 

@@ -92,6 +92,30 @@
 		return $mask;
 	}
 	
+	function fix_nick_host_mask( $mask )
+	{
+		$ex_pos = strpos( $mask, '!' );
+		$at_pos = strpos( $mask, '@' );
+		
+		if( $at_pos === false ) {
+			$mask = '*@'. $mask;
+			$at_pos = 1;
+		}
+		
+		if( $ex_pos === false ) {
+			$mask = '*!'. $mask;
+			$ex_pos = 1;
+			$at_pos = strpos( $mask, '@' );
+		}
+		
+		$ident = substr( $mask, $ex_pos + 1, $at_pos - $ex_pos - 1 );
+		if( strlen($ident) > IDENT_LEN ) {
+			$mask = substr($mask, 0, $ex_pos) .'!*'. right($ident, IDENT_LEN - 1) . substr($mask, $at_pos);
+		}
+		
+		return $mask;
+	}
+	
 
 	function line_num_args( $s )
 	{
