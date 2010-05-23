@@ -1,5 +1,10 @@
 Brian Cline	<brian@ircplanet.net>	2010-05-22
 
+	* Core/p10/handle_FA.php: Not sure how this didn't make it in roughly 8-10
+	revisions ago. This is the P10 FAKEHOST (FA) handler.
+
+Brian Cline	<brian@ircplanet.net>	2010-05-22
+
 	* db_schema.sql: Add the ds_whitelist table to the schema.
 	
 	* Core/util_string.php: Add fix_nick_host_mask(), which takes in a mask
