@@ -1,5 +1,19 @@
 Brian Cline	<brian@ircplanet.net>	2010-05-29
 
+	* Core/globals.php: Bump Core to v1.4.0.
+
+	* Channel/globals.php: Bump CS to v1.7.0.
+
+	* Defense/globals.php: Bump DS to v1.1.0.
+
+	* Nickname/globals.php: Bump NS to v1.5.0.
+
+	* Operator/globals.php: Bump OS to v1.5.0.
+
+	* Stat/globals.php: Bump SS to v1.1.0.
+
+Brian Cline	<brian@ircplanet.net>	2010-05-29
+
 	* db_schema.sql: Update the database schema dump with new help text and
 	some table updates. Oddly, there was also a table in here that wasn't
 	in any prior revision, and some tables that shouldn't have been in.
