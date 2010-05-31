@@ -31,7 +31,7 @@
 	
 	define( 'SERVICE_NAME',           'Operator Service' );
 	define( 'SERVICE_VERSION_MAJOR',  1 );
-	define( 'SERVICE_VERSION_MINOR',  4 );
+	define( 'SERVICE_VERSION_MINOR',  5 );
 	define( 'SERVICE_VERSION_REV',    0 );
 	
 	define( 'SERVICE_DIR',            dirname(__FILE__) );
