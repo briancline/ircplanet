@@ -29,33 +29,27 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	if($cmd_num_args == 1)
-	{
+	if ($cmd_num_args == 1) {
 		$user_name = $user->get_nick();
 		$password = $pargs[1];
 	}
-	else
-	{
+	else {
 		$user_name = $pargs[1];
 		$password = $pargs[2];
 	}
 	
-	if($account = $this->get_account($user_name))
-	{
+	if ($account = $this->get_account($user_name)) {
 		$password_md5 = md5($password);
 		
-		if($account->get_password() != $password_md5)
-		{
+		if ($account->get_password() != $password_md5) {
 			$bot->notice($user, "Invalid password!");
 			return false;
 		}
-		elseif($account->is_suspended())
-		{
+		elseif ($account->is_suspended()) {
 			$bot->noticef($user, "Your account is suspended.");
 			return false;
 		}
-		elseif($user->is_logged_in())
-		{
+		elseif ($user->is_logged_in()) {
 			$bot->notice($user, "You are already logged in as ". $user->get_account_name() ."!");
 			return false;
 		}
@@ -66,18 +60,16 @@
 		$user->set_account_name($user_name);
 		$user->set_account_id($account->get_id());
 		
-		if($account->has_fakehost())
-		{
+		if ($account->has_fakehost()) {
 			$this->sendf(FMT_FAKEHOST, SERVER_NUM, $user->get_numeric(), $account->get_fakehost());
 			
-			if(!$user->has_mode(UMODE_HIDDENHOST)) {
+			if (!$user->has_mode(UMODE_HIDDENHOST)) {
 				$bot->noticef($user, 'Enable user mode +x (/mode %s +x) in order to cloak your host.',
 					$user->get_nick());
 			}
 		}
 	}
-	else
-	{
+	else {
 		$bot->notice($user, "No such account!");
 	}
 

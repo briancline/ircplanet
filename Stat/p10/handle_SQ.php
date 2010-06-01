@@ -34,8 +34,7 @@
 	db_queryf("delete from stats_channels");
 	db_queryf("delete from stats_channel_users");
 	
-	foreach($this->servers as $num => $server)
-	{
+	foreach ($this->servers as $num => $server) {
 		db_queryf("insert into stats_servers (server_name, `desc`, start_date, max_users, is_service) ".
 			"values ('%s', '%s', '%s', '%s', '%s')",
 			$server->get_name(),
@@ -46,8 +45,7 @@
 		);
 	}
 	
-	foreach($this->users as $numeric => $user)
-	{
+	foreach ($this->users as $numeric => $user) {
 		$server = $this->get_server($user->get_server_numeric());
 		
 		db_queryf("insert into stats_users 
@@ -65,16 +63,14 @@
 		);
 	}
 	
-	foreach($this->channels as $chan_key => $chan)
-	{
+	foreach ($this->channels as $chan_key => $chan) {
 		db_queryf("insert into stats_channels (channel_name, topic, modes) values ('%s', '%s', '%s')",
 			$chan->get_name(),
 			$chan->get_topic(),
 			$chan->get_modes()
 		);
 		
-		foreach($chan->get_user_list() as $numeric)
-		{
+		foreach ($chan->get_user_list() as $numeric) {
 			$user = $this->get_user($numeric);
 			
 			db_queryf("insert into stats_channel_users (channel_name, nick, is_op, is_voice) values 

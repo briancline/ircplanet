@@ -76,10 +76,10 @@
 			$name = $this->get_name();
 			$ppos = strpos($name, ".");
 			
-			if($max_len == 0)
+			if ($max_len == 0)
 				$max_len = strlen($name) + 1;
 
-			if($ppos == -1 || $ppos > $max_len)
+			if ($ppos == -1 || $ppos > $max_len)
 				$name = substr($name, 0, $max_len - 1) ."*";
 			else 
 				$name = substr($name, 0, $ppos + 1) ."*";
@@ -97,8 +97,8 @@
 		static function is_valid_mode_int($mode)
 		{
 			global $SERVER_FLAGS;
-			foreach($SERVER_FLAGS as $c => $i)
-				if($i['uint'] == $mode)
+			foreach ($SERVER_FLAGS as $c => $i)
+				if ($i['uint'] == $mode)
 					return true;
 			
 			return false;
@@ -107,32 +107,32 @@
 		function add_modes($str)
 		{
 			global $SERVER_FLAGS;
-			foreach($SERVER_FLAGS as $c => $i)
-				if(strpos($str, $c) !== false) $this->add_mode($i['uint']);
+			foreach ($SERVER_FLAGS as $c => $i)
+				if (strpos($str, $c) !== false) $this->add_mode($i['uint']);
 		}
 		
 		function add_mode($mode)
 		{
 			global $SERVER_FLAGS;
-			if(!is_int($mode))
+			if (!is_int($mode))
 				return $this->add_mode($SERVER_FLAGS[$mode]['uint']);
-			if($this->is_valid_mode_int($mode) && !$this->has_mode($mode))
+			if ($this->is_valid_mode_int($mode) && !$this->has_mode($mode))
 				$this->modes |= $mode;
 		}
 		
 		function remove_mode($mode)
 		{
 			global $SERVER_FLAGS;
-			if(!is_int($mode))
+			if (!is_int($mode))
 				return $this->remove_mode($SERVER_FLAGS[$mode]['uint']);
-			if($this->is_valid_mode_int($mode) && $this->has_mode($mode))
+			if ($this->is_valid_mode_int($mode) && $this->has_mode($mode))
 				$this->modes &= ~$mode;
 		}
 
 		function has_mode($mode)
 		{
 			global $SERVER_FLAGS;
-			if(!is_int($mode))
+			if (!is_int($mode))
 				return $this->has_mode($SERVER_FLAGS[$mode]['uint']);
 			return(($this->modes & $mode) == $mode);
 		}
@@ -146,9 +146,8 @@
 		{
 			$users = array();
 			
-			foreach($this->users as $u)
-			{
-				if($u == $numeric)
+			foreach ($this->users as $u) {
+				if ($u == $numeric)
 					continue;
 				
 				$users[] = $u;
@@ -159,9 +158,8 @@
 	}
 
 
-	foreach($SERVER_FLAGS as $c => $i)
-	{
-		if(!defined($i['const']))
+	foreach ($SERVER_FLAGS as $c => $i) {
+		if (!defined($i['const']))
 			define($i['const'], $i['uint']);
 	}
 	

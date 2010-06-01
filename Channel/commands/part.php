@@ -31,8 +31,7 @@
 
 	$chan = $this->get_channel($chan_name);
 
-	if(!$chan || !$chan->is_on($bot->get_numeric()))
-	{
+	if (!$chan || !$chan->is_on($bot->get_numeric())) {
 		$bot->noticef($user, "I am not in %s.", $chan_name);
 		return false;
 	}

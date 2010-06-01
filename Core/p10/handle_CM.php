@@ -32,15 +32,13 @@
 	$chan = $this->get_channel($chan_name);
 	$modes = $args[3];
 	
-	if(!$chan) {
+	if (!$chan) {
 		debugf('Received CLEARMODE for non-existent channel %s', $chan_name);
 		return;
 	}
 	
-	for($i = 0; $i < strlen($modes); $i++)
-	{
-		switch($modes[$i])
-		{
+	for ($i = 0; $i < strlen($modes); $i++) {
+		switch ($modes[$i]) {
 			case 'o':
 				$chan->clear_ops();
 				break;

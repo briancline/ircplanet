@@ -34,31 +34,25 @@
 	$user_name = $pargs[1];
 	$password = $pargs[2];
 	
-	if($account = $this->get_account($user_name))
-	{
+	if ($account = $this->get_account($user_name)) {
 		$password_md5 = md5($password);
 		
-		if($account->get_password() == $password_md5)
-		{
-			if($user->is_logged_in())
-			{
+		if ($account->get_password() == $password_md5) {
+			if ($user->is_logged_in()) {
 				$bot->notice($numeric, "You are already logged in as ". $user->get_account_name() ."!");
 			}
-			else
-			{
+			else {
 				$user_name = $account->get_name();
 				$bot->notice($numeric, "Authentication successful as $user_name!");
 				$this->sendf(FMT_ACCOUNT, SERVER_NUM, $numeric, $user_name, $account->get_register_ts());
 				$user->set_account_name($user_name);
 			}
 		}
-		else
-		{
+		else {
 			$bot->notice($numeric, "Invalid password!");
 		}
 	}
-	else
-	{
+	else {
 		$bot->notice($numeric, "No such account!");
 	}
 

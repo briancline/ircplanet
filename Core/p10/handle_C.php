@@ -38,8 +38,7 @@
 	 * AEBHx C #ayva 1131745531
 	 */
 	
-	foreach($channels as $chan_name)
-	{
+	foreach ($channels as $chan_name) {
 		$chan_key = strtolower($chan_name);
 		
 		$this->add_channel($chan_name, $ts);

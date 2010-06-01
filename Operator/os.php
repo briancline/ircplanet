@@ -58,37 +58,34 @@
 			$this->load_glines();
 			$this->load_badchans();
 
-			if(defined('TOR_GLINE') && TOR_GLINE == true)
-			{
-				if(!defined('TOR_DURATION'))
+			if (defined('TOR_GLINE') && TOR_GLINE == true) {
+				if (!defined('TOR_DURATION'))
 					die('tor_gline is enabled, but tor_duration was not defined!');
-				if(convert_duration(TOR_DURATION) == false)
+				if (convert_duration(TOR_DURATION) == false)
 					die('The duration specified in tor_duration is invalid!');
-				if(!defined('TOR_REASON') || TOR_REASON == '')
+				if (!defined('TOR_REASON') || TOR_REASON == '')
 					die('tor_gline is enabled, but tor_reason was not defined!');
 			}
 			
-			if(defined('COMP_GLINE') && COMP_GLINE == true)
-			{
-				if(!defined('COMP_DURATION'))
+			if (defined('COMP_GLINE') && COMP_GLINE == true) {
+				if (!defined('COMP_DURATION'))
 					die('comp_gline is enabled, but comp_duration was not defined!');
-				if(convert_duration(COMP_DURATION) == false)
+				if (convert_duration(COMP_DURATION) == false)
 					die('The duration specified in comp_duration is invalid!');
-				if(!defined('COMP_REASON') || COMP_REASON == '')
+				if (!defined('COMP_REASON') || COMP_REASON == '')
 					die('comp_gline is enabled, but comp_reason was not defined!');
 			}
 			
-			if(defined('CLONE_GLINE') && CLONE_GLINE == true)
-			{
-				if(!defined('CLONE_MAX'))
+			if (defined('CLONE_GLINE') && CLONE_GLINE == true) {
+				if (!defined('CLONE_MAX'))
 					die('clone_gline is enabled, but clone_max was not defined!');
-				if(!is_numeric(CLONE_MAX) || CLONE_MAX == 0)
+				if (!is_numeric(CLONE_MAX) || CLONE_MAX == 0)
 					die('Invalid value specified for clone_max!');
-				if(!defined('CLONE_DURATION'))
+				if (!defined('CLONE_DURATION'))
 					die('clone_gline is enabled, but clone_duration was not defined!');
-				if(convert_duration(CLONE_DURATION) == false)
+				if (convert_duration(CLONE_DURATION) == false)
 					die('The duration specified in clone_duration is invalid!');
-				if(!defined('CLONE_REASON') || CLONE_REASON == '')
+				if (!defined('CLONE_REASON') || CLONE_REASON == '')
 					die('clone_gline is enabled, but clone_reason was not defined!');
 			}
 		}
@@ -101,24 +98,21 @@
 		
 		function service_postburst()
 		{
-			foreach($this->db_glines as $key => $db_gline)
-			{
+			foreach ($this->db_glines as $key => $db_gline) {
 				$this->add_gline($db_gline->get_mask(), $db_gline->get_remaining_secs(), 
 						$db_gline->get_set_ts(), $db_gline->get_reason());
 				$this->enforce_gline($db_gline->get_mask());
 			}
 			
 			$bot_num = $this->default_bot->get_numeric();
-			foreach($this->default_bot->channels as $chan_name)
-			{
+			foreach ($this->default_bot->channels as $chan_name) {
 				$chan = $this->get_channel($chan_name);
 				
-				if(!$chan->is_op($bot_num))
+				if (!$chan->is_op($bot_num))
 					$this->op($chan->get_name(), $bot_num);
 			}
 
-			foreach($this->pending_events as $event)
-			{
+			foreach ($this->pending_events as $event) {
 				extract($event);
 				$this->default_bot->messagef($chan_name, '[%'. (NICK_LEN + $margin) .'s] %s %s',
 					$source, $event_name, $misc);
@@ -135,10 +129,8 @@
 
 		function service_close($reason = 'So long, and thanks for all the fish!')
 		{
-			foreach($this->users as $numeric => $user)
-			{
-				if($user->is_bot())
-				{
+			foreach ($this->users as $numeric => $user) {
+				if ($user->is_bot()) {
 					$this->sendf(FMT_QUIT, $numeric, $reason);
 					$this->remove_user($numeric);
 				}
@@ -154,12 +146,10 @@
 		function load_glines()
 		{
 			$res = db_query('select * from os_glines order by gline_id asc');
-			while($row = mysql_fetch_assoc($res))
-			{
+			while ($row = mysql_fetch_assoc($res)) {
 				$gline = new DB_Gline($row);
 				
-				if($gline->is_expired())
-				{
+				if ($gline->is_expired()) {
 					$gline->delete();
 					continue;
 				}
@@ -175,12 +165,10 @@
 		function load_jupes()
 		{
 			$res = db_query('select * from os_jupes order by jupe_id asc');
-			while($row = mysql_fetch_assoc($res))
-			{
+			while ($row = mysql_fetch_assoc($res)) {
 				$jupe = new DB_Jupe($row);
 				
-				if($jupe->is_expired())
-				{
+				if ($jupe->is_expired()) {
 					$jupe->delete();
 					continue;
 				}
@@ -196,8 +184,7 @@
 		function load_badchans()
 		{
 			$res = db_query('select * from os_badchans order by badchan_id asc');
-			while($row = mysql_fetch_assoc($res))
-			{
+			while ($row = mysql_fetch_assoc($res)) {
 				$badchan = new DB_BadChan($row);
 				
 				$badchan_key = strtolower($badchan->get_mask());
@@ -211,7 +198,7 @@
 		function get_db_gline($host)
 		{
 			$gline_key = strtolower($host);
-			if(array_key_exists($gline_key, $this->db_glines))
+			if (array_key_exists($gline_key, $this->db_glines))
 				return $this->db_glines[$gline_key];
 
 			return false;
@@ -221,7 +208,7 @@
 		function get_db_jupe($server)
 		{
 			$jupe_key = strtolower($server);
-			if(array_key_exists($jupe_key, $this->db_jupes))
+			if (array_key_exists($jupe_key, $this->db_jupes))
 				return $this->db_jupes[$jupe_key];
 
 			return false;
@@ -232,7 +219,7 @@
 
 		function service_add_gline($host, $duration, $lastmod, $reason)
 		{
-			if($this->get_db_gline($host))
+			if ($this->get_db_gline($host))
 				return false;
 
 			$gline = new DB_Gline();
@@ -251,7 +238,7 @@
 		{
 			$gline = $this->get_db_gline($host);
 
-			if(!$gline)
+			if (!$gline)
 				return false;
 			
 			$gline->delete();
@@ -264,7 +251,7 @@
 		{
 			$jupe = $this->get_db_jupe($server);
 			
-			if(!$jupe)
+			if (!$jupe)
 				return false;
 
 			$db_jupe = new DB_Jupe();
@@ -285,7 +272,7 @@
 		{
 			$jupe = $this->get_db_jupe($server);
 
-			if(!$jupe)
+			if (!$jupe)
 				return false;
 			
 			$jupe->delete();
@@ -317,7 +304,7 @@
 		function is_blacklisted_dns($host, $dns_suffix, $pos_responses = -1)
 		{
 			// Don't waste time checking private class IPs.
-			if(is_private_ip($host))
+			if (is_private_ip($host))
 				return false;
 			
 			$start_ts = microtime(true);
@@ -335,13 +322,11 @@
 			debugf('DNSBL checking %s', $lookup_addr);
 			$dns_result = @dns_get_record($lookup_addr, DNS_A);
 
-			if(count($dns_result) > 0)
-			{
+			if (count($dns_result) > 0) {
 				$dns_result = $dns_result[0]['ip'];
 				$resolved = true;
 			}
-			else
-			{
+			else {
 				$dns_result = $lookup_addr;
 				$resolved = false;
 			}
@@ -351,25 +336,23 @@
 					$end_ts - $start_ts, $lookup_addr, $dns_result);
 			
 			// If it didn't resolve, don't check anything
-			if(!$resolved)
+			if (!$resolved)
 				return false;
 			
 			// Check for any successful resolution
-			if($resolved && $pos_responses == -1 || empty($pos_responses))
+			if ($resolved && $pos_responses == -1 || empty($pos_responses))
 				return true;
 			
 			// Check for a match against the provided string
-			if(is_string($pos_responses) && !empty($pos_responses)
+			if (is_string($pos_responses) && !empty($pos_responses)
 			 		&& $dns_result == ('127.0.0.'. $pos_responses))
 				return true;
 			
 			// Check for a match within the provided array
-			if(is_array($pos_responses))
-			{
-				foreach($pos_responses as $tmp_match)
-				{
+			if (is_array($pos_responses)) {
+				foreach ($pos_responses as $tmp_match) {
 					$tmp_match = '127.0.0.'. $tmp_match;
-					if($tmp_match == $dns_result)
+					if ($tmp_match == $dns_result)
 						return true;
 				}
 			}
@@ -403,9 +386,8 @@
 				'tor.ahbl.org'         => array(2)
 			);
 
-			foreach($blacklists as $dns_suffix => $responses)
-			{
-				if($this->is_blacklisted_dns($host, $dns_suffix, $responses))
+			foreach ($blacklists as $dns_suffix => $responses) {
+				if ($this->is_blacklisted_dns($host, $dns_suffix, $responses))
 					return true;
 			}
 			
@@ -432,9 +414,8 @@
 				'spam.abuse.ch'       => array(2)
 			);
 			
-			foreach($blacklists as $dns_suffix => $responses)
-			{
-				if($this->is_blacklisted_dns($host, $dns_suffix, $responses))
+			foreach ($blacklists as $dns_suffix => $responses) {
+				if ($this->is_blacklisted_dns($host, $dns_suffix, $responses))
 					return true;
 			}
 			
@@ -445,7 +426,7 @@
 		function get_badchan($mask)
 		{
 			$mask = strtolower($mask);
-			if(array_key_exists($mask, $this->db_badchans))
+			if (array_key_exists($mask, $this->db_badchans))
 				return $this->db_badchans[$mask];
 
 			return false;
@@ -454,12 +435,11 @@
 
 		function is_badchan($chan_name)
 		{
-			if(is_channel($chan_name))
+			if (is_channel($chan_name))
 				$chan_name = $chan_name->get_name();
 
-			foreach($this->db_badchans as $b_key => $badchan)
-			{
-				if($badchan->matches($chan_name))
+			foreach ($this->db_badchans as $b_key => $badchan) {
+				if ($badchan->matches($chan_name))
 					return true;
 			}
 
@@ -469,7 +449,7 @@
 
 		function add_badchan($mask)
 		{
-			if($this->get_badchan($mask) != false)
+			if ($this->get_badchan($mask) != false)
 				return false;
 
 			$badchan = new DB_BadChan();
@@ -486,7 +466,7 @@
 		function remove_badchan($mask)
 		{
 			$badchan = $this->get_badchan($mask);
-			if($badchan == false)
+			if ($badchan == false)
 				return false;
 
 			$key = strtolower($mask);
@@ -501,17 +481,15 @@
 		{
 			$acct_id = $user_obj;
 			
-			if(is_object($user_obj) && is_user($user_obj))
-			{
-				if(!$user_obj->is_logged_in())
+			if (is_object($user_obj) && is_user($user_obj)) {
+				if (!$user_obj->is_logged_in())
 					return 0;
 				
 				$acct_id = $user_obj->get_account_id();
 			}
 			
 			$res = db_query("select `level` from `os_admins` where user_id = ". $acct_id);
-			if($res && mysql_num_rows($res) > 0)
-			{
+			if ($res && mysql_num_rows($res) > 0) {
 				$level = mysql_result($res, 0);
 				mysql_free_result($res);
 				return $level;
@@ -530,46 +508,44 @@
 		
 		function report_event($event_name, $source, $arg1 = "", $arg2 = "", $arg3 = "", $arg4 = "", $arg5 = "", $is_command = false)
 		{
-			if((!$is_command && !REPORT_EVENTS) || ($is_command && !REPORT_COMMANDS))
+			if ((!$is_command && !REPORT_EVENTS) || ($is_command && !REPORT_COMMANDS))
 				return;
 
-			if($is_command)
+			if ($is_command)
 				$channel = COMMAND_CHANNEL;
 			else
 				$channel = EVENT_CHANNEL;
 			
 			$bot = $this->default_bot;
 			
-			if(is_server($source))
+			if (is_server($source))
 				$source = BOLD_START . $source->get_name_abbrev(NICK_LEN) . BOLD_END;
-			else if(is_user($source))
+			elseif (is_user($source))
 				$source = $source->get_nick();
 			
-			for($i = 1; $i <= 5; $i++)
-			{
+			for ($i = 1; $i <= 5; $i++) {
 				eval('$arg = $arg'. $i .';');
 
-				if(!is_object($arg)) {
+				if (!is_object($arg)) {
 					continue;
 				}
 				
-				if(is_server($arg) || is_channel($arg))
+				if (is_server($arg) || is_channel($arg))
 					$arg = $arg->get_name();
-				else if(is_user($arg))
+				elseif (is_user($arg))
 					$arg = $arg->get_nick();
 				
 				eval('$arg'. $i .' = $arg;');
 			}
 			
-			if(strlen($source) > NICK_LEN)
+			if (strlen($source) > NICK_LEN)
 				$source = substr($source, 0, NICK_LEN);
 			
 			$margin = substr_count($source, BOLD_START);
 			$misc = $arg1 .' '. $arg2 .' '. $arg3 .' '. $arg4 .' '. $arg5;
 			$misc = trim($misc);
 			
-			if(!$this->finished_burst)
-			{
+			if (!$this->finished_burst) {
 				$this->pending_events[] = array(
 					'chan_name'   => $channel,
 					'margin'      => $margin,
@@ -582,7 +558,7 @@
 				$source, $event_name, $misc);
 
 /*
-			if($this->finished_burst)
+			if ($this->finished_burst)
 				$bot->messagef($channel, "[%". (NICK_LEN + $margin) ."s] %s %s", $source, $event_name, $misc);
 */
 			

@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if(!$target || !$target->is_bot())
+	if (!$target || !$target->is_bot())
 		return false;
 	
 	$chan = $this->get_channel($chan_name);
@@ -39,15 +39,14 @@
 	$req_level = $this->get_command_level('JOIN');
 	$chan_access = $this->get_channel_access($chan_name, $user);
 	
-	if(!$reg || !$chan || (!$chan_access && !$adm_level))
+	if (!$reg || !$chan || (!$chan_access && !$adm_level))
 		return false;
-	if($chan_access && ($chan_access->get_level() < $req_level))
+	if ($chan_access && ($chan_access->get_level() < $req_level))
 		return false;
-	if(!$chan_access && $adm_level < $req_level)
+	if (!$chan_access && $adm_level < $req_level)
 		return false;
 	
-	if($chan->is_on($target->get_numeric()))
-	{
+	if ($chan->is_on($target->get_numeric())) {
 		$target->noticef($user, "I'm already on %s!", $chan->get_name());
 		return false;
 	}

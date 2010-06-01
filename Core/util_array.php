@@ -35,18 +35,17 @@
 		$i = -1;
 		$n = 0;
 		
-		if($end == -1)
+		if ($end == -1)
 			$end = count($array);
 		
-		foreach($array as $k => $v)
-		{
+		foreach ($array as $k => $v) {
 			$i++;
-			if($i < $start)
+			if ($i < $start)
 				continue;
-			if($i > $end)
+			if ($i > $end)
 				break;
 			
-			if(!is_numeric($k))
+			if (!is_numeric($k))
 				$newarr[$k] = $v;
 			else
 				$newarr[$n++] = $v;
@@ -58,9 +57,8 @@
 	
 	function array_contains($needle, $haystack)
 	{
-		foreach($haystack as $stem)
-		{
-			if($stem == $needle)
+		foreach ($haystack as $stem) {
+			if ($stem == $needle)
 				return true;
 		}
 
@@ -72,12 +70,11 @@
 	{
 		$newstr = '';
 		
-		if($end == -1)
+		if ($end == -1)
 			$end = count($array);
 		
-		for($i = $start; $i < $end; ++$i)
-		{
-			if($i > $start)
+		for ($i = $start; $i < $end; ++$i) {
+			if ($i > $start)
 				$newstr .= $delim;
 			
 			$newstr .= $array[$i];

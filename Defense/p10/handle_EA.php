@@ -41,19 +41,17 @@
 	 * as PRIVMSGs are not to be sent to any server while it is still in its
 	 * burst stage.
 	 */
-	if(defined('OS_NICK') && defined('OS_GLINE') && OS_GLINE == true
+	if (defined('OS_NICK') && defined('OS_GLINE') && OS_GLINE == true
 			&& !empty($this->pending_commands))
 	{
 		$oper_service = $this->get_user_by_nick(OS_NICK);
 
-		if(!$oper_service)
-		{
+		if (!$oper_service) {
 			// Oper service still not present on the network.
 			return;
 		}
 
-		foreach($this->pending_commands as $command)
-		{
+		foreach ($this->pending_commands as $command) {
 			$this->default_bot->message($oper_service, $command);
 		}
 

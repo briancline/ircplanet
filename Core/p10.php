@@ -71,7 +71,7 @@
 	define('FMT_KILL',             "%s D %s :%s (%s)");
 	define('FMT_FAKEHOST',         "%s FA %s %s");
 	
-	if(TOPIC_BURSTING)
+	if (TOPIC_BURSTING)
 		define('FMT_TOPIC',        "%s T %s %ld %ld :%s");
 	else
 		define('FMT_TOPIC',        "%s T %s :%s");
@@ -135,13 +135,12 @@
 		global $BASE64_INT_TO_NUM;
 		
 		$b = str_repeat(' ', $count);
-		while($count > 0)
-		{
+		while ($count > 0) {
 			$b[--$count] = $BASE64_INT_TO_NUM[ ($i & 63) ];
 			$i = $i >> 6;
 
 			// Force PHP to treat this as unsigned
-			if($i < 0)
+			if ($i < 0)
 				$i += 67108864;
 		}
 		
@@ -156,12 +155,11 @@
 		$i = 0;
 		$len = strlen($b);
 		
-		for($n = 0; $n < $len; ++$n)
-		{
+		for ($n = 0; $n < $len; ++$n) {
 			$i = $i << 6;
 			
 			// Force PHP to treat this as unsigned
-			if($i < 0)
+			if ($i < 0)
 				$i += 4294967296;
 
 			$i += $BASE64_NUM_TO_INT[ ord($b[$n]) ];

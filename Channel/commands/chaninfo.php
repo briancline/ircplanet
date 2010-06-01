@@ -32,12 +32,11 @@
 	$privileged = false;
 	$chan_name = $pargs[1];
 	
-	if($user_admin_level >= 500 || $user_channel_level > 0) {
+	if ($user_admin_level >= 500 || $user_channel_level > 0) {
 		$privileged = true;
 	}
 
-	if(!($chan = $this->get_channel_reg($chan_name)))
-	{
+	if (!($chan = $this->get_channel_reg($chan_name))) {
 		$bot->noticef($user, '%s is not a registered channel.', $chan_name);
 		return false;
 	}

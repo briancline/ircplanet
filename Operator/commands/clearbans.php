@@ -31,11 +31,10 @@
 
 	$chan = $this->get_channel($chan_name);
 	
-	if($chan)
-	{
+	if ($chan) {
 		$active_bans = $chan->get_matching_bans('*');
 
-		if(count($active_bans) > 0)
+		if (count($active_bans) > 0)
 			$bot->unban($chan->get_name(), $active_bans);
 	}
 	

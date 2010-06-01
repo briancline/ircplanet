@@ -31,8 +31,7 @@
 
 	$chan_name = $pargs[1];
 	
-	if(!($chan = $this->get_channel($chan_name)))
-	{
+	if (!($chan = $this->get_channel($chan_name))) {
 		$bot->noticef($user, '%s does not exist!', $chan_name);
 		return false;
 	}
@@ -44,7 +43,7 @@
 	$bot->noticef($user, "Created:  %s", date('D j M Y g:i:sa T', $chan->get_ts()));
 	
 	$topic = $chan->get_topic();
-	if(!empty($topic))
+	if (!empty($topic))
 		$bot->noticef($user, "Topic:    %s", $topic);
 	
 

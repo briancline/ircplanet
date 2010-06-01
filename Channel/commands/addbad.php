@@ -31,14 +31,12 @@
 	
 	$chan_mask = $pargs[1];
 	
-	if(($badchan = $this->get_badchan($chan_mask)))
-	{
+	if (($badchan = $this->get_badchan($chan_mask))) {
 		$bot->noticef('%s is already in the badchan list.');
 		return false;
 	}
 
-	if($this->is_badchan($chan_mask))
-	{
+	if ($this->is_badchan($chan_mask)) {
 		$bot->noticef($user, 'A more broad mask (%s) supersedes the one you are attempting to add.',
 				$tmp_mask);
 		return false;

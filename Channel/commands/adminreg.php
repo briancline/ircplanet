@@ -33,23 +33,20 @@
 	$owner_nick = $pargs[2];
 	$purpose = '';
 	
-	if($cmd_num_args > 2)
+	if ($cmd_num_args > 2)
 		$purpose = assemble($pargs, 3);
 	
-	if($chan_name[0] != '#')
-	{
+	if ($chan_name[0] != '#') {
 		$bot->notice($user, 'Channel names must begin with the # character.');
 		return false;
 	}
 	
-	if(!($owner = $this->get_account($owner_nick)))
-	{
+	if (!($owner = $this->get_account($owner_nick))) {
 		$bot->noticef($user, '%s is not a known account name!', $owner_nick);
 		return false;
 	}
 	
-	if(!($reg = $this->get_channel_reg($chan_name)))
-	{
+	if (!($reg = $this->get_channel_reg($chan_name))) {
 		$reg = new DB_Channel($chan_name, $owner->get_id());
 		$reg->set_purpose($purpose);
 		$reg->save();
@@ -58,13 +55,12 @@
 		$bot->join($chan_name);
 		$chan = $this->get_channel($chan_name);
 		
-		if(!$chan->is_op($bot->get_numeric()))
+		if (!$chan->is_op($bot->get_numeric()))
 			$this->mode($chan_name, '+Ro '. $bot->get_numeric());
 		else
 			$bot->mode($chan_name, '+R');
 	}
-	else
-	{
+	else {
 		$bot->noticef($user, 'Sorry, %s is already registered.',
 			$reg->get_name());
 		return false;

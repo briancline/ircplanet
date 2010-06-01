@@ -37,17 +37,15 @@
 	$desc = $args[$num_args - 1];
 	$modes = '';
 	
-	if($args[$num_args - 2][0] == '+')
+	if ($args[$num_args - 2][0] == '+')
 		$modes = $args[$num_args - 2];
 	
 	$server = $this->add_server($uplink, $numeric, $name, $desc, $start_ts, $max_users, $modes);
 
-	if(!defined('UPLINK_NUM'))
-	{
+	if (!defined('UPLINK_NUM')) {
 		define('UPLINK_NUM', $numeric);
 	}
-	else
-	{
+	else {
 		debug("*** FATAL ERROR :: Received a second uplink... I'm confused!");
 		exit();
 	}

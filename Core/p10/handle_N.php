@@ -29,8 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	if($num_args == 4)
-	{
+	if ($num_args == 4) {
 		// This is an existing user changing their nick
 		$nick_change = true;
 		$numeric = $args[0];
@@ -38,8 +37,7 @@
 		$old_nick = $this->users[$numeric]->get_nick();
 		$this->users[$numeric]->set_nick($new_nick);
 	}
-	else
-	{
+	else {
 		$nick_change = false;
 		// This is a new user
 		$nick = $args[2];
@@ -55,18 +53,16 @@
 		$modes = '';
 		$mode_arg = 8;
 		
-		if($args[7][0] == '+')
-		{
+		if ($args[7][0] == '+') {
 			$modes = $args[7];
 			
-			if(preg_match('/r/', $modes))
+			if (preg_match('/r/', $modes))
 				$account = $args[$mode_arg++];
-			if(preg_match('/f/', $modes))
+			if (preg_match('/f/', $modes))
 				$fakehost = $args[$mode_arg++];
 		}
 		
-		if($ts_idx = strpos($account, ':'))
-		{
+		if ($ts_idx = strpos($account, ':')) {
 			$account_ts = substr($account, $ts_idx + 1);
 			$account = substr($account, 0, $ts_idx);
 
@@ -74,14 +70,14 @@
 			 * Some variants of ircu also attach another instance of the signon TS
 			 * to this account param, so if we find one, just trash it. No need for it.
 			 */
-			if($sts_idx = strpos($account_ts, ':')) {
+			if ($sts_idx = strpos($account_ts, ':')) {
 				$account_ts = substr($account_ts, 0, $sts_idx);
 			}
 		}
 		
 		$user = $this->add_user($numeric, $nick, $ident, $host, $desc, $start_ts, $ip, $modes, $account, $account_ts);
 		
-		if(!empty($fakehost)) {
+		if (!empty($fakehost)) {
 			$user->set_fakehost($fakehost);
 		}
 	}
@@ -89,8 +85,7 @@
 	$user = $this->get_user($numeric);
 	$account_name = $user->get_account_name();
 	
-	if($account = $this->get_account($account_name))
-	{
+	if ($account = $this->get_account($account_name)) {
 		$user->set_account_id($account->get_id());
 		$account->update_lastseen();
 		$account->save();

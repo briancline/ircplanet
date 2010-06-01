@@ -53,7 +53,7 @@
 		
 		function message($target, $text)
 		{
-			if(is_object($target) && is_user($target))
+			if (is_object($target) && is_user($target))
 				$target = $target->get_numeric();
 			
 			$this->net->sendf(FMT_PRIVMSG, $this->numeric, $target, $text);
@@ -62,7 +62,7 @@
 
 		function notice($target, $text)
 		{
-			if(is_object($target) && is_user($target))
+			if (is_object($target) && is_user($target))
 				$target = $target->get_numeric();
 			
 			$this->net->sendf(FMT_NOTICE, $this->numeric, $target, $text);
@@ -74,7 +74,7 @@
 			$target = array_shift($args);
 			$format = array_shift($args);
 			
-			if(is_object($target) && is_user($target))
+			if (is_object($target) && is_user($target))
 				$target = $target->get_numeric();
 			
 			$notice_text = irc_vsprintf($format, $args);
@@ -88,7 +88,7 @@
 			$target = array_shift($args); // Remove target 
 			$format = array_shift($args); // Remove format
 			
-			if(is_object($target) && is_user($target))
+			if (is_object($target) && is_user($target))
 				$target = $target->get_numeric();
 			
 			$notice_text = irc_vsprintf($format, $args);
@@ -126,17 +126,16 @@
 		
 		function topic($chan_name, $topic, $chan_ts = 0)
 		{
-			if(TOPIC_BURSTING && $chan_ts == 0)
-			{
+			if (TOPIC_BURSTING && $chan_ts == 0) {
 				$chan = $this->net->get_channel($chan_name);
 
-				if(!$chan)
+				if (!$chan)
 					return;
 
 				$chan_ts = $chan->get_ts();
 			}
 
-			if(TOPIC_BURSTING)
+			if (TOPIC_BURSTING)
 				$this->net->sendf(FMT_TOPIC, $this->get_numeric(), $chan_name, $chan_ts, time(), $topic);
 			else
 				$this->net->sendf(FMT_TOPIC, $this->get_numeric(), $chan_name, $topic);
@@ -164,9 +163,8 @@
 		{
 			$chan = $this->net->get_channel($chan_name);
 
-			if(!$chan)
-			{
-				if($create_ts == 0)
+			if (!$chan) {
+				if ($create_ts == 0)
 					$create_ts = time();
 				
 				$this->net->sendf(FMT_CREATE, $this->get_numeric(), $chan_name, $create_ts);
@@ -175,8 +173,7 @@
 				$chan = $this->net->get_channel($chan_name);
 				$chan->add_user($this->get_numeric(), 'o');
 			}
-			else
-			{
+			else {
 				$this->net->sendf(FMT_JOIN, $this->get_numeric(), $chan_name, $chan->get_ts());
 				$this->net->add_channel_user($chan_name, $this->get_numeric());
 			}
@@ -184,7 +181,7 @@
 
 		function part($chan_name, $reason = "")
 		{
-			if(empty($reason))
+			if (empty($reason))
 				$this->net->sendf(FMT_PART, $this->get_numeric(), $chan_name);
 			else 
 				$this->net->sendf(FMT_PART_REASON, $this->get_numeric(), $chan_name, $reason);
@@ -194,10 +191,10 @@
 	
 		function kill($user_num, $reason = 'So long...')
 		{
-			if(is_user($user_num))
+			if (is_user($user_num))
 				$user_num = $user_num->get_numeric();
 			
-			if(!($user = $this->net->get_user($user_num)))
+			if (!($user = $this->net->get_user($user_num)))
 				return false;
 			
 			$my_serv = $this->net->get_server($this->get_server_numeric());

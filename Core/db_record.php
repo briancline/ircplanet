@@ -50,34 +50,30 @@
 			$this->_exclude_from_update[] = $this->_key_field;
 			
 			
-			if($id > 0)
-			{
-				if(is_array($id))
-				{
+			if ($id > 0) {
+				if (is_array($id)) {
 					$row = $id;
 				}
-				else
-				{
+				else {
 					$res = db_query(
 						"select * ".
 						"from `$this->_table_name` ".
 						"where `$this->_key_field` = '$id'");
 					
-					if($res && mysql_num_rows($res) == 1)
+					if ($res && mysql_num_rows($res) == 1)
 						$row = mysql_fetch_assoc($res);
 					else
 						return false;
 				}
 				
-				if(!empty($row))
-				{
+				if (!empty($row)) {
 					$this->load_from_row($row);
 				}
 			}
 			
-			if(!method_exists($this, 'record_construct'))
+			if (!method_exists($this, 'record_construct'))
 				die("Cannot find the ". get_class($this) ." record constructor (record_construct).");
-			if(!method_exists($this, 'record_destruct'))
+			if (!method_exists($this, 'record_destruct'))
 				die("Cannot find the ". get_class($this) ." record destructor (record_destruct).");
 			
 			$this->record_construct(func_get_args());
@@ -112,7 +108,7 @@
 		{
 			$fld = $this->_update_timestamp_field;
 			
-			if(empty($fld))
+			if (empty($fld))
 				return 0;
 			
 			return $this->$fld;
@@ -123,7 +119,7 @@
 		{
 			$fld = $this->_create_timestamp_field;
 			
-			if(empty($fld))
+			if (empty($fld))
 				return 0;
 			
 			return $this->$fld;
@@ -132,7 +128,7 @@
 		
 		public function needs_refresh()
 		{
-			if(empty($this->_update_timestamp_field))
+			if (empty($this->_update_timestamp_field))
 				return false;
 			
 			$res = db_query(
@@ -140,26 +136,25 @@
 				"from `$this->_table_name` ".
 				"where `$this->_key_field` = '$id'");
 			
-			if(!$res || mysql_num_rows($res) != 1)
+			if (!$res || mysql_num_rows($res) != 1)
 				return false;
 			
 			$old_ts = $this->get_update_ts();
 			$new_ts = mysql_result($res, 1);
 			
 			$child_refresh = true;
-			if(method_exists($this, 'record_needs_refresh'))
+			if (method_exists($this, 'record_needs_refresh'))
 				$child_refresh = $this->record_needs_refresh();
 			
-			if($new_ts > $old_ts)
+			if ($new_ts > $old_ts)
 				return (true && $child_refresh);
 		}
 		
 		
 		public function load_from_row($row)
 		{
-			foreach($row as $column => $value)
-			{
-				if($column == $this->_insert_timestamp_field || $column == $this->_update_timestamp_field)
+			foreach ($row as $column => $value) {
+				if ($column == $this->_insert_timestamp_field || $column == $this->_update_timestamp_field)
 					$value = strtotime($value);
 				
 				$this->$column = $value;
@@ -180,11 +175,9 @@
 			$fields = get_object_vars($this);
 			$list = '';
 			
-			foreach($fields as $field => $value)
-			{
-				if(!$this->is_field_excluded($field, $this->_exclude_from_update))
-				{
-					if(!empty($list))
+			foreach ($fields as $field => $value) {
+				if (!$this->is_field_excluded($field, $this->_exclude_from_update)) {
+					if (!empty($list))
 						$list .= ', ';
 					
 					$list .= "`$field` = '". addslashes($value) ."'";
@@ -200,11 +193,9 @@
 			$fields = get_object_vars($this);
 			$list = '';
 			
-			foreach($fields as $field => $value)
-			{
-				if(!$this->is_field_excluded($field, $this->_exclude_from_insert))
-				{
-					if(!empty($list))
+			foreach ($fields as $field => $value) {
+				if (!$this->is_field_excluded($field, $this->_exclude_from_insert)) {
+					if (!empty($list))
 						$list .= ', ';
 					
 					$list .= "`$field`";
@@ -220,11 +211,9 @@
 			$fields = get_object_vars($this);
 			$list = '';
 			
-			foreach($fields as $field => $value)
-			{
-				if(!$this->is_field_excluded($field, $this->_exclude_from_insert))
-				{
-					if(!empty($list))
+			foreach ($fields as $field => $value) {
+				if (!$this->is_field_excluded($field, $this->_exclude_from_insert)) {
+					if (!empty($list))
 						$list .= ', ';
 					
 					$list .= "'". addslashes($value) ."'";
@@ -240,14 +229,12 @@
 			$key_name = $this->_key_field;
 			$key_value = '';
 			
-			if(!$this->record_exists())
-			{
+			if (!$this->record_exists()) {
 				$fields = $this->get_insert_fieldlist();
 				$values = $this->get_insert_valuelist();
 				$i_field = $this->_insert_timestamp_field;
 				
-				if(!empty($i_field))
-				{
+				if (!empty($i_field)) {
 					$fields .= ", `$i_field`";
 					$values .= ", NOW()";
 					
@@ -259,15 +246,13 @@
 				$this->$key_name = mysql_insert_id();
 				$this->_record_exists = true;
 			}
-			else
-			{
+			else {
 				$key_value = addslashes($this->get_key_value());
 				$fields = $this->get_update_fieldlist();
 				$u_field = $this->_update_timestamp_field;
 
-				if(!empty($u_field))
-				{
-					if(!empty($fields))
+				if (!empty($u_field)) {
+					if (!empty($fields))
 						$fields .= ', ';
 					
 					$fields .= "`$u_field` = NOW()";
@@ -279,7 +264,7 @@
 				$this->_record_exists = true;
 			}
 			
-			if(method_exists($this, 'record_save'))
+			if (method_exists($this, 'record_save'))
 				$this->record_save();
 		}
 		
@@ -292,13 +277,13 @@
 				"from `$this->_table_name` ".
 				"where `$this->_key_field` = '$id'");
 			
-			if(!$res || mysql_num_rows($res) != 1)
+			if (!$res || mysql_num_rows($res) != 1)
 				return false;
 			
 			$row = mysql_fetch_assoc($res);
 			$this->load_from_row($row);
 			
-			if(method_exists($this, 'record_refresh'))
+			if (method_exists($this, 'record_refresh'))
 				$this->record_refresh();
 			
 			return true;
@@ -312,12 +297,12 @@
 		function delete()
 		{
 			$key_value = $this->get_key_value();
-			if($key_value != 0)
+			if ($key_value != 0)
 				db_query("delete from `$this->_table_name` where `$this->_key_field` = '$key_value'");
 			
 			$this->_record_exists = false;
 			
-			if(method_exists($this, 'record_delete'))
+			if (method_exists($this, 'record_delete'))
 				$this->record_delete();
 		}
 	}

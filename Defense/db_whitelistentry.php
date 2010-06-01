@@ -48,7 +48,7 @@
 		
 		public function matches($host)
 		{
-			if(is_user($host)) {
+			if (is_user($host)) {
 				return fnmatch($this->mask, $host->get_full_mask())
 					|| fnmatch($this->mask, $host->get_full_ip_mask());
 			}

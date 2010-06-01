@@ -83,29 +83,29 @@
 		
 		function __construct()
 		{
-			if(!defined('SERVICE_DIR'))
+			if (!defined('SERVICE_DIR'))
 				die("The service class cannot run by itself.\n");
 			
-			if(!defined('SERVICE_CONFIG_FILE'))
+			if (!defined('SERVICE_CONFIG_FILE'))
 				define('SERVICE_CONFIG_FILE', 'service.ini');
 				
 			/**
 			 * The following methods are required for child classes. A service cannot exist
 			 * if it does not implement these methods.
 			 */
-			if(!method_exists($this, 'service_construct'))
+			if (!method_exists($this, 'service_construct'))
 				die("You have not defined a service constructor (service_construct).");
-			if(!method_exists($this, 'service_destruct'))
+			if (!method_exists($this, 'service_destruct'))
 				die("You have not defined a service destructor (service_destruct).");
-			if(!method_exists($this, 'service_load'))
+			if (!method_exists($this, 'service_load'))
 				die("You have not defined a service data loader method (service_load).");
-			if(!method_exists($this, 'service_preburst'))
+			if (!method_exists($this, 'service_preburst'))
 				die("You have not defined a pre-burst method (service_preburst).");
-			if(!method_exists($this, 'service_preread'))
+			if (!method_exists($this, 'service_preread'))
 				die("You have not defined a pre-read method (service_preread).");
-			if(!method_exists($this, 'service_close'))
+			if (!method_exists($this, 'service_close'))
 				die("You have not defined a service close method (service_close).");
-			if(!method_exists($this, 'service_main'))
+			if (!method_exists($this, 'service_main'))
 				die("You have not defined a main service method (service_main).");
 			
 			define('START_TIME', time());
@@ -124,10 +124,10 @@
 		
 		function __destruct()
 		{
-			if($this->sock)
+			if ($this->sock)
 				$this->close();
 			
-			if($this->db)
+			if ($this->db)
 				mysql_close($this->db);
 			
 			$this->service_destruct();
@@ -136,21 +136,18 @@
 		
 		function db_connect()
 		{
-			if($this->db > 0)
-			{
+			if ($this->db > 0) {
 				mysql_close();
 				$this->db = 0;
 			}
 
-			if(!($this->db = @mysql_connect(DB_HOST, DB_USER, DB_PASS)))
-			{
+			if (!($this->db = @mysql_connect(DB_HOST, DB_USER, DB_PASS))) {
 				debug("MySQL Error: ". mysql_error());
 				debug("Cannot run without a database!");
 				exit();
 			}
 			
-			if(!mysql_select_db(DB_NAME))
-			{
+			if (!mysql_select_db(DB_NAME)) {
 				debug("MySQL Error: ". mysql_error());
 				debug("Cannot run without a database!");
 				exit();
@@ -160,21 +157,18 @@
 		
 		function load_config()
 		{
-			if(!file_exists(SERVICE_CONFIG_FILE))
-			{
+			if (!file_exists(SERVICE_CONFIG_FILE)) {
 				die('Cannot find service configuration file.');
 			}
 			
 			$this->config = parse_ini_file(SERVICE_CONFIG_FILE);
 			
-			foreach($this->config as $conf_var => $conf_val)
-			{
+			foreach ($this->config as $conf_var => $conf_val) {
 				$conf_var = strtolower($conf_var);
 				$def_var = strtoupper($conf_var);
 				
-				if(!defined($def_var))
-				{
-					if($conf_var == 'server_num')
+				if (!defined($def_var)) {
+					if ($conf_var == 'server_num')
 						$conf_val = int_to_base64($conf_val, BASE64_SERVLEN);
 					
 					define(strtoupper($def_var), $conf_val);
@@ -190,14 +184,12 @@
 			$this->add_server('', SERVER_NUM, SERVER_NAME, SERVER_DESC, START_TIME, SERVER_MAXUSERS, SERVER_MODES);
 			$this->default_bot = $this->add_bot(BOT_NICK, BOT_IDENT, BOT_HOST, BOT_DESC, START_TIME, BOT_IP, BOT_MODES);
 
-			if(defined('REPORT_EVENTS') && REPORT_EVENTS && defined('EVENT_CHANNEL'))
-			{
+			if (defined('REPORT_EVENTS') && REPORT_EVENTS && defined('EVENT_CHANNEL')) {
 				$this->add_channel(EVENT_CHANNEL, START_TIME, EVENT_CHANMODES);
 				$this->add_channel_user(EVENT_CHANNEL, $this->default_bot->get_numeric(), 'o');
 			}
 
-			if(defined('REPORT_COMMANDS') && REPORT_COMMANDS && defined('COMMAND_CHANNEL'))
-			{
+			if (defined('REPORT_COMMANDS') && REPORT_COMMANDS && defined('COMMAND_CHANNEL')) {
 				$this->add_channel(COMMAND_CHANNEL, START_TIME, COMMAND_CHANMODES);
 				$this->add_channel_user(COMMAND_CHANNEL, $this->default_bot->get_numeric(), 'o');
 			}
@@ -208,8 +200,7 @@
 		{
 			$n = 0;
 			$res = db_query('select * from accounts order by lower(name) asc');
-			while($row = mysql_fetch_assoc($res))
-			{
+			while ($row = mysql_fetch_assoc($res)) {
 				$account_key = strtolower($row['name']);
 				$account = new DB_User($row);
 				
@@ -225,21 +216,20 @@
 		{
 			$name_or_id = addslashes($name_or_id);
 			
-			if(is_numeric($name_or_id))
+			if (is_numeric($name_or_id))
 				$criteria = "account_id = '$name_or_id'";
 			else
 				$criteria = "name = '$name_or_id'";
 
 			$res = db_query('select * from accounts where '. $criteria);
-			if($row = mysql_fetch_assoc($res))
-			{
+			if ($row = mysql_fetch_assoc($res)) {
 				$account_key = strtolower($row['name']);
 				$account = new DB_User($row);
 
 				$this->accounts[$account_key] = $account;
 			}
 
-			if(isset($account))
+			if (isset($account))
 				debug("Loaded single account record for {$account->get_name()}.");
 
 			return isset($account);
@@ -250,8 +240,7 @@
 		{
 			$commands_file = SERVICE_DIR .'/commands.php';
 			
-			if(file_exists($commands_file))
-			{
+			if (file_exists($commands_file)) {
 				$this->command_info = array();
 				include($commands_file);
 			}
@@ -265,15 +254,13 @@
 			$tmp_commands = array();
 			$this->commands_list = array();
 
-			foreach($this->command_info as $command_key => $command_info)
-			{
+			foreach ($this->command_info as $command_key => $command_info) {
 				$level = $command_info['level'];
 				$tmp_commands[$level][] = $command_key;
 			}
 
 			krsort($tmp_commands);
-			foreach($tmp_commands as $level => $commands)
-			{
+			foreach ($tmp_commands as $level => $commands) {
 				asort($commands);
 				$this->commands_list[$level] = implode(' ', $commands);
 			}
@@ -306,7 +293,7 @@
 		{
 			$command_name = strtolower($command_name);
 			
-			if(array_key_exists($command_name, $this->command_info))
+			if (array_key_exists($command_name, $this->command_info))
 				return $this->command_info[$command_name]['level'];
 			
 			return 0;
@@ -317,7 +304,7 @@
 		{
 			$command_name = strtolower($command_name);
 			
-			if(array_key_exists($command_name, $this->command_info))
+			if (array_key_exists($command_name, $this->command_info))
 				return $this->command_info[$command_name]['syntax'];
 			
 			return '';
@@ -328,7 +315,7 @@
 		{
 			$command_name = strtolower($command_name);
 			
-			if(array_key_exists($command_name, $this->command_info))
+			if (array_key_exists($command_name, $this->command_info))
 				return $this->command_info[$command_name]['arg_count'];
 			
 			return 0;
@@ -339,8 +326,7 @@
 		{
 			$this->sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 			
-			if(!socket_connect($this->sock, UPLINK_HOST, UPLINK_PORT))
-			{
+			if (!socket_connect($this->sock, UPLINK_HOST, UPLINK_PORT)) {
 				die('Could not connect to '. UPLINK_HOST .':'. UPLINK_PORT);
 				return false;
 			}
@@ -382,7 +368,7 @@
 			$this->bytes_sent += strlen($buffer);
 			$this->lines_sent++;
 			
-			if(!preg_match("/^.. [GZ] /", $buffer))
+			if (!preg_match("/^.. [GZ] /", $buffer))
 				debug("[SEND] ". trim($buffer));
 		}
 
@@ -394,9 +380,8 @@
 		
 		function burst_servers()
 		{
-			foreach($this->servers as $num => $s)
-			{
-				if(!$s->is_jupe() || $s->get_numeric() == SERVER_NUM)
+			foreach ($this->servers as $num => $s) {
+				if (!$s->is_jupe() || $s->get_numeric() == SERVER_NUM)
 					continue;
 				
 				$b64_maxusers = int_to_base64($s->get_max_users(), BASE64_MAXUSERLEN);
@@ -416,9 +401,8 @@
 		
 		function burst_users()
 		{
-			foreach($this->users as $num => $b)
-			{
-				if(!$b->is_bot())
+			foreach ($this->users as $num => $b) {
+				if (!$b->is_bot())
 					continue;
 				
 				$this->sendf(FMT_NICK, SERVER_NUM, 
@@ -437,17 +421,15 @@
 
 		function burst_channels()
 		{
-			foreach($this->channels as $key => $c)
-			{
+			foreach ($this->channels as $key => $c) {
 				$userlist = $c->get_burst_userlist();
 				$banlist = $c->get_burst_banlist();
 				$topic = $c->get_topic();
 				
-				if(empty($userlist))
+				if (empty($userlist))
 					continue;
 
-				if($c->modes > 0 && !empty($banlist))
-				{
+				if ($c->modes > 0 && !empty($banlist)) {
 					$this->sendf(FMT_BURST_MODES_BANS, SERVER_NUM, 
 						$c->get_name(),
 						$c->get_ts(),
@@ -455,31 +437,28 @@
 						$c->get_burst_userlist(),
 						$banlist);
 				}
-				else if($c->modes > 0)
-				{
+				elseif ($c->modes > 0) {
 					$this->sendf(FMT_BURST_MODES, SERVER_NUM, 
 						$c->get_name(),
 						$c->get_ts(),
 						$c->get_modes(),
 						$c->get_burst_userlist());
 				}
-				else if(!empty($banlist))
-				{
+				elseif (!empty($banlist)) {
 					$this->sendf(FMT_BURST_BANS, SERVER_NUM, 
 						$c->get_name(),
 						$c->get_ts(),
 						$c->get_burst_userlist(),
 						$banlist);
 				}
-				else
-				{
+				else {
 					$this->sendf(FMT_BURST, SERVER_NUM, 
 						$c->get_name(),
 						$c->get_ts(),
 						$c->get_burst_userlist());
 				}
 				
-				if(!empty($topic))
+				if (!empty($topic))
 					$this->topic($c->get_name(), $topic, $c->get_ts());
 			}
 		}
@@ -490,7 +469,7 @@
 			$strnum = '';
 			
 			do {
-				if($this->numeric_count++ == BASE64_USERMAX)
+				if ($this->numeric_count++ == BASE64_USERMAX)
 					$this->numeric_count = 0;
 				$strnum = SERVER_NUM . int_to_base64($this->numeric_count, BASE64_USERLEN);
 			
@@ -509,15 +488,14 @@
 		
 		function remove_server($numeric)
 		{
-			if(!array_key_exists($numeric, $this->servers))
+			if (!array_key_exists($numeric, $this->servers))
 				return false;
 			
-			foreach($this->servers[$numeric]->users as $user_numeric)
+			foreach ($this->servers[$numeric]->users as $user_numeric)
 				$this->remove_user($user_numeric);
 			
-			foreach($this->servers as $downlink_numeric => $server)
-			{
-				if($server->get_uplink_numeric() == $numeric)
+			foreach ($this->servers as $downlink_numeric => $server) {
+				if ($server->get_uplink_numeric() == $numeric)
 					$this->remove_server($downlink_numeric);
 			}
 			
@@ -560,10 +538,10 @@
 		
 		function remove_user($num)
 		{
-			if(!$this->users[$num])
+			if (!$this->users[$num])
 				return false;
 			
-			foreach($this->users[$num]->channels as $chan_index)
+			foreach ($this->users[$num]->channels as $chan_index)
 				$this->remove_channel_user($chan_index, $num);
 			
 			$server_num = substr($num, 0, BASE64_SERVLEN);
@@ -578,7 +556,7 @@
 			$gline_key = strtolower($host);
 			$this->glines[$gline_key] = new GLine($host, $duration, $lastmod, $reason);
 			
-			if(method_exists($this, 'service_add_gline'))
+			if (method_exists($this, 'service_add_gline'))
 				$this->service_add_gline($host, $duration, $lastmod, $reason);
 
 			return $this->glines[$gline_key];
@@ -588,7 +566,7 @@
 		function get_gline($host)
 		{
 			$gline_key = strtolower($host);
-			if(array_key_exists($gline_key, $this->glines))
+			if (array_key_exists($gline_key, $this->glines))
 				return $this->glines[$gline_key];
 			
 			return false;
@@ -597,7 +575,7 @@
 		
 		function enforce_gline($gline)
 		{
-			if(!is_gline($gline) && !($gline = $this->get_gline($gline)))
+			if (!is_gline($gline) && !($gline = $this->get_gline($gline)))
 				return false;
 			
 			$this->sendf(FMT_GLINE_ADD, SERVER_NUM, $gline->get_mask(), 
@@ -610,12 +588,12 @@
 		function remove_gline($host)
 		{
 			$gline_key = strtolower($host);
-			if(!array_key_exists($gline_key, $this->glines))
+			if (!array_key_exists($gline_key, $this->glines))
 				return;
 			
 			unset($this->glines[$gline_key]);
 
-			if(method_exists($this, 'service_remove_gline'))
+			if (method_exists($this, 'service_remove_gline'))
 				$this->service_remove_gline($host);
 		}
 		
@@ -625,7 +603,7 @@
 			$jupe_key = strtolower($server);
 			$this->jupes[$jupe_key] = new Jupe($server, $duration, $last_mod, $reason);
 
-			if(method_exists($this, 'service_add_jupe'))
+			if (method_exists($this, 'service_add_jupe'))
 				$this->service_add_jupe($server, $duration, $last_mod, $reason);
 
 			return $this->jupes[$jupe_key];
@@ -635,7 +613,7 @@
 		function get_jupe($server)
 		{
 			$jupe_key = strtolower($server);
-			if(array_key_exists($jupe_key, $this->jupes))
+			if (array_key_exists($jupe_key, $this->jupes))
 				return $this->jupes[$jupe_key];
 
 			return false;
@@ -645,12 +623,12 @@
 		function remove_jupe($server)
 		{
 			$jupe_key = strtolower($server);
-			if(!array_key_exists($jupe_key, $this->jupes))
+			if (!array_key_exists($jupe_key, $this->jupes))
 				return;
 
 			unset($this->jupes[$jupe_key]);
 
-			if(method_exists($this, 'service_remove_jupe'))
+			if (method_exists($this, 'service_remove_jupe'))
 				$this->service_remove_jupe($server);
 		}
 
@@ -659,9 +637,8 @@
 		{
 			$match_count = 0;
 			
-			foreach($this->users as $numeric => $user)
-			{
-				if(fnmatch($mask, $user->get_full_mask()) && !$user->is_bot())
+			foreach ($this->users as $numeric => $user) {
+				if (fnmatch($mask, $user->get_full_mask()) && !$user->is_bot())
 					$match_count++;
 			}
 			
@@ -673,9 +650,8 @@
 		{
 			$count = 0;
 
-			foreach($this->users as $numeric => $user)
-			{
-				if($user->get_ip() == $ip)
+			foreach ($this->users as $numeric => $user) {
+				if ($user->get_ip() == $ip)
 					$count++;
 			}
 
@@ -694,7 +670,7 @@
 		function remove_channel($name)
 		{
 			$chan_key = strtolower($name);
-			foreach($this->channels[$chan_key]->users as $numeric)
+			foreach ($this->channels[$chan_key]->users as $numeric)
 				$this->users[$numeric]->remove_channel($chan_key);
 			
 			unset($this->channels[$chan_key]);
@@ -714,17 +690,16 @@
 			$chan = $this->get_channel($name);
 			$numerics = array();
 			
-			if(!$chan)
+			if (!$chan)
 				return false;
 			
-			foreach($chan->users as $numeric => $chan_user)
-			{
+			foreach ($chan->users as $numeric => $chan_user) {
 				$user = $this->get_user($numeric);
-				if($user && ($mask == '*' || fnmatch($mask, $user->get_full_mask())))
+				if ($user && ($mask == '*' || fnmatch($mask, $user->get_full_mask())))
 					$numerics[] = $numeric;
 			}
 			
-			if(count($numerics) == 0)
+			if (count($numerics) == 0)
 				return false;
 			
 			return $numerics;
@@ -736,17 +711,16 @@
 			$chan = $this->get_channel($name);
 			$numerics = array();
 			
-			if(!$chan)
+			if (!$chan)
 				return false;
 			
-			foreach($chan->users as $numeric => $chan_user)
-			{
+			foreach ($chan->users as $numeric => $chan_user) {
 				$user = $this->get_user($numeric);
-				if($user && ($mask == '*' || fnmatch($mask, $user->get_full_mask())))
+				if ($user && ($mask == '*' || fnmatch($mask, $user->get_full_mask())))
 					$numerics[$numeric] = $user;
 			}
 			
-			if(count($numerics) == 0)
+			if (count($numerics) == 0)
 				return false;
 			
 			return $numerics;
@@ -757,16 +731,14 @@
 		{
 			$chan_key = strtolower($chan_name);
 
-			if(array_key_exists($num, $this->users))
-			{
+			if (array_key_exists($num, $this->users)) {
 				$this->users[$num]->remove_channel($chan_key);
 			}
 			
-			if(array_key_exists($chan_key, $this->channels))
-			{
+			if (array_key_exists($chan_key, $this->channels)) {
 				$this->channels[$chan_key]->remove_user($num);
 				
-				if($this->channels[$chan_key]->get_user_count() == 0)
+				if ($this->channels[$chan_key]->get_user_count() == 0)
 					$this->remove_channel($chan_key);
 			}
 		}
@@ -774,12 +746,12 @@
 
 		function remove_user_from_all_channels($num)
 		{
-			if(!($u = $this->get_user($num)))
+			if (!($u = $this->get_user($num)))
 				return false;
 			
 			$channels = $u->channels;
 			
-			foreach($channels as $chan_key)
+			foreach ($channels as $chan_key)
 				$this->remove_channel_user($chan_key, $num);
 			
 			$u->remove_all_channels();
@@ -797,7 +769,7 @@
 		
 		function get_server($numeric)
 		{
-			if(array_key_exists($numeric, $this->servers))
+			if (array_key_exists($numeric, $this->servers))
 				return $this->servers[$numeric];
 			
 			return false;
@@ -807,8 +779,8 @@
 		function get_server_by_name($name)
 		{
 			$name = strtolower($name);
-			foreach($this->servers as $numeric => $server)
-				if(strtolower($server->get_name()) == $name)
+			foreach ($this->servers as $numeric => $server)
+				if (strtolower($server->get_name()) == $name)
 					return $server;
 			
 			return false;
@@ -818,7 +790,7 @@
 		function get_channel($chan_name)
 		{
 			$chan_key = strtolower($chan_name);
-			if(array_key_exists($chan_key, $this->channels))
+			if (array_key_exists($chan_key, $this->channels))
 				return $this->channels[$chan_key];
 			
 			return false;
@@ -827,7 +799,7 @@
 		
 		function get_user($numeric)
 		{
-			if(array_key_exists($numeric, $this->users))
+			if (array_key_exists($numeric, $this->users))
 				return $this->users[$numeric];
 			
 			return false;
@@ -837,8 +809,8 @@
 		function get_user_by_nick($nick)
 		{
 			$nick = strtolower($nick);
-			foreach($this->users as $numeric => $user)
-				if(strtolower($user->get_nick()) == $nick)
+			foreach ($this->users as $numeric => $user)
+				if (strtolower($user->get_nick()) == $nick)
 					return $user;
 			
 			return false;
@@ -848,7 +820,7 @@
 		function get_account($account_name)
 		{
 			$account_key = strtolower($account_name);
-			if(array_key_exists($account_key, $this->accounts))
+			if (array_key_exists($account_key, $this->accounts))
 				return $this->accounts[$account_key];
 			
 			return false;
@@ -857,9 +829,8 @@
 
 		function get_account_by_id($account_id)
 		{
-			foreach($this->accounts as $account_key => $account)
-			{
-				if($account->get_id() == $account_id)
+			foreach ($this->accounts as $account_key => $account) {
+				if ($account->get_id() == $account_id)
 					return $this->accounts[$account_key];
 			}
 			
@@ -871,9 +842,8 @@
 		{
 			$email = strtolower($email);
 			
-			foreach($this->accounts as $account_key => $account)
-			{
-				if(strtolower($account->get_email()) == $email)
+			foreach ($this->accounts as $account_key => $account) {
+				if (strtolower($account->get_email()) == $email)
 					return $this->accounts[$account_key];
 			}
 			
@@ -883,14 +853,14 @@
 
 		function remove_account($account)
 		{
-			if(is_account($account))
+			if (is_account($account))
 				$account = $account->get_name();
-			elseif(is_object($account))
+			elseif (is_object($account))
 				return false; // What kind of object are you giving me?!
 
 			$account_key = strtolower($account);
 
-			if(!array_key_exists($account_key, $this->accounts))
+			if (!array_key_exists($account_key, $this->accounts))
 				return false;
 
 			unset($this->accounts[$account_key]);
@@ -914,15 +884,13 @@
 			
 			$GLOBALS['INSTANTIATED_SERVICES'][] = $this;
 			
-			while(is_resource($this->sock) && in_array($err_no, $noncritical_socket_errors))
-			{
+			while (is_resource($this->sock) && in_array($err_no, $noncritical_socket_errors)) {
 				$iter++;
 				
 				$timeout = 5;
-				foreach($this->timers as $n => $timer)
-				{
+				foreach ($this->timers as $n => $timer) {
 					$secs_til_run = $timer->get_next_run() - time();
-					if($timeout > $secs_til_run && $secs_til_run >= 0)
+					if ($timeout > $secs_til_run && $secs_til_run >= 0)
 						$timeout = $timer->get_next_run() - time();
 
 					// debug("Timer {$timer->include_file} has {$timeout} seconds left");
@@ -936,22 +904,19 @@
 				$this->bytes_received += strlen($buffer);
 				
 				$break_time = time();
-				foreach($this->timers as $n => $timer)
-				{
-					if($timer->get_next_run() <= $break_time)
+				foreach ($this->timers as $n => $timer) {
+					if ($timer->get_next_run() <= $break_time)
 						$this->run_timer($n);
 				}
 				
-				if(!empty($buffer))
-				{
+				if (!empty($buffer)) {
 					$endpos = strpos($buffer, "\n");
 					
-					while($endpos !== false)
-					{
+					while ($endpos !== false) {
 						$line = substr($buffer, 0, $endpos - 1);
 						$buffer = substr($buffer, $endpos + 1);
 						
-						if(!preg_match("/^.. [GZ] /", $line))
+						if (!preg_match("/^.. [GZ] /", $line))
 							debug("[RECV] $line");
 						
 						$this->parse($line);
@@ -960,8 +925,7 @@
 						$endpos = strpos($buffer, "\n");
 					}
 				}
-				else
-				{
+				else {
 					$err_no = socket_last_error($this->sock);
 					$err_str = socket_strerror($err_no);
 				}
@@ -976,7 +940,7 @@
 			$num_args = line_num_args($line);
 			$args = line_get_args($line);
 			
-			if($args[0] == 'PASS' || $args[0] == 'SERVER' || $args[0] == 'NOTICE' || $args[0] == 'ERROR')
+			if ($args[0] == 'PASS' || $args[0] == 'SERVER' || $args[0] == 'NOTICE' || $args[0] == 'ERROR')
 				$token = $args[0];
 			else
 				$token = $args[1];
@@ -989,22 +953,20 @@
 			$chan_name = '';
 			$bot = false;
 			
-			for($i = 0; $i < count($args); ++$i)
-			{
-				if($args[$i][0] == '#')
-				{
+			for ($i = 0; $i < count($args); ++$i) {
+				if ($args[$i][0] == '#') {
 					$chan_name = $args[$i];
 					$chan_key = strtolower($chan_name);
 					break;
 				}
 			}
 			
-			if($num_args >= 3 && !(($bot = $this->get_user($args[2])) && $bot->is_bot()))
+			if ($num_args >= 3 && !(($bot = $this->get_user($args[2])) && $bot->is_bot()))
 				$bot = $this->default_bot;
 			
-			if(file_exists($core_handler))
+			if (file_exists($core_handler))
 				include($core_handler);
-			if(file_exists($service_handler))
+			if (file_exists($service_handler))
 				include($service_handler);
 			
 			// TODO: Breaks everything; slated for 1.3 or 2.0
@@ -1018,9 +980,9 @@
 		
 		function handler_container($handler_file, $is_core_handler, $num_args, $args, $chan_name, $chan_key, $bot)
 		{
-			if(file_exists($handler_file))
+			if (file_exists($handler_file))
 				include($handler_file);
-			elseif($is_core_handler)
+			elseif ($is_core_handler)
 				debug("*** Core handler file $handler_file does not exist!");
 			
 			return true;
@@ -1052,32 +1014,32 @@
 			$param_modes_add = array('l', 'k', 'U', 'A', 'o', 'v', 'b');
 			$param_modes_sub = array('k', 'U', 'A', 'o', 'v', 'b');
 			
-			if(!$accept_user_modes) {
+			if (!$accept_user_modes) {
 				$disallowed_modes = array_merge($disallowed_modes, 
 					array('o', 'v', 'b'));
 			}
 			
 			$in_arg = 0;
 			$in_args = split(' ', $modes);
-			if(count($in_args) > 1) {
+			if (count($in_args) > 1) {
 				$modes = array_shift($in_args);
 			}
 			
 			$is_sub = false;
-			for($i = 0; $i < strlen($modes); $i++) {
+			for ($i = 0; $i < strlen($modes); $i++) {
 				$arg = '';
 				$mode = $modes[$i];
 				
-				if($mode == '-')
+				if ($mode == '-')
 					$is_sub = true;
-				if($mode == '+')
+				if ($mode == '+')
 					$is_sub = false;
 				
-				if((!$is_sub && in_array($mode, $param_modes_add)) 
+				if ((!$is_sub && in_array($mode, $param_modes_add)) 
 						|| ($is_sub && in_array($mode, $param_modes_sub)))
 					$arg = $in_args[$in_arg++];
 				
-				if(!Channel::is_valid_mode($mode) 
+				if (!Channel::is_valid_mode($mode) 
 						|| in_array($mode, $disallowed_modes) 
 						|| $is_sub 
 						|| preg_match('/'. $mode .'/', $clean_modes)) {
@@ -1086,7 +1048,7 @@
 				
 				$clean_modes .= $mode;
 				
-				if(!empty($arg)) {
+				if (!empty($arg)) {
 					$clean_mode_args .= ' '. $arg;
 				}
 			}
@@ -1114,26 +1076,23 @@
 			$is_chan = ($target[0] == '#');
 			$readable_args = array();
 
-			if($is_chan)
-			{
+			if ($is_chan) {
 				$modes = $args[3];
 				$mode_arg = 4;
 				$chan = $this->get_channel($target);
 				$add = '';
 
-				for($i = 0; $i < strlen($modes); ++$i)
-				{
+				for ($i = 0; $i < strlen($modes); ++$i) {
 					$mode = $modes[$i];
 
-					if($mode == '+') {
+					if ($mode == '+') {
 						$add = true;
 					}
-					else if($mode == '-') {
+					elseif ($mode == '-') {
 						$add = false;
 					}
-					else if($mode == 'l')
-					{
-						if($add) {
+					elseif ($mode == 'l') {
+						if ($add) {
 							$limit = $args[$mode_arg++];
 							$chan->add_mode($mode);
 							$chan->set_limit($limit);
@@ -1144,9 +1103,8 @@
 							$chan->set_limit(0);
 						}
 					}
-					else if($mode == 'k')
-					{
-						if($add) {
+					elseif ($mode == 'k') {
+						if ($add) {
 							$key = $args[$mode_arg++];
 							$chan->add_mode($mode);
 							$chan->set_key($key);
@@ -1159,9 +1117,8 @@
 							$readable_args[] = $key;
 						}
 					}
-					else if($mode == 'A')
-					{
-						if($add) {
+					elseif ($mode == 'A') {
+						if ($add) {
 							$apass = $args[$mode_arg++];
 							$chan->add_mode($mode);
 							$chan->set_admin_pass($apass);
@@ -1174,9 +1131,8 @@
 							$readable_args[] = $apass;
 						}
 					}
-					else if($mode == 'U')
-					{
-						if($add) {
+					elseif ($mode == 'U') {
+						if ($add) {
 							$upass = $args[$mode_arg++];
 							$chan->add_mode($mode);
 							$chan->set_user_pass($upass);
@@ -1189,23 +1145,20 @@
 							$readable_args[] = $upass;
 						}
 					}
-					else if($mode == 'o')
-					{
+					elseif ($mode == 'o') {
 						$numeric = $args[$mode_arg++];
 						$oplevel = 0;
 						$has_oplevel = (strlen($numeric) > 5 && $numeric[5] == ':');
 						
-						if($has_oplevel)
-						{
+						if ($has_oplevel) {
 							$oplevel = substr($numeric, 6);
 							$numeric = substr($numeric, 0, 5);
 						}
 						
-						if($add)
-						{
+						if ($add) {
 							$chan->add_op($numeric);
 							
-							if($has_oplevel)
+							if ($has_oplevel)
 								$chan->set_oplevel($numeric, $oplevel);
 						}
 						else
@@ -1214,10 +1167,9 @@
 						$user = $this->get_user($numeric);
 						$readable_args[] = $user->get_nick();
 					} 
-					else if($mode == 'v')
-					{
+					elseif ($mode == 'v') {
 						$numeric = $args[$mode_arg++];
-						if($add)
+						if ($add)
 							$chan->add_voice($numeric);
 						else
 							$chan->remove_voice($numeric);
@@ -1225,47 +1177,43 @@
 						$user = $this->get_user($numeric);
 						$readable_args[] = $user->get_nick();
 					}
-					else if($mode == 'b')
-					{
+					elseif ($mode == 'b') {
 						$mask = $args[$mode_arg++];
-						if($add)
+						if ($add)
 							$chan->add_ban($mask, time());
 						else
 							$chan->remove_ban($mask);
 
 						$readable_args[] = $mask;
 					}
-					else
-					{
-						if($add)
+					else {
+						if ($add)
 							$chan->add_mode($mode);
 						else
 							$chan->remove_mode($mode);
 					}
 				}
 			}
-			else
-			{
+			else {
 				$user = $this->get_user_by_nick($target);
 				$modes = $args[3];
 
 				$add = '';
 
-				for($i = 0; $i < strlen($modes); ++$i)
-				{
+				for ($i = 0; $i < strlen($modes); ++$i) {
 					$mode = $modes[$i];
 
-					if($mode == ':') {
+					if ($mode == ':') {
 						continue;
 					}
-					if($mode == '+') {
+					if ($mode == '+') {
 						$add = true;
 					}
-					else if($mode == '-') {
+					elseif ($mode == '-') {
 						$add = false;
 					}
 					else {
-						if($add)
+						if ($add)
 							$user->add_mode($mode);
 						else
 							$user->remove_mode($mode);
@@ -1305,8 +1253,7 @@
 			
 			$is_chan = ($target[0] == '#');
 			
-			if($is_chan)
-			{
+			if ($is_chan) {
 				$chan = $this->get_channel($target);
 				$modes = $args[3];
 				$arg_num = 4;
@@ -1315,25 +1262,21 @@
 				$tmp_args = array();
 				$rem_args = array_copy($args, $arg_num);
 				
-				for($i = 0; $i < strlen($modes); $i++)
-				{
+				for ($i = 0; $i < strlen($modes); $i++) {
 					$mode = $modes[$i];
 					$tmp_modes .= $mode;
 					
-					if($mode == '+' || $mode == '-')
-					{
+					if ($mode == '+' || $mode == '-') {
 						$tmp_pol = $mode;
 						continue;
 					}
 					
-					if(in_array($mode, $param_modes))
-					{
+					if (in_array($mode, $param_modes)) {
 						$tmp_args[] = $args[$arg_num++];
 						array_shift($rem_args);
 					}
 					
-					if(++$mode_count == MAX_MODES_PER_LINE || $i == strlen($modes) - 1)
-					{
+					if (++$mode_count == MAX_MODES_PER_LINE || $i == strlen($modes) - 1) {
 						$outgoing[] = irc_sprintf("%s M %s %s %A", $source, $target, $tmp_modes, $tmp_args);
 						$mode_count = 0;
 						$tmp_modes = $tmp_pol;
@@ -1341,14 +1284,13 @@
 					}
 				}
 				
-				foreach($outgoing as $tmp_line)
-				{
+				foreach ($outgoing as $tmp_line) {
 					/**
 					 * If our remaining arguments array has one numeric value left over
 					 * that did not correspond to a mode, then it is probably a mode
 					 * hack timestamp. Append it to the previously generated line.
 					 */
-					if(count($rem_args) == 1 && is_numeric($rem_args[0]))
+					if (count($rem_args) == 1 && is_numeric($rem_args[0]))
 						$chan_ts = $rem_args[0];
 					else
 						$chan_ts = $chan->get_ts();
@@ -1359,8 +1301,7 @@
 					$this->parse_mode($tmp_line);
 				}
 			}
-			else
-			{
+			else {
 				$outgoing[] = $proto_str;
 				// TODO: This portion isn't actually used anywhere yet... but isn't there something missing here?
 			}
@@ -1374,9 +1315,9 @@
 		 */
 		function send_mode($source, $chan_name, $modes)
 		{
-			if(is_server($source) || is_user($source))
+			if (is_server($source) || is_user($source))
 				$source = $source->get_numeric();
-			if(is_channel($chan_name))
+			if (is_channel($chan_name))
 				$chan_name = $chan_name->get_name();
 
 			$mode_line = irc_sprintf(FMT_MODE_NOTS, $source, $chan_name, $modes);
@@ -1388,7 +1329,7 @@
 		{
 			$data = array();
 			
-			for($i = 3; $i < func_num_args(); ++$i)
+			for ($i = 3; $i < func_num_args(); ++$i)
 				$data[] = func_get_arg($i);
 			
 			$this->timers[] = new Timer($repeats, $ts_interval, $include_file, $data);
@@ -1397,19 +1338,17 @@
 		
 		function run_timer($timer_num)
 		{
-			if(!array_key_exists($timer_num, $this->timers))
+			if (!array_key_exists($timer_num, $this->timers))
 				return;
 			
 			// debug("Running timer {$timer_num}");
 			$this->execute_timer($timer_num);
 			
 			$timer = $this->timers[$timer_num];
-			if($timer->is_recurring())
-			{
+			if ($timer->is_recurring()) {
 				$timer->update();
 			}
-			else
-			{
+			else {
 				// debug("Removing timer {$timer_num}");
 				unset($this->timers[$timer_num]);
 			}
@@ -1418,7 +1357,7 @@
 		
 		function execute_timer($timer_num)
 		{
-			if(!array_key_exists($timer_num, $this->timers))
+			if (!array_key_exists($timer_num, $this->timers))
 				return;
 			
 			$timer = $this->timers[$timer_num];
@@ -1428,9 +1367,9 @@
 			$bot = $this->default_bot;
 			$timer_data = $timer->get_data_elements();
 			
-			if(file_exists($core_script))
+			if (file_exists($core_script))
 				include($core_script);
-			if(file_exists($service_script))
+			if (file_exists($service_script))
 				include($service_script);
 			
 			$timer->set_data_elements($timer_data);
@@ -1444,15 +1383,14 @@
 			$args = array();
 			$chan = $this->get_channel($chan_name);
 			
-			if(!$chan)
+			if (!$chan)
 				return;
 			
-			if(!is_array($arg_list))
-			{
+			if (!is_array($arg_list)) {
 				$arg_list = array();
 				$arg_count = func_num_args();
 
-				for($i = 4; $i < $arg_count; ++$i)
+				for ($i = 4; $i < $arg_count; ++$i)
 					$arg_list[] = func_get_arg($i);
 			}
 
@@ -1471,10 +1409,10 @@
 
 		function topic($chan_name, $topic, $chan_ts = 0)
 		{
-			if(TOPIC_BURSTING && $chan_ts == 0)
+			if (TOPIC_BURSTING && $chan_ts == 0)
 				return false;
 			
-			if(TOPIC_BURSTING)
+			if (TOPIC_BURSTING)
 				$this->sendf(FMT_TOPIC, SERVER_NUM, $chan_name, $chan_ts, time(), $topic);
 			else
 				$this->sendf(FMT_TOPIC, SERVER_NUM, $chan_name, $topic);
@@ -1499,11 +1437,10 @@
 		
 		function kick($chan_name, $numerics, $reason)
 		{
-			if(!is_array($numerics))
+			if (!is_array($numerics))
 				$numerics = array($numerics);
 			
-			foreach($numerics as $numeric)
-			{
+			foreach ($numerics as $numeric) {
 				$this->remove_channel_user($chan_name, $numeric);
 				$this->sendf(FMT_KICK, SERVER_NUM, $chan_name, $numeric, $reason);
 			}
@@ -1511,10 +1448,10 @@
 		
 		function kill($user_num, $reason = 'So long...')
 		{
-			if(is_user($user_num))
+			if (is_user($user_num))
 				$user_num = $user_num->get_numeric();
 			
-			if(!($user = $this->get_user($user_num)))
+			if (!($user = $this->get_user($user_num)))
 				return false;
 			
 			$this->sendf(FMT_KILL, SERVER_NUM, $user_num, SERVER_NAME, $reason);
@@ -1525,17 +1462,15 @@
 		{
 			$text = '|IPSVC|'. $type .'|'. $request .'|'. $primary_id .'|';
 
-			if($type == NOTIFY_CHANNEL_ACCESS && $secondary_id > 0)
+			if ($type == NOTIFY_CHANNEL_ACCESS && $secondary_id > 0)
 				$text .= $secondary_id .'|';
-			elseif($type == NOTIFY_CHANNEL_ACCESS)
+			elseif ($type == NOTIFY_CHANNEL_ACCESS)
 				return false;
 
 			debugf('Notify text: %s', $text);
 
-			foreach($this->users as $numeric => $user)
-			{
-				if(!$user->is_service())
-				{
+			foreach ($this->users as $numeric => $user) {
+				if (!$user->is_service()) {
 					debugf('%s is not a service, skipping (%s)', $user->get_nick(), $user->get_modes());
 					continue;
 				}
@@ -1548,7 +1483,7 @@
 
 		function report_command($user, $args)
 		{
-			if(!defined('REPORT_COMMANDS') || !REPORT_COMMANDS || !defined('COMMAND_CHANNEL'))
+			if (!defined('REPORT_COMMANDS') || !REPORT_COMMANDS || !defined('COMMAND_CHANNEL'))
 				return;
 
 			$command = array_shift($args);

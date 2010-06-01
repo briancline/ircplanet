@@ -31,14 +31,12 @@
 
 	$chan = $this->get_channel($chan_name);
 
-	if($chan && $chan->is_on($bot->get_numeric()))
-	{
+	if ($chan && $chan->is_on($bot->get_numeric())) {
 		$bot->noticef($user, "I am already in %s.", $chan_name);
 		return false;
 	}
 
-	if($chan)
-	{
+	if ($chan) {
 		/**
 		 * At least one other person is already in the channel, so
 		 * just issue a JOIN and op the bot.
@@ -46,8 +44,7 @@
 		$bot->join($chan->get_name());
 		$this->mode($chan->get_name(), '+Ro '. $bot->get_numeric());
 	}
-	else
-	{
+	else {
 		/**
 		 * Nobody is in this channel, so it doesn't exist. Bot::join
 		 * will issue a CREATE in this case.

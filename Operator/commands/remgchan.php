@@ -32,8 +32,7 @@
 	$channel = $pargs[1];
 	$lastmod_ts = time();
 	
-	if($gline = $this->get_gline($channel))
-	{
+	if ($gline = $this->get_gline($channel)) {
 		$lastmod_ts = $gline->get_lastmod_ts();
 		$this->remove_gline($channel);
 	}

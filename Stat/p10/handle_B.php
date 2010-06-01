@@ -45,8 +45,7 @@
 		$chan->get_modes()
 	);
 	
-	foreach($chan->get_user_list() as $numeric)
-	{
+	foreach ($chan->get_user_list() as $numeric) {
 		$user = $this->get_user($numeric);
 		
 		db_queryf("insert into stats_channel_users (channel_name, nick, is_op, is_voice) values 

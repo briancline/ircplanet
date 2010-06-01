@@ -31,7 +31,7 @@
 
 	$mask = $pargs[1];
 	
-	if(!($entry = $this->get_whitelist_entry($mask))) {
+	if (!($entry = $this->get_whitelist_entry($mask))) {
 		$bot->noticef($user, 'No whitelist entry for %s was found.', $mask);
 		return false;
 	}

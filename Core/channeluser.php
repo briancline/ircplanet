@@ -58,8 +58,8 @@
 		static function is_valid_mode_int($mode)
 		{
 			global $CHANNELUSER_MODES;
-			foreach($CHANNELUSER_MODES as $c => $i)
-				if($i['uint'] == $mode)
+			foreach ($CHANNELUSER_MODES as $c => $i)
+				if ($i['uint'] == $mode)
 					return true;
 			
 			return false;
@@ -68,25 +68,25 @@
 		function add_modes($str)
 		{
 			global $CHANNELUSER_MODES;
-			foreach($CHANNELUSER_MODES as $c => $i)
-				if(strpos($str, $c) !== false) $this->add_mode($i['uint']);
+			foreach ($CHANNELUSER_MODES as $c => $i)
+				if (strpos($str, $c) !== false) $this->add_mode($i['uint']);
 		}
 		
 		function add_mode($mode)
 		{
 			global $CHANNELUSER_MODES;
-			if(!is_int($mode))
+			if (!is_int($mode))
 				return $this->add_mode($CHANNELUSER_MODES[$mode]['uint']);
-			if($this->is_valid_mode_int($mode) && !$this->has_mode($mode))
+			if ($this->is_valid_mode_int($mode) && !$this->has_mode($mode))
 				$this->modes |= $mode;
 		}
 		
 		function remove_mode($mode)
 		{
 			global $CHANNELUSER_MODES;
-			if(!is_int($mode))
+			if (!is_int($mode))
 				return $this->remove_mode($CHANNELUSER_MODES[$mode]['uint']);
-			if($this->is_valid_mode_int($mode) && $this->has_mode($mode))
+			if ($this->is_valid_mode_int($mode) && $this->has_mode($mode))
 				$this->modes &= ~$mode;
 		}
 		
@@ -98,7 +98,7 @@
 		function has_mode($mode)
 		{
 			global $CHANNELUSER_MODES;
-			if(!is_int($mode))
+			if (!is_int($mode))
 				return $this->has_mode($CHANNELUSER_MODES[$mode]['uint']);
 			
 			return(($this->modes & $mode) == $mode);
@@ -109,8 +109,8 @@
 			global $CHANNELUSER_MODES;
 
 			$modes = '';
-			foreach($CHANNELUSER_MODES as $c => $i)
-				if($this->has_mode($c)) $modes .= $c;
+			foreach ($CHANNELUSER_MODES as $c => $i)
+				if ($this->has_mode($c)) $modes .= $c;
 			
 			return $modes;
 		}
@@ -123,9 +123,8 @@
 	}
 
 
-	foreach($CHANNELUSER_MODES as $c => $i)
-	{
-		if(!defined($i['const']))
+	foreach ($CHANNELUSER_MODES as $c => $i) {
+		if (!defined($i['const']))
 			define($i['const'], $i['uint']);
 	}
 

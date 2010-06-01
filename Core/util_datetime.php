@@ -44,16 +44,13 @@
 			's' =>        1
 		);
 		
-		for($c = 0; $c < strlen($dur); ++$c)
-		{
+		for ($c = 0; $c < strlen($dur); ++$c) {
 			$char = $dur[$c];
-			if(is_numeric($char))
-			{
+			if (is_numeric($char)) {
 				$amount .= $char;
 			}
-			else if(array_key_exists($char, $units))
-			{
-				if(empty($amount))
+			elseif (array_key_exists($char, $units)) {
+				if (empty($amount))
 					return false;
 				
 				$found_unit = true;
@@ -64,23 +61,21 @@
 				 * Enforce top-down time durations by removing units
 				 * (ex., 5w2d is valid, 2d5w is invalid, 2d4d is invalid)
 				 */
-				foreach($units as $key => $val)
-				{
+				foreach ($units as $key => $val) {
 					unset($units[$key]);
-					if($key == $char)
+					if ($key == $char)
 						break;
 				}
 			}
-			else
-			{
+			else {
 				return false;
 			}
 		}
 		
-		if(!$found_unit)
+		if (!$found_unit)
 			$secs *= 60;
 		
-		if($secs < 0)
+		if ($secs < 0)
 			return false;
 		
 		return $secs;

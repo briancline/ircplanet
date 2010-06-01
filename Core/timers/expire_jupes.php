@@ -35,16 +35,14 @@
 	
 	$expired_jupes = array();
 
-	foreach($this->jupes as $jupe_key => $jupe)
-	{
-		if($jupe->is_expired())
-		{
+	foreach ($this->jupes as $jupe_key => $jupe) {
+		if ($jupe->is_expired()) {
 			debug("*** Jupe ". $jupe->get_server() ." has expired!");
 			$expired_jupes[] = $jupe_key;
 		}
 	}
 	
-	foreach($expired_jupes as $jupe_key)
+	foreach ($expired_jupes as $jupe_key)
 		$this->remove_jupe($jupe_key);
 	
 

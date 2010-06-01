@@ -35,32 +35,27 @@
 	$password = $pargs[1];
 	$email = $pargs[2];
 	
-	if(!$user->is_logged_in())
-	{
-		if(!is_valid_email($email))
-		{
+	if (!$user->is_logged_in()) {
+		if (!is_valid_email($email)) {
 			$bot->notice($user, "You have specified an invalid e-mail address. ".
 				"Please try again.");
 			return false;
 		}
 		
-		if($account = $this->get_account_by_email($email))
-		{
+		if ($account = $this->get_account_by_email($email)) {
 			$bot->notice($user, "That e-mail address is already associated ".
 				"with a registered nickname.");
 			return false;
 		}
 		
-		if($account = $this->get_account($user_name))
-		{
+		if ($account = $this->get_account($user_name)) {
 			$bot->noticef($user,
 				"The nickname %s%s%s has already been registered. Please choose another.",
 				BOLD_START, $user_name, BOLD_END);
 			return false;
 		}
 
-		if($this->is_badnick($user_name))
-		{
+		if ($this->is_badnick($user_name)) {
 			$bot->noticef($user, 'You are not allowed to register that nickname.');
 			return false;
 		}
@@ -79,8 +74,7 @@
 		
 		$this->add_account($account);
 		
-		if(!$user->has_account_name())
-		{
+		if (!$user->has_account_name()) {
 			$this->sendf(FMT_ACCOUNT, SERVER_NUM, $numeric, $user_name, $account->get_register_ts());
 			$user->set_account_name($user_name);
 			$user->set_account_id($account->get_id());
@@ -90,8 +84,7 @@
 			"Your account, %s%s%s, has been registered. You are now logged in.",
 			BOLD_START, $user_name, BOLD_END);
 	}
-	else
-	{
+	else {
 		$bot->notice($user, "You have already registered your nick and logged in.");
 	}
 

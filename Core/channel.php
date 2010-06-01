@@ -96,7 +96,7 @@
 		function set_limit($v) { 
 			$this->limit = $v;
 			
-			if($v <= 0)
+			if ($v <= 0)
 				$this->remove_mode(CMODE_LIMIT); 
 			else 
 				$this->add_mode(CMODE_LIMIT);
@@ -105,8 +105,8 @@
 		function get_op_list()
 		{
 			$ops = array();
-			foreach($this->users as $numeric => $chan_user)
-				if($chan_user->is_op())
+			foreach ($this->users as $numeric => $chan_user)
+				if ($chan_user->is_op())
 					$ops[] = $numeric;
 			
 			return $ops;
@@ -115,8 +115,8 @@
 		function get_voice_list()
 		{
 			$voices = array();
-			foreach($this->users as $numeric => $chan_user)
-				if($chan_user->is_voice())
+			foreach ($this->users as $numeric => $chan_user)
+				if ($chan_user->is_voice())
 					$voices[] = $numeric;
 			
 			return $voices;
@@ -125,8 +125,8 @@
 		function get_op_count()
 		{
 			$count = 0;
-			foreach($this->users as $numeric => $chan_user)
-				if($chan_user->is_op())
+			foreach ($this->users as $numeric => $chan_user)
+				if ($chan_user->is_op())
 					$count++;
 			
 			return $count;
@@ -136,8 +136,8 @@
 		function get_voice_count()
 		{
 			$count = 0;
-			foreach($this->users as $numeric => $chan_user)
-				if($chan_user->is_voice())
+			foreach ($this->users as $numeric => $chan_user)
+				if ($chan_user->is_voice())
 					$count++;
 			
 			return $count;
@@ -152,8 +152,8 @@
 		static function is_valid_mode_int($mode)
 		{
 			global $CHANNEL_MODES;
-			foreach($CHANNEL_MODES as $c => $i)
-				if($i['uint'] == $mode)
+			foreach ($CHANNEL_MODES as $c => $i)
+				if ($i['uint'] == $mode)
 					return true;
 			
 			return false;
@@ -164,8 +164,8 @@
 			global $CHANNEL_MODES;
 
 			$imodes = 0;
-			foreach($CHANNEL_MODES as $c => $i)
-				if(strpos($modes, $c) !== false) $imodes |= $i['uint'];
+			foreach ($CHANNEL_MODES as $c => $i)
+				if (strpos($modes, $c) !== false) $imodes |= $i['uint'];
 			
 			return($imodes == $this->modes);
 		}
@@ -174,28 +174,27 @@
 		function add_modes($str)
 		{
 			global $CHANNEL_MODES;
-			foreach($CHANNEL_MODES as $c => $i)
-				if(strpos($str, $c) !== false) $this->add_mode($i['uint']);
+			foreach ($CHANNEL_MODES as $c => $i)
+				if (strpos($str, $c) !== false) $this->add_mode($i['uint']);
 		}
 		
 		function remove_modes($str)
 		{
 			global $CHANNEL_MODES;
-			foreach($CHANNEL_MODES as $c => $i)
-				if(strpos($str, $c) !== false) $this->remove_mode($i['uint']);
+			foreach ($CHANNEL_MODES as $c => $i)
+				if (strpos($str, $c) !== false) $this->remove_mode($i['uint']);
 		}
 		
 		function add_mode($mode)
 		{
 			global $CHANNEL_MODES;
-			if(!is_int($mode) && isset($CHANNEL_MODES[$mode]))
+			if (!is_int($mode) && isset($CHANNEL_MODES[$mode]))
 				return $this->add_mode($CHANNEL_MODES[$mode]['uint']);
-			if($this->is_valid_mode_int($mode) && !$this->has_mode($mode))
-			{
-				if($mode == CMODE_SECRET) {
+			if ($this->is_valid_mode_int($mode) && !$this->has_mode($mode)) {
+				if ($mode == CMODE_SECRET) {
 					$this->remove_mode(CMODE_PRIVATE);
 				}
-				if($mode == CMODE_PRIVATE) {
+				if ($mode == CMODE_PRIVATE) {
 					$this->remove_mode(CMODE_SECRET);
 				}
 				
@@ -206,17 +205,16 @@
 		function remove_mode($mode)
 		{
 			global $CHANNEL_MODES;
-			if(!is_int($mode) && isset($CHANNEL_MODES[$mode]))
+			if (!is_int($mode) && isset($CHANNEL_MODES[$mode]))
 				return $this->remove_mode($CHANNEL_MODES[$mode]['uint']);
-			if($this->is_valid_mode_int($mode) && $this->has_mode($mode))
-			{
-				if($mode == CMODE_KEY)
+			if ($this->is_valid_mode_int($mode) && $this->has_mode($mode)) {
+				if ($mode == CMODE_KEY)
 					$this->key = '';
-				if($mode == CMODE_LIMIT)
+				if ($mode == CMODE_LIMIT)
 					$this->limit = 0;
-				if($mode == CMODE_ADMINPASS)
+				if ($mode == CMODE_ADMINPASS)
 					$this->admin_pass = '';
-				if($mode == CMODE_USERPASS)
+				if ($mode == CMODE_USERPASS)
 					$this->user_pass = '';
 				
 				$this->modes &= ~$mode;
@@ -226,7 +224,7 @@
 		function has_mode($mode)
 		{
 			global $CHANNEL_MODES;
-			if(!is_int($mode))
+			if (!is_int($mode))
 				return $this->has_mode($CHANNEL_MODES[$mode]['uint']);
 			
 			return(($this->modes & $mode) == $mode);
@@ -239,19 +237,17 @@
 			$modes = '';
 			$params = array();
 			
-			foreach($CHANNEL_MODES as $c => $i)
-			{
-				if($this->has_mode($c))
-				{
+			foreach ($CHANNEL_MODES as $c => $i) {
+				if ($this->has_mode($c)) {
 					$modes .= $c;
-					if($c == 'l')  $params[] = $this->get_limit();
-					if($c == 'k')  $params[] = $this->get_key();
-					if($c == 'A')  $params[] = $this->get_admin_pass();
-					if($c == 'U')  $params[] = $this->get_user_pass();
+					if ($c == 'l')  $params[] = $this->get_limit();
+					if ($c == 'k')  $params[] = $this->get_key();
+					if ($c == 'A')  $params[] = $this->get_admin_pass();
+					if ($c == 'U')  $params[] = $this->get_user_pass();
 				}
 			}
 			
-			if(!empty($params))
+			if (!empty($params))
 				$modes .= ' '. join(' ', $params);
 			
 			return $modes;
@@ -264,24 +260,22 @@
 		
 		function clear_user_modes()
 		{
-			foreach($this->users as $numeric => $user)
+			foreach ($this->users as $numeric => $user)
 				$user->clear_modes();
 		}
 		
 		function clear_ops()
 		{
-			foreach($this->users as $user)
-			{
-				if($user->is_op())
+			foreach ($this->users as $user) {
+				if ($user->is_op())
 					$user->remove_mode(CUMODE_OP);
 			}
 		}
 		
 		function clear_voices()
 		{
-			foreach($this->users as $user)
-			{
-				if($user->is_voice())
+			foreach ($this->users as $user) {
+				if ($user->is_voice())
 					$user->remove_mode(CUMODE_VOICE);
 			}
 		}
@@ -295,13 +289,12 @@
 		
 		function add_ban($mask, $ts = 0, $setby = "")
 		{
-			if($ts == 0)
+			if ($ts == 0)
 				$ts = time();
 
-			foreach($this->bans as $ban_mask => $ban)
-			{
+			foreach ($this->bans as $ban_mask => $ban) {
 				$tmp_mask = strtolower($ban_mask);
-				if(fnmatch($mask, $tmp_mask))
+				if (fnmatch($mask, $tmp_mask))
 					unset($this->bans[$ban_mask]);
 			}
 			
@@ -319,14 +312,13 @@
 			$mask = strtolower($mask);
 			$matches = array();
 			
-			foreach($this->bans as $ban_mask => $ban)
-			{
+			foreach ($this->bans as $ban_mask => $ban) {
 				$tmp_mask = strtolower($ban_mask);
-				if($mask == '*' || fnmatch($tmp_mask, $mask))
+				if ($mask == '*' || fnmatch($tmp_mask, $mask))
 					$matches[] = $ban_mask;
 			}
 			
-			if(count($matches) > 0)
+			if (count($matches) > 0)
 				return $matches;
 			
 			return false;
@@ -337,14 +329,13 @@
 			$mask = strtolower($mask);
 			$matches = array();
 			
-			foreach($this->bans as $ban_mask => $ban)
-			{
+			foreach ($this->bans as $ban_mask => $ban) {
 				$tmp_mask = strtolower($ban_mask);
-				if(fnmatch($mask, $tmp_mask))
+				if (fnmatch($mask, $tmp_mask))
 					$matches[] = $ban_mask;
 			}
 			
-			if(count($matches) > 0)
+			if (count($matches) > 0)
 				return $matches;
 			
 			return false;
@@ -360,10 +351,8 @@
 		function add_user($numeric, $modes)
 		{
 			$oplevel = 0;
-			for($i = 0; $i < strlen($modes); $i++)
-			{
-				if(is_numeric($modes[$i]))
-				{
+			for ($i = 0; $i < strlen($modes); $i++) {
+				if (is_numeric($modes[$i])) {
 					$omodes = $modes;
 					$oplevel = substr($modes, $i);
 					$modes = substr($modes, 0, $i);
@@ -395,7 +384,7 @@
 		function get_user_list()
 		{
 			$users = array();
-			foreach($this->users as $numeric => $chan_user)
+			foreach ($this->users as $numeric => $chan_user)
 				$users[] = $numeric;
 			
 			return $users;
@@ -404,18 +393,17 @@
 		function get_burst_userlist()
 		{
 			$userlist = '';
-			foreach($this->users as $numeric => $obj)
-			{
-				if(substr($numeric, 0, BASE64_SERVLEN) != SERVER_NUM)
+			foreach ($this->users as $numeric => $obj) {
+				if (substr($numeric, 0, BASE64_SERVLEN) != SERVER_NUM)
 					continue;
 				
-				if(!empty($userlist))
+				if (!empty($userlist))
 					$userlist .= ',';
 				
 				$userlist .= $numeric;
 				$modes = $obj->get_modes();
 				
-				if(!empty($modes))
+				if (!empty($modes))
 					$userlist .= ':'. $modes;
 			}
 			
@@ -425,9 +413,8 @@
 		function get_burst_banlist()
 		{
 			$banlist = '';
-			foreach($this->bans as $ban)
-			{
-				if(!empty($banlist))
+			foreach ($this->bans as $ban) {
+				if (!empty($banlist))
 					$banlist .= ' ';
 				
 				$banlist .= $ban->mask;
@@ -438,9 +425,8 @@
 	}
 	
 	
-	foreach($CHANNEL_MODES as $c => $i)
-	{
-		if(!defined($i['const']))
+	foreach ($CHANNEL_MODES as $c => $i) {
+		if (!defined($i['const']))
 			define($i['const'], $i['uint']);
 	}
 	

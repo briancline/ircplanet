@@ -32,14 +32,12 @@
 	$option = strtoupper($pargs[2]);
 	$value = '';
 	
-	if($cmd_num_args >= 3)
+	if ($cmd_num_args >= 3)
 		$value = assemble($pargs, 3);
 	
 	
-	if($option == 'PURPOSE')
-	{
-		if(strlen($value) >= MAXLEN_CHAN_PURPOSE)
-		{
+	if ($option == 'PURPOSE') {
+		if (strlen($value) >= MAXLEN_CHAN_PURPOSE) {
 			$bot->notice($user, 'The channel purpose you provided is too long. Please try something shorter.');
 			return false;
 		}
@@ -50,10 +48,8 @@
 	
 	
 	
-	else if($option == 'URL')
-	{
-		if(strlen($value) >= MAXLEN_CHAN_URL)
-		{
+	elseif ($option == 'URL') {
+		if (strlen($value) >= MAXLEN_CHAN_URL) {
 			$bot->notice($user, 'The channel URL you provided is too long. Please try something shorter.');
 			return false;
 		}
@@ -64,10 +60,8 @@
 	
 	
 	
-	else if($option == 'DEFTOPIC')
-	{
-		if(strlen($value) >= MAXLEN_CHAN_DEFAULT_TOPIC)
-		{
+	elseif ($option == 'DEFTOPIC') {
+		if (strlen($value) >= MAXLEN_CHAN_DEFAULT_TOPIC) {
 			$bot->notice($user, 'The default channel topic you provided is too long. Please try something shorter.');
 			return false;
 		}
@@ -79,10 +73,8 @@
 	
 	
 	
-	else if($option == 'DEFMODES')
-	{
-		if(strlen($value) >= MAXLEN_CHAN_DEFAULT_MODES)
-		{
+	elseif ($option == 'DEFMODES') {
+		if (strlen($value) >= MAXLEN_CHAN_DEFAULT_MODES) {
 			$bot->notice($user, 'The default channel modes you provided were too long. Please try something shorter.');
 			return false;
 		}
@@ -95,17 +87,14 @@
 	
 	
 	
-	else if($option == 'INFOLINES')
-	{
-		if(empty($value))
-		{
+	elseif ($option == 'INFOLINES') {
+		if (empty($value)) {
 			$value = !$chan_reg->shows_info_lines();
 		}
-		else
-		{
+		else {
 			$value = strtoupper($value);
 			if ($value == 'ON') $value = true;
-			else if($value == 'OFF') $value = false;
+			elseif ($value == 'OFF') $value = false;
 			else {
 				$bot->notice($user, 'Value must either be ON or OFF.');
 				return false;
@@ -119,17 +108,14 @@
 	
 	
 	
-	else if($option == 'AUTOOP')
-	{
-		if(empty($value))
-		{
+	elseif ($option == 'AUTOOP') {
+		if (empty($value)) {
 			$value = !$chan_reg->auto_ops();
 		}
-		else
-		{
+		else {
 			$value = strtoupper($value);
 			if ($value == 'ON') $value = true;
-			else if($value == 'OFF') $value = false;
+			elseif ($value == 'OFF') $value = false;
 			else {
 				$bot->notice($user, 'Value must either be ON or OFF.');
 				return false;
@@ -143,17 +129,14 @@
 	
 	
 	
-	else if($option == 'AUTOOPALL')
-	{
-		if(empty($value))
-		{
+	elseif ($option == 'AUTOOPALL') {
+		if (empty($value)) {
 			$value = !$chan_reg->auto_ops_all();
 		}
-		else
-		{
+		else {
 			$value = strtoupper($value);
 			if ($value == 'ON') $value = true;
-			else if($value == 'OFF') $value = false;
+			elseif ($value == 'OFF') $value = false;
 			else {
 				$bot->notice($user, 'Value must either be ON or OFF.');
 				return false;
@@ -167,17 +150,14 @@
 	
 	
 	
-	else if($option == 'AUTOVOICE')
-	{
-		if(empty($value))
-		{
+	elseif ($option == 'AUTOVOICE') {
+		if (empty($value)) {
 			$value = !$chan_reg->auto_voices();
 		}
-		else
-		{
+		else {
 			$value = strtoupper($value);
 			if ($value == 'ON') $value = true;
-			else if($value == 'OFF') $value = false;
+			elseif ($value == 'OFF') $value = false;
 			else {
 				$bot->notice($user, 'Value must either be ON or OFF.');
 				return false;
@@ -191,17 +171,14 @@
 	
 	
 	
-	else if($option == 'AUTOVOICEALL')
-	{
-		if(empty($value))
-		{
+	elseif ($option == 'AUTOVOICEALL') {
+		if (empty($value)) {
 			$value = !$chan_reg->auto_voices_all();
 		}
-		else
-		{
+		else {
 			$value = strtoupper($value);
 			if ($value == 'ON') $value = true;
-			else if($value == 'OFF') $value = false;
+			elseif ($value == 'OFF') $value = false;
 			else {
 				$bot->notice($user, 'Value must either be ON or OFF.');
 				return false;
@@ -215,17 +192,14 @@
 	
 	
 	
-	else if($option == 'AUTOLIMIT')
-	{
-		if(empty($value))
-		{
+	elseif ($option == 'AUTOLIMIT') {
+		if (empty($value)) {
 			$value = !$chan_reg->auto_limits();
 		}
-		else
-		{
+		else {
 			$value = strtoupper($value);
 			if ($value == 'ON') $value = true;
-			else if($value == 'OFF') $value = false;
+			elseif ($value == 'OFF') $value = false;
 			else {
 				$bot->notice($user, 'Value must either be ON or OFF.');
 				return false;
@@ -239,10 +213,8 @@
 	
 	
 	
-	else if($option == 'AUTOLIMITBUFFER')
-	{
-		if(!is_numeric($value) || $value < MIN_CHAN_AUTOLIMIT_BUFFER || $value > MAX_CHAN_AUTOLIMIT_BUFFER)
-		{
+	elseif ($option == 'AUTOLIMITBUFFER') {
+		if (!is_numeric($value) || $value < MIN_CHAN_AUTOLIMIT_BUFFER || $value > MAX_CHAN_AUTOLIMIT_BUFFER) {
 			$bot->noticef($user, 'The user count buffer must be an integer ranging from %d to %d.',
 				MIN_CHAN_AUTOLIMIT_BUFFER, MAX_CHAN_AUTOLIMIT_BUFFER);
 			return false;
@@ -254,10 +226,8 @@
 	
 	
 	
-	else if($option == 'AUTOLIMITWAIT')
-	{
-		if(!is_numeric($value) || $value < MIN_CHAN_AUTOLIMIT_WAIT || $value > MAX_CHAN_AUTOLIMIT_WAIT)
-		{
+	elseif ($option == 'AUTOLIMITWAIT') {
+		if (!is_numeric($value) || $value < MIN_CHAN_AUTOLIMIT_WAIT || $value > MAX_CHAN_AUTOLIMIT_WAIT) {
 			$bot->noticef($user, 'The auto limit delay must be an integer ranging from %d to %d.',
 				MIN_CHAN_AUTOLIMIT_WAIT, MAX_CHAN_AUTOLIMIT_WAIT);
 			return false;
@@ -269,17 +239,14 @@
 	
 	
 	
-	else if($option == 'STRICTOP')
-	{
-		if(empty($value))
-		{
+	elseif ($option == 'STRICTOP') {
+		if (empty($value)) {
 			$value = !$chan_reg->strict_ops();
 		}
-		else
-		{
+		else {
 			$value = strtoupper($value);
 			if ($value == 'ON') $value = true;
-			else if($value == 'OFF') $value = false;
+			elseif ($value == 'OFF') $value = false;
 			else {
 				$bot->notice($user, 'Value must either be ON or OFF.');
 				return false;
@@ -293,17 +260,14 @@
 	
 	
 	
-	else if($option == 'STRICTVOICE')
-	{
-		if(empty($value))
-		{
+	elseif ($option == 'STRICTVOICE') {
+		if (empty($value)) {
 			$value = !$chan_reg->strict_voices();
 		}
-		else
-		{
+		else {
 			$value = strtoupper($value);
 			if ($value == 'ON') $value = true;
-			else if($value == 'OFF') $value = false;
+			elseif ($value == 'OFF') $value = false;
 			else {
 				$bot->notice($user, 'Value must either be ON or OFF.');
 				return false;
@@ -317,17 +281,14 @@
 	
 	
 	
-	else if($option == 'STRICTTOPIC')
-	{
-		if(empty($value))
-		{
+	elseif ($option == 'STRICTTOPIC') {
+		if (empty($value)) {
 			$value = !$chan_reg->strict_topic();
 		}
-		else
-		{
+		else {
 			$value = strtoupper($value);
 			if ($value == 'ON') $value = true;
-			else if($value == 'OFF') $value = false;
+			elseif ($value == 'OFF') $value = false;
 			else {
 				$bot->notice($user, 'Value must either be ON or OFF.');
 				return false;
@@ -341,17 +302,14 @@
 	
 	
 	
-	else if($option == 'STRICTMODES')
-	{
-		if(empty($value))
-		{
+	elseif ($option == 'STRICTMODES') {
+		if (empty($value)) {
 			$value = !$chan_reg->strict_modes();
 		}
-		else
-		{
+		else {
 			$value = strtoupper($value);
 			if ($value == 'ON') $value = true;
-			else if($value == 'OFF') $value = false;
+			elseif ($value == 'OFF') $value = false;
 			else {
 				$bot->notice($user, 'Value must either be ON or OFF.');
 				return false;
@@ -365,17 +323,14 @@
 	
 	
 	
-	else if($option == 'NOPURGE' && $user_admin_level >= 500)
-	{
-		if(empty($value))
-		{
+	elseif ($option == 'NOPURGE' && $user_admin_level >= 500) {
+		if (empty($value)) {
 			$value = !$chan_reg->is_permanent();
 		}
-		else
-		{
+		else {
 			$value = strtoupper($value);
-			if($value == 'ON')      $value = true;
-			else if($value == 'OFF') $value = false;
+			if ($value == 'ON')      $value = true;
+			elseif ($value == 'OFF') $value = false;
 			else {
 				$bot->notice($user, 'Value must either be ON or OFF.');
 				return false;
@@ -389,8 +344,7 @@
 	
 	
 	
-	else
-	{
+	else {
 		$bot->noticef($user, '%s%s%s is not a valid channel option!',
 			BOLD_START, $option, BOLD_END);
 		return false;

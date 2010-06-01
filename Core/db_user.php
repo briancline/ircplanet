@@ -59,7 +59,7 @@
 		
 		protected function record_construct()
 		{
-			if(func_num_args() == 0)
+			if (func_num_args() == 0)
 				return;
 			
 			$name = func_get_arg(0);

@@ -32,8 +32,7 @@
 	$realname = sprintf('$R%s', $pargs[1]);
 	$lastmod_ts = time();
 	
-	if($gline = $this->get_gline($realname))
-	{
+	if ($gline = $this->get_gline($realname)) {
 		$lastmod_ts = $gline->get_lastmod_ts();
 		$this->remove_gline($realname);
 	}

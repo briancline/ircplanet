@@ -31,10 +31,8 @@
 
 	$mask = $pargs[1];
 	
-	foreach($this->whitelist as $white)
-	{
-		if(fnmatch($white->get_mask(), $mask))
-		{
+	foreach ($this->whitelist as $white) {
+		if (fnmatch($white->get_mask(), $mask)) {
 			$bot->noticef($user, 'Your mask is already covered by the entry for %s.', $white->get_mask());
 			return false;
 		}

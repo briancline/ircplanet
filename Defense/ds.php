@@ -44,8 +44,7 @@
 		function load_whitelist_entries()
 		{
 			$res = db_query('select * from ds_whitelist order by whitelist_id asc');
-			while($row = mysql_fetch_assoc($res))
-			{
+			while ($row = mysql_fetch_assoc($res)) {
 				$entry = new DB_WhitelistEntry($row);
 				
 				$entry_key = strtolower($entry->get_mask());
@@ -80,11 +79,10 @@
 		function service_postburst()
 		{
 			$bot_num = $this->default_bot->get_numeric();
-			foreach($this->default_bot->channels as $chan_name)
-			{
+			foreach ($this->default_bot->channels as $chan_name) {
 				$chan = $this->get_channel($chan_name);
 				
-				if(!$chan->is_op($bot_num))
+				if (!$chan->is_op($bot_num))
 					$this->op($chan->get_name(), $bot_num);
 			}
 		}
@@ -97,10 +95,8 @@
 
 		function service_close($reason = 'So long, and thanks for all the fish!')
 		{
-			foreach($this->users as $numeric => $user)
-			{
-				if($user->is_bot())
-				{
+			foreach ($this->users as $numeric => $user) {
+				if ($user->is_bot()) {
 					$this->sendf(FMT_QUIT, $numeric, $reason);
 					$this->remove_user($numeric);
 				}
@@ -117,17 +113,15 @@
 		{
 			$acct_id = $user_obj;
 			
-			if(is_object($user_obj) && is_user($user_obj))
-			{
-				if(!$user_obj->is_logged_in())
+			if (is_object($user_obj) && is_user($user_obj)) {
+				if (!$user_obj->is_logged_in())
 					return 0;
 				
 				$acct_id = $user_obj->get_account_id();
 			}
 			
 			$res = db_query("select `level` from `ds_admins` where user_id = ". $acct_id);
-			if($res && mysql_num_rows($res) > 0)
-			{
+			if ($res && mysql_num_rows($res) > 0) {
 				$level = mysql_result($res, 0);
 				mysql_free_result($res);
 				return $level;
@@ -153,7 +147,7 @@
 		function get_whitelist_entry($mask)
 		{
 			$key = strtolower($mask);
-			if(array_key_exists($key, $this->whitelist))
+			if (array_key_exists($key, $this->whitelist))
 				return $this->whitelist[$key];
 			
 			return false;
@@ -163,7 +157,7 @@
 		function remove_whitelist_entry($mask)
 		{
 			$key = strtolower($mask);
-			if(!array_key_exists($key, $this->whitelist))
+			if (!array_key_exists($key, $this->whitelist))
 				return;
 			
 			$this->whitelist[$key]->delete();
@@ -173,9 +167,8 @@
 		
 		function is_whitelisted($mask)
 		{
-			foreach($this->whitelist as $entry)
-			{
-				if($entry->matches($mask))
+			foreach ($this->whitelist as $entry) {
+				if ($entry->matches($mask))
 					return true;
 			}
 			
@@ -185,14 +178,13 @@
 
 		function is_blacklisted_db($ip)
 		{
-			if(!defined('BLACK_GLINE'))
+			if (!defined('BLACK_GLINE'))
 				return false;
 			
 			$res = db_query(sprintf(
 					"select count(entry_id) FROM `ds_blacklist` WHERE `ip_address` = '%s'", 
 					addslashes($ip)));
-			if($res && mysql_result($res, 0) > 0)
-			{
+			if ($res && mysql_result($res, 0) > 0) {
 				mysql_free_result($res);
 				debugf('IP %s blacklisted by admin.', $ip);
 				return true;
@@ -225,7 +217,7 @@
 		function is_blacklisted_dns($host, $dns_suffix, $pos_responses = -1)
 		{
 			// Don't waste time checking private class IPs.
-			if(is_private_ip($host))
+			if (is_private_ip($host))
 				return false;
 			
 			$start_ts = microtime(true);
@@ -243,13 +235,11 @@
 			debugf('DNSBL checking %s', $lookup_addr);
 			$dns_result = @dns_get_record($lookup_addr, DNS_A);
 
-			if(count($dns_result) > 0)
-			{
+			if (count($dns_result) > 0) {
 				$dns_result = $dns_result[0]['ip'];
 				$resolved = true;
 			}
-			else
-			{
+			else {
 				$dns_result = $lookup_addr;
 				$resolved = false;
 			}
@@ -259,25 +249,23 @@
 					$end_ts - $start_ts, $lookup_addr, $dns_result);
 			
 			// If it didn't resolve, don't check anything
-			if(!$resolved)
+			if (!$resolved)
 				return false;
 			
 			// Check for any successful resolution
-			if($resolved && $pos_responses == -1 || empty($pos_responses))
+			if ($resolved && $pos_responses == -1 || empty($pos_responses))
 				return true;
 			
 			// Check for a match against the provided string
-			if(is_string($pos_responses) && !empty($pos_responses)
+			if (is_string($pos_responses) && !empty($pos_responses)
 			 		&& $dns_result == ('127.0.0.'. $pos_responses))
 				return true;
 			
 			// Check for a match within the provided array
-			if(is_array($pos_responses))
-			{
-				foreach($pos_responses as $tmp_match)
-				{
+			if (is_array($pos_responses)) {
+				foreach ($pos_responses as $tmp_match) {
 					$tmp_match = '127.0.0.'. $tmp_match;
-					if($tmp_match == $dns_result)
+					if ($tmp_match == $dns_result)
 						return true;
 				}
 			}
@@ -311,9 +299,8 @@
 				'tor.ahbl.org'         => array(2)
 			);
 
-			foreach($blacklists as $dns_suffix => $responses)
-			{
-				if($this->is_blacklisted_dns($host, $dns_suffix, $responses))
+			foreach ($blacklists as $dns_suffix => $responses) {
+				if ($this->is_blacklisted_dns($host, $dns_suffix, $responses))
 					return true;
 			}
 			
@@ -340,9 +327,8 @@
 				'spam.abuse.ch'       => array(2)
 			);
 			
-			foreach($blacklists as $dns_suffix => $responses)
-			{
-				if($this->is_blacklisted_dns($host, $dns_suffix, $responses))
+			foreach ($blacklists as $dns_suffix => $responses) {
+				if ($this->is_blacklisted_dns($host, $dns_suffix, $responses))
 					return true;
 			}
 			
@@ -352,22 +338,19 @@
 		
 		function perform_gline($gline_mask, $gline_duration, $gline_reason)
 		{
-			if(defined('OS_GLINE') && OS_GLINE == true && defined('OS_NICK'))
-			{
+			if (defined('OS_GLINE') && OS_GLINE == true && defined('OS_NICK')) {
 				$oper_service = $this->get_user_by_nick(OS_NICK);
 				$gline_command = irc_sprintf('GLINE %s %s %s', 
 						$gline_mask, $gline_duration, $gline_reason);
 
-				if(!$oper_service)
-				{
+				if (!$oper_service) {
 					$pending_commands[] = $gline_command;
 					return;
 				}
 
 				$this->default_bot->message($oper_service, $gline_command);
 			}
-			else
-			{
+			else {
 				$gline_secs = convert_duration($gline_duration);
 				$new_gl = $this->add_gline($gline_mask, $gline_secs, time(), $gline_reason);
 				$this->enforce_gline($new_gl);

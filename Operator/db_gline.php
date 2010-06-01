@@ -57,7 +57,7 @@
 		
 		public function matches($host)
 		{
-			if(is_object($host))
+			if (is_object($host))
 				return fnmatch($this->mask, $host->get_gline_host()) 
 					|| fnmatch($this->mask, $host->get_gline_ip);
 			else

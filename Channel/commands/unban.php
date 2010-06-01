@@ -29,22 +29,19 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if(!($chan = $this->get_channel($chan_name)))
-	{
+	if (!($chan = $this->get_channel($chan_name))) {
 		$bot->noticef($user, "Nobody is on channel %s.", $chan_name);
 		return false;
 	}
-	if(!$chan->is_on($bot->get_numeric()))
-	{
+	if (!$chan->is_on($bot->get_numeric())) {
 		$bot->noticef($user, 'I am not on %s.', $chan->get_name());
 		return false;
 	}
 	
 	$mask = $pargs[2];
 
-	if(!preg_match('/[!@\.]/', $mask))
-	{
-		if(($tmp_user = $this->get_user_by_nick($mask)))
+	if (!preg_match('/[!@\.]/', $mask)) {
+		if (($tmp_user = $this->get_user_by_nick($mask)))
 			$mask = $tmp_user->get_host_mask();
 		else
 			$mask = $mask . '!*@*';
@@ -53,16 +50,13 @@
 	$ban = $chan_reg->get_ban($mask);
 	$active = $chan->has_ban($mask);
 
-	if(!$ban && !$active)
-	{
+	if (!$ban && !$active) {
 		$bot->noticef($user, 'There is no ban for %s on %s.', $mask, $chan_reg->get_name());
 		return false;
 	}
 	
-	if($ban)
-	{
-		if($ban->get_level() > $user_level)
-		{
+	if ($ban) {
+		if ($ban->get_level() > $user_level) {
 			$bot->noticef($user, 'You cannot remove a ban with a level higher than your own.');
 			return false;
 		}
@@ -73,12 +67,10 @@
 		$chan_reg->save();
 	}
 	
-	if($active)
-	{
+	if ($active) {
 		$bot->unban($chan->get_name(), $mask);
 	}
-	else
-	{
+	else {
 		$bot->noticef($user, 'The ban for %s has been removed.', $mask);
 	}
 	

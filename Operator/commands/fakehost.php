@@ -29,8 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if(!($target = $this->get_user_by_nick($pargs[1])))
-	{
+	if (!($target = $this->get_user_by_nick($pargs[1]))) {
 		$bot->noticef($user, 'There is no user named %s.', $pargs[1]);
 		return false;
 	}

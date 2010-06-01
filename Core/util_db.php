@@ -38,21 +38,18 @@
 		$error = mysql_error();
 		$error_no = mysql_errno();
 		
-		if($log || !empty($error))
-		{
+		if ($log || !empty($error)) {
 			$rows = mysql_affected_rows();
 			debug("DB> $query");
 			debug("DB> $error [$error_no] ($rows affected)");
 		}
 		
-		if($error_no == 2006 && $fix_bad_connection)
-		{
+		if ($error_no == 2006 && $fix_bad_connection) {
 			/**
 			 * If our MySQL connection somehow craps out, attempt a graceful reconnect
 			 * and try running the query again.
 			 */
-			foreach($GLOBALS['INSTANTIATED_SERVICES'] as $service)
-			{
+			foreach ($GLOBALS['INSTANTIATED_SERVICES'] as $service) {
 				$service->db_connect();
 				return db_query($query, $log, false);
 			}
@@ -74,7 +71,7 @@
 
 	function db_date($ts = 0)
 	{
-		if($ts == 0)
+		if ($ts == 0)
 			$ts = time();
 
 		return date('Y-m-d H:i:s', $ts);

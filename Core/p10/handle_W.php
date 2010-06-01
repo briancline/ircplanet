@@ -33,8 +33,7 @@
 	$source_num = $args[0];
 	$source = $this->get_user($source_num);
 	
-	if(!($target = $this->get_user_by_nick($nick)))
-	{
+	if (!($target = $this->get_user_by_nick($nick))) {
 		$this->sendf(FMT_WHOIS_NOTFOUND, SERVER_NUM, $source_num, $nick);
 		return false;
 	}
@@ -43,22 +42,20 @@
 	$t_host = $target->get_host_safe();
 	$t_chans = '';
 	
-	if(!$target->is_service())
-	{
+	if (!$target->is_service()) {
 		$chans = array();
-		foreach($target->get_channel_list() as $chan_key)
-		{
+		foreach ($target->get_channel_list() as $chan_key) {
 			$chan = $this->get_channel($chan_key);
 			$prefix = '';
 			
-			if($chan->is_secret() && !$chan->is_on($source_num) && !$source->is_oper())
+			if ($chan->is_secret() && !$chan->is_on($source_num) && !$source->is_oper())
 				continue;
 			
-			if($target->is_deaf())
+			if ($target->is_deaf())
 				$prefix .= '-';
-			if($chan->is_op($t_num))
+			if ($chan->is_op($t_num))
 				$prefix .= '@';
-			else if($chan->is_voice($t_num))
+			elseif ($chan->is_voice($t_num))
 				$prefix .= '+';
 			
 			$chans[] = $prefix . $chan->get_name(); 
@@ -76,8 +73,7 @@
 		$t_host,
 		$target->get_name());
 	
-	if(!empty($t_chans))
-	{
+	if (!empty($t_chans)) {
 		$this->sendf(FMT_WHOIS_CHANNELS, SERVER_NUM, $source_num,
 			$target->get_nick(),
 			$t_chans);
@@ -88,34 +84,30 @@
 		$server->get_name(),
 		$server->get_desc());
 	
-	if($target->is_away())
-	{
+	if ($target->is_away()) {
 		$this->sendf(FMT_WHOIS_AWAY, SERVER_NUM, $source_num,
 			$target->get_nick(), $target->get_away());
 	}
 	
-	if($target->is_oper())
-	{
+	if ($target->is_oper()) {
 		$this->sendf(FMT_WHOIS_OPER, SERVER_NUM, $source_num, 
 			$target->get_nick());
 	}
 
-	if($target->is_logged_in())
-	{
+	if ($target->is_logged_in()) {
 		$this->sendf(FMT_WHOIS_ACCOUNT, SERVER_NUM, $source_num,
 			$target->get_nick(), $target->get_account_name());
 	}
 	
-	if($target->is_host_hidden() && ($target->has_fakehost() || $target->is_logged_in()) 
-		&& ($source->is_service() || $source->is_oper() || $source == $target))
+	if ($target->is_host_hidden() && ($target->has_fakehost() || $target->is_logged_in()) 
+			&& ($source->is_service() || $source->is_oper() || $source == $target))
 	{
 		$this->sendf(FMT_WHOIS_REALHOST, SERVER_NUM, $source_num,
 			$target->get_nick(), $target->get_ident(), $target->get_host(), 
 			$target->get_ip());
 	}
 	
-	if($target->is_local())
-	{
+	if ($target->is_local()) {
 		$this->sendf(FMT_WHOIS_IDLE, SERVER_NUM, $source_num,
 			$target->get_nick(),
 			$target->get_idle_time(),

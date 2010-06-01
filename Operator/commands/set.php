@@ -32,15 +32,13 @@
 	$option = strtoupper($pargs[1]);
 	$value = '';
 	
-	if($cmd_num_args > 1)
+	if ($cmd_num_args > 1)
 		$value = assemble($pargs, 2);
 	
 	$account = $this->get_account($user->get_account_name());
 	
-	if($option == 'EMAIL')
-	{
-		if(strlen($value) >= MAXLEN_USEREMAIL)
-		{
+	if ($option == 'EMAIL') {
+		if (strlen($value) >= MAXLEN_USEREMAIL) {
 			$bot->notice($user, 'Your email address is too long. Please try something shorter.');
 			return false;
 		}
@@ -48,10 +46,8 @@
 		$account->set_email($value);
 		$bot->notice($user, 'Your e-mail address has been updated.');
 	}
-	else if($option == 'INFO')
-	{
-		if(strlen($value) >= MAXLEN_INFOLINE)
-		{
+	elseif ($option == 'INFO') {
+		if (strlen($value) >= MAXLEN_INFOLINE) {
 			$bot->notice($user, 'Your infoline is too long. Please try something shorter.');
 			return false;
 		}
@@ -60,17 +56,14 @@
 		$bot->noticef($user, 'Your info line has been %s.',
 			empty($value) ? 'cleared' : 'updated');
 	}
-	else if($option == 'AUTOOP')
-	{
-		if(empty($value))
-		{
+	elseif ($option == 'AUTOOP') {
+		if (empty($value)) {
 			$value = !$account->auto_ops();
 		}
-		else
-		{
+		else {
 			$value = strtoupper($value);
 			if ($value == 'ON') $value = true;
-			else if($value == 'OFF') $value = false;
+			elseif ($value == 'OFF') $value = false;
 			else {
 				$bot->notice($user, 'Value must either be ON or OFF.');
 				return false;
@@ -81,17 +74,14 @@
 		$bot->noticef($user, 'Switched global auto op to %s.',
 			$value ? 'ON' : 'OFF');
 	}
-	else if($option == 'AUTOVOICE')
-	{
-		if(empty($value))
-		{
+	elseif ($option == 'AUTOVOICE') {
+		if (empty($value)) {
 			$value = !$account->auto_voices();
 		}
-		else
-		{
+		else {
 			$value = strtoupper($value);
 			if ($value == 'ON') $value = true;
-			else if($value == 'OFF') $value = false;
+			elseif ($value == 'OFF') $value = false;
 			else {
 				$bot->notice($user, 'Value must either be ON or OFF.');
 				return false;
@@ -102,17 +92,14 @@
 		$bot->noticef($user, 'Switched global auto voice to %s.',
 			$value ? 'ON' : 'OFF');
 	}
-	else if($option == 'ENFORCE')
-	{
-		if(empty($value))
-		{
+	elseif ($option == 'ENFORCE') {
+		if (empty($value)) {
 			$value = !$account->enforces_nick();
 		}
-		else
-		{
+		else {
 			$value = strtoupper($value);
 			if ($value == 'ON') $value = true;
-			else if($value == 'OFF') $value = false;
+			elseif ($value == 'OFF') $value = false;
 			else {
 				$bot->notice($user, 'Value must either be ON or OFF.');
 				return false;
@@ -123,14 +110,12 @@
 		$bot->noticef($user, 'Toggled %s nickname enforcement.',
 			$value ? 'ON' : 'OFF');
 	}
-	else if($option == 'PASSWORD')
-	{
+	elseif ($option == 'PASSWORD') {
 		$bot->noticef($user, 'Please use the %sNEWPASS%s command to change your password.',
 			BOLD_START, BOLD_END);
 		return false;
 	}
-	else
-	{
+	else {
 		$bot->noticef($user, '%s%s%s is not a valid option!',
 			BOLD_START, $option, BOLD_END);
 		return false;

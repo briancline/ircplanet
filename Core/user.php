@@ -120,8 +120,8 @@
 		static function is_valid_mode_int($mode)
 		{
 			global $USER_MODES;
-			foreach($USER_MODES as $c => $i)
-				if($i['uint'] == $mode)
+			foreach ($USER_MODES as $c => $i)
+				if ($i['uint'] == $mode)
 					return true;
 			
 			return false;
@@ -130,32 +130,32 @@
 		function add_modes($str)
 		{
 			global $USER_MODES;
-			foreach($USER_MODES as $c => $i)
-				if(strpos($str, $c) !== false) $this->add_mode($i['uint']);
+			foreach ($USER_MODES as $c => $i)
+				if (strpos($str, $c) !== false) $this->add_mode($i['uint']);
 		}
 		
 		function add_mode($mode)
 		{
 			global $USER_MODES;
-			if(!is_int($mode))
+			if (!is_int($mode))
 				return $this->add_mode($USER_MODES[$mode]['uint']);
-			if($this->is_valid_mode_int($mode) && !$this->has_mode($mode))
+			if ($this->is_valid_mode_int($mode) && !$this->has_mode($mode))
 				$this->modes |= $mode;
 		}
 		
 		function remove_mode($mode)
 		{
 			global $USER_MODES;
-			if(!is_int($mode))
+			if (!is_int($mode))
 				return $this->remove_mode($USER_MODES[$mode]['uint']);
-			if($this->is_valid_mode_int($mode) && $this->has_mode($mode))
+			if ($this->is_valid_mode_int($mode) && $this->has_mode($mode))
 				$this->modes &= ~$mode;
 		}
 		
 		function has_mode($mode)
 		{
 			global $USER_MODES;
-			if(!is_int($mode))
+			if (!is_int($mode))
 				return $this->has_mode($USER_MODES[$mode]['uint']);
 			
 			return(($this->modes & $mode) == $mode);
@@ -166,8 +166,8 @@
 			global $USER_MODES;
 
 			$modes = '';
-			foreach($USER_MODES as $c => $i)
-				if($this->has_mode($c)) $modes .= $c;
+			foreach ($USER_MODES as $c => $i)
+				if ($this->has_mode($c)) $modes .= $c;
 			
 			return $modes;
 		}
@@ -178,9 +178,9 @@
 
 		function get_host_safe()
 		{
-			if($this->has_fakehost())
+			if ($this->has_fakehost())
 				return $this->get_fakehost();
-			elseif($this->is_host_hidden() && $this->has_account_name())
+			elseif ($this->is_host_hidden() && $this->has_account_name())
 				return $this->get_account_name() .'.'. HIDDEN_HOST;
 				
 			return $this->get_host();
@@ -195,26 +195,23 @@
 			$mask = '*!*'. right($this->ident, IDENT_LEN) .'@';
 			$host = $this->host;
 			
-			if($this->has_fakehost()) {
+			if ($this->has_fakehost()) {
 				$host = $this->fakehost;
 			}
-			else if($this->is_host_hidden()) {
+			elseif ($this->is_host_hidden()) {
 				$host = $this->get_account_name() .'.'. HIDDEN_HOST;
 			}
 
 			$levels = explode('.', $host);
 			$num_levels = count($levels);
 			
-			if(is_ip($host))
-			{
+			if (is_ip($host)) {
 				$host = assemble($levels, 0, 3, '.');
 				$host .= '.*';
 			}
-			else if($num_levels > 2)
-			{
-				for($n = $num_levels - 1; $n > 0; $n--)
-				{
-					if(preg_match('/[0-9]/', $levels[$n]))
+			elseif ($num_levels > 2) {
+				for ($n = $num_levels - 1; $n > 0; $n--) {
+					if (preg_match('/[0-9]/', $levels[$n]))
 						break;
 				}
 				
@@ -229,17 +226,15 @@
 		
 		function add_channel($name)
 		{
-			if(!in_array($name, $this->channels))
+			if (!in_array($name, $this->channels))
 				$this->channels[] = $name;
 		}
 		
 		function remove_channel($name)
 		{
 			$channels = $this->channels;
-			for($i = 0; $i < count($channels); ++$i)
-			{
-				if($channels[$i] == $name)
-				{
+			for ($i = 0; $i < count($channels); ++$i) {
+				if ($channels[$i] == $name) {
 					unset($channels[$i]);
 					break;
 				}
@@ -260,9 +255,8 @@
 	}
 
 
-	foreach($USER_MODES as $c => $i)
-	{
-		if(!defined($i['const']))
+	foreach ($USER_MODES as $c => $i) {
+		if (!defined($i['const']))
 			define($i['const'], $i['uint']);
 	}
 	

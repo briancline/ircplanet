@@ -29,13 +29,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if(!($chan = $this->get_channel($chan_name)))
-	{
+	if (!($chan = $this->get_channel($chan_name))) {
 		$bot->noticef($user, "Nobody is on channel %s.", $chan_name);
 		return false;
 	}
-	if(!$chan->is_on($bot->get_numeric()))
-	{
+	if (!$chan->is_on($bot->get_numeric())) {
 		$bot->noticef($user, 'I am not on %s.', $chan->get_name());
 		return false;
 	}

@@ -36,18 +36,16 @@
 	$last_mod = $args[5];
 	$reason = $args[6];
 
-	if($jupe = $this->get_jupe($server))
-	{
+	if ($jupe = $this->get_jupe($server)) {
 		$jupe->set_duration($duration);
 		$jupe->set_last_mod($last_mod);
 		$jupe->set_reason($reason);
 	}
-	else
-	{
+	else {
 		$jupe = $this->add_jupe($server, $duration, $last_mod, $reason);
 	}
 
-	if($active)
+	if ($active)
 		$jupe->activate();
 	else
 		$jupe->deactivate();

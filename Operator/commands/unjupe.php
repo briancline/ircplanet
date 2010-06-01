@@ -32,8 +32,7 @@
 	$server = $pargs[1];
 	$jupe = $this->get_jupe($server);
 	
-	if(!$jupe)
-	{
+	if (!$jupe) {
 		$bot->noticef($user, 'There is no jupe for %s.', $server);
 		return false;
 	}
@@ -47,13 +46,11 @@
 	 */
 	$jupe->expire_now();
 
-	if($jupe->is_active())
-	{
+	if ($jupe->is_active()) {
 		$this->sendf(FMT_JUPE_ACTIVE, SERVER_NUM, $jupe->get_server(), 0, 
 				$jupe->get_last_mod(), $jupe->get_reason());
 	}
-	else
-	{
+	else {
 		$this->sendf(FMT_JUPE_INACTIVE, SERVER_NUM, $jupe->get_server(), 0, 
 				$jupe->get_last_mod(), $jupe->get_reason());
 	}

@@ -29,13 +29,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if(!($chan = $this->get_channel($chan_name)))
-	{
+	if (!($chan = $this->get_channel($chan_name))) {
 		$bot->noticef($user, "Nobody is on channel %s.", $chan_name);
 		return false;
 	}
-	if(!$chan->is_on($bot->get_numeric()))
-	{
+	if (!$chan->is_on($bot->get_numeric())) {
 		$bot->noticef($user, 'I am not on %s.', $chan->get_name());
 		return false;
 	}
@@ -45,31 +43,28 @@
 	$reason = '';                     // default reason
 	$level = $user_channel_level;
 	
-	if($level == 0)
+	if ($level == 0)
 		$level = 75;
-	if($cmd_num_args >= 3)
+	if ($cmd_num_args >= 3)
 		$duration = $pargs[3];
-	if($cmd_num_args >= 4)
+	if ($cmd_num_args >= 4)
 		$level = $pargs[4];
-	if($cmd_num_args >= 5)
+	if ($cmd_num_args >= 5)
 		$reason = assemble($pargs, 5);
 	
-	if($level > $user_level)
-	{
+	if ($level > $user_level) {
 		$bot->noticef($user, 'The level you specified is too high and must be %s or lower.',
 			$user_level);
 		return false;
 	}
 	
-	if(!($duration_secs = convert_duration($duration)))
-	{
+	if (!($duration_secs = convert_duration($duration))) {
 		$bot->notice($user, 'Invalid duration specified! See help for more details.');
 		return false;
 	}
 	
-	if(!preg_match('/[!@\.]/', $mask))
-	{
-		if(($tmp_user = $this->get_user_by_nick($mask)))
+	if (!preg_match('/[!@\.]/', $mask)) {
+		if (($tmp_user = $this->get_user_by_nick($mask)))
 			$mask = $tmp_user->get_host_mask();
 		else
 			$mask = $mask . '!*@*';
@@ -78,14 +73,12 @@
 	$mask = fix_host_mask($mask);
 	
 
-	if(($ban = $chan_reg->get_ban($mask)))
-	{
+	if (($ban = $chan_reg->get_ban($mask))) {
 		$bot->noticef($user, 'A ban for %s already exists.', $ban->get_mask());
 		return false;
 	}
 	
-	if(($ban = $chan_reg->count_matching_bans($mask)))
-	{
+	if (($ban = $chan_reg->count_matching_bans($mask))) {
 		$bot->noticef($user, 'An existing ban for %s supercedes the one you are trying to set.',
 			$ban->get_mask());
 		return false;

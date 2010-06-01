@@ -33,7 +33,7 @@
 	$chan_reg = $this->get_channel_reg($chan_name);
 	$chan = $this->get_channel($chan_name);
 	
-	if(!$chan_reg || !$chan)
+	if (!$chan_reg || !$chan)
 		return false;
 	
 	$user_count = $chan->get_user_count();

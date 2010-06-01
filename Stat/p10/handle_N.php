@@ -30,13 +30,11 @@
  */
 	
 	
-	if($nick_change)
-	{
+	if ($nick_change) {
 		db_queryf("update stats_users set nick = '%s' where nick = '%s'", $new_nick, $old_nick);
 		db_queryf("update stats_channel_users set nick = '%s' where nick = '%s'", $new_nick, $old_nick);
 	}
-	else 
-	{
+	else {
 		$server = $this->get_server($user->get_server_numeric());
 		
 		db_queryf("insert into stats_users 

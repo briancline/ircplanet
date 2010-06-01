@@ -31,22 +31,19 @@
 	
 	$is_new_user = ($num_args > 4);
 	
-	if($is_new_user)
-	{
+	if ($is_new_user) {
 		$gline_host = $user->get_gline_host();
 		$gline_ip = $user->get_gline_ip();
 		$gline_set = false;
 		
-		foreach($this->glines as $gline_key => $gline)
-		{
-			if(!$gline->is_expired() && ($gline->matches($gline_host) || $gline->matches($gline_ip)))
-			{
+		foreach ($this->glines as $gline_key => $gline) {
+			if (!$gline->is_expired() && ($gline->matches($gline_host) || $gline->matches($gline_ip))) {
 				$this->enforce_gline($gline);
 				$gline_set = true;
 			}
 		}
 		
-		if(defined('CLONE_GLINE') && CLONE_GLINE == true && !$gline_set
+		if (defined('CLONE_GLINE') && CLONE_GLINE == true && !$gline_set
 				&& $this->get_clone_count($user->get_ip()) > CLONE_MAX
 				&& !is_private_ip($user->get_ip()))
 		{
@@ -57,7 +54,7 @@
 			$gline_set = true;
 		}
 		
-		if(defined('TOR_GLINE') && TOR_GLINE == true && !$gline_set 
+		if (defined('TOR_GLINE') && TOR_GLINE == true && !$gline_set 
 				&& $this->is_tor_host($user->get_ip()))
 		{
 			$gline_mask = '*@'. $user->get_ip();
@@ -67,7 +64,7 @@
 			$gline_set = true;
 		}
 		
-		if(defined('COMP_GLINE') && COMP_GLINE == true && !$gline_set
+		if (defined('COMP_GLINE') && COMP_GLINE == true && !$gline_set
 				&& $this->is_compromised_host($user->get_ip()))
 		{
 			$gline_mask = '*@'. $user->get_ip();
@@ -79,18 +76,15 @@
 	}
 
 	// Don't log new users during the initial burst, as it could flood the log channel.
-	if($this->finished_burst)
-	{
-		if($is_new_user)
-		{
+	if ($this->finished_burst) {
+		if ($is_new_user) {
 			// new user
 			$server = $this->get_server($args[0]);
 			$rest = irc_sprintf('%H (%s@%s) [%s]', $user, $user->get_ident(), 
 				$user->get_host(), $user->get_name());
 			$this->report_event('NICK', $server, $rest);
 		}
-		else
-		{
+		else {
 			// nick change
 			$this->report_event('NICK', $old_nick, $new_nick);
 		}

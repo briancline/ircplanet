@@ -53,7 +53,7 @@
 		
 		function matches($host)
 		{
-			if(is_object($host))
+			if (is_object($host))
 				return fnmatch($this->mask, $host->get_gline_host());
 			else
 				return fnmatch($this->mask, $host);

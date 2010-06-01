@@ -66,11 +66,10 @@
 		function service_postburst()
 		{
 			$bot_num = $this->default_bot->get_numeric();
-			foreach($this->default_bot->channels as $chan_name)
-			{
+			foreach ($this->default_bot->channels as $chan_name) {
 				$chan = $this->get_channel($chan_name);
 				
-				if(!$chan->is_op($bot_num))
+				if (!$chan->is_op($bot_num))
 					$this->op($chan->get_name(), $bot_num);
 			}
 		}
@@ -83,10 +82,8 @@
 
 		function service_close($reason = 'So long, and thanks for all the fish!')
 		{
-			foreach($this->users as $numeric => $user)
-			{
-				if($user->is_bot())
-				{
+			foreach ($this->users as $numeric => $user) {
+				if ($user->is_bot()) {
 					$this->sendf(FMT_QUIT, $numeric, $reason);
 					$this->remove_user($numeric);
 				}
@@ -103,17 +100,15 @@
 		{
 			$acct_id = $user_obj;
 			
-			if(is_object($user_obj) && is_user($user_obj))
-			{
-				if(!$user_obj->is_logged_in())
+			if (is_object($user_obj) && is_user($user_obj)) {
+				if (!$user_obj->is_logged_in())
 					return 0;
 				
 				$acct_id = $user_obj->get_account_id();
 			}
 			
 			$res = db_query("select `level` from `ss_admins` where user_id = ". $acct_id);
-			if($res && mysql_num_rows($res) > 0)
-			{
+			if ($res && mysql_num_rows($res) > 0) {
 				$level = mysql_result($res, 0);
 				mysql_free_result($res);
 				return $level;
