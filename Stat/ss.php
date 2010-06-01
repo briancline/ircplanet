@@ -29,8 +29,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	require( 'globals.php' );
-	require( '../Core/service.php' );
+	require('globals.php');
+	require('../Core/service.php');
 	
 	
 	class StatService extends Service
@@ -40,7 +40,7 @@
 		
 		function service_construct()
 		{
-			$this->add_timer( true, 60, 'log_history.php' );
+			$this->add_timer(true, 60, 'log_history.php');
 		}
 		
 		
@@ -66,12 +66,12 @@
 		function service_postburst()
 		{
 			$bot_num = $this->default_bot->get_numeric();
-			foreach( $this->default_bot->channels as $chan_name )
+			foreach($this->default_bot->channels as $chan_name)
 			{
-				$chan = $this->get_channel( $chan_name );
+				$chan = $this->get_channel($chan_name);
 				
-				if( !$chan->is_op($bot_num) )
-					$this->op( $chan->get_name(), $bot_num );
+				if(!$chan->is_op($bot_num))
+					$this->op($chan->get_name(), $bot_num);
 			}
 		}
 		
@@ -81,14 +81,14 @@
 		}
 		
 
-		function service_close( $reason = 'So long, and thanks for all the fish!' )
+		function service_close($reason = 'So long, and thanks for all the fish!')
 		{
-			foreach( $this->users as $numeric => $user )
+			foreach($this->users as $numeric => $user)
 			{
-				if( $user->is_bot() )
+				if($user->is_bot())
 				{
-					$this->sendf( FMT_QUIT, $numeric, $reason );
-					$this->remove_user( $numeric );
+					$this->sendf(FMT_QUIT, $numeric, $reason);
+					$this->remove_user($numeric);
 				}
 			}
 		}
@@ -99,23 +99,23 @@
 		}
 		
 		
-		function get_user_level( $user_obj )
+		function get_user_level($user_obj)
 		{
 			$acct_id = $user_obj;
 			
-			if( is_object($user_obj) && is_user($user_obj) )
+			if(is_object($user_obj) && is_user($user_obj))
 			{
-				if( !$user_obj->is_logged_in() )
+				if(!$user_obj->is_logged_in())
 					return 0;
 				
 				$acct_id = $user_obj->get_account_id();
 			}
 			
-			$res = db_query( "select `level` from `ss_admins` where user_id = ". $acct_id );
-			if( $res && mysql_num_rows($res) > 0 )
+			$res = db_query("select `level` from `ss_admins` where user_id = ". $acct_id);
+			if($res && mysql_num_rows($res) > 0)
 			{
-				$level = mysql_result( $res, 0 );
-				mysql_free_result( $res );
+				$level = mysql_result($res, 0);
+				mysql_free_result($res);
 				return $level;
 			}
 			

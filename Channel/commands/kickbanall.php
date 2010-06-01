@@ -29,33 +29,33 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if( !($chan = $this->get_channel($chan_name)) )
+	if(!($chan = $this->get_channel($chan_name)))
 	{
-		$bot->noticef( $user, "Nobody is on channel %s.", $chan_name );
+		$bot->noticef($user, "Nobody is on channel %s.", $chan_name);
 		return false;
 	}
-	if( !$chan->is_on($bot->get_numeric()) )
+	if(!$chan->is_on($bot->get_numeric()))
 	{
-		$bot->noticef( $user, 'I am not on %s.', $chan->get_name() );
+		$bot->noticef($user, 'I am not on %s.', $chan->get_name());
 		return false;
 	}
 	
-	$reason = assemble( $pargs, 2 );
-	$users = $this->get_channel_users_by_mask( $chan_name );
+	$reason = assemble($pargs, 2);
+	$users = $this->get_channel_users_by_mask($chan_name);
 	
-	foreach( $users as $numeric => $chan_user )
+	foreach($users as $numeric => $chan_user)
 	{
-		if( !$chan_user->is_bot() && $chan_user != $user )
+		if(!$chan_user->is_bot() && $chan_user != $user)
 		{
 			$mask = $chan_user->get_host_mask();
 
-			$ban = new DB_Ban( $chan_reg->get_id(), $user->get_account_id(), $mask );
-			$ban->set_reason( $reason );
-			$chan_reg->add_ban( $ban );
+			$ban = new DB_Ban($chan_reg->get_id(), $user->get_account_id(), $mask);
+			$ban->set_reason($reason);
+			$chan_reg->add_ban($ban);
 			
-			$bot->mode( $chan->get_name(), "-o+b $numeric $mask" );
-			$bot->kick( $chan->get_name(), $numeric, $reason );
-			$chan->add_ban( $mask );
+			$bot->mode($chan->get_name(), "-o+b $numeric $mask");
+			$bot->kick($chan->get_name(), $numeric, $reason);
+			$chan->add_ban($mask);
 		}
 	}
 

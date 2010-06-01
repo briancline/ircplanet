@@ -30,10 +30,10 @@
  */
 
 	$count = 0;
-	foreach( $this->whitelist as $entry )
+	foreach($this->whitelist as $entry)
 	{
-		$bot->noticef( $user, ' %3d) %s', ++$count, $entry->get_mask() );
+		$bot->noticef($user, ' %3d) %s', ++$count, $entry->get_mask());
 	}
 	
-	$bot->noticef( $user, 'Found %d whitelist entries.', $count );
+	$bot->noticef($user, 'Found %d whitelist entries.', $count);
 	

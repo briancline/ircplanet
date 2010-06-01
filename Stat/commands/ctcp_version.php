@@ -29,10 +29,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	$bot->noticef( $user->numeric, "%sVERSION %s (%s)%s",
+	$bot->noticef($user->numeric, "%sVERSION %s (%s)%s",
 		CTCP_START,
 		SERVICE_VERSION,
 		CORE_VERSION,
-		CTCP_END );
+		CTCP_END);
 
 

@@ -31,16 +31,16 @@
 
 	// User mode flags
 	$USER_MODES = array(
-		'd' => array( 'const' => 'UMODE_DEAF',         'uint' => 0x0001 ),
-		'i' => array( 'const' => 'UMODE_INVISIBLE',    'uint' => 0x0002 ),
-		'o' => array( 'const' => 'UMODE_OPER',         'uint' => 0x0004 ),
-		's' => array( 'const' => 'UMODE_SERVERMSG',    'uint' => 0x0008 ),
-		'w' => array( 'const' => 'UMODE_WALLOPS',      'uint' => 0x0010 ),
-		'k' => array( 'const' => 'UMODE_SERVICE',      'uint' => 0x0020 ),
-		'g' => array( 'const' => 'UMODE_HACKMSG',      'uint' => 0x0040 ),
-		'x' => array( 'const' => 'UMODE_HIDDENHOST',   'uint' => 0x0080 ),
-		'r' => array( 'const' => 'UMODE_REGISTERED',   'uint' => 0x0100 ),
-		'f' => array( 'const' => 'UMODE_FAKEHOST',     'uint' => 0x0200 )
+		'd' => array('const' => 'UMODE_DEAF',         'uint' => 0x0001),
+		'i' => array('const' => 'UMODE_INVISIBLE',    'uint' => 0x0002),
+		'o' => array('const' => 'UMODE_OPER',         'uint' => 0x0004),
+		's' => array('const' => 'UMODE_SERVERMSG',    'uint' => 0x0008),
+		'w' => array('const' => 'UMODE_WALLOPS',      'uint' => 0x0010),
+		'k' => array('const' => 'UMODE_SERVICE',      'uint' => 0x0020),
+		'g' => array('const' => 'UMODE_HACKMSG',      'uint' => 0x0040),
+		'x' => array('const' => 'UMODE_HIDDENHOST',   'uint' => 0x0080),
+		'r' => array('const' => 'UMODE_REGISTERED',   'uint' => 0x0100),
+		'f' => array('const' => 'UMODE_FAKEHOST',     'uint' => 0x0200)
 	);
 
 
@@ -62,7 +62,7 @@
 		var $last_spoke = START_TIME;
 		var $channels = array();
 		
-		function __construct( $num, $nick, $ident, $host, $ip, $start_ts, $desc, $modes = "", $account = "", $account_ts = 0 )
+		function __construct($num, $nick, $ident, $host, $ip, $start_ts, $desc, $modes = "", $account = "", $account_ts = 0)
 		{
 			$this->numeric = $num;
 			$this->nick = $nick;
@@ -73,7 +73,7 @@
 			$this->ip = $ip;
 			$this->start_ts = $start_ts;
 			$this->desc = $desc;
-			$this->add_modes( $modes );
+			$this->add_modes($modes);
 		}
 		
 		function is_bot()              { return false; }
@@ -111,54 +111,54 @@
 		function set_away($s = "")     { $this->away_msg = $s; }
 		
 		
-		static function is_valid_mode( $mode )
+		static function is_valid_mode($mode)
 		{
 			global $USER_MODES;
-			return in_array( $mode, $USER_MODES );
+			return in_array($mode, $USER_MODES);
 		}
 		
-		static function is_valid_mode_int( $mode )
+		static function is_valid_mode_int($mode)
 		{
 			global $USER_MODES;
-			foreach( $USER_MODES as $c => $i )
-				if( $i['uint'] == $mode )
+			foreach($USER_MODES as $c => $i)
+				if($i['uint'] == $mode)
 					return true;
 			
 			return false;
 		}
 
-		function add_modes( $str )
+		function add_modes($str)
 		{
 			global $USER_MODES;
-			foreach( $USER_MODES as $c => $i )
-				if( strpos($str, $c) !== false ) $this->add_mode( $i['uint'] );
+			foreach($USER_MODES as $c => $i)
+				if(strpos($str, $c) !== false) $this->add_mode($i['uint']);
 		}
 		
-		function add_mode( $mode )
+		function add_mode($mode)
 		{
 			global $USER_MODES;
-			if( !is_int($mode) )
-				return $this->add_mode( $USER_MODES[$mode]['uint'] );
-			if( $this->is_valid_mode_int($mode) && !$this->has_mode($mode) )
+			if(!is_int($mode))
+				return $this->add_mode($USER_MODES[$mode]['uint']);
+			if($this->is_valid_mode_int($mode) && !$this->has_mode($mode))
 				$this->modes |= $mode;
 		}
 		
-		function remove_mode( $mode )
+		function remove_mode($mode)
 		{
 			global $USER_MODES;
-			if( !is_int($mode) )
-				return $this->remove_mode( $USER_MODES[$mode]['uint'] );
-			if( $this->is_valid_mode_int($mode) && $this->has_mode($mode) )
+			if(!is_int($mode))
+				return $this->remove_mode($USER_MODES[$mode]['uint']);
+			if($this->is_valid_mode_int($mode) && $this->has_mode($mode))
 				$this->modes &= ~$mode;
 		}
 		
-		function has_mode( $mode )
+		function has_mode($mode)
 		{
 			global $USER_MODES;
-			if( !is_int($mode) )
-				return $this->has_mode( $USER_MODES[$mode]['uint'] );
+			if(!is_int($mode))
+				return $this->has_mode($USER_MODES[$mode]['uint']);
 			
-			return( ($this->modes & $mode) == $mode );
+			return(($this->modes & $mode) == $mode);
 		}
 		
 		function get_modes()
@@ -166,8 +166,8 @@
 			global $USER_MODES;
 
 			$modes = '';
-			foreach( $USER_MODES as $c => $i )
-				if( $this->has_mode($c) ) $modes .= $c;
+			foreach($USER_MODES as $c => $i)
+				if($this->has_mode($c)) $modes .= $c;
 			
 			return $modes;
 		}
@@ -178,9 +178,9 @@
 
 		function get_host_safe()
 		{
-			if( $this->has_fakehost() )
+			if($this->has_fakehost())
 				return $this->get_fakehost();
-			elseif( $this->is_host_hidden() && $this->has_account_name() )
+			elseif($this->is_host_hidden() && $this->has_account_name())
 				return $this->get_account_name() .'.'. HIDDEN_HOST;
 				
 			return $this->get_host();
@@ -188,64 +188,64 @@
 
 		function get_gline_host()    { return $this->ident .'@'. $this->host; }
 		function get_gline_ip()      { return $this->ident .'@'. $this->ip; }
-		function get_gline_mask()    { return substr( $this->get_host_mask(), 2 ); }
+		function get_gline_mask()    { return substr($this->get_host_mask(), 2); }
 		
 		function get_host_mask()
 		{
-			$mask = '*!*'. right( $this->ident, IDENT_LEN ) .'@';
+			$mask = '*!*'. right($this->ident, IDENT_LEN) .'@';
 			$host = $this->host;
 			
-			if( $this->has_fakehost() ) {
+			if($this->has_fakehost()) {
 				$host = $this->fakehost;
 			}
-			else if( $this->is_host_hidden() ) {
+			else if($this->is_host_hidden()) {
 				$host = $this->get_account_name() .'.'. HIDDEN_HOST;
 			}
 
-			$levels = explode( '.', $host );
-			$num_levels = count( $levels );
+			$levels = explode('.', $host);
+			$num_levels = count($levels);
 			
-			if( is_ip($host) )
+			if(is_ip($host))
 			{
-				$host = assemble( $levels, 0, 3, '.' );
+				$host = assemble($levels, 0, 3, '.');
 				$host .= '.*';
 			}
-			else if( $num_levels > 2 )
+			else if($num_levels > 2)
 			{
-				for( $n = $num_levels - 1; $n > 0; $n-- )
+				for($n = $num_levels - 1; $n > 0; $n--)
 				{
-					if( preg_match('/[0-9]/', $levels[$n]) )
+					if(preg_match('/[0-9]/', $levels[$n]))
 						break;
 				}
 				
 				$host = '*.';
-				$host .= assemble( $levels, $n + 1, -1, '.' );
+				$host .= assemble($levels, $n + 1, -1, '.');
 			}
 			
-			$mask = fix_host_mask( $mask );
+			$mask = fix_host_mask($mask);
 			
 			return $mask . $host;
 		}
 		
-		function add_channel( $name )
+		function add_channel($name)
 		{
 			if(!in_array($name, $this->channels))
 				$this->channels[] = $name;
 		}
 		
-		function remove_channel( $name )
+		function remove_channel($name)
 		{
 			$channels = $this->channels;
-			for( $i = 0; $i < count($channels); ++$i )
+			for($i = 0; $i < count($channels); ++$i)
 			{
-				if( $channels[$i] == $name )
+				if($channels[$i] == $name)
 				{
-					unset( $channels[$i] );
+					unset($channels[$i]);
 					break;
 				}
 			}
 			
-			$this->channels = array_copy( $channels );
+			$this->channels = array_copy($channels);
 		}
 
 		function remove_all_channels()
@@ -260,10 +260,10 @@
 	}
 
 
-	foreach( $USER_MODES as $c => $i )
+	foreach($USER_MODES as $c => $i)
 	{
-		if( !defined($i['const']) )
-			define( $i['const'], $i['uint'] );
+		if(!defined($i['const']))
+			define($i['const'], $i['uint']);
 	}
 	
 

@@ -31,77 +31,77 @@
 	
 	$is_public = false;
 	$is_private = false;
-	$cmd_msg = assemble( $args, 3 );
+	$cmd_msg = assemble($args, 3);
 	$cmd_target = $privmsg_target;
 	
-	if( empty($chan_key) && array_key_exists($cmd_target, $this->users) && $this->users[$cmd_target]->is_bot() )
+	if(empty($chan_key) && array_key_exists($cmd_target, $this->users) && $this->users[$cmd_target]->is_bot())
 	{
 		$bot = $this->users[$cmd_target];
 		$is_private = true;
 	}
-	if( !empty($chan_key) && $cmd_msg[0] == '!' )
+	if(!empty($chan_key) && $cmd_msg[0] == '!')
 	{
-		$cmd_msg = substr( $cmd_msg, 1 );
+		$cmd_msg = substr($cmd_msg, 1);
 		$bot = $this->default_bot;
 		$is_public = true;
 	}
 	
-	if( $is_public || $is_private )
+	if($is_public || $is_private)
 	{
 		$user_numeric = $args[0];
-		$user = $this->get_user( $user_numeric );
-		$pargs = line_get_args( $cmd_msg, false );
-		$cmd_name = strtolower( $pargs[0] );
+		$user = $this->get_user($user_numeric);
+		$pargs = line_get_args($cmd_msg, false);
+		$cmd_name = strtolower($pargs[0]);
 		
 		$last_char = substr($cmd_msg, strlen($cmd_msg) - 1);
 		$is_ctcp = ($cmd_name[0] == CTCP_START && $last_char == CTCP_END);
 		
-		if( $is_ctcp )
+		if($is_ctcp)
 		{
-			$cmd_msg = trim( $cmd_msg, CTCP_START . CTCP_END );
-			$cmd_name = trim( $cmd_name, CTCP_START . CTCP_END );
+			$cmd_msg = trim($cmd_msg, CTCP_START . CTCP_END);
+			$cmd_name = trim($cmd_name, CTCP_START . CTCP_END);
 			$cmd_name = "ctcp_". $cmd_name;
 		}
 		
-		$spoofed_ctcp = ( !$is_ctcp && substr($cmd_name, 0, 5) == 'ctcp_' );
+		$spoofed_ctcp = (!$is_ctcp && substr($cmd_name, 0, 5) == 'ctcp_');
 		$cmd_handler_file = CMD_HANDLER_DIR . $cmd_name . '.php';
 		
-		if( ($this->command_exists($cmd_name) || $is_ctcp) && file_exists($cmd_handler_file) && !$spoofed_ctcp )
+		if(($this->command_exists($cmd_name) || $is_ctcp) && file_exists($cmd_handler_file) && !$spoofed_ctcp)
 		{
-			$user_level = $this->get_user_level( $user );
-			$cmd_level = $this->get_command_level( $cmd_name );
-			$cmd_req_args = $this->get_command_arg_count( $cmd_name );
-			$cmd_num_args = count( $pargs ) - 1;
+			$user_level = $this->get_user_level($user);
+			$cmd_level = $this->get_command_level($cmd_name);
+			$cmd_req_args = $this->get_command_arg_count($cmd_name);
+			$cmd_num_args = count($pargs) - 1;
 			
-			if( $user_level >= $cmd_level )
+			if($user_level >= $cmd_level)
 			{
-				if( $cmd_num_args >= $cmd_req_args )
+				if($cmd_num_args >= $cmd_req_args)
 				{
-					include( $cmd_handler_file );
+					include($cmd_handler_file);
 
 					/**
 					 * Since we use 'return false' statements inside of command handlers, if 
 					 * we reach this point then we should report a successful command to the
 					 * log channel.
 					 */
-					$this->report_command( $user, $pargs );
+					$this->report_command($user, $pargs);
 				}
 				else
 				{
-					$bot->noticef( $user, "%sSyntax:%s %s %s", BOLD_START, BOLD_END, 
-						$cmd_name, $this->get_command_syntax($cmd_name) );
+					$bot->noticef($user, "%sSyntax:%s %s %s", BOLD_START, BOLD_END, 
+						$cmd_name, $this->get_command_syntax($cmd_name));
 				}
 			}
 			else
 			{
-				$bot->noticef( $user, "You do not have enough access to use that command!" );
+				$bot->noticef($user, "You do not have enough access to use that command!");
 			}
 		}
-		else if( !$is_public )
+		else if(!$is_public)
 		{
-			$bot->noticef( $user->numeric, 
+			$bot->noticef($user->numeric, 
 				"Invalid command! Use %sshowcommands%s to get a list of available commands.",
-				BOLD_START, BOLD_END );
+				BOLD_START, BOLD_END);
 		}
 	}
 

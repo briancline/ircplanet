@@ -37,7 +37,7 @@
 		var $reason;
 		var $active;
 		
-		function __construct( $server, $duration, $last_mod, $reason )
+		function __construct($server, $duration, $last_mod, $reason)
 		{
 			$this->server = $server;
 			$this->expire_ts = time() + $duration;

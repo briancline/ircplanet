@@ -48,7 +48,7 @@
 	$bot->noticef($user, 'Channel purpose:  %s', $chan->get_purpose());
 	$bot->noticef($user, 'Default modes:    +%s', $chan->get_default_modes());
 	$bot->noticef($user, 'Default topic:    %s', $chan->get_default_topic());
-	$bot->noticef($user, 'Permanent:        %s', $chan->is_permanent() ? 'Yes' : 'No' );
-	$bot->noticef($user, 'Auto Op:          %s', $chan->auto_ops() ? 'Yes' : 'No' );
+	$bot->noticef($user, 'Permanent:        %s', $chan->is_permanent() ? 'Yes' : 'No');
+	$bot->noticef($user, 'Auto Op:          %s', $chan->auto_ops() ? 'Yes' : 'No');
 	
 

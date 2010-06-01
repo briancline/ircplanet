@@ -29,6 +29,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$this->parse_mode( $line );
+	$this->parse_mode($line);
 	
 

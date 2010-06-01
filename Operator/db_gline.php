@@ -55,13 +55,13 @@
 		public function set_mask($s)          { $this->mask = fix_host_mask($s); }
 		public function set_reason($s)        { $this->reason = $s; }
 		
-		public function matches( $host )
+		public function matches($host)
 		{
-			if( is_object($host) )
-				return fnmatch( $this->mask, $host->get_gline_host() ) 
-					|| fnmatch( $this->mask, $host->get_gline_ip );
+			if(is_object($host))
+				return fnmatch($this->mask, $host->get_gline_host()) 
+					|| fnmatch($this->mask, $host->get_gline_ip);
 			else
-				return fnmatch( $this->mask, $host );
+				return fnmatch($this->mask, $host);
 		}	
 	}
 	

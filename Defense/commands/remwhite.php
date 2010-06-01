@@ -31,11 +31,11 @@
 
 	$mask = $pargs[1];
 	
-	if( !($entry = $this->get_whitelist_entry($mask)) ) {
-		$bot->noticef( $user, 'No whitelist entry for %s was found.', $mask );
+	if(!($entry = $this->get_whitelist_entry($mask))) {
+		$bot->noticef($user, 'No whitelist entry for %s was found.', $mask);
 		return false;
 	}
 	
-	$this->remove_whitelist_entry( $mask );
-	$bot->noticef( $user, 'Removed whitelist entry for %s.', $mask );
+	$this->remove_whitelist_entry($mask);
+	$bot->noticef($user, 'Removed whitelist entry for %s.', $mask);
 	

@@ -29,13 +29,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$req_wildcard = ( '*' == $chan_name );
-	$is_admin = ( 0 < $user_admin_level );
+	$req_wildcard = ('*' == $chan_name);
+	$is_admin = (0 < $user_admin_level);
 
-	if( !($reg = $this->get_channel_reg($chan_name)) && 
-			!($is_admin && $req_wildcard) ) 
+	if(!($reg = $this->get_channel_reg($chan_name)) && 
+			!($is_admin && $req_wildcard)) 
 	{
-		$bot->noticef( $user, '%s is not registered!', $chan_name );
+		$bot->noticef($user, '%s is not registered!', $chan_name);
 		return false;
 	}
 	
@@ -44,15 +44,15 @@
 	$user_mask = $pargs[2];
 	
 	$channels = array();
-	if( $req_wildcard && $is_admin )
+	if($req_wildcard && $is_admin)
 	{
 		// If an admin requests all channels, point to db_channels.
 		$channels = $this->db_channels;
-		$tmp_account = $this->get_account( $user_mask );
+		$tmp_account = $this->get_account($user_mask);
 
-		if( !$tmp_account )
+		if(!$tmp_account)
 		{
-			$bot->noticef( $user, 'There is no user account named %s.', $user_mask );
+			$bot->noticef($user, 'There is no user account named %s.', $user_mask);
 			return false;
 		}
 
@@ -64,24 +64,24 @@
 		 * User didn't request a channel wildcard, so our only channel is
 		 * the specific one they wanted.
 		 */
-		$channels = array( $reg );
+		$channels = array($reg);
 	}
 	
-	foreach( $channels as $tmp_reg )
+	foreach($channels as $tmp_reg)
 	{
-		if( $req_wildcard && $is_admin && $tmp_reg->get_level_by_id($tmp_account->get_id()) == 0 )
+		if($req_wildcard && $is_admin && $tmp_reg->get_level_by_id($tmp_account->get_id()) == 0)
 			continue;
 
-		foreach( $tmp_reg->get_levels() as $user_id => $access )
+		foreach($tmp_reg->get_levels() as $user_id => $access)
 		{
-			$tmpuser = $this->get_account_by_id( $user_id );
+			$tmpuser = $this->get_account_by_id($user_id);
 			
 			if(!$tmpuser)
 				continue;
 			
 			$tmpname = $tmpuser->get_name();
 			
-			if( strtolower($tmpname) == strtolower($user_mask) || fnmatch($user_mask, $tmpname) )
+			if(strtolower($tmpname) == strtolower($user_mask) || fnmatch($user_mask, $tmpname))
 			{
 				$users[] = $access;
 				$n++;
@@ -89,49 +89,49 @@
 		}
 	}
 
-	if( count($users) > 0 )
+	if(count($users) > 0)
 	{
 		$user_num = 0;
-		for( $i = 500; $i > 0; $i-- )
+		for($i = 500; $i > 0; $i--)
 		{
-			foreach( $users as $access )
+			foreach($users as $access)
 			{
 				$level = $access->get_level();
-				if( $level == $i )
+				if($level == $i)
 				{
-					$tmpuser = $this->get_account_by_id( $access->get_user_id() );
+					$tmpuser = $this->get_account_by_id($access->get_user_id());
 					$last_ts = $tmpuser->get_lastseen_ts();
 
-					if( $req_wildcard && $is_admin )
+					if($req_wildcard && $is_admin)
 					{
-						$tmp_reg = $this->get_channel_reg_by_id( $access->get_chan_id() );
+						$tmp_reg = $this->get_channel_reg_by_id($access->get_chan_id());
 
-						$bot->noticef( $user, '%3d) Channel: %s%s%s', 
-							++$user_num, BOLD_START, $tmp_reg->get_name(), BOLD_END );
-						$bot->noticef( $user, '     User:    %s%-20s%s     Level: %s%3d%s', 
+						$bot->noticef($user, '%3d) Channel: %s%s%s', 
+							++$user_num, BOLD_START, $tmp_reg->get_name(), BOLD_END);
+						$bot->noticef($user, '     User:    %s%-20s%s     Level: %s%3d%s', 
 							BOLD_START, $tmpuser->get_name(), BOLD_END,
-							BOLD_START, $level, BOLD_END );
+							BOLD_START, $level, BOLD_END);
 					}
 					else
 					{
-						$bot->noticef( $user, '%3d) User:  %s%-20s%s     Level: %s%3d%s', 
+						$bot->noticef($user, '%3d) User:  %s%-20s%s     Level: %s%3d%s', 
 							++$user_num,
 							BOLD_START, $tmpuser->get_name(), BOLD_END,
-							BOLD_START, $level, BOLD_END );
+							BOLD_START, $level, BOLD_END);
 					}
 
-					$bot->noticef( $user, '     Auto-op: %-3s   Auto-voice: %-3s   Protect: %-3s', 
+					$bot->noticef($user, '     Auto-op: %-3s   Auto-voice: %-3s   Protect: %-3s', 
 						$access->auto_ops() ? 'ON' : 'OFF',
 						$access->auto_voices() ? 'ON' : 'OFF',
-						$access->is_protected() ? 'ON' : 'OFF' );
-					$bot->noticef( $user, '     Last login: %s',
-						date('D j M Y H:i:s', $last_ts) );
-					$bot->notice( $user, ' ' );
+						$access->is_protected() ? 'ON' : 'OFF');
+					$bot->noticef($user, '     Last login: %s',
+						date('D j M Y H:i:s', $last_ts));
+					$bot->notice($user, ' ');
 				}
 			}
 		}
 	}
 		
-	$bot->noticef( $user, 'Found %d records matching your search.', $n );
+	$bot->noticef($user, 'Found %d records matching your search.', $n);
 	
 

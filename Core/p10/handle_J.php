@@ -35,15 +35,15 @@
 	/**
 	 * /join 0 is the same as /parting all channels.
 	 */
-	if( $args[2] == '0' )
+	if($args[2] == '0')
 	{
-		$this->remove_user_from_all_channels( $numeric );
+		$this->remove_user_from_all_channels($numeric);
 		$parted_all_chans = true;
 	}
 	else
 	{
-		$channels = explode( ',', $chan_name );
-		foreach( $channels as $chan_name )
+		$channels = explode(',', $chan_name);
+		foreach($channels as $chan_name)
 		{
 			/**
 			 * As retarded as I think this is, we now have to check and see if
@@ -55,17 +55,17 @@
 			 * still thinks the channel exists, but we know better...don't we.
 			 */
 
-			$chan = $this->get_channel( $chan_name );
+			$chan = $this->get_channel($chan_name);
 
-			if( !$chan )
+			if(!$chan)
 			{
 				$ts = $args[count($args) - 1];
-				$this->add_channel( $chan_name, $ts );
-				$this->add_channel_user( $chan_name, $numeric, 'o' );
+				$this->add_channel($chan_name, $ts);
+				$this->add_channel_user($chan_name, $numeric, 'o');
 			}
 			else
 			{
-				$this->add_channel_user( $chan_name, $numeric );
+				$this->add_channel_user($chan_name, $numeric);
 			}
 		}
 	}

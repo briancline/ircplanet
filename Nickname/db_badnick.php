@@ -49,9 +49,9 @@
 		
 		public function set_mask($s)          { $this->nick_mask = $s; }
 		
-		public function matches( $nick_name )
+		public function matches($nick_name)
 		{
-			return ( stripos($nick_name, $this->nick_mask) !== FALSE );
+			return (stripos($nick_name, $this->nick_mask) !== FALSE);
 		}	
 	}
 	

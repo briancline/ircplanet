@@ -62,12 +62,12 @@
 		public function set_level($n)         { $this->level = $n; }
 		public function set_reason($s)        { $this->reason = $s; }
 		
-		public function matches( $host )
+		public function matches($host)
 		{
-			if( is_object($host) )
-				return fnmatch( $this->mask, $host->get_full_mask() );
+			if(is_object($host))
+				return fnmatch($this->mask, $host->get_full_mask());
 			else
-				return fnmatch( $this->mask, $host );
+				return fnmatch($this->mask, $host);
 		}	
 	}
 	

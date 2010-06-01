@@ -49,9 +49,9 @@
 		
 		public function set_mask($s)          { $this->chan_mask = $s; }
 		
-		public function matches( $chan_name )
+		public function matches($chan_name)
 		{
-			return ( stripos($chan_name, $this->chan_mask) !== FALSE );
+			return (stripos($chan_name, $this->chan_mask) !== FALSE);
 		}	
 	}
 	

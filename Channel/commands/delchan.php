@@ -29,19 +29,19 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	if( $reg = $this->get_channel_reg($chan_name) )
+	if($reg = $this->get_channel_reg($chan_name))
 	{
-		$this->remove_channel_reg( $reg );
+		$this->remove_channel_reg($reg);
 		$reg->delete();
 		
 		$reason = 'So long, and thanks for all the fish!';		
-		if( $cmd_num_args > 1 )
-			$reason = assemble( $pargs, 2 );
+		if($cmd_num_args > 1)
+			$reason = assemble($pargs, 2);
 		
-		if( ($chan = $this->get_channel($chan_name)) && $chan->is_on($bot->get_numeric()) )
+		if(($chan = $this->get_channel($chan_name)) && $chan->is_on($bot->get_numeric()))
 		{
-			$bot->mode( $chan->get_name(), '-R' );
-			$bot->part( $chan->get_name(), $reason );
+			$bot->mode($chan->get_name(), '-R');
+			$bot->part($chan->get_name(), $reason);
 		}
 	}
 

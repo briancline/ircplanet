@@ -31,20 +31,20 @@
 	
 	$chan_mask = $pargs[1];
 	
-	if( ($badchan = $this->get_badchan($chan_mask)) )
+	if(($badchan = $this->get_badchan($chan_mask)))
 	{
-		$bot->noticef( '%s is already in the badchan list.' );
+		$bot->noticef('%s is already in the badchan list.');
 		return false;
 	}
 
-	if( $this->is_badchan($chan_mask) )
+	if($this->is_badchan($chan_mask))
 	{
-		$bot->noticef( $user, 'A more broad mask (%s) supersedes the one you are attempting to add.',
-				$tmp_mask );
+		$bot->noticef($user, 'A more broad mask (%s) supersedes the one you are attempting to add.',
+				$tmp_mask);
 		return false;
 	}
 
-	$this->add_badchan( $chan_mask );
-	$bot->noticef( $user, '%s has been added to the bad channels list.', $chan_mask );
+	$this->add_badchan($chan_mask);
+	$bot->noticef($user, '%s has been added to the bad channels list.', $chan_mask);
 
 

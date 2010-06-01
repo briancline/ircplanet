@@ -38,17 +38,17 @@
 		
 		var $data = array();
 		
-		function __construct( $recurring, $ts, $include_file, $data = 0 )
+		function __construct($recurring, $ts, $include_file, $data = 0)
 		{
 			$this->recurring = $recurring;
 			$this->ts = $ts;
 			$this->ts_last_run = time();
 			$this->include_file = $include_file;
 			
-			if( !$recurring )
+			if(!$recurring)
 				$this->ts += time();
 			
-			if( $data > 0 )
+			if($data > 0)
 				$this->data = $data;
 		}
 		
@@ -67,7 +67,7 @@
 
 		function get_next_run()
 		{
-			if( $this->is_recurring() )
+			if($this->is_recurring())
 				return $this->ts_last_run + $this->ts;
 			else
 				return $this->ts;

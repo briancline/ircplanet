@@ -29,14 +29,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	require_once( 'p10.php' );
-	require_once( 'user.php' );
+	require_once('p10.php');
+	require_once('user.php');
 
 	class Bot extends User
 	{
 		var $net;
 		
-		function __construct( $num, $nick, $ident, $host, $ip, $start_ts, $desc, $modes = "", &$instance )
+		function __construct($num, $nick, $ident, $host, $ip, $start_ts, $desc, $modes = "", &$instance)
 		{
 			$this->numeric = $num;
 			$this->nick = $nick;
@@ -45,165 +45,165 @@
 			$this->ip = $ip;
 			$this->start_ts = $start_ts;
 			$this->desc = $desc;
-			$this->add_modes( $modes );
+			$this->add_modes($modes);
 			$this->net = $instance;
 		}
 		
 		function is_bot() { return true; }
 		
-		function message( $target, $text )
+		function message($target, $text)
 		{
-			if( is_object($target) && is_user($target) )
+			if(is_object($target) && is_user($target))
 				$target = $target->get_numeric();
 			
-			$this->net->sendf( FMT_PRIVMSG, $this->numeric, $target, $text );
+			$this->net->sendf(FMT_PRIVMSG, $this->numeric, $target, $text);
 			$this->last_spoke = time();
 		}
 
-		function notice( $target, $text )
+		function notice($target, $text)
 		{
-			if( is_object($target) && is_user($target) )
+			if(is_object($target) && is_user($target))
 				$target = $target->get_numeric();
 			
-			$this->net->sendf( FMT_NOTICE, $this->numeric, $target, $text );
+			$this->net->sendf(FMT_NOTICE, $this->numeric, $target, $text);
 		}
 
-		function messagef( $target, $format )
+		function messagef($target, $format)
 		{
 			$args = func_get_args();
-			$target = array_shift( $args );
-			$format = array_shift( $args );
+			$target = array_shift($args);
+			$format = array_shift($args);
 			
-			if( is_object($target) && is_user($target) )
+			if(is_object($target) && is_user($target))
 				$target = $target->get_numeric();
 			
-			$notice_text = irc_vsprintf( $format, $args );
-			$this->net->sendf( FMT_PRIVMSG, $this->numeric, $target, $notice_text );
+			$notice_text = irc_vsprintf($format, $args);
+			$this->net->sendf(FMT_PRIVMSG, $this->numeric, $target, $notice_text);
 			$this->last_spoke = time();
 		}
 		
-		function noticef( $target, $format )
+		function noticef($target, $format)
 		{
 			$args = func_get_args();
-			$target = array_shift( $args ); // Remove target 
-			$format = array_shift( $args ); // Remove format
+			$target = array_shift($args); // Remove target 
+			$format = array_shift($args); // Remove format
 			
-			if( is_object($target) && is_user($target) )
+			if(is_object($target) && is_user($target))
 				$target = $target->get_numeric();
 			
-			$notice_text = irc_vsprintf( $format, $args );
-			$this->net->sendf( FMT_NOTICE, $this->numeric, $target, $notice_text );
+			$notice_text = irc_vsprintf($format, $args);
+			$this->net->sendf(FMT_NOTICE, $this->numeric, $target, $notice_text);
 		}
 		
-		function send_syntax( $target, $command )
+		function send_syntax($target, $command)
 		{
-			$this->noticef( $target, "%sSyntax:%s %s %s",
+			$this->noticef($target, "%sSyntax:%s %s %s",
 				BOLD_START, 
 				BOLD_END,
 				$command,
-				$this->net->get_command_syntax( $command )
+				$this->net->get_command_syntax($command)
 			);
 		}
 		
-		function send_noaccess( $target )
+		function send_noaccess($target)
 		{
-			$this->notice( $target, "You do not have sufficient permissions to use that command." );
+			$this->notice($target, "You do not have sufficient permissions to use that command.");
 		}
 		
-		function op( $chan_name, $num_list )       { return $this->net->perform_chan_user_mode($this->get_numeric(), $chan_name, '+', 'o', $num_list); }
-		function deop( $chan_name, $num_list )     { return $this->net->perform_chan_user_mode($this->get_numeric(), $chan_name, '-', 'o', $num_list); }
-		function voice( $chan_name, $num_list )    { return $this->net->perform_chan_user_mode($this->get_numeric(), $chan_name, '+', 'v', $num_list); }
-		function devoice( $chan_name, $num_list )  { return $this->net->perform_chan_user_mode($this->get_numeric(), $chan_name, '-', 'v', $num_list); }
-		function ban( $chan_name, $num_list )      { return $this->net->perform_chan_user_mode($this->get_numeric(), $chan_name, '+', 'b', $num_list); }
-		function unban( $chan_name, $num_list )    { return $this->net->perform_chan_user_mode($this->get_numeric(), $chan_name, '-', 'b', $num_list); }
+		function op($chan_name, $num_list)       { return $this->net->perform_chan_user_mode($this->get_numeric(), $chan_name, '+', 'o', $num_list); }
+		function deop($chan_name, $num_list)     { return $this->net->perform_chan_user_mode($this->get_numeric(), $chan_name, '-', 'o', $num_list); }
+		function voice($chan_name, $num_list)    { return $this->net->perform_chan_user_mode($this->get_numeric(), $chan_name, '+', 'v', $num_list); }
+		function devoice($chan_name, $num_list)  { return $this->net->perform_chan_user_mode($this->get_numeric(), $chan_name, '-', 'v', $num_list); }
+		function ban($chan_name, $num_list)      { return $this->net->perform_chan_user_mode($this->get_numeric(), $chan_name, '+', 'b', $num_list); }
+		function unban($chan_name, $num_list)    { return $this->net->perform_chan_user_mode($this->get_numeric(), $chan_name, '-', 'b', $num_list); }
 
 
-		function invite( $nick, $chan_name )
+		function invite($nick, $chan_name)
 		{
-			$this->net->sendf( FMT_INVITE, $this->get_numeric(), $nick, $chan_name );
+			$this->net->sendf(FMT_INVITE, $this->get_numeric(), $nick, $chan_name);
 		}
 		
 		
-		function topic( $chan_name, $topic, $chan_ts = 0 )
+		function topic($chan_name, $topic, $chan_ts = 0)
 		{
-			if( TOPIC_BURSTING && $chan_ts == 0 )
+			if(TOPIC_BURSTING && $chan_ts == 0)
 			{
-				$chan = $this->net->get_channel( $chan_name );
+				$chan = $this->net->get_channel($chan_name);
 
-				if( !$chan )
+				if(!$chan)
 					return;
 
 				$chan_ts = $chan->get_ts();
 			}
 
-			if( TOPIC_BURSTING )
-				$this->net->sendf( FMT_TOPIC, $this->get_numeric(), $chan_name, $chan_ts, time(), $topic );
+			if(TOPIC_BURSTING)
+				$this->net->sendf(FMT_TOPIC, $this->get_numeric(), $chan_name, $chan_ts, time(), $topic);
 			else
-				$this->net->sendf( FMT_TOPIC, $this->get_numeric(), $chan_name, $topic );
+				$this->net->sendf(FMT_TOPIC, $this->get_numeric(), $chan_name, $topic);
 		}
 		
 		
-		function clear_modes( $chan_name )
+		function clear_modes($chan_name)
 		{
-			$chan = $this->net->get_channel( $chan_name );
-			$this->net->send_mode_line( sprintf(FMT_MODE, $this->get_numeric(), $chan_name, '-psmntilkrD *', $chan->get_ts()) );
+			$chan = $this->net->get_channel($chan_name);
+			$this->net->send_mode_line(sprintf(FMT_MODE, $this->get_numeric(), $chan_name, '-psmntilkrD *', $chan->get_ts()));
 		}
 
-		function mode( $chan_name, $modes )
+		function mode($chan_name, $modes)
 		{
-			$this->net->send_mode( $this, $chan_name, $modes );
+			$this->net->send_mode($this, $chan_name, $modes);
 		}
 		
-		function kick( $chan_name, $numeric, $reason )
+		function kick($chan_name, $numeric, $reason)
 		{
-			$this->net->remove_channel_user( $chan_name, $numeric );
-			$this->net->sendf( FMT_KICK, $this->get_numeric(), $chan_name, $numeric, $reason );
+			$this->net->remove_channel_user($chan_name, $numeric);
+			$this->net->sendf(FMT_KICK, $this->get_numeric(), $chan_name, $numeric, $reason);
 		}
 		
-		function join( $chan_name, $create_ts = 0 )
+		function join($chan_name, $create_ts = 0)
 		{
-			$chan = $this->net->get_channel( $chan_name );
+			$chan = $this->net->get_channel($chan_name);
 
-			if( !$chan )
+			if(!$chan)
 			{
-				if( $create_ts == 0 )
+				if($create_ts == 0)
 					$create_ts = time();
 				
-				$this->net->sendf( FMT_CREATE, $this->get_numeric(), $chan_name, $create_ts );
-				$this->net->add_channel( $chan_name, $create_ts );
+				$this->net->sendf(FMT_CREATE, $this->get_numeric(), $chan_name, $create_ts);
+				$this->net->add_channel($chan_name, $create_ts);
 
-				$chan = $this->net->get_channel( $chan_name );
-				$chan->add_user( $this->get_numeric(), 'o' );
+				$chan = $this->net->get_channel($chan_name);
+				$chan->add_user($this->get_numeric(), 'o');
 			}
 			else
 			{
-				$this->net->sendf( FMT_JOIN, $this->get_numeric(), $chan_name, $chan->get_ts() );
-				$this->net->add_channel_user( $chan_name, $this->get_numeric() );
+				$this->net->sendf(FMT_JOIN, $this->get_numeric(), $chan_name, $chan->get_ts());
+				$this->net->add_channel_user($chan_name, $this->get_numeric());
 			}
 		}
 
-		function part( $chan_name, $reason = "" )
+		function part($chan_name, $reason = "")
 		{
 			if(empty($reason))
-				$this->net->sendf( FMT_PART, $this->get_numeric(), $chan_name );
+				$this->net->sendf(FMT_PART, $this->get_numeric(), $chan_name);
 			else 
-				$this->net->sendf( FMT_PART_REASON, $this->get_numeric(), $chan_name, $reason );
+				$this->net->sendf(FMT_PART_REASON, $this->get_numeric(), $chan_name, $reason);
 			
-			$this->net->remove_channel_user( $chan_name, $this->get_numeric() );
+			$this->net->remove_channel_user($chan_name, $this->get_numeric());
 		}
 	
-		function kill( $user_num, $reason = 'So long...')
+		function kill($user_num, $reason = 'So long...')
 		{
-			if( is_user($user_num) )
+			if(is_user($user_num))
 				$user_num = $user_num->get_numeric();
 			
-			if( !($user = $this->net->get_user($user_num)) )
+			if(!($user = $this->net->get_user($user_num)))
 				return false;
 			
-			$my_serv = $this->net->get_server( $this->get_server_numeric() );
-			$this->net->sendf( FMT_KILL, $this->get_numeric(), $user_num, 
-				$this->get_nick(), $reason );
-			$this->net->remove_user( $user_num );
+			$my_serv = $this->net->get_server($this->get_server_numeric());
+			$this->net->sendf(FMT_KILL, $this->get_numeric(), $user_num, 
+				$this->get_nick(), $reason);
+			$this->net->remove_user($user_num);
 		}
 	}
 

@@ -31,21 +31,21 @@
 	
 	$nick_mask = $pargs[1];
 	
-	if( ($badnick = $this->get_badnick($nick_mask)) )
+	if(($badnick = $this->get_badnick($nick_mask)))
 	{
-		$bot->noticef( '%s is already in the bad nick list.' );
+		$bot->noticef('%s is already in the bad nick list.');
 		return false;
 	}
 
-	if( $this->is_badnick($nick_mask) )
+	if($this->is_badnick($nick_mask))
 	{
-		$bot->noticef( $user, 'A more broad bad nick mask (%s) supersedes the one you are attempting to add.',
-				$tmp_mask );
+		$bot->noticef($user, 'A more broad bad nick mask (%s) supersedes the one you are attempting to add.',
+				$tmp_mask);
 		return false;
 	}
 
-	$this->add_badnick( $nick_mask );
+	$this->add_badnick($nick_mask);
 
-	$bot->noticef( $user, '%s has been added to the bad nick list.', $nick_mask );
+	$bot->noticef($user, '%s has been added to the bad nick list.', $nick_mask);
 
 

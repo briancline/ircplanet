@@ -32,9 +32,9 @@
 	// Server mode flags
 	
 	$SERVER_FLAGS = array(
-		'h' => array( 'const' => 'SMODE_HUB',          'uint' => 0x0001 ),
-		's' => array( 'const' => 'SMODE_SERVICE',      'uint' => 0x0002 ),
-		'6' => array( 'const' => 'SMODE_IPV6',         'uint' => 0x0004 )
+		'h' => array('const' => 'SMODE_HUB',          'uint' => 0x0001),
+		's' => array('const' => 'SMODE_SERVICE',      'uint' => 0x0002),
+		'6' => array('const' => 'SMODE_IPV6',         'uint' => 0x0004)
 	);
 
 
@@ -49,13 +49,13 @@
 		var $uplink;
 		var $users = array();
 		
-		function __construct( $uplink, $num, $name, $desc, $start_ts, $max_users, $modes = "" )
+		function __construct($uplink, $num, $name, $desc, $start_ts, $max_users, $modes = "")
 		{
 			$this->uplink = $uplink;
 			$this->numeric = $num;
 			$this->name = $name;
 			$this->desc = $desc;
-			$this->add_modes( $modes );
+			$this->add_modes($modes);
 			$this->start_ts = $start_ts;
 			$this->max_users = $max_users;
 		}
@@ -71,10 +71,10 @@
 		function get_start_ts()        { return $this->start_ts; }
 		function get_max_users()       { return $this->max_users; }
 		
-		function get_name_abbrev( $max_len = 0 )
+		function get_name_abbrev($max_len = 0)
 		{
 			$name = $this->get_name();
-			$ppos = strpos( $name, "." );
+			$ppos = strpos($name, ".");
 			
 			if($max_len == 0)
 				$max_len = strlen($name) + 1;
@@ -88,67 +88,67 @@
 		}
 		
 		
-		static function is_valid_mode( $mode )
+		static function is_valid_mode($mode)
 		{
 			global $SERVER_FLAGS;
-			return in_array( $mode, $SERVER_FLAGS );
+			return in_array($mode, $SERVER_FLAGS);
 		}
 		
-		static function is_valid_mode_int( $mode )
+		static function is_valid_mode_int($mode)
 		{
 			global $SERVER_FLAGS;
-			foreach( $SERVER_FLAGS as $c => $i )
-				if( $i['uint'] == $mode )
+			foreach($SERVER_FLAGS as $c => $i)
+				if($i['uint'] == $mode)
 					return true;
 			
 			return false;
 		}
 
-		function add_modes( $str )
+		function add_modes($str)
 		{
 			global $SERVER_FLAGS;
-			foreach( $SERVER_FLAGS as $c => $i )
-				if( strpos($str, $c) !== false ) $this->add_mode( $i['uint'] );
+			foreach($SERVER_FLAGS as $c => $i)
+				if(strpos($str, $c) !== false) $this->add_mode($i['uint']);
 		}
 		
-		function add_mode( $mode )
+		function add_mode($mode)
 		{
 			global $SERVER_FLAGS;
-			if( !is_int($mode) )
-				return $this->add_mode( $SERVER_FLAGS[$mode]['uint'] );
-			if( $this->is_valid_mode_int($mode) && !$this->has_mode($mode) )
+			if(!is_int($mode))
+				return $this->add_mode($SERVER_FLAGS[$mode]['uint']);
+			if($this->is_valid_mode_int($mode) && !$this->has_mode($mode))
 				$this->modes |= $mode;
 		}
 		
-		function remove_mode( $mode )
+		function remove_mode($mode)
 		{
 			global $SERVER_FLAGS;
-			if( !is_int($mode) )
-				return $this->remove_mode( $SERVER_FLAGS[$mode]['uint'] );
-			if( $this->is_valid_mode_int($mode) && $this->has_mode($mode) )
+			if(!is_int($mode))
+				return $this->remove_mode($SERVER_FLAGS[$mode]['uint']);
+			if($this->is_valid_mode_int($mode) && $this->has_mode($mode))
 				$this->modes &= ~$mode;
 		}
 
-		function has_mode( $mode )
+		function has_mode($mode)
 		{
 			global $SERVER_FLAGS;
-			if( !is_int($mode) )
-				return $this->has_mode( $SERVER_FLAGS[$mode]['uint'] );
-			return( ($this->modes & $mode) == $mode );
+			if(!is_int($mode))
+				return $this->has_mode($SERVER_FLAGS[$mode]['uint']);
+			return(($this->modes & $mode) == $mode);
 		}
 		
-		function add_user( $numeric )
+		function add_user($numeric)
 		{
 			$this->users[] = $numeric;
 		}
 		
-		function remove_user( $numeric )
+		function remove_user($numeric)
 		{
 			$users = array();
 			
-			foreach( $this->users as $u )
+			foreach($this->users as $u)
 			{
-				if( $u == $numeric )
+				if($u == $numeric)
 					continue;
 				
 				$users[] = $u;
@@ -159,10 +159,10 @@
 	}
 
 
-	foreach( $SERVER_FLAGS as $c => $i )
+	foreach($SERVER_FLAGS as $c => $i)
 	{
-		if( !defined($i['const']) )
-			define( $i['const'], $i['uint'] );
+		if(!defined($i['const']))
+			define($i['const'], $i['uint']);
 	}
 	
 

@@ -29,107 +29,107 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$option = strtoupper( $pargs[1] );
+	$option = strtoupper($pargs[1]);
 
-	if( $option == 'BAD' )
+	if($option == 'BAD')
 	{
 		$n = 0;
 
-		if( count($this->db_badchans) == 0 )
+		if(count($this->db_badchans) == 0)
 		{
-			$bot->notice( $user, 'There are no badchan entries.' );
+			$bot->notice($user, 'There are no badchan entries.');
 			return false;
 		}
 
-		$bot->noticef( $user, 'Bad Channel Words List:' );
-		foreach( $this->db_badchans as $bad_key => $bad_name )
+		$bot->noticef($user, 'Bad Channel Words List:');
+		foreach($this->db_badchans as $bad_key => $bad_name)
 		{
-			$bot->noticef( $user, '  %2d) %s', ++$n, $bad_name );
+			$bot->noticef($user, '  %2d) %s', ++$n, $bad_name);
 		}
 	}
-	elseif( $option == 'CLONES' )
+	elseif($option == 'CLONES')
 	{
 		$clones = array();
-		foreach( $this->users as $tmp_numeric => $tmp_user )
+		foreach($this->users as $tmp_numeric => $tmp_user)
 		{
-			if( !array_key_exists($tmp_user->get_ip(), $clones) )
+			if(!array_key_exists($tmp_user->get_ip(), $clones))
 				$clones[$tmp_user->get_ip()] = 0;
 
 			$clones[$tmp_user->get_ip()]++;
 		}
 
-		if( count($clones) == 0 )
+		if(count($clones) == 0)
 		{
-			$bot->notice( $user, 'There are currently no clones.' );
+			$bot->notice($user, 'There are currently no clones.');
 			return false;
 		}
 
 		$n = 0;
-		arsort( $clones );
+		arsort($clones);
 
-		$bot->notice( $user, 'Currently connected clones:' );
-		foreach( $clones as $ip => $count )
+		$bot->notice($user, 'Currently connected clones:');
+		foreach($clones as $ip => $count)
 		{
-			if( $count == 1 )
+			if($count == 1)
 				continue;
 
-			$bot->noticef( $user, '  %2d) %d clones from %s', ++$n, $count, $ip );
+			$bot->noticef($user, '  %2d) %d clones from %s', ++$n, $count, $ip);
 		}
 	}
-	elseif( $option == 'GLINES' )
+	elseif($option == 'GLINES')
 	{
-		if( count($this->glines) == 0 )
+		if(count($this->glines) == 0)
 		{
-			$bot->notice( $user, 'There are no g-lines.' );
+			$bot->notice($user, 'There are no g-lines.');
 			return false;
 		}
 
 		$n = 0;
-		foreach( $this->glines as $gline_key => $gline )
+		foreach($this->glines as $gline_key => $gline)
 		{
-			$exp_date = date( 'D d M H:i:s Y', $gline->get_expire_ts() );
+			$exp_date = date('D d M H:i:s Y', $gline->get_expire_ts());
 
-			$bot->noticef( $user, '  %2d) Mask:     %s', ++$n, $gline->get_mask() );
-			$bot->noticef( $user, '       Reason:   %s', $gline->get_reason() );
-			$bot->noticef( $user, '       Expires:  %s', $exp_date );
+			$bot->noticef($user, '  %2d) Mask:     %s', ++$n, $gline->get_mask());
+			$bot->noticef($user, '       Reason:   %s', $gline->get_reason());
+			$bot->noticef($user, '       Expires:  %s', $exp_date);
 		}
 	}
-	elseif( $option == 'JUPES' )
+	elseif($option == 'JUPES')
 	{
-		if( count($this->jupes) == 0 )
+		if(count($this->jupes) == 0)
 		{
-			$bot->notice( $user, 'There are no jupes.' );
+			$bot->notice($user, 'There are no jupes.');
 			return false;
 		}
 
 		$n = 0;
-		foreach( $this->jupes as $jupe_key => $jupe )
+		foreach($this->jupes as $jupe_key => $jupe)
 		{
-			$exp_date = date( 'D d M H:i:s Y', $jupe->get_expire_ts() );
+			$exp_date = date('D d M H:i:s Y', $jupe->get_expire_ts());
 
-			$bot->noticef( $user, '  %2d) Server:   %s', ++$n, $jupe->get_server() );
-			$bot->noticef( $user, '       Reason:   %s', $jupe->get_reason() );
-			$bot->noticef( $user, '       Expires:  %s', $exp_date );
+			$bot->noticef($user, '  %2d) Server:   %s', ++$n, $jupe->get_server());
+			$bot->noticef($user, '       Reason:   %s', $jupe->get_reason());
+			$bot->noticef($user, '       Expires:  %s', $exp_date);
 		}
 	}
-	elseif( $option == 'OPERS' )
+	elseif($option == 'OPERS')
 	{
 		$n = 0;
 
-		foreach( $this->users as $tmp_numeric => $tmp_user )
+		foreach($this->users as $tmp_numeric => $tmp_user)
 		{
-			if( !$tmp_user->is_oper() || $tmp_user->is_service() )
+			if(!$tmp_user->is_oper() || $tmp_user->is_service())
 				continue;
 
-			$bot->noticef( $user, '  %2d) %s', ++$n, $tmp_user->get_full_mask() );
+			$bot->noticef($user, '  %2d) %s', ++$n, $tmp_user->get_full_mask());
 		}
 
-		$bot->noticef( $user, '%d oper(s) are online.', $n );
+		$bot->noticef($user, '%d oper(s) are online.', $n);
 	}
 	else
 	{
-		$bot->noticef( $user, '%s is not a valid option. Please use %sHELP SHOW%s to see valid options.',
-			$option, BOLD_START, BOLD_END );
+		$bot->noticef($user, '%s is not a valid option. Please use %sHELP SHOW%s to see valid options.',
+			$option, BOLD_START, BOLD_END);
 	}
 
 

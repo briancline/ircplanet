@@ -29,73 +29,73 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	define( 'CORE_VENDOR',         'ircPlanet' );
-	define( 'CORE_NAME',           'Services Core' );
-	define( 'CORE_VERSION_MAJOR',  1 );
-	define( 'CORE_VERSION_MINOR',  4 );
-	define( 'CORE_VERSION_REV',    0 );
+	define('CORE_VENDOR',         'ircPlanet');
+	define('CORE_NAME',           'Services Core');
+	define('CORE_VERSION_MAJOR',  1);
+	define('CORE_VERSION_MINOR',  4);
+	define('CORE_VERSION_REV',    0);
 	
-	define( 'CORE_VERSION',        CORE_VENDOR .' '.
+	define('CORE_VERSION',        CORE_VENDOR .' '.
 	                               CORE_NAME .' v'.
 	                               CORE_VERSION_MAJOR .'.'.
 	                               CORE_VERSION_MINOR .'.'.
-	                               CORE_VERSION_REV );
+	                               CORE_VERSION_REV);
 
-	define( 'CORE_DIR',            dirname(__FILE__) );
-	define( 'P10_DIR',             CORE_DIR .'/p10/' );
-	define( 'CORE_TIMER_DIR',      CORE_DIR .'/timers/' );
+	define('CORE_DIR',            dirname(__FILE__));
+	define('P10_DIR',             CORE_DIR .'/p10/');
+	define('CORE_TIMER_DIR',      CORE_DIR .'/timers/');
 	
-	define( 'NICK_LEN',            15 );
-	define( 'IDENT_LEN',           10 );
-	define( 'HOST_LEN',            64 );
-	define( 'ACCOUNT_LEN',         NICK_LEN );
-	define( 'HIDDEN_HOST',         'users.ircplanet.net' );
-	define( 'TOPIC_BURSTING',      true );
+	define('NICK_LEN',            15);
+	define('IDENT_LEN',           10);
+	define('HOST_LEN',            64);
+	define('ACCOUNT_LEN',         NICK_LEN);
+	define('HIDDEN_HOST',         'users.ircplanet.net');
+	define('TOPIC_BURSTING',      true);
 	
-	define( 'SOCKET_TIMEOUT',       5 );
+	define('SOCKET_TIMEOUT',       5);
 	
-	define( 'ACTION_CHAR',         chr(1) );
-	define( 'ACTION_START',        ACTION_CHAR );
-	define( 'ACTION_END',          ACTION_CHAR );
+	define('ACTION_CHAR',         chr(1));
+	define('ACTION_START',        ACTION_CHAR);
+	define('ACTION_END',          ACTION_CHAR);
 	
-	define( 'CTCP_CHAR',           chr(1) );
-	define( 'CTCP_START',          CTCP_CHAR );
-	define( 'CTCP_END',            CTCP_CHAR );
+	define('CTCP_CHAR',           chr(1));
+	define('CTCP_START',          CTCP_CHAR);
+	define('CTCP_END',            CTCP_CHAR);
 	
-	define( 'BOLD_CHAR',           chr(2) );
-	define( 'BOLD_START',          BOLD_CHAR );
-	define( 'BOLD_END',            BOLD_CHAR );
+	define('BOLD_CHAR',           chr(2));
+	define('BOLD_START',          BOLD_CHAR);
+	define('BOLD_END',            BOLD_CHAR);
 
-	define( 'NOTIFY_ACCOUNT',        'A'  );
-	define( 'NOTIFY_CHANNEL',        'C'  );
-	define( 'NOTIFY_CHANNEL_ACCESS', 'CA' );
+	define('NOTIFY_ACCOUNT',        'A' );
+	define('NOTIFY_CHANNEL',        'C' );
+	define('NOTIFY_CHANNEL_ACCESS', 'CA');
 
-	define( 'NOTIFY_LOAD',           'L'  );
-	define( 'NOTIFY_RELOAD',         'R'  );
-	define( 'NOTIFY_DELETE',         'D'  );
+	define('NOTIFY_LOAD',           'L' );
+	define('NOTIFY_RELOAD',         'R' );
+	define('NOTIFY_DELETE',         'D' );
 
 
-	function debug( $s )
+	function debug($s)
 	{
 		$s .= "\n";
-		echo( "[". date('D d M H:i:s Y') ."] $s" );
+		echo("[". date('D d M H:i:s Y') ."] $s");
 	}
 	
-	function debugf( $format )
+	function debugf($format)
 	{
 		$args = func_get_args();
-		$format = array_shift( $args );
-		$debug = vsprintf( $format, $args );
+		$format = array_shift($args);
+		$debug = vsprintf($format, $args);
 
-		return debug( $debug );
+		return debug($debug);
 	}
 	
-	function print_array( $a )
+	function print_array($a)
 	{
-		print_r( $a );
+		print_r($a);
 	}
 	
 	
-	require_once( CORE_DIR .'/uptime.php' );
+	require_once(CORE_DIR .'/uptime.php');
 	
 

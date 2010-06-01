@@ -31,7 +31,7 @@
 	
 	$last_update_ts = START_TIME;
 
-	if( !empty($timer_data) )
+	if(!empty($timer_data))
 		$last_update_ts = $timer_data[0];
 		
 	$last_update = db_date($last_update_ts);
@@ -39,16 +39,16 @@
 	/**
 	 * Check for new and updated account records since this timer last ran
 	 */
-	$res = db_query( 
+	$res = db_query(
 		'select account_id, name, update_date '.
 		'from accounts '.
-		"where create_date >= '$last_update' or update_date >= '$last_update'", false );
+		"where create_date >= '$last_update' or update_date >= '$last_update'", false);
 
-	while( $row = mysql_fetch_assoc($res) )
+	while($row = mysql_fetch_assoc($res))
 	{
 		$account = $this->get_account($row['name']);
 		
-		if( !$account )
+		if(!$account)
 		{
 			/**
 			 * We've never seen this account before, so load it into memory and associate

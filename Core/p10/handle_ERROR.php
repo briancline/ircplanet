@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	debug( "*** FATAL ERROR FROM UPLINK: ". $args[1] );
+	debug("*** FATAL ERROR FROM UPLINK: ". $args[1]);
 	exit();
 	
 

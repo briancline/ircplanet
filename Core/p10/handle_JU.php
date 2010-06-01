@@ -29,25 +29,25 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$active = ( $args[3][0] == '+' );
+	$active = ($args[3][0] == '+');
 
-	$server = substr( $args[3], 1 );
+	$server = substr($args[3], 1);
 	$duration = $args[4];
 	$last_mod = $args[5];
 	$reason = $args[6];
 
-	if( $jupe = $this->get_jupe($server) )
+	if($jupe = $this->get_jupe($server))
 	{
-		$jupe->set_duration( $duration );
-		$jupe->set_last_mod( $last_mod );
-		$jupe->set_reason( $reason );
+		$jupe->set_duration($duration);
+		$jupe->set_last_mod($last_mod);
+		$jupe->set_reason($reason);
 	}
 	else
 	{
-		$jupe = $this->add_jupe( $server, $duration, $last_mod, $reason );
+		$jupe = $this->add_jupe($server, $duration, $last_mod, $reason);
 	}
 
-	if( $active )
+	if($active)
 		$jupe->activate();
 	else
 		$jupe->deactivate();

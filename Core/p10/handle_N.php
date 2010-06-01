@@ -29,14 +29,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	if( $num_args == 4 )
+	if($num_args == 4)
 	{
 		// This is an existing user changing their nick
 		$nick_change = true;
 		$numeric = $args[0];
 		$new_nick = $args[2];
 		$old_nick = $this->users[$numeric]->get_nick();
-		$this->users[$numeric]->set_nick( $new_nick );
+		$this->users[$numeric]->set_nick($new_nick);
 	}
 	else
 	{
@@ -46,7 +46,7 @@
 		$start_ts = $args[4];
 		$ident = $args[5];
 		$host = $args[6];
-		$ip = base64_to_ip( $args[$num_args - 3] );
+		$ip = base64_to_ip($args[$num_args - 3]);
 		$numeric = $args[$num_args - 2];
 		$desc = $args[$num_args - 1];
 		$account = '';
@@ -55,17 +55,17 @@
 		$modes = '';
 		$mode_arg = 8;
 		
-		if( $args[7][0] == '+' )
+		if($args[7][0] == '+')
 		{
 			$modes = $args[7];
 			
-			if( preg_match('/r/', $modes) )
+			if(preg_match('/r/', $modes))
 				$account = $args[$mode_arg++];
-			if( preg_match('/f/', $modes) )
+			if(preg_match('/f/', $modes))
 				$fakehost = $args[$mode_arg++];
 		}
 		
-		if( $ts_idx = strpos($account, ':') )
+		if($ts_idx = strpos($account, ':'))
 		{
 			$account_ts = substr($account, $ts_idx + 1);
 			$account = substr($account, 0, $ts_idx);
@@ -79,19 +79,19 @@
 			}
 		}
 		
-		$user = $this->add_user( $numeric, $nick, $ident, $host, $desc, $start_ts, $ip, $modes, $account, $account_ts );
+		$user = $this->add_user($numeric, $nick, $ident, $host, $desc, $start_ts, $ip, $modes, $account, $account_ts);
 		
-		if( !empty($fakehost) ) {
-			$user->set_fakehost( $fakehost );
+		if(!empty($fakehost)) {
+			$user->set_fakehost($fakehost);
 		}
 	}
 	
-	$user = $this->get_user( $numeric );
+	$user = $this->get_user($numeric);
 	$account_name = $user->get_account_name();
 	
-	if( $account = $this->get_account($account_name) )
+	if($account = $this->get_account($account_name))
 	{
-		$user->set_account_id( $account->get_id() );
+		$user->set_account_id($account->get_id());
 		$account->update_lastseen();
 		$account->save();
 	}

@@ -32,11 +32,11 @@
 	$channel = $pargs[1];
 	$lastmod_ts = time();
 	
-	if( $gline = $this->get_gline($channel) )
+	if($gline = $this->get_gline($channel))
 	{
 		$lastmod_ts = $gline->get_lastmod_ts();
-		$this->remove_gline( $channel );
+		$this->remove_gline($channel);
 	}
 	
-	$this->sendf( FMT_GLINE_REMOVE, SERVER_NUM, $channel, $lastmod_ts );
+	$this->sendf(FMT_GLINE_REMOVE, SERVER_NUM, $channel, $lastmod_ts);
 

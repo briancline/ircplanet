@@ -29,17 +29,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	require_once( 'db_channel_access.php' );
-	require_once( 'db_ban.php' );
+	require_once('db_channel_access.php');
+	require_once('db_ban.php');
 	
-	define( 'MAXLEN_CHAN_PURPOSE',        200 );
-	define( 'MAXLEN_CHAN_URL',            255 );
-	define( 'MAXLEN_CHAN_DEFAULT_TOPIC',  255 );
-	define( 'MAXLEN_CHAN_DEFAULT_MODES',   20 );
-	define( 'MIN_CHAN_AUTOLIMIT_BUFFER',    1 );
-	define( 'MAX_CHAN_AUTOLIMIT_BUFFER',  100 );
-	define( 'MIN_CHAN_AUTOLIMIT_WAIT',      1 );
-	define( 'MAX_CHAN_AUTOLIMIT_WAIT',    300 );
+	define('MAXLEN_CHAN_PURPOSE',        200);
+	define('MAXLEN_CHAN_URL',            255);
+	define('MAXLEN_CHAN_DEFAULT_TOPIC',  255);
+	define('MAXLEN_CHAN_DEFAULT_MODES',   20);
+	define('MIN_CHAN_AUTOLIMIT_BUFFER',    1);
+	define('MAX_CHAN_AUTOLIMIT_BUFFER',  100);
+	define('MIN_CHAN_AUTOLIMIT_WAIT',      1);
+	define('MAX_CHAN_AUTOLIMIT_WAIT',    300);
 	
 	class DB_Channel extends DB_Record 
 	{
@@ -93,14 +93,14 @@
 				$this->register_date = db_date();
 			}
 			
-			if( isset($owner_id) && $owner_id > 0 )
+			if(isset($owner_id) && $owner_id > 0)
 			{
 				$this->save();
 				$owner = new DB_Channel_Access();
-				$owner->set_chan_id( $this->channel_id );
-				$owner->set_user_id( $owner_id );
-				$owner->set_level( 500 );
-				$this->add_access( $owner );
+				$owner->set_chan_id($this->channel_id);
+				$owner->set_user_id($owner_id);
+				$owner->set_level(500);
+				$this->add_access($owner);
 			}
 		}
 		
@@ -166,107 +166,107 @@
 		function set_no_voice($b)          { $this->no_voice = $b ? 1 : 0; }
 		
 		
-		function add_access( $access_obj )
+		function add_access($access_obj)
 		{
 			$user_id = $access_obj->get_user_id();
 			$this->levels[$user_id] = $access_obj;
 		}
 		
-		function remove_access( $user_id )
+		function remove_access($user_id)
 		{
-			if( array_key_exists($user_id, $this->levels) )
+			if(array_key_exists($user_id, $this->levels))
 			{
 				$this->levels[$user_id]->delete();
-				unset( $this->levels[$user_id] );
+				unset($this->levels[$user_id]);
 			}
 		}
 		
 		
-		function get_level_by_id( $user_id )
+		function get_level_by_id($user_id)
 		{
-			if( array_key_exists($user_id, $this->levels) )
+			if(array_key_exists($user_id, $this->levels))
 				return $this->levels[$user_id]->get_level();
 			
 			return 0;
 		}
 		
 		
-		function add_ban( $ban_obj )
+		function add_ban($ban_obj)
 		{
-			$mask = strtolower( $ban_obj->get_mask() );
+			$mask = strtolower($ban_obj->get_mask());
 			$this->bans[$mask] = $ban_obj;
 		}
 		
-		function get_ban( $mask )
+		function get_ban($mask)
 		{
-			$mask = strtolower( $mask );
-			if( array_key_exists($mask, $this->bans) )
+			$mask = strtolower($mask);
+			if(array_key_exists($mask, $this->bans))
 				return $this->bans[$mask];
 			
 			return false;
 		}
 		
-		function remove_ban( $mask )
+		function remove_ban($mask)
 		{
-			$mask = strtolower( $mask );
-			if( array_key_exists($mask, $this->bans) )
+			$mask = strtolower($mask);
+			if(array_key_exists($mask, $this->bans))
 			{
 				$this->bans[$mask]->delete();
-				unset( $this->bans[$mask] );
+				unset($this->bans[$mask]);
 			}
 		}
 		
 		function clear_bans()
 		{
-			foreach( $this->bans as $mask => $ban )
+			foreach($this->bans as $mask => $ban)
 				$ban->delete();
 
 			$this->bans = array();
 		}
 		
-		function count_matching_bans( $mask )
+		function count_matching_bans($mask)
 		{
-			if( is_object($mask) )
-				return $this->count_matching_bans( $mask->get_full_mask() );
+			if(is_object($mask))
+				return $this->count_matching_bans($mask->get_full_mask());
 			
 			$match_count = 0;
-			$mask = strtolower( $mask );
+			$mask = strtolower($mask);
 			
-			foreach( $this->bans as $mask_iter => $ban )
+			foreach($this->bans as $mask_iter => $ban)
 			{
-				if( fnmatch($mask_iter, $mask) )
+				if(fnmatch($mask_iter, $mask))
 					$match_count++;
 			}
 			
 			return $match_count;
 		}
 		
-		function has_matching_bans( $mask )
+		function has_matching_bans($mask)
 		{
-			if( is_object($mask) )
-				return $this->has_matching_bans( $mask->get_full_mask() );
+			if(is_object($mask))
+				return $this->has_matching_bans($mask->get_full_mask());
 			
-			$mask = strtolower( $mask );
+			$mask = strtolower($mask);
 			
-			foreach( $this->bans as $mask_iter => $ban )
+			foreach($this->bans as $mask_iter => $ban)
 			{
-				if( fnmatch($mask_iter, $mask) )
+				if(fnmatch($mask_iter, $mask))
 					return true;
 			}
 			
 			return false;
 		}
 		
-		function get_matching_ban( $mask )
+		function get_matching_ban($mask)
 		{
-			if( is_object($mask) )
-				return $this->get_matching_ban( $mask->get_full_mask() );
+			if(is_object($mask))
+				return $this->get_matching_ban($mask->get_full_mask());
 			
-			$mask = strtolower( $mask );
+			$mask = strtolower($mask);
 			
-			foreach( $this->bans as $mask_iter => $ban )
+			foreach($this->bans as $mask_iter => $ban)
 			{
-				if( fnmatch($mask_iter, $mask) )
+				if(fnmatch($mask_iter, $mask))
 					return $ban;
 			}
 			
@@ -274,21 +274,21 @@
 		}
 		
 		
-		function get_matching_bans( $mask = '*' )
+		function get_matching_bans($mask = '*')
 		{
-			if( is_object($mask) )
-				return $this->get_matching_bans( $mask->get_full_mask() );
+			if(is_object($mask))
+				return $this->get_matching_bans($mask->get_full_mask());
 			
 			$matches = array();
-			$mask = strtolower( $mask );
+			$mask = strtolower($mask);
 			
-			foreach( $this->bans as $mask_iter => $ban )
+			foreach($this->bans as $mask_iter => $ban)
 			{
-				if( $mask == '*' || fnmatch($mask, $mask_iter) )
+				if($mask == '*' || fnmatch($mask, $mask_iter))
 					$matches[$mask_iter] = $ban;
 			}
 			
-			if( count($matches) == 0 )
+			if(count($matches) == 0)
 				return false;
 			
 			return $matches;
@@ -297,17 +297,17 @@
 		
 		function record_save()
 		{
-			foreach( $this->levels as $user_id => $access )
+			foreach($this->levels as $user_id => $access)
 			{
-				if( empty($user_id) || $user_id == 0 || $this->channel_id == 0 )
+				if(empty($user_id) || $user_id == 0 || $this->channel_id == 0)
 					continue;
 				
 				$access->save();
 			}
 			
-			foreach( $this->bans as $mask => $ban )
+			foreach($this->bans as $mask => $ban)
 			{
-				if( empty($mask) || !is_ban_record($ban) || $this->channel_id == 0 )
+				if(empty($mask) || !is_ban_record($ban) || $this->channel_id == 0)
 					continue;
 				
 				$ban->save();
@@ -317,10 +317,10 @@
 		
 		function record_delete()
 		{
-			foreach( $this->bans as $mask => $ban )
+			foreach($this->bans as $mask => $ban)
 				$ban->delete();
 			
-			foreach( $this->levels as $user_id => $access )
+			foreach($this->levels as $user_id => $access)
 				$access->delete();
 		}
 		

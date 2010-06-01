@@ -29,6 +29,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	$this->remove_channel( $chan_name );
+	$this->remove_channel($chan_name);
 	
 

@@ -29,9 +29,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	require( 'globals.php' );
-	require( '../Core/service.php' );
-	require_once( SERVICE_DIR .'/db_whitelistentry.php' );
+	require('globals.php');
+	require('../Core/service.php');
+	require_once(SERVICE_DIR .'/db_whitelistentry.php');
 	
 	
 	class DefenseService extends Service
@@ -43,16 +43,16 @@
 		
 		function load_whitelist_entries()
 		{
-			$res = db_query( 'select * from ds_whitelist order by whitelist_id asc' );
-			while( $row = mysql_fetch_assoc($res) )
+			$res = db_query('select * from ds_whitelist order by whitelist_id asc');
+			while($row = mysql_fetch_assoc($res))
 			{
-				$entry = new DB_WhitelistEntry( $row );
+				$entry = new DB_WhitelistEntry($row);
 				
-				$entry_key = strtolower( $entry->get_mask() );
+				$entry_key = strtolower($entry->get_mask());
 				$this->whitelist[$entry_key] = $entry;
 			}
 
-			debugf( 'Loaded %d whitelist entries.', count($this->whitelist) );
+			debugf('Loaded %d whitelist entries.', count($this->whitelist));
 		}
 
 
@@ -80,12 +80,12 @@
 		function service_postburst()
 		{
 			$bot_num = $this->default_bot->get_numeric();
-			foreach( $this->default_bot->channels as $chan_name )
+			foreach($this->default_bot->channels as $chan_name)
 			{
-				$chan = $this->get_channel( $chan_name );
+				$chan = $this->get_channel($chan_name);
 				
-				if( !$chan->is_op($bot_num) )
-					$this->op( $chan->get_name(), $bot_num );
+				if(!$chan->is_op($bot_num))
+					$this->op($chan->get_name(), $bot_num);
 			}
 		}
 		
@@ -95,14 +95,14 @@
 		}
 		
 
-		function service_close( $reason = 'So long, and thanks for all the fish!' )
+		function service_close($reason = 'So long, and thanks for all the fish!')
 		{
-			foreach( $this->users as $numeric => $user )
+			foreach($this->users as $numeric => $user)
 			{
-				if( $user->is_bot() )
+				if($user->is_bot())
 				{
-					$this->sendf( FMT_QUIT, $numeric, $reason );
-					$this->remove_user( $numeric );
+					$this->sendf(FMT_QUIT, $numeric, $reason);
+					$this->remove_user($numeric);
 				}
 			}
 		}
@@ -113,23 +113,23 @@
 		}
 		
 		
-		function get_user_level( $user_obj )
+		function get_user_level($user_obj)
 		{
 			$acct_id = $user_obj;
 			
-			if( is_object($user_obj) && is_user($user_obj) )
+			if(is_object($user_obj) && is_user($user_obj))
 			{
-				if( !$user_obj->is_logged_in() )
+				if(!$user_obj->is_logged_in())
 					return 0;
 				
 				$acct_id = $user_obj->get_account_id();
 			}
 			
-			$res = db_query( "select `level` from `ds_admins` where user_id = ". $acct_id );
-			if( $res && mysql_num_rows($res) > 0 )
+			$res = db_query("select `level` from `ds_admins` where user_id = ". $acct_id);
+			if($res && mysql_num_rows($res) > 0)
 			{
-				$level = mysql_result( $res, 0 );
-				mysql_free_result( $res );
+				$level = mysql_result($res, 0);
+				mysql_free_result($res);
 				return $level;
 			}
 			
@@ -137,45 +137,45 @@
 		}
 		
 		
-		function add_whitelist_entry( $mask )
+		function add_whitelist_entry($mask)
 		{
 			$entry = new DB_WhitelistEntry();
-			$entry->set_mask( $mask );
+			$entry->set_mask($mask);
 			$entry->save();
 			
-			$key = strtolower( $mask );
+			$key = strtolower($mask);
 			$this->whitelist[$key] = $entry;
 			
 			return $this->whitelist[$key];
 		}
 		
 		
-		function get_whitelist_entry( $mask )
+		function get_whitelist_entry($mask)
 		{
-			$key = strtolower( $mask );
-			if( array_key_exists($key, $this->whitelist) )
+			$key = strtolower($mask);
+			if(array_key_exists($key, $this->whitelist))
 				return $this->whitelist[$key];
 			
 			return false;
 		}
 		
 		
-		function remove_whitelist_entry( $mask )
+		function remove_whitelist_entry($mask)
 		{
-			$key = strtolower( $mask );
-			if( !array_key_exists($key, $this->whitelist) )
+			$key = strtolower($mask);
+			if(!array_key_exists($key, $this->whitelist))
 				return;
 			
 			$this->whitelist[$key]->delete();
-			unset( $this->whitelist[$key] );
+			unset($this->whitelist[$key]);
 		}
 		
 		
-		function is_whitelisted( $mask )
+		function is_whitelisted($mask)
 		{
-			foreach( $this->whitelist as $entry )
+			foreach($this->whitelist as $entry)
 			{
-				if( $entry->matches($mask) )
+				if($entry->matches($mask))
 					return true;
 			}
 			
@@ -183,18 +183,18 @@
 		}
 		
 
-		function is_blacklisted_db( $ip )
+		function is_blacklisted_db($ip)
 		{
-			if( !defined('BLACK_GLINE') )
+			if(!defined('BLACK_GLINE'))
 				return false;
 			
-			$res = db_query( sprintf(
+			$res = db_query(sprintf(
 					"select count(entry_id) FROM `ds_blacklist` WHERE `ip_address` = '%s'", 
-					addslashes($ip)) );
-			if( $res && mysql_result($res, 0) > 0 )
+					addslashes($ip)));
+			if($res && mysql_result($res, 0) > 0)
 			{
-				mysql_free_result( $res );
-				debugf( 'IP %s blacklisted by admin.', $ip );
+				mysql_free_result($res);
+				debugf('IP %s blacklisted by admin.', $ip);
 				return true;
 			}
 			
@@ -213,22 +213,22 @@
 		 * 	           considered a positive match.
 		 * 
 		 * For example:
-		 * 	is_blacklisted_dns( '1.2.3.4', 'dnsbl.com' )
+		 * 	is_blacklisted_dns('1.2.3.4', 'dnsbl.com')
 		 * 		Returns true if 4.3.2.1.dnsbl.com returns any DNS resolution.
-		 * 	is_blacklisted_dns( '1.2.3.4', 'dnsbl.com', 2 )
+		 * 	is_blacklisted_dns('1.2.3.4', 'dnsbl.com', 2)
 		 * 		Returns true if 4.3.2.1.dnsbl.com contains '127.0.0.2' in its 
 		 * 		response.
-		 * 	is_blacklisted_dns( '1.2.3.4', 'dnsbl.com', array(2, 3))
+		 * 	is_blacklisted_dns('1.2.3.4', 'dnsbl.com', array(2, 3))
 		 * 		Returns true if 4.3.2.1.dnsbl.com contains either 127.0.0.2 or 
 		 * 		127.0.0.3 in its response.
 		 */
-		function is_blacklisted_dns( $host, $dns_suffix, $pos_responses = -1 )
+		function is_blacklisted_dns($host, $dns_suffix, $pos_responses = -1)
 		{
 			// Don't waste time checking private class IPs.
-			if( is_private_ip($host) )
+			if(is_private_ip($host))
 				return false;
 			
-			$start_ts = microtime( true );
+			$start_ts = microtime(true);
 			
 			/**
 			 * DNS blacklists work by storing records for ipaddr.dnsbl.com,
@@ -236,14 +236,14 @@
 			 * is blacklisted in a DNSBL, we need to query for the hostname
 			 * 4.3.2.1.dnsbl.com.
 			 */
-			$octets = explode( '.', $host );
-			$reverse_octets = implode( '.', array_reverse($octets) );
+			$octets = explode('.', $host);
+			$reverse_octets = implode('.', array_reverse($octets));
 			$lookup_addr = $reverse_octets .'.'. $dns_suffix .'.';
 
-			debugf( 'DNSBL checking %s', $lookup_addr );
-			$dns_result = @dns_get_record( $lookup_addr, DNS_A );
+			debugf('DNSBL checking %s', $lookup_addr);
+			$dns_result = @dns_get_record($lookup_addr, DNS_A);
 
-			if( count($dns_result) > 0 )
+			if(count($dns_result) > 0)
 			{
 				$dns_result = $dns_result[0]['ip'];
 				$resolved = true;
@@ -254,30 +254,30 @@
 				$resolved = false;
 			}
 			
-			$end_ts = microtime( true );
-			debugf( 'DNSBL check time elapsed: %0.4f seconds (%s = %s)', 
-					$end_ts - $start_ts, $lookup_addr, $dns_result );
+			$end_ts = microtime(true);
+			debugf('DNSBL check time elapsed: %0.4f seconds (%s = %s)', 
+					$end_ts - $start_ts, $lookup_addr, $dns_result);
 			
 			// If it didn't resolve, don't check anything
-			if( !$resolved )
+			if(!$resolved)
 				return false;
 			
 			// Check for any successful resolution
-			if( $resolved && $pos_responses == -1 || empty($pos_responses) )
+			if($resolved && $pos_responses == -1 || empty($pos_responses))
 				return true;
 			
 			// Check for a match against the provided string
-			if( is_string($pos_responses) && !empty($pos_responses)
-			 		&& $dns_result == ('127.0.0.'. $pos_responses) )
+			if(is_string($pos_responses) && !empty($pos_responses)
+			 		&& $dns_result == ('127.0.0.'. $pos_responses))
 				return true;
 			
 			// Check for a match within the provided array
-			if( is_array($pos_responses) )
+			if(is_array($pos_responses))
 			{
-				foreach( $pos_responses as $tmp_match )
+				foreach($pos_responses as $tmp_match)
 				{
 					$tmp_match = '127.0.0.'. $tmp_match;
-					if( $tmp_match == $dns_result )
+					if($tmp_match == $dns_result)
 						return true;
 				}
 			}
@@ -287,7 +287,7 @@
 		}
 		
 		
-		function is_tor_host( $host )
+		function is_tor_host($host)
 		{
 			/**
 			 * The TOR DNSBL will return 127.0.0.1 as the address for a host
@@ -306,14 +306,14 @@
 			 * but not impossible.
 			 */
 			$blacklists = array(
-				'tor.dnsbl.sectoor.de' => array( 1 ),
-				'tor.dan.me.uk'        => array( 100 ),
-				'tor.ahbl.org'         => array( 2 )
+				'tor.dnsbl.sectoor.de' => array(1),
+				'tor.dan.me.uk'        => array(100),
+				'tor.ahbl.org'         => array(2)
 			);
 
-			foreach( $blacklists as $dns_suffix => $responses )
+			foreach($blacklists as $dns_suffix => $responses)
 			{
-				if( $this->is_blacklisted_dns($host, $dns_suffix, $responses) )
+				if($this->is_blacklisted_dns($host, $dns_suffix, $responses))
 					return true;
 			}
 			
@@ -321,28 +321,28 @@
 		}
 		
 		
-		function is_compromised_host( $host )
+		function is_compromised_host($host)
 		{
 			/**
 			 * To determine if a host is compromised, check a myriad of public
 			 * DNSBL services (some are IRC-centric) to see if they are listed.
 			 */
 			$blacklists = array(
-				'ircbl.ahbl.org'      => array( 2 ),
+				'ircbl.ahbl.org'      => array(2),
 				'dnsbl.dronebl.org'   => array(),
-				'dnsbl.proxybl.org'   => array( 2 ),
-				'rbl.efnetrbl.org'    => array( 1, 2, 3, 4 ),
-				'dnsbl.swiftbl.net'   => array( 2, 3, 4, 5 ),
-				'cbl.abuseat.org'     => array( 2 ),
+				'dnsbl.proxybl.org'   => array(2),
+				'rbl.efnetrbl.org'    => array(1, 2, 3, 4),
+				'dnsbl.swiftbl.net'   => array(2, 3, 4, 5),
+				'cbl.abuseat.org'     => array(2),
 				'xbl.spamhaus.org'    => array(),
-				'drone.abuse.ch'      => array( 2, 3, 4, 5 ),
-				'httpbl.abuse.ch'     => array( 2, 3, 4 ),
-				'spam.abuse.ch'       => array( 2 )
+				'drone.abuse.ch'      => array(2, 3, 4, 5),
+				'httpbl.abuse.ch'     => array(2, 3, 4),
+				'spam.abuse.ch'       => array(2)
 			);
 			
-			foreach( $blacklists as $dns_suffix => $responses )
+			foreach($blacklists as $dns_suffix => $responses)
 			{
-				if( $this->is_blacklisted_dns($host, $dns_suffix, $responses) )
+				if($this->is_blacklisted_dns($host, $dns_suffix, $responses))
 					return true;
 			}
 			
@@ -350,27 +350,27 @@
 		}
 		
 		
-		function perform_gline( $gline_mask, $gline_duration, $gline_reason )
+		function perform_gline($gline_mask, $gline_duration, $gline_reason)
 		{
-			if( defined('OS_GLINE') && OS_GLINE == true && defined('OS_NICK') )
+			if(defined('OS_GLINE') && OS_GLINE == true && defined('OS_NICK'))
 			{
-				$oper_service = $this->get_user_by_nick( OS_NICK );
-				$gline_command = irc_sprintf( 'GLINE %s %s %s', 
-						$gline_mask, $gline_duration, $gline_reason );
+				$oper_service = $this->get_user_by_nick(OS_NICK);
+				$gline_command = irc_sprintf('GLINE %s %s %s', 
+						$gline_mask, $gline_duration, $gline_reason);
 
-				if( !$oper_service )
+				if(!$oper_service)
 				{
 					$pending_commands[] = $gline_command;
 					return;
 				}
 
-				$this->default_bot->message( $oper_service, $gline_command );
+				$this->default_bot->message($oper_service, $gline_command);
 			}
 			else
 			{
-				$gline_secs = convert_duration( $gline_duration );
-				$new_gl = $this->add_gline( $gline_mask, $gline_secs, time(), $gline_reason );
-				$this->enforce_gline( $new_gl );
+				$gline_secs = convert_duration($gline_duration);
+				$new_gl = $this->add_gline($gline_mask, $gline_secs, time(), $gline_reason);
+				$this->enforce_gline($new_gl);
 			}
 		}
 	}

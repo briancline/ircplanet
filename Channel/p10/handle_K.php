@@ -29,21 +29,21 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	$source = $this->get_user( $args[0] );
+	$source = $this->get_user($args[0]);
 	$channel = $args[2];
-	$chan_reg = $this->get_channel_reg( $channel );
-	$target = $this->get_user( $args[3] );
+	$chan_reg = $this->get_channel_reg($channel);
+	$target = $this->get_user($args[3]);
 	
-	if( $chan_reg !== false && is_user($source) && !$source->is_service() && $target->is_logged_in() )
+	if($chan_reg !== false && is_user($source) && !$source->is_service() && $target->is_logged_in())
 	{
-		$source_access = $this->get_channel_access( $channel, $source );
-		$target_access = $this->get_channel_access( $channel, $target );
+		$source_access = $this->get_channel_access($channel, $source);
+		$target_access = $this->get_channel_access($channel, $target);
 		
-		if( $target_access && $target_access->is_protected() && 
-				(!$source_access || $source_access->get_level() <= $target_access->get_level()) )
+		if($target_access && $target_access->is_protected() && 
+				(!$source_access || $source_access->get_level() <= $target_access->get_level()))
 		{
-			$this->default_bot->deop( $channel, $source->get_numeric() );
-			$this->default_bot->invite( $target->get_numeric(), $channel );
+			$this->default_bot->deop($channel, $source->get_numeric());
+			$this->default_bot->invite($target->get_numeric(), $channel);
 		}
 	}
 	

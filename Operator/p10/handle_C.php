@@ -29,13 +29,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	foreach( $channels as $chan_name )
+	foreach($channels as $chan_name)
 	{
-		if( $this->is_badchan($chan_name) )
+		if($this->is_badchan($chan_name))
 		{
-			$chan = $this->get_channel( $chan_name );
-			$this->mode( $chan->get_name(), '+s' );
-			$chan->add_modes( 's' );
+			$chan = $this->get_channel($chan_name);
+			$this->mode($chan->get_name(), '+s');
+			$chan->add_modes('s');
 		}
 	}
 

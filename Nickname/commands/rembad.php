@@ -31,13 +31,13 @@
 	
 	$nick_mask = $pargs[1];
 	
-	if( !($badnick = $this->get_badnick($nick_mask)) )
+	if(!($badnick = $this->get_badnick($nick_mask)))
 	{
-		$bot->noticef( $user, 'There is no bad nick entry with that name.' );
+		$bot->noticef($user, 'There is no bad nick entry with that name.');
 		return false;
 	}
 
-	$this->remove_badnick( $nick_mask );
-	$bot->noticef( $user, '%s has been removed from the bad nicks list.', $nick_mask );
+	$this->remove_badnick($nick_mask);
+	$bot->noticef($user, '%s has been removed from the bad nicks list.', $nick_mask);
 
 

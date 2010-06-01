@@ -29,17 +29,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$server = $this->get_server( $args[0] );
-	$gline = $this->get_gline( $mask );
+	$server = $this->get_server($args[0]);
+	$gline = $this->get_gline($mask);
 	
-	if( $gline )
+	if($gline)
 	{
-		if( $add )
+		if($add)
 			$mask = "+$mask";
 		else
 			$mask = "-$mask";
 		
-		$this->report_event( 'GLINE', $server, $gline, '('. $gline->get_reason() .')' );
+		$this->report_event('GLINE', $server, $gline, '('. $gline->get_reason() .')');
 	}
 
 

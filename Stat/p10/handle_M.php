@@ -31,18 +31,18 @@
 
 	$source = $args[0];
 	$target = $args[2];
-	$is_chan = ( $target[0] == '#' );
+	$is_chan = ($target[0] == '#');
 
-	if( $is_chan )
+	if($is_chan)
 	{
-		$chan = $this->get_channel( $target );
+		$chan = $this->get_channel($target);
 		db_queryf("update stats_channels set modes = '%s' where channel_name = '%s'",
 			$chan->get_modes(),
 			$chan->get_name());
 	}
 	else 
 	{
-		$user = $this->get_user( $source );
+		$user = $this->get_user($source);
 		db_queryf("update stats_users set modes = '%s' where nick = '%s'",
 			$user->get_modes(),
 			$user->get_nick());

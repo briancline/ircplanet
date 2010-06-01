@@ -40,6 +40,6 @@
 	
 	$reason = ($num_args > 4) ? "($args[4])" : "";
 	
-	$this->report_event('KICK', $source, $chan, $user, $reason );
+	$this->report_event('KICK', $source, $chan, $user, $reason);
 
 

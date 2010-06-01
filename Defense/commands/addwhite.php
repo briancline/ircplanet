@@ -31,17 +31,17 @@
 
 	$mask = $pargs[1];
 	
-	foreach( $this->whitelist as $white )
+	foreach($this->whitelist as $white)
 	{
-		if( fnmatch($white->get_mask(), $mask) )
+		if(fnmatch($white->get_mask(), $mask))
 		{
-			$bot->noticef( $user, 'Your mask is already covered by the entry for %s.', $white->get_mask() );
+			$bot->noticef($user, 'Your mask is already covered by the entry for %s.', $white->get_mask());
 			return false;
 		}
 	}
 	
-	$mask = fix_nick_host_mask( $mask );
-	$this->add_whitelist_entry( $mask );
+	$mask = fix_nick_host_mask($mask);
+	$this->add_whitelist_entry($mask);
 	
-	$bot->noticef( $user, 'Added whitelist entry for %s.', $mask );
+	$bot->noticef($user, 'Added whitelist entry for %s.', $mask);
 	

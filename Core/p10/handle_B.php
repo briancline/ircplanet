@@ -30,7 +30,7 @@
  */
 
 	$ts = $args[3];
-	$chan_key = strtolower( $args[2] );
+	$chan_key = strtolower($args[2]);
 	$modes = '';
 	$key = '';
 	$admin_pass = '';
@@ -51,48 +51,48 @@
 	 */
 	
 	$has_modes = ($args[4][0] == '+');
-	if( $has_modes )
+	if($has_modes)
 	{
 		$userlist_pos++;
 		$modes_pos = 4;
 		
-		if( preg_match('/l/', $args[$modes_pos]) )
+		if(preg_match('/l/', $args[$modes_pos]))
 			$limit = $args[$userlist_pos++];
-		if( preg_match('/k/', $args[$modes_pos]) )
+		if(preg_match('/k/', $args[$modes_pos]))
 			$key = $args[$userlist_pos++];
-		if( preg_match('/A/', $args[$modes_pos]) )
+		if(preg_match('/A/', $args[$modes_pos]))
 			$admin_pass = $args[$userlist_pos++];
-		if( preg_match('/U/', $args[$modes_pos]) )
+		if(preg_match('/U/', $args[$modes_pos]))
 			$user_pass = $args[$userlist_pos++];
 		
 		$modes = $args[$modes_pos];
 	}
 
-	if( ($chan = $this->get_channel($chan_key)) )
+	if(($chan = $this->get_channel($chan_key)))
 	{
-		if( $ts < $chan->get_ts() )
+		if($ts < $chan->get_ts())
 		{
 			$chan->clear_bans();
 			$chan->clear_modes();
 			$chan->clear_user_modes();
 
-			$chan->set_name( $chan_name );
-			$chan->set_ts( $ts );
+			$chan->set_name($chan_name);
+			$chan->set_ts($ts);
 			
 			$cleared_local_modes = true;
 		}
 		
-		$chan->add_modes( $modes );
-		$chan->set_limit( $limit );
-		$chan->set_key( $key );
-		$chan->set_admin_pass( $admin_pass );
-		$chan->set_user_pass( $user_pass );
+		$chan->add_modes($modes);
+		$chan->set_limit($limit);
+		$chan->set_key($key);
+		$chan->set_admin_pass($admin_pass);
+		$chan->set_user_pass($user_pass);
 	}
 	else
 	{
-		$chan = $this->add_channel( $chan_name, $ts, $modes, $key, $limit );
-		$chan->set_admin_pass( $admin_pass );
-		$chan->set_user_pass( $user_pass );
+		$chan = $this->add_channel($chan_name, $ts, $modes, $key, $limit);
+		$chan->set_admin_pass($admin_pass);
+		$chan->set_user_pass($user_pass);
 	}
 	
 	/**
@@ -101,34 +101,34 @@
 	 */
 	$userlist = array();
 	$has_userlist = ($userlist_pos < ($num_args - 1) || (!$has_banlist && $userlist_pos == ($num_args - 1)));
-	if( $has_userlist )
+	if($has_userlist)
 	{
-		$userlist = explode( ',', $args[$userlist_pos] );
+		$userlist = explode(',', $args[$userlist_pos]);
 		
-		foreach( $userlist as $user )
+		foreach($userlist as $user)
 		{
 			$user_modes = '';
-			$numeric = substr( $user, 0, 5 );
-			if( strlen($user) > 5 )
-				$user_modes = substr( $user, 6 );
+			$numeric = substr($user, 0, 5);
+			if(strlen($user) > 5)
+				$user_modes = substr($user, 6);
 			
-			$this->add_channel_user( $chan_name, $numeric, $user_modes );
+			$this->add_channel_user($chan_name, $numeric, $user_modes);
 		}
 	}
 	
 	$banlist = array();
 	$banlist_pos = $num_args - 1;
-	if( $has_banlist )
+	if($has_banlist)
 	{
 		// skip the % character
-		$ban_string = substr( $args[$banlist_pos], 1 );
-		$banlist = explode( ' ', $ban_string );
+		$ban_string = substr($args[$banlist_pos], 1);
+		$banlist = explode(' ', $ban_string);
 		
-		foreach( $banlist as $ban )
-			$chan->add_ban( $ban );
+		foreach($banlist as $ban)
+			$chan->add_ban($ban);
 	}
 	
-	$user_count = count( $userlist );
-	$ban_count = count( $banlist );
+	$user_count = count($userlist);
+	$ban_count = count($banlist);
 
 

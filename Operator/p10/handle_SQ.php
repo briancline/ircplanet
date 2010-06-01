@@ -29,6 +29,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	$this->report_event( 'SQUIT', $source, $server, "($reason)" );
+	$this->report_event('SQUIT', $source, $server, "($reason)");
 
 
