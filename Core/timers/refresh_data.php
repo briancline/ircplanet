@@ -45,7 +45,7 @@
 		"where create_date >= '$last_update' or update_date >= '$last_update'", false);
 
 	while ($row = mysql_fetch_assoc($res)) {
-		$account = $this->get_account($row['name']);
+		$account = $this->getAccount($row['name']);
 		
 		if (!$account) {
 			/**
@@ -53,7 +53,7 @@
 			 * it with any users who are using it.
 			 */
 			$account = new DB_User($row['account_id']);
-			$account_key = strtolower($account->get_name());
+			$account_key = strtolower($account->getName());
 			
 			$this->accounts[$account_key] = $account;
 
@@ -65,11 +65,11 @@
 			 * set the account ID accordingly so we will now know who they are.
 			 */
 			foreach ($this->users as $numeric => $user) {
-				if (!$user->is_logged_in() && $user->has_account_name()
-						&& strtolower($user->get_account_name()) == $account_key)
+				if (!$user->isLoggedIn() && $user->hasAccountName()
+						&& strtolower($user->getAccountName()) == $account_key)
 				{
-					$user->set_account_id($account->get_id());
-					debug('Associated new account with user '. $user->get_nick());
+					$user->setAccountId($account->getId());
+					debug('Associated new account with user '. $user->getNick());
 				}
 			}
 		}
@@ -77,7 +77,7 @@
 			/**
 			 * It appears we updated the account internally, so skip this account.
 			 */
-			if ($account->get_update_ts() >= $last_update_ts)
+			if ($account->getUpdateTs() >= $last_update_ts)
 				continue;
 			
 			/**

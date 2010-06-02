@@ -30,23 +30,23 @@
  */
 
 	$chan_name = $pargs[1];
-	if (!($chan = $this->get_channel($chan_name))) {
+	if (!($chan = $this->getChannel($chan_name))) {
 		$bot->noticef($user, 'Nobody is on channel %s.', $chan_name);
 		return false;
 	}
 	
 	$chan_users = array();
-	$chan_nums = $chan->get_user_list();
+	$chan_nums = $chan->getUserList();
 	
 	foreach ($chan_nums as $numeric) {
-		$tmp_user = $this->get_user($numeric);
-		$tmp_nick = $tmp_user->get_nick();
+		$tmp_user = $this->getUser($numeric);
+		$tmp_nick = $tmp_user->getNick();
 		$tmp_key = strtolower($tmp_nick);
 		$flags = '';
 		
-		if ($chan->is_voice($numeric))
+		if ($chan->isVoice($numeric))
 			$flags .= '+';
-		if ($chan->is_op($numeric))
+		if ($chan->isOp($numeric))
 			$flags .= '@';
 		
 		$chan_users[$tmp_key] = $flags . $tmp_nick;

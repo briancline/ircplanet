@@ -44,7 +44,7 @@
 	if (defined('OS_NICK') && defined('OS_GLINE') && OS_GLINE == true
 			&& !empty($this->pending_commands))
 	{
-		$oper_service = $this->get_user_by_nick(OS_NICK);
+		$oper_service = $this->getUserByNick(OS_NICK);
 
 		if (!$oper_service) {
 			// Oper service still not present on the network.

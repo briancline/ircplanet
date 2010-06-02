@@ -32,30 +32,30 @@
 	$source = $args[0];
 	$target = $args[2];
 	$target_is_chan = ($target[0] == '#');
-	$source_is_server = (strlen($source) == BASE64_SERVLEN);
+	$source_isServer = (strlen($source) == BASE64_SERVLEN);
 
-	if ($source_is_server)
-		$source = $this->get_server($args[0]);
+	if ($source_isServer)
+		$source = $this->getServer($args[0]);
 	else
-		$source = $this->get_user($args[0]);
+		$source = $this->getUser($args[0]);
 	
 	if ($target_is_chan) {
-		$chan = $this->get_channel($target);
+		$chan = $this->getChannel($target);
 		$target = $chan;
 
-		if ($this->is_badchan($chan->get_name()) && !$chan->is_secret()) {
-			$this->mode($chan->get_name(), '+s');
-			$chan->add_modes('s');
+		if ($this->isBadchan($chan->getName()) && !$chan->isSecret()) {
+			$this->mode($chan->getName(), '+s');
+			$chan->addModes('s');
 		}
 	}
 	else {
-		$user = $this->get_user($target);
+		$user = $this->getUser($target);
 		$target = $user;
 	}
 	
 	$modes = $args[3];
 
 	if (!$target_is_chan)
-		$this->report_event('MODE', $source, $target, $modes);
+		$this->reportEvent('MODE', $source, $target, $modes);
 
 

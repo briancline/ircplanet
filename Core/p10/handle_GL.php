@@ -40,11 +40,11 @@
 		if ($num_args >= 7)
 			$lastmod = $args[5];
 		
-		$this->add_gline($mask, $duration, $lastmod, $reason);
+		$this->addGline($mask, $duration, $lastmod, $reason);
 	}
 	else {
 		$mask = substr($args[3], 1);
-		$this->remove_gline($mask);
+		$this->removeGline($mask);
 	}
 	
 

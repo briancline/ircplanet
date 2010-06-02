@@ -41,7 +41,7 @@
 		protected $_exclude_from_update = array();
 		protected $_update_timestamp_field = '';
 		protected $_insert_timestamp_field = '';
-		protected $_record_exists = false;
+		protected $_recordExists = false;
 		
 		
 		function __construct($id = 0)
@@ -67,26 +67,26 @@
 				}
 				
 				if (!empty($row)) {
-					$this->load_from_row($row);
+					$this->loadFromRow($row);
 				}
 			}
 			
-			if (!method_exists($this, 'record_construct'))
-				die("Cannot find the ". get_class($this) ." record constructor (record_construct).");
-			if (!method_exists($this, 'record_destruct'))
-				die("Cannot find the ". get_class($this) ." record destructor (record_destruct).");
+			if (!method_exists($this, 'recordConstruct'))
+				die("Cannot find the ". get_class($this) ." record constructor (recordConstruct).");
+			if (!method_exists($this, 'recordDestruct'))
+				die("Cannot find the ". get_class($this) ." record destructor (recordDestruct).");
 			
-			$this->record_construct(func_get_args());
+			$this->recordConstruct(func_get_args());
 		}
 		
 		
 		function __destruct()
 		{
-			$this->record_destruct();
+			$this->recordDestruct();
 		}
 		
 		
-		private function is_field_excluded($field, $check_array)
+		private function isFieldExcluded($field, $check_array)
 		{
 			return (
 				   $field[0] == '_' 
@@ -97,14 +97,14 @@
 		}
 		
 		
-		private function get_key_value()
+		private function getKeyValue()
 		{
 			$key_name = $this->_key_field;
 			return $this->$key_name;
 		}
 		
 		
-		public function get_update_ts()
+		public function getUpdateTs()
 		{
 			$fld = $this->_update_timestamp_field;
 			
@@ -115,7 +115,7 @@
 		}
 		
 		
-		public function get_create_ts()
+		public function getCreateTs()
 		{
 			$fld = $this->_create_timestamp_field;
 			
@@ -126,7 +126,7 @@
 		}
 		
 		
-		public function needs_refresh()
+		public function needsRefresh()
 		{
 			if (empty($this->_update_timestamp_field))
 				return false;
@@ -139,19 +139,19 @@
 			if (!$res || mysql_num_rows($res) != 1)
 				return false;
 			
-			$old_ts = $this->get_update_ts();
+			$old_ts = $this->getUpdateTs();
 			$new_ts = mysql_result($res, 1);
 			
 			$child_refresh = true;
-			if (method_exists($this, 'record_needs_refresh'))
-				$child_refresh = $this->record_needs_refresh();
+			if (method_exists($this, 'record_needsRefresh'))
+				$child_refresh = $this->record_needsRefresh();
 			
 			if ($new_ts > $old_ts)
 				return (true && $child_refresh);
 		}
 		
 		
-		public function load_from_row($row)
+		public function loadFromRow($row)
 		{
 			foreach ($row as $column => $value) {
 				if ($column == $this->_insert_timestamp_field || $column == $this->_update_timestamp_field)
@@ -160,23 +160,23 @@
 				$this->$column = $value;
 			}
 			
-			$this->_record_exists = true;
+			$this->_recordExists = true;
 		}
 		
 		
-		public function record_exists()
+		public function recordExists()
 		{
-			return $this->_record_exists;
+			return $this->_recordExists;
 		}
 		
 		
-		private function get_update_fieldlist()
+		private function getUpdateFieldlist()
 		{
 			$fields = get_object_vars($this);
 			$list = '';
 			
 			foreach ($fields as $field => $value) {
-				if (!$this->is_field_excluded($field, $this->_exclude_from_update)) {
+				if (!$this->isFieldExcluded($field, $this->_exclude_from_update)) {
 					if (!empty($list))
 						$list .= ', ';
 					
@@ -188,13 +188,13 @@
 		}
 		
 		
-		private function get_insert_fieldlist()
+		private function getInsertFieldlist()
 		{
 			$fields = get_object_vars($this);
 			$list = '';
 			
 			foreach ($fields as $field => $value) {
-				if (!$this->is_field_excluded($field, $this->_exclude_from_insert)) {
+				if (!$this->isFieldExcluded($field, $this->_exclude_from_insert)) {
 					if (!empty($list))
 						$list .= ', ';
 					
@@ -206,13 +206,13 @@
 		}
 		
 		
-		private function get_insert_valuelist()
+		private function getInsertValuelist()
 		{
 			$fields = get_object_vars($this);
 			$list = '';
 			
 			foreach ($fields as $field => $value) {
-				if (!$this->is_field_excluded($field, $this->_exclude_from_insert)) {
+				if (!$this->isFieldExcluded($field, $this->_exclude_from_insert)) {
 					if (!empty($list))
 						$list .= ', ';
 					
@@ -229,9 +229,9 @@
 			$key_name = $this->_key_field;
 			$key_value = '';
 			
-			if (!$this->record_exists()) {
-				$fields = $this->get_insert_fieldlist();
-				$values = $this->get_insert_valuelist();
+			if (!$this->recordExists()) {
+				$fields = $this->getInsertFieldlist();
+				$values = $this->getInsertValuelist();
 				$i_field = $this->_insert_timestamp_field;
 				
 				if (!empty($i_field)) {
@@ -244,11 +244,11 @@
 				db_query("insert into `$this->_table_name` ($fields) values ($values)");
 				
 				$this->$key_name = mysql_insert_id();
-				$this->_record_exists = true;
+				$this->_recordExists = true;
 			}
 			else {
-				$key_value = addslashes($this->get_key_value());
-				$fields = $this->get_update_fieldlist();
+				$key_value = addslashes($this->getKeyValue());
+				$fields = $this->getUpdateFieldlist();
 				$u_field = $this->_update_timestamp_field;
 
 				if (!empty($u_field)) {
@@ -261,17 +261,17 @@
 				}
 				
 				db_query("update `$this->_table_name` set $fields where `$key_name` = '$key_value'");
-				$this->_record_exists = true;
+				$this->_recordExists = true;
 			}
 			
-			if (method_exists($this, 'record_save'))
-				$this->record_save();
+			if (method_exists($this, 'recordSave'))
+				$this->recordSave();
 		}
 		
 		
 		function refresh()
 		{
-			$id = $this->get_key_value();
+			$id = $this->getKeyValue();
 			$res = db_query(
 				"select * ".
 				"from `$this->_table_name` ".
@@ -281,7 +281,7 @@
 				return false;
 			
 			$row = mysql_fetch_assoc($res);
-			$this->load_from_row($row);
+			$this->loadFromRow($row);
 			
 			if (method_exists($this, 'record_refresh'))
 				$this->record_refresh();
@@ -296,14 +296,14 @@
 		 */
 		function delete()
 		{
-			$key_value = $this->get_key_value();
+			$key_value = $this->getKeyValue();
 			if ($key_value != 0)
 				db_query("delete from `$this->_table_name` where `$this->_key_field` = '$key_value'");
 			
-			$this->_record_exists = false;
+			$this->_recordExists = false;
 			
-			if (method_exists($this, 'record_delete'))
-				$this->record_delete();
+			if (method_exists($this, 'recordDelete'))
+				$this->recordDelete();
 		}
 	}
 	

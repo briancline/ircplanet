@@ -41,8 +41,8 @@
 	foreach ($channels as $chan_name) {
 		$chan_key = strtolower($chan_name);
 		
-		$this->add_channel($chan_name, $ts);
-		$this->add_channel_user($chan_name, $numeric, 'o');
+		$this->addChannel($chan_name, $ts);
+		$this->addChannelUser($chan_name, $numeric, 'o');
 	}
 
 

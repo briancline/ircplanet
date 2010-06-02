@@ -130,7 +130,7 @@
          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	
 
-	function int_to_base64($i, $count)
+	function irc_intToBase64($i, $count)
 	{
 		global $BASE64_INT_TO_NUM;
 		
@@ -148,7 +148,7 @@
 	}
 	
 	
-	function base64_to_int($b)
+	function irc_base64ToInt($b)
 	{
 		global $BASE64_NUM_TO_INT;
 		
@@ -169,16 +169,16 @@
 	}
 	
 	
-	function ip_to_base64($ip)
+	function irc_ipToBase64($ip)
 	{
 		$i = ip2long($ip);
-		return int_to_base64($i, BASE64_IPLEN);
+		return irc_intToBase64($i, BASE64_IPLEN);
 	}
 	
 	
-	function base64_to_ip($b)
+	function irc_base64ToIp($b)
 	{
-		$i = base64_to_int($b);
+		$i = irc_base64ToInt($b);
 		return long2ip($i);
 	}
 

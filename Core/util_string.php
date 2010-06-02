@@ -35,7 +35,7 @@
 	}
 	
 	
-	function is_valid_email($email)
+	function isValidEmail($email)
 	{
 		$b = preg_match('/^[a-z0-9._\-%]+@[a-z0-9._\-]+\.[a-z]{2,4}$/i', $email);
 		
@@ -43,13 +43,13 @@
 	}
 	
 	
-	function is_ip($s)
+	function isIp($s)
 	{
 		return preg_match('/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $s);
 	}
 
 
-	function is_private_ip($ip)
+	function isPrivateIp($ip)
 	{
 		$private_ranges = array(
 			'0.0.0.0/8',	  // Self-identification
@@ -77,7 +77,7 @@
 	}
 
 
-	function fix_host_mask($mask)
+	function fixHostMask($mask)
 	{
 		$ex_pos = strpos($mask, '!');
 		$at_pos = strpos($mask, '@');
@@ -90,7 +90,7 @@
 		return $mask;
 	}
 	
-	function fix_nick_host_mask($mask)
+	function fixNickHostMask($mask)
 	{
 		$ex_pos = strpos($mask, '!');
 		$at_pos = strpos($mask, '@');
@@ -115,7 +115,7 @@
 	}
 	
 
-	function line_num_args($s)
+	function lineNumArgs($s)
 	{
 		$tokens = 1;
 		$s = trim($s);
@@ -138,7 +138,7 @@
 	}
 	
 	
-	function line_get_args($s, $stop_at_colon = true)
+	function lineGetArgs($s, $stop_at_colon = true)
 	{
 		$start = 0;
 		$tokens = array();
@@ -167,7 +167,7 @@
 	}
 	
 	
-	function get_pretty_size($bytes)
+	function getPrettySize($bytes)
 	{
 		$units = array('bytes', 'KB', 'MB', 'GB', 'TB', 'PB');
 		$precision = 2;
@@ -213,7 +213,7 @@
 	 *        For accounts:  account name.
 	 *  
 	 * Examples:
-	 *    sprintf('%s', $user_obj->get_nick());    // Nick name
+	 *    sprintf('%s', $user_obj->getNick());    // Nick name
 	 *    irc_sprintf('%H', $user_obj);            // Nick name
 	 *    irc_sprintf('[%'#-13H]', $user_obj);     // Nick name, left-aligned in brackets
 	 *                                                and padded with hash symbols
@@ -221,8 +221,8 @@
 	 * The following are totally equivalent; the latter saves much space and provides
 	 * visual feedback as to what each argument corresponds to (numeric, channel, etc):
 	 *    
-	 *    sprintf('%s M %s +o %s %ld', $user_obj->get_numeric(), $chan_obj->get_name, 
-	 *            $user2_obj->get_numeric(), time());
+	 *    sprintf('%s M %s +o %s %ld', $user_obj->getNumeric(), $chan_obj->getName, 
+	 *            $user2_obj->getNumeric(), time());
 	 *    
 	 *    irc_sprintf('%N M %C +o %N %ld', $user_obj, $chan_obj, $user2_obj, time());
 	 * 
@@ -308,12 +308,12 @@
 					 */
 					case 'C':
 					case 'H':
-						if (is_user($arg_obj))
-							$cust_text = $arg_obj->get_nick();
-						elseif (is_channel($arg_obj) || is_server($arg_obj))
-							$cust_text = $arg_obj->get_name();
-						elseif (is_gline($arg_obj))
-							$cust_text = $arg_obj->get_mask();
+						if (isUser($arg_obj))
+							$cust_text = $arg_obj->getNick();
+						elseif (isChannel($arg_obj) || isServer($arg_obj))
+							$cust_text = $arg_obj->getName();
+						elseif (isGline($arg_obj))
+							$cust_text = $arg_obj->getMask();
 
 						break;
 
@@ -322,8 +322,8 @@
 					 * %N: ircu P10 numeric of given object
 					 */
 					case 'N':
-						if (is_user($arg_obj) || is_server($arg_obj))
-							$cust_text = $arg_obj->get_numeric();
+						if (isUser($arg_obj) || isServer($arg_obj))
+							$cust_text = $arg_obj->getNumeric();
 
 						break;
 
@@ -332,10 +332,10 @@
 					 * %U: Account name of user or account object
 					 */
 					case 'U':
-						if (is_user($arg_obj))
-							$cust_text = $arg_obj->get_account_name();
-						elseif (is_account($arg_obj))
-							$cust_text = $arg_obj->get_name();
+						if (isUser($arg_obj))
+							$cust_text = $arg_obj->getAccountName();
+						elseif (isAccount($arg_obj))
+							$cust_text = $arg_obj->getName();
 
 						break;
 
@@ -368,7 +368,7 @@
 	}
 	
 
-	function random_kick_reason()
+	function randomKickReason()
 	{
 		$ban_reasons = array(
 			"Don't let the door hit you on the way out!",

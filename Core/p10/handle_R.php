@@ -34,7 +34,7 @@
 	$server_num = $args[3];
 	
 	if ($flag == 'u') {
-		$uptime = get_uptime_info();
+		$uptime = getUptimeInfo();
 		$this->sendf(FMT_STATS_U_REPLY, $server_num, $numeric, $uptime['stats']);
 	}
 	

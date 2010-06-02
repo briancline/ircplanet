@@ -45,35 +45,35 @@
 		$show_inactive = true;
 	}
 	
-	$chan = $this->get_channel($chan_name);
-	$bans = $chan_reg->get_matching_bans($mask);
+	$chan = $this->getChannel($chan_name);
+	$bans = $chan_reg->getMatchingBans($mask);
 	
 	if (!$bans) {
 		if ($mask == '*')
-			$bot->noticef($user, 'The ban list for %s is empty.', $chan_reg->get_name());
+			$bot->noticef($user, 'The ban list for %s is empty.', $chan_reg->getName());
 		else
-			$bot->noticef($user, 'There are no bans on %s matching %s.', $chan_reg->get_name(), $mask);
+			$bot->noticef($user, 'There are no bans on %s matching %s.', $chan_reg->getName(), $mask);
 		
 		return false;
 	}
 	
 	foreach ($bans as $mask => $ban) {
-		$active = $chan && $chan->has_ban($mask);
+		$active = $chan && $chan->hasBan($mask);
 		$status = $active ? 'active' : 'inactive';
-		$user_acct = $this->get_account_by_id($ban->get_user_id());
-		$reason = $ban->get_reason();
+		$user_acct = $this->getAccountById($ban->getUserId());
+		$reason = $ban->getReason();
 		
 		if (($show_active && !$active) || ($show_inactive && $active))
 			continue;
 		
 		$bot->noticef($user, '%3d) Mask: %s%s%s (currently %s)', 
-			++$ban_num, BOLD_START, $ban->get_mask(), BOLD_END, $status);
+			++$ban_num, BOLD_START, $ban->getMask(), BOLD_END, $status);
 		$bot->noticef($user, '     Set by: %s%s%s   Level: %s%s%s   Set on: %s', 
-			BOLD_START, $user_acct->get_name(), BOLD_END,
-			BOLD_START, $ban->get_level(), BOLD_END,
-			date('D j M Y H:i:s', $ban->get_set_ts()));
+			BOLD_START, $user_acct->getName(), BOLD_END,
+			BOLD_START, $ban->getLevel(), BOLD_END,
+			date('D j M Y H:i:s', $ban->getSetTs()));
 		$bot->noticef($user, '     Expires: %s',
-			date('D j M Y H:i:s', $ban->get_expire_ts()));
+			date('D j M Y H:i:s', $ban->getExpireTs()));
 		if (!empty($reason))
 			$bot->noticef($user, '     Reason: %s',  $reason);
 		$bot->notice($user, ' ');

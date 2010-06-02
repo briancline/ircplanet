@@ -29,8 +29,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$uplink = $this->get_server($uplink);
-	$server = $this->get_server($numeric);
-	$this->report_event('SERVER', $uplink, $server, '('. $server->get_desc() .')');
+	$uplink = $this->getServer($uplink);
+	$server = $this->getServer($numeric);
+	$this->reportEvent('SERVER', $uplink, $server, '('. $server->getDesc() .')');
 
 

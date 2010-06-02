@@ -55,25 +55,25 @@
 			$this->numeric = $num;
 			$this->name = $name;
 			$this->desc = $desc;
-			$this->add_modes($modes);
+			$this->addModes($modes);
 			$this->start_ts = $start_ts;
 			$this->max_users = $max_users;
 		}
 		
-		function is_jupe()             { return false; }
-		function is_service()          { return $this->has_mode('s'); }
-		function is_hub()              { return $this->has_mode('h'); }
-		function is_ipv6()             { return $this->has_mode('6'); }
-		function get_uplink_numeric()  { return $this->uplink; }
-		function get_name()            { return $this->name; }
-		function get_numeric()         { return $this->numeric; }
-		function get_desc()            { return $this->desc; }
-		function get_start_ts()        { return $this->start_ts; }
-		function get_max_users()       { return $this->max_users; }
+		function isJupe()             { return false; }
+		function isService()          { return $this->hasMode('s'); }
+		function isHub()              { return $this->hasMode('h'); }
+		function isIPv6()             { return $this->hasMode('6'); }
+		function getUplinkNumeric()  { return $this->uplink; }
+		function getName()            { return $this->name; }
+		function getNumeric()         { return $this->numeric; }
+		function getDesc()            { return $this->desc; }
+		function getStartTs()        { return $this->start_ts; }
+		function getMaxUsers()       { return $this->max_users; }
 		
-		function get_name_abbrev($max_len = 0)
+		function getNameAbbrev($max_len = 0)
 		{
-			$name = $this->get_name();
+			$name = $this->getName();
 			$ppos = strpos($name, ".");
 			
 			if ($max_len == 0)
@@ -88,13 +88,13 @@
 		}
 		
 		
-		static function is_valid_mode($mode)
+		static function isValidMode($mode)
 		{
 			global $SERVER_FLAGS;
 			return in_array($mode, $SERVER_FLAGS);
 		}
 		
-		static function is_valid_mode_int($mode)
+		static function isValidModeInt($mode)
 		{
 			global $SERVER_FLAGS;
 			foreach ($SERVER_FLAGS as $c => $i)
@@ -104,45 +104,45 @@
 			return false;
 		}
 
-		function add_modes($str)
+		function addModes($str)
 		{
 			global $SERVER_FLAGS;
 			foreach ($SERVER_FLAGS as $c => $i)
-				if (strpos($str, $c) !== false) $this->add_mode($i['uint']);
+				if (strpos($str, $c) !== false) $this->addMode($i['uint']);
 		}
 		
-		function add_mode($mode)
+		function addMode($mode)
 		{
 			global $SERVER_FLAGS;
 			if (!is_int($mode))
-				return $this->add_mode($SERVER_FLAGS[$mode]['uint']);
-			if ($this->is_valid_mode_int($mode) && !$this->has_mode($mode))
+				return $this->addMode($SERVER_FLAGS[$mode]['uint']);
+			if ($this->isValidModeInt($mode) && !$this->hasMode($mode))
 				$this->modes |= $mode;
 		}
 		
-		function remove_mode($mode)
+		function removeMode($mode)
 		{
 			global $SERVER_FLAGS;
 			if (!is_int($mode))
-				return $this->remove_mode($SERVER_FLAGS[$mode]['uint']);
-			if ($this->is_valid_mode_int($mode) && $this->has_mode($mode))
+				return $this->removeMode($SERVER_FLAGS[$mode]['uint']);
+			if ($this->isValidModeInt($mode) && $this->hasMode($mode))
 				$this->modes &= ~$mode;
 		}
 
-		function has_mode($mode)
+		function hasMode($mode)
 		{
 			global $SERVER_FLAGS;
 			if (!is_int($mode))
-				return $this->has_mode($SERVER_FLAGS[$mode]['uint']);
+				return $this->hasMode($SERVER_FLAGS[$mode]['uint']);
 			return(($this->modes & $mode) == $mode);
 		}
 		
-		function add_user($numeric)
+		function addUser($numeric)
 		{
 			$this->users[] = $numeric;
 		}
 		
-		function remove_user($numeric)
+		function removeUser($numeric)
 		{
 			$users = array();
 			

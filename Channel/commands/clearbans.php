@@ -29,20 +29,20 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$chan = $this->get_channel($chan_name);
+	$chan = $this->getChannel($chan_name);
 	
-	if (!$chan->is_on($bot->get_numeric())) {
-		$bot->noticef($user, 'I am not on %s.', $chan->get_name());
+	if (!$chan->isOn($bot->getNumeric())) {
+		$bot->noticef($user, 'I am not on %s.', $chan->getName());
 		return false;
 	}
 
 	if ($chan) {
-		$active_bans = $chan->get_matching_bans('*');
+		$active_bans = $chan->getMatchingBans('*');
 
 		if (count($active_bans) > 0)
-			$bot->unban($chan->get_name(), $active_bans);
+			$bot->unban($chan->getName(), $active_bans);
 	}
 	
-	$chan_reg->clear_bans();
+	$chan_reg->clearBans();
 	
 

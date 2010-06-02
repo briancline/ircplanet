@@ -32,16 +32,16 @@
 	$numeric = $timer_data[0];
 	$account_name = $timer_data[1];
 	
-	$user = $this->get_user($numeric);
-	$account = $this->get_account($account_name);
+	$user = $this->getUser($numeric);
+	$account = $this->getAccount($account_name);
 	
 	if (!$user || !$account)
 		return false;
 	
-	$nick_c = strtolower($user->get_nick());
-	$account_c = strtolower($account->get_name());
+	$nick_c = strtolower($user->getNick());
+	$account_c = strtolower($account->getName());
 	
-	if ($nick_c == $account_c && $user->get_account_id() != $account->get_id()) {
+	if ($nick_c == $account_c && $user->getAccountId() != $account->getId()) {
 		$this->kill($user, 'Enforcing registered nick');
 		return true;
 	}

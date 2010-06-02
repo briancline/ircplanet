@@ -29,6 +29,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	// $this->report_event('AWAY', $user, $user->get_away());
+	// $this->reportEvent('AWAY', $user, $user->getAway());
 
 

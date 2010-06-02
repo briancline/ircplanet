@@ -29,13 +29,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	$uptime = get_uptime_info();
+	$uptime = getUptimeInfo();
 	$bot->noticef($user, '%sUptime:%s    %s',
 		BOLD_START, BOLD_END, $uptime['pretty']);
 	
 	$bot->noticef($user, '%sBandwidth:%s  %s received, %s sent',
 		BOLD_START, BOLD_END, 
-		get_pretty_size($this->bytes_received),
-		get_pretty_size($this->bytes_sent));
+		getPrettySize($this->bytes_received),
+		getPrettySize($this->bytes_sent));
 	
 

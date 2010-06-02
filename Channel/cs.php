@@ -42,23 +42,23 @@
 		var $db_badchans = array();
 		
 		
-		function load_channels()
+		function loadChannels()
 		{
 			$res = db_query('select * from channels order by lower(name) asc');
 			while ($row = mysql_fetch_assoc($res)) {
 				$channel_key = strtolower($row['name']);
 				$channel = new DB_Channel($row);
 				
-				if ($channel->auto_limits() && !$channel->has_pending_autolimit()) {
-					$this->add_timer(false, $channel->get_auto_limit_wait(), 
-						'auto_limit.php', $channel->get_name());
-					$channel->set_pending_autolimit(true);
+				if ($channel->autoLimits() && !$channel->hasPendingAutolimit()) {
+					$this->addTimer(false, $channel->getAutoLimitWait(), 
+						'auto_limit.php', $channel->getName());
+					$channel->setPendingAutolimit(true);
 				}
 				
-				$clean_defmodes = $this->clean_modes($channel->get_default_modes());
-				if ($channel->get_default_modes() != $clean_defmodes) {
-					debugf("Setting defmodes for %s from [%s] to [%s]", $channel->get_name(), $channel->get_default_modes(), $clean_defmodes);
-					$channel->set_default_modes($clean_defmodes);
+				$clean_defmodes = $this->cleanModes($channel->getDefaultModes());
+				if ($channel->getDefaultModes() != $clean_defmodes) {
+					debugf("Setting defmodes for %s from [%s] to [%s]", $channel->getName(), $channel->getDefaultModes(), $clean_defmodes);
+					$channel->setDefaultModes($clean_defmodes);
 					$channel->save();
 				}
 				
@@ -69,7 +69,7 @@
 		}
 		
 		
-		function load_access()
+		function loadAccess()
 		{
 			$n = 0;
 			$res = db_query('select * from channel_access');
@@ -77,14 +77,14 @@
 				$chan_id = $row['chan_id'];
 				$user_id = $row['user_id'];
 				
-				$chan = $this->get_channel_reg_by_id($chan_id);
+				$chan = $this->getChannelRegById($chan_id);
 				if (!$chan) {
 					debug("*** Loaded channel access pair for channel ID $chan_id, but no such channel exists!");
 					continue;
 				}
 
 				$access = new DB_Channel_Access($row);
-				$chan->add_access($access);
+				$chan->addAccess($access);
 				
 				$n++;
 			}
@@ -93,7 +93,7 @@
 		}
 		
 		
-		function load_bans()
+		function loadBans()
 		{
 			$n = 0;
 			$res = db_query('select * from channel_bans');
@@ -102,15 +102,15 @@
 				$user_id = $row['user_id'];
 				$mask = $row['mask'];
 				
-				$chan = $this->get_channel_reg_by_id($chan_id);
+				$chan = $this->getChannelRegById($chan_id);
 				if (!$chan) {
 					debug("*** Loaded ban for channel ID $chan_id, but no such channel exists!");
 					continue;
 				}
 				
 				$ban = new DB_Ban($chan_id, $user_id, $mask);
-				$ban->load_from_row($row);
-				$chan->add_ban($ban);
+				$ban->loadFromRow($row);
+				$chan->addBan($ban);
 				
 				$n++;
 			}
@@ -119,13 +119,13 @@
 		}
 		
 		
-		function load_badchans()
+		function loadBadchans()
 		{
 			$res = db_query('select * from cs_badchans order by badchan_id asc');
 			while ($row = mysql_fetch_assoc($res)) {
 				$badchan = new DB_BadChan($row);
 				
-				$badchan_key = strtolower($badchan->get_mask());
+				$badchan_key = strtolower($badchan->getMask());
 				$this->db_badchans[$badchan_key] = $badchan;
 			}
 
@@ -133,113 +133,113 @@
 		}
 
 
-		function service_construct()
+		function serviceConstruct()
 		{
 		}
 		
 		
-		function service_load()
+		function serviceLoad()
 		{
-			$this->load_channels();
-			$this->load_access();
-			$this->load_bans();
-			$this->load_badchans();
+			$this->loadChannels();
+			$this->loadAccess();
+			$this->loadBans();
+			$this->loadBadchans();
 			
-			$this->add_timer(true, 300, 'save_data.php');
-			$this->add_timer(true, 30, 'expire_channels.php');
+			$this->addTimer(true, 300, 'save_data.php');
+			$this->addTimer(true, 30, 'expire_channels.php');
 		}
 		
 		
-		function service_preburst()
+		function servicePreburst()
 		{
 			$bot = $this->default_bot;
-			$botnum = $bot->get_numeric();
+			$botnum = $bot->getNumeric();
 
 			foreach ($this->db_channels as $dbchan_key => $dbchan) {
-				if ($chan = $this->get_channel($dbchan_key)) {
-					$this->add_channel_user($chan->get_name(), $botnum, 'o');
+				if ($chan = $this->getChannel($dbchan_key)) {
+					$this->addChannelUser($chan->getName(), $botnum, 'o');
 				}
 				else {
-					$ts = $dbchan->get_create_ts();
+					$ts = $dbchan->getCreateTs();
 
-					if ($ts == 0 || ($ts > $dbchan->get_register_ts() && $dbchan->get_register_ts() > 0)) {
-						$ts = $dbchan->get_register_ts();
-						$dbchan->set_create_ts($ts);
+					if ($ts == 0 || ($ts > $dbchan->getRegisterTs() && $dbchan->getRegisterTs() > 0)) {
+						$ts = $dbchan->getRegisterTs();
+						$dbchan->setCreateTs($ts);
 						$dbchan->save();
 					}
 					
-					$chan = $this->add_channel($dbchan->get_name(), $ts);
-					$chan->add_mode(CMODE_REGISTERED);
-					$this->add_channel_user($dbchan->get_name(), $botnum, 'o');
+					$chan = $this->addChannel($dbchan->getName(), $ts);
+					$chan->addMode(CMODE_REGISTERED);
+					$this->addChannelUser($dbchan->getName(), $botnum, 'o');
 				}
 				
-				if ($dbchan->has_default_topic()) {
-					$deftopic = $dbchan->get_default_topic();
-					$chan->set_topic($deftopic);
+				if ($dbchan->hasDefaultTopic()) {
+					$deftopic = $dbchan->getDefaultTopic();
+					$chan->setTopic($deftopic);
 				}
 				
-				if ($dbchan->has_default_modes()) {
-					$defmodes = $dbchan->get_default_modes();
-					$chan->add_modes($defmodes);
+				if ($dbchan->hasDefaultModes()) {
+					$defmodes = $dbchan->getDefaultModes();
+					$chan->addModes($defmodes);
 				}
 			}
 		}
 		
 		
-		function service_postburst($uplink_burst = false)
+		function servicePostburst($uplink_burst = false)
 		{
 			$bot = $this->default_bot;
-			$botnum = $bot->get_numeric();
+			$botnum = $bot->getNumeric();
 			
 			foreach ($this->db_channels as $dbchan_key => $dbchan) {
-				$chan = $this->get_channel($dbchan_key);
-				if ($chan && !$chan->is_op($botnum)) {
-					$this->mode($chan->get_name(), '+Ro '. $botnum);
-					$bot->mode($chan->get_name(), $dbchan->get_default_modes());
-					$dbchan->set_create_ts($chan->get_ts());
+				$chan = $this->getChannel($dbchan_key);
+				if ($chan && !$chan->isOp($botnum)) {
+					$this->mode($chan->getName(), '+Ro '. $botnum);
+					$bot->mode($chan->getName(), $dbchan->getDefaultModes());
+					$dbchan->setCreateTs($chan->getTs());
 					$dbchan->save();
 				}
 			}
 
 			foreach ($this->default_bot->channels as $chan_name) {
-				$chan = $this->get_channel($chan_name);
+				$chan = $this->getChannel($chan_name);
 				
-				if (!$chan->is_op($botnum))
-					$this->op($chan->get_name(), $botnum);
+				if (!$chan->isOp($botnum))
+					$this->op($chan->getName(), $botnum);
 			}
 		}
 		
 		
-		function service_destruct()
+		function serviceDestruct()
 		{
 		}
 		
 		
-		function service_close($reason = 'So long, and thanks for all the fish!')
+		function serviceClose($reason = 'So long, and thanks for all the fish!')
 		{
 			foreach ($this->users as $numeric => $user) {
-				if ($user->is_bot()) {
+				if ($user->isBot()) {
 					$this->sendf(FMT_QUIT, $numeric, $reason);
-					$this->remove_user($numeric);
+					$this->removeUser($numeric);
 				}
 			}
 		}
 		
 		
-		function service_main()
+		function serviceMain()
 		{
 		}
 		
 		
-		function service_preread()
+		function servicePreread()
 		{
 		}
 
 
-		function get_channel_reg_by_id($chan_id)
+		function getChannelRegById($chan_id)
 		{
 			foreach ($this->db_channels as $chan_key => $chan) {
-				if ($chan->get_id() == $chan_id)
+				if ($chan->getId() == $chan_id)
 					return $chan;
 			}
 			
@@ -247,9 +247,9 @@
 		}
 		
 		
-		function add_channel_reg($reg)
+		function addChannelReg($reg)
 		{
-			$chan_key = strtolower($reg->get_name());
+			$chan_key = strtolower($reg->getName());
 			
 			$this->db_channels[$chan_key] = $reg;
 			
@@ -257,10 +257,10 @@
 		}
 		
 		
-		function remove_channel_reg($chan_name)
+		function removeChannelReg($chan_name)
 		{
-			if (is_channel_record($chan_name))
-				$chan_name = $chan_name->get_name();
+			if (isChannelRecord($chan_name))
+				$chan_name = $chan_name->getName();
 			
 			$chan_reg = 0;
 			$chan_key = strtolower($chan_name);
@@ -274,7 +274,7 @@
 		}
 		
 		
-		function get_channel_reg($chan_name)
+		function getChannelReg($chan_name)
 		{
 			$chan_key = strtolower($chan_name);
 			
@@ -285,14 +285,14 @@
 		}
 		
 		
-		function get_channel_reg_count($user_id)
+		function getChannelRegCount($user_id)
 		{
 			$chan_count = 0;
 			
 			foreach ($this->db_channels as $chan_key => $chan) {
-				$levels = $chan->get_levels();
+				$levels = $chan->getLevels();
 				foreach ($levels as $level_uid => $level) {
-					if ($level_uid == $user_id && $level->get_level() == 500)
+					if ($level_uid == $user_id && $level->getLevel() == 500)
 						$chan_count++;
 				}
 			}
@@ -301,28 +301,28 @@
 		}
 		
 		
-		function is_channel_registered($chan_name)
+		function isChannelRegistered($chan_name)
 		{
-			if (is_channel($chan_name))
-				$chan_name = $chan_name->get_name();
+			if (isChannel($chan_name))
+				$chan_name = $chan_name->getName();
 			
-			return false !== $this->get_channel_reg($chan_name);
+			return false !== $this->getChannelReg($chan_name);
 		}
 		
 		
-		function get_admin_level($user_obj)
+		function getAdminLevel($user_obj)
 		{
 			if (!is_object($user_obj))
 				return 0;
-			if (!is_account($user_obj) && (!is_user($user_obj) || !$user_obj->is_logged_in()))
+			if (!isAccount($user_obj) && (!isUser($user_obj) || !$user_obj->isLoggedIn()))
 				return 0;
 
-			if (!is_account($user_obj))
-				$account = $this->get_account($user_obj->get_account_name());
+			if (!isAccount($user_obj))
+				$account = $this->getAccount($user_obj->getAccountName());
 			else
 				$account = $user_obj;
 			
-			$res = db_query("select `level` from `cs_admins` where user_id = ". $account->get_id());
+			$res = db_query("select `level` from `cs_admins` where user_id = ". $account->getId());
 			if ($res && mysql_num_rows($res) > 0) {
 				$level = mysql_result($res, 0);
 				mysql_free_result($res);
@@ -333,88 +333,88 @@
 		}
 		
 		
-		function get_channel_access($chan_name, $user_obj)
+		function getChannelAccess($chan_name, $user_obj)
 		{
 			$chan_key = strtolower($chan_name);
 			
-			if (!($chan = $this->get_channel_reg($chan_key)))
+			if (!($chan = $this->getChannelReg($chan_key)))
 				return false;
-			if (!is_object($user_obj) || !is_user($user_obj) || !$user_obj->is_logged_in())
-				return false;
-			
-			$levels = $chan->get_levels();
-			
-			if (!array_key_exists($user_obj->get_account_id(), $levels))
+			if (!is_object($user_obj) || !isUser($user_obj) || !$user_obj->isLoggedIn())
 				return false;
 			
-			return $levels[$user_obj->get_account_id()];
+			$levels = $chan->getLevels();
+			
+			if (!array_key_exists($user_obj->getAccountId(), $levels))
+				return false;
+			
+			return $levels[$user_obj->getAccountId()];
 		}
 		
 		
-		function get_channel_access_account($chan_name, $account_obj)
+		function getChannelAccessAccount($chan_name, $account_obj)
 		{
 			$chan_key = strtolower($chan_name);
 			
-			if (!($chan = $this->get_channel_reg($chan_key)))
+			if (!($chan = $this->getChannelReg($chan_key)))
 				return false;
-			if (!is_account($account_obj))
-				return false;
-			
-			$levels = $chan->get_levels();
-			if (!array_key_exists($account_obj->get_id(), $levels))
+			if (!isAccount($account_obj))
 				return false;
 			
-			return $levels[$account_obj->get_id()];
+			$levels = $chan->getLevels();
+			if (!array_key_exists($account_obj->getId(), $levels))
+				return false;
+			
+			return $levels[$account_obj->getId()];
 		}
 		
 		
-		function get_channel_level($chan_name, $user_obj)
-		{
-			$chan_key = strtolower($chan_name);
-			
-			if (!array_key_exists($chan_key, $this->db_channels))
-				return 0;
-			if (!is_object($user_obj) || !is_user($user_obj) || !$user_obj->is_logged_in())
-				return 0;
-			
-			$chan = $this->get_channel_reg($chan_key);
-			return $chan->get_level_by_id($user_obj->get_account_id());
-		}
-		
-		
-		function get_channel_level_by_name($chan_name, $user_name)
+		function getChannelLevel($chan_name, $user_obj)
 		{
 			$chan_key = strtolower($chan_name);
 			
 			if (!array_key_exists($chan_key, $this->db_channels))
 				return 0;
-			if (!($account = $this->get_account($user_name)))
+			if (!is_object($user_obj) || !isUser($user_obj) || !$user_obj->isLoggedIn())
 				return 0;
 			
-			$chan = $this->get_channel_reg($chan_key);
-			return $chan->get_level_by_id($account->get_id());
+			$chan = $this->getChannelReg($chan_key);
+			return $chan->getLevelById($user_obj->getAccountId());
 		}
 		
 		
-		function get_active_channel_users($chan_name)
+		function getChannelLevelByName($chan_name, $user_name)
 		{
-			$chan = $this->get_channel_reg($chan_name);
+			$chan_key = strtolower($chan_name);
+			
+			if (!array_key_exists($chan_key, $this->db_channels))
+				return 0;
+			if (!($account = $this->getAccount($user_name)))
+				return 0;
+			
+			$chan = $this->getChannelReg($chan_key);
+			return $chan->getLevelById($account->getId());
+		}
+		
+		
+		function getActiveChannelUsers($chan_name)
+		{
+			$chan = $this->getChannelReg($chan_name);
 			$active_users = array();
 			
 			if (!$chan)
 				return false;
 			
-			$levels = $chan->get_levels();
+			$levels = $chan->getLevels();
 			$seek_account_ids = array();
 			
 			foreach ($levels as $tmp_level)
-				$seek_account_ids[] = $tmp_level->get_user_id();
+				$seek_account_ids[] = $tmp_level->getUserId();
 			
 			foreach ($this->users as $tmp_numeric => $tmp_user) {
-				if (!$tmp_user->is_logged_in())
+				if (!$tmp_user->isLoggedIn())
 					continue;
 				
-				if (in_array($tmp_user->get_account_id(), $seek_account_ids))
+				if (in_array($tmp_user->getAccountId(), $seek_account_ids))
 					$active_users[] = $tmp_user;
 			}
 			
@@ -422,7 +422,7 @@
 		}
 		
 
-		function get_badchan($mask)
+		function getBadchan($mask)
 		{
 			$mask = strtolower($mask);
 			if (array_key_exists($mask, $this->db_badchans))
@@ -432,10 +432,10 @@
 		}
 
 
-		function is_badchan($chan_name)
+		function isBadchan($chan_name)
 		{
-			if (is_channel($chan_name))
-				$chan_name = $chan_name->get_name();
+			if (isChannel($chan_name))
+				$chan_name = $chan_name->getName();
 
 			foreach ($this->db_badchans as $b_key => $badchan) {
 				if ($badchan->matches($chan_name))
@@ -446,13 +446,13 @@
 		}
 
 
-		function add_badchan($mask)
+		function addBadchan($mask)
 		{
-			if ($this->get_badchan($mask) != false)
+			if ($this->getBadchan($mask) != false)
 				return false;
 
 			$badchan = new DB_BadChan();
-			$badchan->set_mask($mask);
+			$badchan->setMask($mask);
 			$badchan->save();
 
 			$key = strtolower($mask);
@@ -462,9 +462,9 @@
 		}
 
 
-		function remove_badchan($mask)
+		function removeBadchan($mask)
 		{
-			$badchan = $this->get_badchan($mask);
+			$badchan = $this->getBadchan($mask);
 			if ($badchan == false)
 				return false;
 

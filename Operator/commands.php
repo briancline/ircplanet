@@ -29,64 +29,64 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	$this->set_command_info('die',           1000,   0, false, '[reason]');
-	$this->set_command_info('quote',         1000,   1, false, '<stuff>');
+	$this->setCommandInfo('die',           1000,   0, false, '[reason]');
+	$this->setCommandInfo('quote',         1000,   1, false, '<stuff>');
 
-	$this->set_command_info('adduser',        800,   2, false, '<account> <level>');
-	$this->set_command_info('moduser',        800,   3, false, '<account> <setting> <param>');
-	$this->set_command_info('remuser',        800,   1, false, '<account>');
+	$this->setCommandInfo('adduser',        800,   2, false, '<account> <level>');
+	$this->setCommandInfo('moduser',        800,   3, false, '<account> <setting> <param>');
+	$this->setCommandInfo('remuser',        800,   1, false, '<account>');
 
-	$this->set_command_info('broadcast',      700,   1, false, '<message>');
-	$this->set_command_info('fakehost',       700,   2, false, '<nick> <hostname>');
-	$this->set_command_info('jupe',           700,   3, false, '<server> <duration> <reason>');
-	$this->set_command_info('settime',        700,   0, false);
-	$this->set_command_info('unjupe',         700,   1, false, '<server>');
+	$this->setCommandInfo('broadcast',      700,   1, false, '<message>');
+	$this->setCommandInfo('fakehost',       700,   2, false, '<nick> <hostname>');
+	$this->setCommandInfo('jupe',           700,   3, false, '<server> <duration> <reason>');
+	$this->setCommandInfo('settime',        700,   0, false);
+	$this->setCommandInfo('unjupe',         700,   1, false, '<server>');
 
-	$this->set_command_info('addbad',         500,   1, false, '<word>');
-	$this->set_command_info('inviteme',       500,   0, false);
-	$this->set_command_info('refreshg',       500,   0, false);
-	$this->set_command_info('rembad',         500,   1, false, '<word>');
+	$this->setCommandInfo('addbad',         500,   1, false, '<word>');
+	$this->setCommandInfo('inviteme',       500,   0, false);
+	$this->setCommandInfo('refreshg',       500,   0, false);
+	$this->setCommandInfo('rembad',         500,   1, false, '<word>');
 
-	$this->set_command_info('clearchan',      300,   1, false, '<options> [duration]');
-	$this->set_command_info('deopall',        300,   1, false, '<channel>');
-	$this->set_command_info('devoiceall',     300,   1, false, '<channel>');
-	$this->set_command_info('kickall',        300,   2, false, '<channel> <reason>');
-	$this->set_command_info('kickbanall',     300,   2, false, '<channel> <reason>');
-	$this->set_command_info('moderate',       300,   1, false, '<channel>');
-	$this->set_command_info('opall',          300,   1, false, '<channel>');
-	$this->set_command_info('voiceall',       300,   1, false, '<channel>');
+	$this->setCommandInfo('clearchan',      300,   1, false, '<options> [duration]');
+	$this->setCommandInfo('deopall',        300,   1, false, '<channel>');
+	$this->setCommandInfo('devoiceall',     300,   1, false, '<channel>');
+	$this->setCommandInfo('kickall',        300,   2, false, '<channel> <reason>');
+	$this->setCommandInfo('kickbanall',     300,   2, false, '<channel> <reason>');
+	$this->setCommandInfo('moderate',       300,   1, false, '<channel>');
+	$this->setCommandInfo('opall',          300,   1, false, '<channel>');
+	$this->setCommandInfo('voiceall',       300,   1, false, '<channel>');
 	
-	$this->set_command_info('addgchan',       200,   3, false, '<channel> <duration> <reason>');
-	$this->set_command_info('addgname',       200,   3, false, '<realname> <duration> <reason>');
-	$this->set_command_info('ban',            200,   2, false, '<channel> <hostmask> [duration] [level] [reason]');
-	$this->set_command_info('clearmodes',     200,   1, false, '<channel>');
-	$this->set_command_info('gline',          200,   3, false, '<mask> <duration> <reason>');
-	$this->set_command_info('invite',         200,   1, false, '<channel> [nick1 [nick2 ...]]');
-	$this->set_command_info('kickban',        200,   2, false, '<channel> <nick|hostmask> [reason]');
-	$this->set_command_info('mode',           200,   2, false, '<channel> <modes>');
-	$this->set_command_info('remgchan',       200,   1, false, '<channel>');
-	$this->set_command_info('remgline',       200,   1, false, '<mask>');
-	$this->set_command_info('remgname',       200,   1, false, '<realname>');
-	$this->set_command_info('unban',          200,   2, false, '<channel> <hostmask>');
+	$this->setCommandInfo('addgchan',       200,   3, false, '<channel> <duration> <reason>');
+	$this->setCommandInfo('addgname',       200,   3, false, '<realname> <duration> <reason>');
+	$this->setCommandInfo('ban',            200,   2, false, '<channel> <hostmask> [duration] [level] [reason]');
+	$this->setCommandInfo('clearmodes',     200,   1, false, '<channel>');
+	$this->setCommandInfo('gline',          200,   3, false, '<mask> <duration> <reason>');
+	$this->setCommandInfo('invite',         200,   1, false, '<channel> [nick1 [nick2 ...]]');
+	$this->setCommandInfo('kickban',        200,   2, false, '<channel> <nick|hostmask> [reason]');
+	$this->setCommandInfo('mode',           200,   2, false, '<channel> <modes>');
+	$this->setCommandInfo('remgchan',       200,   1, false, '<channel>');
+	$this->setCommandInfo('remgline',       200,   1, false, '<mask>');
+	$this->setCommandInfo('remgname',       200,   1, false, '<realname>');
+	$this->setCommandInfo('unban',          200,   2, false, '<channel> <hostmask>');
 	
-	$this->set_command_info('deop',           100,   1, false, '<channel> [nick1 [nick2 ...]]');
-	$this->set_command_info('devoice',        100,   1, false, '<channel> [nick1 [nick2 ...]]');
-	$this->set_command_info('kick',           100,   2, false, '<channel> <nick> [reason]');
-	$this->set_command_info('op',             100,   1, false, '<channel> [nick1 [nick2 ...]]');
-	$this->set_command_info('topic',          100,   1, false, '<channel> [new topic]');
-	$this->set_command_info('voice',          100,   1, false, '<channel> [nick1 [nick2 ...]]');
+	$this->setCommandInfo('deop',           100,   1, false, '<channel> [nick1 [nick2 ...]]');
+	$this->setCommandInfo('devoice',        100,   1, false, '<channel> [nick1 [nick2 ...]]');
+	$this->setCommandInfo('kick',           100,   2, false, '<channel> <nick> [reason]');
+	$this->setCommandInfo('op',             100,   1, false, '<channel> [nick1 [nick2 ...]]');
+	$this->setCommandInfo('topic',          100,   1, false, '<channel> [new topic]');
+	$this->setCommandInfo('voice',          100,   1, false, '<channel> [nick1 [nick2 ...]]');
 
-	$this->set_command_info('access',           0,   1, false, '<mask>');
-	$this->set_command_info('banlist',          0,   1, false, '<channel> [mask]');
-	$this->set_command_info('chaninfo',         0,   1, false, '<channel>');
-	$this->set_command_info('chanlist',         0,   0, false, '[mask]');
-	$this->set_command_info('help',             0,   0, false, '[command]');
-	$this->set_command_info('opermsg',          0,   1, false, '<message>');
-	$this->set_command_info('scan',             0,   1, false, '<mask>');
-	$this->set_command_info('showcommands',     0,   0, false);
-	$this->set_command_info('show',             0,   1, false, '<option>');
-	$this->set_command_info('uptime',           0,   0, false);
-	$this->set_command_info('whois',            0,   1, false, '<nick>');
-	$this->set_command_info('whoison',          0,   1, false, '<channel>');
+	$this->setCommandInfo('access',           0,   1, false, '<mask>');
+	$this->setCommandInfo('banlist',          0,   1, false, '<channel> [mask]');
+	$this->setCommandInfo('chaninfo',         0,   1, false, '<channel>');
+	$this->setCommandInfo('chanlist',         0,   0, false, '[mask]');
+	$this->setCommandInfo('help',             0,   0, false, '[command]');
+	$this->setCommandInfo('opermsg',          0,   1, false, '<message>');
+	$this->setCommandInfo('scan',             0,   1, false, '<mask>');
+	$this->setCommandInfo('showcommands',     0,   0, false);
+	$this->setCommandInfo('show',             0,   1, false, '<option>');
+	$this->setCommandInfo('uptime',           0,   0, false);
+	$this->setCommandInfo('whois',            0,   1, false, '<nick>');
+	$this->setCommandInfo('whoison',          0,   1, false, '<channel>');
 
 

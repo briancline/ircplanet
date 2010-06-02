@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	function get_uptime_info()
+	function getUptimeInfo()
 	{
 		$info = array();
 		$secs = time() - START_TIME;

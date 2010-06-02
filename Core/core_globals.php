@@ -90,7 +90,7 @@
 		return debug($debug);
 	}
 	
-	function print_array($a)
+	function printArray($a)
 	{
 		print_r($a);
 	}

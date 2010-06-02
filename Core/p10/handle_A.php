@@ -29,11 +29,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	$user = $this->get_user($args[0]);
+	$user = $this->getUser($args[0]);
 	
 	if ($num_args > 2)
-		$user->set_away($args[2]);
+		$user->setAway($args[2]);
 	else
-		$user->set_away();
+		$user->setAway();
 	
 

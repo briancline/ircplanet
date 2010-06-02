@@ -46,23 +46,23 @@
 			$this->active = true;
 		}
 		
-		function get_server()        { return $this->server; }
-		function get_expire_ts()     { return $this->expire_ts; }
-		function get_duration()      { return $this->expire_ts - time(); }
-		function get_last_mod()      { return $this->last_mod; }
-		function get_reason()        { return $this->reason; }
-		function is_expired()        { return (time() >= $this->expire_ts); }
-		function is_active()         { return $this->active; }
+		function getServer()        { return $this->server; }
+		function getExpireTs()     { return $this->expire_ts; }
+		function getDuration()      { return $this->expire_ts - time(); }
+		function getLastMod()      { return $this->last_mod; }
+		function getReason()        { return $this->reason; }
+		function isExpired()        { return (time() >= $this->expire_ts); }
+		function isActive()         { return $this->active; }
 
-		function set_duration($n)    { $this->expire_ts = time() + $n; }
-		function set_last_mod($n)    { $this->last_mod = $n; }
-		function set_reason($s)      { $this->reason = $s; }
+		function setDuration($n)    { $this->expire_ts = time() + $n; }
+		function setLastMod($n)    { $this->last_mod = $n; }
+		function setReason($s)      { $this->reason = $s; }
 		function activate()          { $this->active = true; }
 		function deactivate()        { $this->active = false; }
 		
 		function __toString()        { return $this->server; }
 
-		function expire_now()
+		function expireNow()
 		{
 			$this->active = false;
 			$this->expire_ts = time();

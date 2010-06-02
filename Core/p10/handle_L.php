@@ -33,7 +33,7 @@
 	
 	$channels = explode(',', $chan_name);
 	foreach ($channels as $chan_name) {
-		$this->remove_channel_user($chan_name, $numeric);
+		$this->removeChannelUser($chan_name, $numeric);
 	}
 
 

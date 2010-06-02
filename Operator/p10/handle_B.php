@@ -29,18 +29,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$chan = $this->get_channel($chan_name);
-	if ($this->is_badchan($chan_name) && !$chan->is_secret()) {
-		$this->mode($chan->get_name(), '+s');
-		$chan->add_modes('s');
+	$chan = $this->getChannel($chan_name);
+	if ($this->isBadchan($chan_name) && !$chan->isSecret()) {
+		$this->mode($chan->getName(), '+s');
+		$chan->addModes('s');
 	}
 
 /*	Logging bursts on a larger network can flood the channel. Enable at your own risk...
 	
-	$server = $this->get_server($args[0]);
+	$server = $this->getServer($args[0]);
 	$modes = '';
 	
-	$this->report_event('BURST', $server, $chan, "[+". $chan->get_modes() ."]", "$user_count users, $ban_count bans");
+	$this->reportEvent('BURST', $server, $chan, "[+". $chan->getModes() ."]", "$user_count users, $ban_count bans");
 */
 
 

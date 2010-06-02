@@ -42,11 +42,11 @@
 	
 	foreach ($this->channels as $chan_key => $chan) {
 		if (fnmatch($mask, $chan_key)) {
-			$name = $chan->get_name();
+			$name = $chan->getName();
 			$name_len = strlen($name);
-			$mode = '+'. $chan->get_modes();
+			$mode = '+'. $chan->getModes();
 			$mode_len = strlen($mode);
-			$count = $chan->get_user_count();
+			$count = $chan->getUserCount();
 			$count_len = strlen($count);
 			
 			if ($max_name_len < $name_len)

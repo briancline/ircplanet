@@ -34,8 +34,8 @@
 		$nick_change = true;
 		$numeric = $args[0];
 		$new_nick = $args[2];
-		$old_nick = $this->users[$numeric]->get_nick();
-		$this->users[$numeric]->set_nick($new_nick);
+		$old_nick = $this->users[$numeric]->getNick();
+		$this->users[$numeric]->setNick($new_nick);
 	}
 	else {
 		$nick_change = false;
@@ -44,7 +44,7 @@
 		$start_ts = $args[4];
 		$ident = $args[5];
 		$host = $args[6];
-		$ip = base64_to_ip($args[$num_args - 3]);
+		$ip = irc_base64ToIp($args[$num_args - 3]);
 		$numeric = $args[$num_args - 2];
 		$desc = $args[$num_args - 1];
 		$account = '';
@@ -75,19 +75,19 @@
 			}
 		}
 		
-		$user = $this->add_user($numeric, $nick, $ident, $host, $desc, $start_ts, $ip, $modes, $account, $account_ts);
+		$user = $this->addUser($numeric, $nick, $ident, $host, $desc, $start_ts, $ip, $modes, $account, $account_ts);
 		
 		if (!empty($fakehost)) {
-			$user->set_fakehost($fakehost);
+			$user->setFakehost($fakehost);
 		}
 	}
 	
-	$user = $this->get_user($numeric);
-	$account_name = $user->get_account_name();
+	$user = $this->getUser($numeric);
+	$account_name = $user->getAccountName();
 	
-	if ($account = $this->get_account($account_name)) {
-		$user->set_account_id($account->get_id());
-		$account->update_lastseen();
+	if ($account = $this->getAccount($account_name)) {
+		$user->setAccountId($account->getId());
+		$account->updateLastseen();
 		$account->save();
 	}
 		

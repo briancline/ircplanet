@@ -32,7 +32,7 @@
 	$acct_name = $pargs[1];
 	$level = $pargs[2];
 	
-	if (!($acct = $this->get_account($acct_name))) {
+	if (!($acct = $this->getAccount($acct_name))) {
 		$bot->noticef($user, 'The account %s does not exist.', $acct_name);
 		return false;
 	}
@@ -52,13 +52,13 @@
 		return false;
 	}
 	
-	$curr_level = $this->get_user_level($acct->get_id());
+	$curr_level = $this->getUserLevel($acct->getId());
 	if ($curr_level > 0) {
-		$bot->noticef($user, '%s already has level %s access.', $acct->get_name(), $curr_level);
+		$bot->noticef($user, '%s already has level %s access.', $acct->getName(), $curr_level);
 		return false;
 	}
 	
-	db_query("insert into `ss_admins` (user_id, level) values ('". $acct->get_id() ."', '$level')");
-	$bot->noticef($user, '%s now has level %d access.', $acct->get_name(), $level);
+	db_query("insert into `ss_admins` (user_id, level) values ('". $acct->getId() ."', '$level')");
+	$bot->noticef($user, '%s now has level %d access.', $acct->getName(), $level);
 
 

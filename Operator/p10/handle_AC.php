@@ -30,7 +30,7 @@
  */
 
 
-	$this->report_event('ACCOUNT', $user, $user->get_account_name());
+	$this->reportEvent('ACCOUNT', $user, $user->getAccountName());
 
 
 

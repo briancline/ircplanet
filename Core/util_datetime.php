@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	function convert_duration($dur)
+	function convertDuration($dur)
 	{
 		$secs = 0;
 		$amount = '';
@@ -82,7 +82,7 @@
 	}
 	
 	
-	function get_date($ts)
+	function getDate($ts)
 	{
 		return date('D j M Y H:i:s', $ts);
 	}

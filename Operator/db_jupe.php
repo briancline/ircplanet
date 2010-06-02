@@ -36,31 +36,31 @@
 		
 		protected $jupe_id;
 		protected $active;
-		protected $set_ts = 0;
+		protected $setTs = 0;
 		protected $expire_ts = 0;
 		protected $last_mod_ts = 0;
 		protected $server;
 		protected $reason;
 		
-		protected function record_construct() { }
-		protected function record_destruct()  { }
+		protected function recordConstruct() { }
+		protected function recordDestruct()  { }
 		
-		public function get_set_ts()          { return $this->set_ts; }
-		public function get_expire_ts()       { return $this->expire_ts; }
-		public function get_last_mod()        { return $this->last_mod; }
-		public function get_remaining_secs()  { return $this->get_expire_ts() - time(); }
-		public function get_server()          { return $this->server; }
-		public function get_reason()          { return $this->reason; }
-		public function is_expired()          { return $this->expire_ts < time(); }
-		public function is_active()           { return $this->active == 1; }
+		public function getSetTs()          { return $this->setTs; }
+		public function getExpireTs()       { return $this->expire_ts; }
+		public function getLastMod()        { return $this->last_mod; }
+		public function getRemainingSecs()  { return $this->getExpireTs() - time(); }
+		public function getServer()          { return $this->server; }
+		public function getReason()          { return $this->reason; }
+		public function isExpired()          { return $this->expire_ts < time(); }
+		public function isActive()           { return $this->active == 1; }
 		
-		public function set_ts($n)            { $this->set_ts = $n; }
-		public function set_duration($n)      { $this->expire_ts = time() + $n; }
-		public function set_last_mod($n)      { $this->last_mod_ts = $n; }
-		public function set_server($s)        { $this->server = $s; }
-		public function set_reason($s)        { $this->reason = $s; }
-		public function set_active()          { $this->active = 1; }
-		public function set_inactive()        { $this->inactive = 1; }
+		public function setTs($n)            { $this->setTs = $n; }
+		public function setDuration($n)      { $this->expire_ts = time() + $n; }
+		public function setLastMod($n)      { $this->last_mod_ts = $n; }
+		public function setServer($s)        { $this->server = $s; }
+		public function setReason($s)        { $this->reason = $s; }
+		public function setActive()          { $this->active = 1; }
+		public function setInactive()        { $this->inactive = 1; }
 	}
 	
 

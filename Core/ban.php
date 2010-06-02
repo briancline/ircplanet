@@ -55,7 +55,7 @@
 		function matches($host)
 		{
 			if (is_object($host))
-				return fnmatch($this->mask, $host->get_full_mask());
+				return fnmatch($this->mask, $host->getFullMask());
 			else
 				return fnmatch($this->mask, $host);
 		}

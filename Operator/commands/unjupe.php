@@ -30,7 +30,7 @@
  */
 
 	$server = $pargs[1];
-	$jupe = $this->get_jupe($server);
+	$jupe = $this->getJupe($server);
 	
 	if (!$jupe) {
 		$bot->noticef($user, 'There is no jupe for %s.', $server);
@@ -44,15 +44,15 @@
 	 * timestamp and changing the duration to 0, so as to make it expire immediately.
 	 * This effectively removes the jupe from the network.
 	 */
-	$jupe->expire_now();
+	$jupe->expireNow();
 
-	if ($jupe->is_active()) {
-		$this->sendf(FMT_JUPE_ACTIVE, SERVER_NUM, $jupe->get_server(), 0, 
-				$jupe->get_last_mod(), $jupe->get_reason());
+	if ($jupe->isActive()) {
+		$this->sendf(FMT_JUPE_ACTIVE, SERVER_NUM, $jupe->getServer(), 0, 
+				$jupe->getLastMod(), $jupe->getReason());
 	}
 	else {
-		$this->sendf(FMT_JUPE_INACTIVE, SERVER_NUM, $jupe->get_server(), 0, 
-				$jupe->get_last_mod(), $jupe->get_reason());
+		$this->sendf(FMT_JUPE_INACTIVE, SERVER_NUM, $jupe->getServer(), 0, 
+				$jupe->getLastMod(), $jupe->getReason());
 	}
 	
 

@@ -32,45 +32,45 @@
 	$is_new_user = ($num_args > 4);
 	
 	if ($is_new_user) {
-		$gline_host = $user->get_gline_host();
-		$gline_ip = $user->get_gline_ip();
+		$gline_host = $user->getGlineHost();
+		$gline_ip = $user->getGlineIp();
 		$gline_set = false;
 		
 		foreach ($this->glines as $gline_key => $gline) {
-			if (!$gline->is_expired() && ($gline->matches($gline_host) || $gline->matches($gline_ip))) {
-				$this->enforce_gline($gline);
+			if (!$gline->isExpired() && ($gline->matches($gline_host) || $gline->matches($gline_ip))) {
+				$this->enforceGline($gline);
 				$gline_set = true;
 			}
 		}
 		
 		if (defined('CLONE_GLINE') && CLONE_GLINE == true && !$gline_set
-				&& $this->get_clone_count($user->get_ip()) > CLONE_MAX
-				&& !is_private_ip($user->get_ip()))
+				&& $this->getCloneCount($user->getIp()) > CLONE_MAX
+				&& !isPrivateIp($user->getIp()))
 		{
-			$gline_mask = '*@'. $user->get_ip();
-			$gline_secs = convert_duration(CLONE_DURATION);
-			$new_gl = $this->add_gline($gline_mask, $gline_secs, time(), CLONE_REASON);
-			$this->enforce_gline($new_gl);
+			$gline_mask = '*@'. $user->getIp();
+			$gline_secs = convertDuration(CLONE_DURATION);
+			$new_gl = $this->addGline($gline_mask, $gline_secs, time(), CLONE_REASON);
+			$this->enforceGline($new_gl);
 			$gline_set = true;
 		}
 		
 		if (defined('TOR_GLINE') && TOR_GLINE == true && !$gline_set 
-				&& $this->is_tor_host($user->get_ip()))
+				&& $this->isTorHost($user->getIp()))
 		{
-			$gline_mask = '*@'. $user->get_ip();
-			$gline_secs = convert_duration(TOR_DURATION);
-			$new_gl = $this->add_gline($gline_mask, $gline_secs, time(), TOR_REASON);
-			$this->enforce_gline($new_gl);
+			$gline_mask = '*@'. $user->getIp();
+			$gline_secs = convertDuration(TOR_DURATION);
+			$new_gl = $this->addGline($gline_mask, $gline_secs, time(), TOR_REASON);
+			$this->enforceGline($new_gl);
 			$gline_set = true;
 		}
 		
 		if (defined('COMP_GLINE') && COMP_GLINE == true && !$gline_set
-				&& $this->is_compromised_host($user->get_ip()))
+				&& $this->isCompromisedHost($user->getIp()))
 		{
-			$gline_mask = '*@'. $user->get_ip();
-			$gline_secs = convert_duration(COMP_DURATION);
-			$new_gl = $this->add_gline($gline_mask, $gline_secs, time(), COMP_REASON);
-			$this->enforce_gline($new_gl);
+			$gline_mask = '*@'. $user->getIp();
+			$gline_secs = convertDuration(COMP_DURATION);
+			$new_gl = $this->addGline($gline_mask, $gline_secs, time(), COMP_REASON);
+			$this->enforceGline($new_gl);
 			$gline_set = true;
 		}
 	}
@@ -79,14 +79,14 @@
 	if ($this->finished_burst) {
 		if ($is_new_user) {
 			// new user
-			$server = $this->get_server($args[0]);
-			$rest = irc_sprintf('%H (%s@%s) [%s]', $user, $user->get_ident(), 
-				$user->get_host(), $user->get_name());
-			$this->report_event('NICK', $server, $rest);
+			$server = $this->getServer($args[0]);
+			$rest = irc_sprintf('%H (%s@%s) [%s]', $user, $user->getIdent(), 
+				$user->getHost(), $user->getName());
+			$this->reportEvent('NICK', $server, $rest);
 		}
 		else {
 			// nick change
-			$this->report_event('NICK', $old_nick, $new_nick);
+			$this->reportEvent('NICK', $old_nick, $new_nick);
 		}
 	}
 

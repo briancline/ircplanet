@@ -34,7 +34,7 @@
 	$cmd_msg = assemble($args, 3);
 	$cmd_target = $privmsg_target;
 	
-	if (empty($chan_key) && array_key_exists($cmd_target, $this->users) && $this->users[$cmd_target]->is_bot()) {
+	if (empty($chan_key) && array_key_exists($cmd_target, $this->users) && $this->users[$cmd_target]->isBot()) {
 		$bot = $this->users[$cmd_target];
 		$is_private = true;
 	}
@@ -46,8 +46,8 @@
 	
 	if ($is_public || $is_private) {
 		$user_numeric = $args[0];
-		$user = $this->get_user($user_numeric);
-		$pargs = line_get_args($cmd_msg, false);
+		$user = $this->getUser($user_numeric);
+		$pargs = lineGetArgs($cmd_msg, false);
 		$cmd_name = strtolower($pargs[0]);
 		
 		$last_char = substr($cmd_msg, strlen($cmd_msg) - 1);
@@ -62,10 +62,10 @@
 		$spoofed_ctcp = (!$is_ctcp && substr($cmd_name, 0, 5) == 'ctcp_');
 		$cmd_handler_file = CMD_HANDLER_DIR . $cmd_name . '.php';
 		
-		if (($this->command_exists($cmd_name) || $is_ctcp) && file_exists($cmd_handler_file) && !$spoofed_ctcp) {
-			$user_level = $this->get_user_level($user);
-			$cmd_level = $this->get_command_level($cmd_name);
-			$cmd_req_args = $this->get_command_arg_count($cmd_name);
+		if (($this->commandExists($cmd_name) || $is_ctcp) && file_exists($cmd_handler_file) && !$spoofed_ctcp) {
+			$user_level = $this->getUserLevel($user);
+			$cmd_level = $this->getCommandLevel($cmd_name);
+			$cmd_req_args = $this->getCommandArgCount($cmd_name);
 			$cmd_num_args = count($pargs) - 1;
 			
 			if ($user_level >= $cmd_level) {
@@ -77,11 +77,11 @@
 					 * we reach this point then we should report a successful command to the
 					 * log channel.
 					 */
-					$this->report_command($user, $pargs);
+					$this->reportCommand($user, $pargs);
 				}
 				else {
 					$bot->noticef($user, "%sSyntax:%s %s %s", BOLD_START, BOLD_END, 
-						$cmd_name, $this->get_command_syntax($cmd_name));
+						$cmd_name, $this->getCommandSyntax($cmd_name));
 				}
 			}
 			else {

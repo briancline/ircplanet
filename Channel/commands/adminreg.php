@@ -41,28 +41,28 @@
 		return false;
 	}
 	
-	if (!($owner = $this->get_account($owner_nick))) {
+	if (!($owner = $this->getAccount($owner_nick))) {
 		$bot->noticef($user, '%s is not a known account name!', $owner_nick);
 		return false;
 	}
 	
-	if (!($reg = $this->get_channel_reg($chan_name))) {
-		$reg = new DB_Channel($chan_name, $owner->get_id());
-		$reg->set_purpose($purpose);
+	if (!($reg = $this->getChannelReg($chan_name))) {
+		$reg = new DB_Channel($chan_name, $owner->getId());
+		$reg->setPurpose($purpose);
 		$reg->save();
-		$reg = $this->add_channel_reg($reg);
+		$reg = $this->addChannelReg($reg);
 		
 		$bot->join($chan_name);
-		$chan = $this->get_channel($chan_name);
+		$chan = $this->getChannel($chan_name);
 		
-		if (!$chan->is_op($bot->get_numeric()))
-			$this->mode($chan_name, '+Ro '. $bot->get_numeric());
+		if (!$chan->isOp($bot->getNumeric()))
+			$this->mode($chan_name, '+Ro '. $bot->getNumeric());
 		else
 			$bot->mode($chan_name, '+R');
 	}
 	else {
 		$bot->noticef($user, 'Sorry, %s is already registered.',
-			$reg->get_name());
+			$reg->getName());
 		return false;
 	}
 

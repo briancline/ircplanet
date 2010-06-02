@@ -29,6 +29,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	print_array($this->accounts);
+	printArray($this->accounts);
 
 

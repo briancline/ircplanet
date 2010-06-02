@@ -33,14 +33,14 @@
 	$name = $args[1];
 	$start_ts = $args[4];
 	$numeric = substr($args[6], 0, BASE64_SERVLEN);
-	$max_users = base64_to_int(substr($args[6], BASE64_SERVLEN));
+	$max_users = irc_base64ToInt(substr($args[6], BASE64_SERVLEN));
 	$desc = $args[$num_args - 1];
 	$modes = '';
 	
 	if ($args[$num_args - 2][0] == '+')
 		$modes = $args[$num_args - 2];
 	
-	$server = $this->add_server($uplink, $numeric, $name, $desc, $start_ts, $max_users, $modes);
+	$server = $this->addServer($uplink, $numeric, $name, $desc, $start_ts, $max_users, $modes);
 
 	if (!defined('UPLINK_NUM')) {
 		define('UPLINK_NUM', $numeric);
@@ -50,11 +50,11 @@
 		exit();
 	}
 	
-	$this->service_preburst();
-	$this->burst_glines();
-	$this->burst_servers();	
-	$this->burst_users();
-	$this->burst_channels();
+	$this->servicePreburst();
+	$this->burstGlines();
+	$this->burstServers();	
+	$this->burstUsers();
+	$this->burstChannels();
 	$this->sendf(FMT_ENDOFBURST, SERVER_NUM);
 	
 

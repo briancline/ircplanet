@@ -29,15 +29,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	if ($user->is_logged_in()) {
-		$user_name = $user->get_account_name();
-		$account = $this->get_account($user_name);
-		$password_md5 = $account->get_password();
+	if ($user->isLoggedIn()) {
+		$user_name = $user->getAccountName();
+		$account = $this->getAccount($user_name);
+		$password_md5 = $account->getPassword();
 	}
 	elseif ($cmd_num_args < 2) {
 		$bot->noticef($user, "%sSyntax:%s %s %s",
 			BOLD_START, BOLD_END, strtolower($pargs[0]),
-			$this->get_command_syntax($pargs[0]));
+			$this->getCommandSyntax($pargs[0]));
 		return false;
 	}
 	else {
@@ -46,51 +46,51 @@
 	}
 	
 	
-	if (strtolower($user_name) == strtolower($user->get_nick())) {
+	if (strtolower($user_name) == strtolower($user->getNick())) {
 		$bot->notice($user, "Suicide is not the answer!");
 		return false;
 	}
 	
-	if (!($account = $this->get_account($user_name))) {
+	if (!($account = $this->getAccount($user_name))) {
 		$bot->noticef($user, "%s is not a registered nick.", $user_name);
 		return false;
 	}
 	
-	if ($user->is_logged_in() && $account->get_id() != $user->get_account_id()) {
+	if ($user->isLoggedIn() && $account->getId() != $user->getAccountId()) {
 		$bot->notice($user, "You cannot ghost someone else's nick!");
 		return false;
 	}
 	
-	if (!($target = $this->get_user_by_nick($user_name))) {
+	if (!($target = $this->getUserByNick($user_name))) {
 		$bot->notice($user, "No one is using that nick.");
 		return false;
 	}
 	
-	$target_nick = $target->get_nick();
+	$targetNick = $target->getNick();
 	
-	if ($account->get_password() != $password_md5) {
+	if ($account->getPassword() != $password_md5) {
 		$bot->notice($user, "Invalid password!");
 		return false;
 	}
 	
-	$user_name = $account->get_name();
-	$this->kill($target->get_numeric(), "GHOST command used by ". $user->get_nick());
+	$user_name = $account->getName();
+	$this->kill($target->getNumeric(), "GHOST command used by ". $user->getNick());
 	
-	if ($user->is_logged_in()) {
-		$bot->noticef($user, "%s has been disconnected.", $target_nick);
+	if ($user->isLoggedIn()) {
+		$bot->noticef($user, "%s has been disconnected.", $targetNick);
 	}
 	else {
-		$bot->noticef($user, "%s has been disconnected. You are now logged in.", $target_nick);
-		$this->sendf(FMT_ACCOUNT, SERVER_NUM, $user->get_numeric(), $user_name, $account->get_register_ts());
-		$user->set_account_name($user_name);
-		$user->set_account_id($account->get_id());
+		$bot->noticef($user, "%s has been disconnected. You are now logged in.", $targetNick);
+		$this->sendf(FMT_ACCOUNT, SERVER_NUM, $user->getNumeric(), $user_name, $account->getRegisterTs());
+		$user->setAccountName($user_name);
+		$user->setAccountId($account->getId());
 		
-		if ($account->has_fakehost()) {
-			$this->sendf(FMT_FAKEHOST, SERVER_NUM, $user->get_numeric(), $account->get_fakehost());
+		if ($account->hasFakehost()) {
+			$this->sendf(FMT_FAKEHOST, SERVER_NUM, $user->getNumeric(), $account->getFakehost());
 			
-			if (!$user->has_mode(UMODE_HIDDENHOST)) {
+			if (!$user->hasMode(UMODE_HIDDENHOST)) {
 				$bot->noticef($user, 'Enable usermode +x (/mode %s +x) in order to cloak your host.',
-					$user->get_nick());
+					$user->getNick());
 			}
 		}
 	}

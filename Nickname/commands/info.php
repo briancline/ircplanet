@@ -31,7 +31,7 @@
 	
 	$user_name = $pargs[1];
 
-	if (!($account = $this->get_account($user_name))) {
+	if (!($account = $this->getAccount($user_name))) {
 		$bot->noticef($user, "%s is not a registered nick.", $user_name);
 		return false;
 	}
@@ -39,16 +39,16 @@
 	
 	$instances = array();
 	foreach ($this->users as $numeric => $tmp_user) {
-		if ($tmp_user->get_account_id() == $account->get_id()) {
-			$instances[] = $tmp_user->get_full_mask_safe();
+		if ($tmp_user->getAccountId() == $account->getId()) {
+			$instances[] = $tmp_user->getFullMaskSafe();
 		}
 	}
 
-	$is_admin = ($this->get_user_level($user) > 1);
-	$privileged = $is_admin || $user->is_oper() || ($account->get_id() == $user->get_account_id());
+	$is_admin = ($this->getUserLevel($user) > 1);
+	$privileged = $is_admin || $user->isOper() || ($account->getId() == $user->getAccountId());
 	$logged_in = !empty($instances);
 
-	$bot->noticef($user, 'Account information for %s%s%s', BOLD_START, $account->get_name(), BOLD_END);
+	$bot->noticef($user, 'Account information for %s%s%s', BOLD_START, $account->getName(), BOLD_END);
 	$bot->noticef($user, str_repeat('-', 70));
 
 	if ($privileged && $logged_in) {
@@ -63,22 +63,22 @@
 	}
 
 	if ($privileged) {
-		$bot->noticef($user, 'E-mail Addr:  %s', $account->get_email());
+		$bot->noticef($user, 'E-mail Addr:  %s', $account->getEmail());
 		$bot->noticef($user, 'Enforcement:  %s       Auto Op: %s      Auto Voice: %s',
-				$account->enforces_nick() ? 'Yes' : 'No',
-				$account->auto_ops()      ? 'Yes' : 'No',
-				$account->auto_voices()   ? 'Yes' : 'No'
+				$account->enforcesNick() ? 'Yes' : 'No',
+				$account->autoOps()      ? 'Yes' : 'No',
+				$account->autoVoices()   ? 'Yes' : 'No'
 		);
 		$bot->noticef($user, 'Suspended:    %s       Permanent: %s',
-				$account->is_suspended()  ? 'Yes' : 'No',
-				$account->is_permanent()  ? 'Yes' : 'No'
+				$account->isSuspended()  ? 'Yes' : 'No',
+				$account->isPermanent()  ? 'Yes' : 'No'
 		);
 	}
 	
-	if ($account->has_info_line())
-		$bot->noticef($user, 'Info Line:    %s', $account->get_info_line());
+	if ($account->hasInfoLine())
+		$bot->noticef($user, 'Info Line:    %s', $account->getInfoLine());
 	
-	$bot->noticef($user, 'Registered:   %s', date('l j F Y h:i:s A T (\G\M\TO)', $account->get_register_ts()));
-	$bot->noticef($user, 'Last Seen:    %s', date('l j F Y h:i:s A T (\G\M\TO)', $account->get_lastseen_ts()));
+	$bot->noticef($user, 'Registered:   %s', date('l j F Y h:i:s A T (\G\M\TO)', $account->getRegisterTs()));
+	$bot->noticef($user, 'Last Seen:    %s', date('l j F Y h:i:s A T (\G\M\TO)', $account->getLastseenTs()));
 
 

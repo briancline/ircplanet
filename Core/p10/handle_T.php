@@ -36,7 +36,7 @@
 	
 	$topic = assemble($args, $topic_arg);
 	
-	if ($chan = $this->get_channel($chan_key))
-		$chan->set_topic($topic);
+	if ($chan = $this->getChannel($chan_key))
+		$chan->setTopic($topic);
 
 

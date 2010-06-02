@@ -47,10 +47,10 @@
 	elseif ($option == 'CLONES') {
 		$clones = array();
 		foreach ($this->users as $tmp_numeric => $tmp_user) {
-			if (!array_key_exists($tmp_user->get_ip(), $clones))
-				$clones[$tmp_user->get_ip()] = 0;
+			if (!array_key_exists($tmp_user->getIp(), $clones))
+				$clones[$tmp_user->getIp()] = 0;
 
-			$clones[$tmp_user->get_ip()]++;
+			$clones[$tmp_user->getIp()]++;
 		}
 
 		if (count($clones) == 0) {
@@ -77,10 +77,10 @@
 
 		$n = 0;
 		foreach ($this->glines as $gline_key => $gline) {
-			$exp_date = date('D d M H:i:s Y', $gline->get_expire_ts());
+			$exp_date = date('D d M H:i:s Y', $gline->getExpireTs());
 
-			$bot->noticef($user, '  %2d) Mask:     %s', ++$n, $gline->get_mask());
-			$bot->noticef($user, '       Reason:   %s', $gline->get_reason());
+			$bot->noticef($user, '  %2d) Mask:     %s', ++$n, $gline->getMask());
+			$bot->noticef($user, '       Reason:   %s', $gline->getReason());
 			$bot->noticef($user, '       Expires:  %s', $exp_date);
 		}
 	}
@@ -92,10 +92,10 @@
 
 		$n = 0;
 		foreach ($this->jupes as $jupe_key => $jupe) {
-			$exp_date = date('D d M H:i:s Y', $jupe->get_expire_ts());
+			$exp_date = date('D d M H:i:s Y', $jupe->getExpireTs());
 
-			$bot->noticef($user, '  %2d) Server:   %s', ++$n, $jupe->get_server());
-			$bot->noticef($user, '       Reason:   %s', $jupe->get_reason());
+			$bot->noticef($user, '  %2d) Server:   %s', ++$n, $jupe->getServer());
+			$bot->noticef($user, '       Reason:   %s', $jupe->getReason());
 			$bot->noticef($user, '       Expires:  %s', $exp_date);
 		}
 	}
@@ -103,10 +103,10 @@
 		$n = 0;
 
 		foreach ($this->users as $tmp_numeric => $tmp_user) {
-			if (!$tmp_user->is_oper() || $tmp_user->is_service())
+			if (!$tmp_user->isOper() || $tmp_user->isService())
 				continue;
 
-			$bot->noticef($user, '  %2d) %s', ++$n, $tmp_user->get_full_mask());
+			$bot->noticef($user, '  %2d) %s', ++$n, $tmp_user->getFullMask());
 		}
 
 		$bot->noticef($user, '%d oper(s) are online.', $n);

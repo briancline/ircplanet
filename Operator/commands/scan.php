@@ -38,16 +38,16 @@
 	$max_server_len = 9;
 	
 	foreach ($this->users as $numeric => $tmp_user) {
-		$ip = $tmp_user->get_ip();
-		$ip_mask = $tmp_user->get_ident() .'@'. $ip;
-		$host_mask = $tmp_user->get_ident() .'@'. $tmp_user->get_host();
+		$ip = $tmp_user->getIp();
+		$ip_mask = $tmp_user->getIdent() .'@'. $ip;
+		$host_mask = $tmp_user->getIdent() .'@'. $tmp_user->getHost();
 		
 		if (fnmatch($mask, $host_mask) || fnmatch($mask, $ip_mask)) {
-			$user_host = $tmp_user->get_nick() .'!'. $host_mask;
+			$user_host = $tmp_user->getNick() .'!'. $host_mask;
 			$user_len = strlen($user_host);
 			
-			$server = $this->get_server($tmp_user->get_server_numeric());
-			$server = $server->get_name_abbrev();
+			$server = $this->getServer($tmp_user->getServerNumeric());
+			$server = $server->getNameAbbrev();
 			$server_len = strlen($server);
 			
 			if ($max_user_len < $user_len)

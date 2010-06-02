@@ -31,15 +31,15 @@
 	
 	$acct_name = $pargs[1];
 	
-	if (!($acct = $this->get_account($acct_name))) {
+	if (!($acct = $this->getAccount($acct_name))) {
 		$bot->noticef($user, 'The account %s does not exist.', $acct_name);
 		return false;
 	}
 	
-	$curr_level = $this->get_user_level($acct->get_id());
+	$curr_level = $this->getUserLevel($acct->getId());
 	
 	if ($curr_level == 0) {
-		$bot->noticef($user, '%s does not have any existing access.', $acct->get_name());
+		$bot->noticef($user, '%s does not have any existing access.', $acct->getName());
 		return false;
 	}
 	
@@ -48,7 +48,7 @@
 		return false;
 	}
 	
-	db_query("delete from `ss_admins` where `user_id` = '". $acct->get_id() ."'");
-	$bot->noticef($user, '%s\'s level %d access has been revoked.', $acct->get_name(), $curr_level);
+	db_query("delete from `ss_admins` where `user_id` = '". $acct->getId() ."'");
+	$bot->noticef($user, '%s\'s level %d access has been revoked.', $acct->getName(), $curr_level);
 
 

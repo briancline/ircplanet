@@ -31,23 +31,23 @@
 	
 	$chan_mask = $pargs[1];
 	
-	if (($badchan = $this->get_badchan($chan_mask))) {
+	if (($badchan = $this->getBadchan($chan_mask))) {
 		$bot->noticef('%s is already in the badchan list.');
 		return false;
 	}
 
-	if ($this->is_badchan($chan_mask)) {
+	if ($this->isBadchan($chan_mask)) {
 		$bot->noticef($user, 'A more broad mask (%s) supersedes the one you are attempting to add.',
 				$tmp_mask);
 		return false;
 	}
 
-	$this->add_badchan($chan_mask);
+	$this->addBadchan($chan_mask);
 
 	foreach ($this->channels as $chan_key => $chan) {
-		if ($this->is_badchan($chan->get_name()) && !$chan->is_secret()) {
-			$this->mode($chan->get_name(), '+s');
-			$chan->add_modes('s');
+		if ($this->isBadchan($chan->getName()) && !$chan->isSecret()) {
+			$this->mode($chan->getName(), '+s');
+			$chan->addModes('s');
 		}
 	}
 

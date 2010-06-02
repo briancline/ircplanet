@@ -36,7 +36,7 @@
 	 * /join 0 is the same as /parting all channels.
 	 */
 	if ($args[2] == '0') {
-		$this->remove_user_from_all_channels($numeric);
+		$this->removeUserFromAllChannels($numeric);
 		$parted_all_chans = true;
 	}
 	else {
@@ -52,15 +52,15 @@
 			 * still thinks the channel exists, but we know better...don't we.
 			 */
 
-			$chan = $this->get_channel($chan_name);
+			$chan = $this->getChannel($chan_name);
 
 			if (!$chan) {
 				$ts = $args[count($args) - 1];
-				$this->add_channel($chan_name, $ts);
-				$this->add_channel_user($chan_name, $numeric, 'o');
+				$this->addChannel($chan_name, $ts);
+				$this->addChannelUser($chan_name, $numeric, 'o');
 			}
 			else {
-				$this->add_channel_user($chan_name, $numeric);
+				$this->addChannelUser($chan_name, $numeric);
 			}
 		}
 	}

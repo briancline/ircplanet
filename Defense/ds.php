@@ -41,13 +41,13 @@
 		var $whitelist = array();
 		
 		
-		function load_whitelist_entries()
+		function loadWhitelistEntries()
 		{
 			$res = db_query('select * from ds_whitelist order by whitelist_id asc');
 			while ($row = mysql_fetch_assoc($res)) {
 				$entry = new DB_WhitelistEntry($row);
 				
-				$entry_key = strtolower($entry->get_mask());
+				$entry_key = strtolower($entry->getMask());
 				$this->whitelist[$entry_key] = $entry;
 			}
 
@@ -55,69 +55,69 @@
 		}
 
 
-		function service_construct()
+		function serviceConstruct()
 		{
 		}
 		
 		
-		function service_destruct()
+		function serviceDestruct()
 		{
 		}
 		
 
-		function service_load()
+		function serviceLoad()
 		{
-			$this->load_whitelist_entries();
+			$this->loadWhitelistEntries();
 		}
 		
 		
-		function service_preburst()
+		function servicePreburst()
 		{
 		}
 		
 		
-		function service_postburst()
+		function servicePostburst()
 		{
-			$bot_num = $this->default_bot->get_numeric();
+			$bot_num = $this->default_bot->getNumeric();
 			foreach ($this->default_bot->channels as $chan_name) {
-				$chan = $this->get_channel($chan_name);
+				$chan = $this->getChannel($chan_name);
 				
-				if (!$chan->is_op($bot_num))
-					$this->op($chan->get_name(), $bot_num);
+				if (!$chan->isOp($bot_num))
+					$this->op($chan->getName(), $bot_num);
 			}
 		}
 		
 		
-		function service_preread()
+		function servicePreread()
 		{
 		}
 		
 
-		function service_close($reason = 'So long, and thanks for all the fish!')
+		function serviceClose($reason = 'So long, and thanks for all the fish!')
 		{
 			foreach ($this->users as $numeric => $user) {
-				if ($user->is_bot()) {
+				if ($user->isBot()) {
 					$this->sendf(FMT_QUIT, $numeric, $reason);
-					$this->remove_user($numeric);
+					$this->removeUser($numeric);
 				}
 			}
 		}
 
 		
-		function service_main()
+		function serviceMain()
 		{
 		}
 		
 		
-		function get_user_level($user_obj)
+		function getUserLevel($user_obj)
 		{
 			$acct_id = $user_obj;
 			
-			if (is_object($user_obj) && is_user($user_obj)) {
-				if (!$user_obj->is_logged_in())
+			if (is_object($user_obj) && isUser($user_obj)) {
+				if (!$user_obj->isLoggedIn())
 					return 0;
 				
-				$acct_id = $user_obj->get_account_id();
+				$acct_id = $user_obj->getAccountId();
 			}
 			
 			$res = db_query("select `level` from `ds_admins` where user_id = ". $acct_id);
@@ -131,10 +131,10 @@
 		}
 		
 		
-		function add_whitelist_entry($mask)
+		function addWhitelistEntry($mask)
 		{
 			$entry = new DB_WhitelistEntry();
-			$entry->set_mask($mask);
+			$entry->setMask($mask);
 			$entry->save();
 			
 			$key = strtolower($mask);
@@ -144,7 +144,7 @@
 		}
 		
 		
-		function get_whitelist_entry($mask)
+		function getWhitelistEntry($mask)
 		{
 			$key = strtolower($mask);
 			if (array_key_exists($key, $this->whitelist))
@@ -154,7 +154,7 @@
 		}
 		
 		
-		function remove_whitelist_entry($mask)
+		function removeWhitelistEntry($mask)
 		{
 			$key = strtolower($mask);
 			if (!array_key_exists($key, $this->whitelist))
@@ -165,7 +165,7 @@
 		}
 		
 		
-		function is_whitelisted($mask)
+		function isWhitelisted($mask)
 		{
 			foreach ($this->whitelist as $entry) {
 				if ($entry->matches($mask))
@@ -176,7 +176,7 @@
 		}
 		
 
-		function is_blacklisted_db($ip)
+		function isBlacklistedDb($ip)
 		{
 			if (!defined('BLACK_GLINE'))
 				return false;
@@ -195,7 +195,7 @@
 
 
 		/**
-		 * is_blacklisted_dns is a generic function to provide extensibility
+		 * isBlacklistedDns is a generic function to provide extensibility
 		 * for easily checking DNS based blacklists. It has three arguments:
 		 * 	host:    The IP address of the host you wish to check.
 		 * 	suffix:    The DNS suffix for the DNSBL service.
@@ -205,19 +205,19 @@
 		 * 	           considered a positive match.
 		 * 
 		 * For example:
-		 * 	is_blacklisted_dns('1.2.3.4', 'dnsbl.com')
+		 * 	isBlacklistedDns('1.2.3.4', 'dnsbl.com')
 		 * 		Returns true if 4.3.2.1.dnsbl.com returns any DNS resolution.
-		 * 	is_blacklisted_dns('1.2.3.4', 'dnsbl.com', 2)
+		 * 	isBlacklistedDns('1.2.3.4', 'dnsbl.com', 2)
 		 * 		Returns true if 4.3.2.1.dnsbl.com contains '127.0.0.2' in its 
 		 * 		response.
-		 * 	is_blacklisted_dns('1.2.3.4', 'dnsbl.com', array(2, 3))
+		 * 	isBlacklistedDns('1.2.3.4', 'dnsbl.com', array(2, 3))
 		 * 		Returns true if 4.3.2.1.dnsbl.com contains either 127.0.0.2 or 
 		 * 		127.0.0.3 in its response.
 		 */
-		function is_blacklisted_dns($host, $dns_suffix, $pos_responses = -1)
+		function isBlacklistedDns($host, $dns_suffix, $pos_responses = -1)
 		{
 			// Don't waste time checking private class IPs.
-			if (is_private_ip($host))
+			if (isPrivateIp($host))
 				return false;
 			
 			$start_ts = microtime(true);
@@ -275,7 +275,7 @@
 		}
 		
 		
-		function is_tor_host($host)
+		function isTorHost($host)
 		{
 			/**
 			 * The TOR DNSBL will return 127.0.0.1 as the address for a host
@@ -300,7 +300,7 @@
 			);
 
 			foreach ($blacklists as $dns_suffix => $responses) {
-				if ($this->is_blacklisted_dns($host, $dns_suffix, $responses))
+				if ($this->isBlacklistedDns($host, $dns_suffix, $responses))
 					return true;
 			}
 			
@@ -308,7 +308,7 @@
 		}
 		
 		
-		function is_compromised_host($host)
+		function isCompromisedHost($host)
 		{
 			/**
 			 * To determine if a host is compromised, check a myriad of public
@@ -328,7 +328,7 @@
 			);
 			
 			foreach ($blacklists as $dns_suffix => $responses) {
-				if ($this->is_blacklisted_dns($host, $dns_suffix, $responses))
+				if ($this->isBlacklistedDns($host, $dns_suffix, $responses))
 					return true;
 			}
 			
@@ -336,10 +336,10 @@
 		}
 		
 		
-		function perform_gline($gline_mask, $gline_duration, $gline_reason)
+		function performGline($gline_mask, $gline_duration, $gline_reason)
 		{
 			if (defined('OS_GLINE') && OS_GLINE == true && defined('OS_NICK')) {
-				$oper_service = $this->get_user_by_nick(OS_NICK);
+				$oper_service = $this->getUserByNick(OS_NICK);
 				$gline_command = irc_sprintf('GLINE %s %s %s', 
 						$gline_mask, $gline_duration, $gline_reason);
 
@@ -351,9 +351,9 @@
 				$this->default_bot->message($oper_service, $gline_command);
 			}
 			else {
-				$gline_secs = convert_duration($gline_duration);
-				$new_gl = $this->add_gline($gline_mask, $gline_secs, time(), $gline_reason);
-				$this->enforce_gline($new_gl);
+				$gline_secs = convertDuration($gline_duration);
+				$new_gl = $this->addGline($gline_mask, $gline_secs, time(), $gline_reason);
+				$this->enforceGline($new_gl);
 			}
 		}
 	}

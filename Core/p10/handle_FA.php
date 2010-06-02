@@ -32,8 +32,8 @@
 	/*
 	 * SOAAA FA BPAAA opers.ircplanet.net
 	 */
-	$user = $this->get_user($args[2]);
+	$user = $this->getUser($args[2]);
 	
-	$user->add_mode(UMODE_FAKEHOST);
-	$user->set_fakehost($args[3]);
+	$user->addMode(UMODE_FAKEHOST);
+	$user->setFakehost($args[3]);
 	

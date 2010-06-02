@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	$chan = $this->get_channel($chan_name);
+	$chan = $this->getChannel($chan_name);
 	$modes = $args[3];
 	
 	if (!$chan) {
@@ -40,15 +40,15 @@
 	for ($i = 0; $i < strlen($modes); $i++) {
 		switch ($modes[$i]) {
 			case 'o':
-				$chan->clear_ops();
+				$chan->clearOps();
 				break;
 			
 			case 'v':
-				$chan->clear_voices();
+				$chan->clearVoices();
 				break;
 			
 			case 'b':
-				$chan->clear_bans();
+				$chan->clearBans();
 				break;
 			
 			case 'p':
@@ -61,12 +61,12 @@
 			case 'l': // the Channel class takes care of setting the limit to 0
 			case 'r':
 			case 'D':
-				$chan->remove_mode($modes[$i]);
+				$chan->removeMode($modes[$i]);
 				break;
 			
 			default:
 				debugf('Received unknown or disallowed mode change in CLEARMODE for %s',
-					$chan->get_name());
+					$chan->getName());
 				break;
 		}
 	}

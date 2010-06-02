@@ -32,7 +32,7 @@
 	$chan_name = $pargs[1];
 	$purpose = assemble($pargs, 2);
 	
-	if (!$user->is_logged_in()) {
+	if (!$user->isLoggedIn()) {
 		$bot->notice($user, 'You must register a user account before you can register a channel.');
 		return false;
 	}
@@ -42,28 +42,28 @@
 		return false;
 	}
 	
-	if ($this->get_channel_reg_count($user->get_account_id()) >= MAX_CHAN_REGS) {
+	if ($this->getChannelRegCount($user->getAccountId()) >= MAX_CHAN_REGS) {
 		$bot->noticef($user, 'You cannot register more than %d channels.', 
 			MAX_CHAN_REGS);
 		return false;
 	}
 
-	$reg = $this->get_channel_reg($chan_name);
-	$chan = $this->get_channel($chan_name);
+	$reg = $this->getChannelReg($chan_name);
+	$chan = $this->getChannel($chan_name);
 	
 	if ($reg) {
 		$bot->noticef($user, 'Sorry, %s is already registered.',
-			$reg->get_name());
+			$reg->getName());
 		return false;
 	}
 
-	if ($this->is_badchan($chan_name)) {
+	if ($this->isBadchan($chan_name)) {
 		$bot->noticef($user, 'Sorry, but you are not allowed to register %s.',
 			$chan_name);
 		return false;
 	}
 
-	if (!$chan || !$chan->is_op($user->get_numeric())) {
+	if (!$chan || !$chan->isOp($user->getNumeric())) {
 		$bot->noticef($user, 'You must be an op in %s in order to register it.',
 			$chan_name);
 		return false;
@@ -72,16 +72,16 @@
 	$create_ts = time();
 
 	if ($chan != NULL)
-		$create_ts = $chan->get_ts();
+		$create_ts = $chan->getTs();
 
-	$reg = new DB_Channel($chan_name, $user->get_account_id());
-	$reg->set_purpose($purpose);
-	$reg->set_create_ts($create_ts);
-	$reg->set_register_date(db_date());
+	$reg = new DB_Channel($chan_name, $user->getAccountId());
+	$reg->setPurpose($purpose);
+	$reg->setCreateTs($create_ts);
+	$reg->setRegisterDate(db_date());
 	$reg->save();
-	$reg = $this->add_channel_reg($reg);
+	$reg = $this->addChannelReg($reg);
 
 	$bot->join($chan_name);
-	$this->mode($chan_name, '+Ro '. $bot->get_numeric());
+	$this->mode($chan_name, '+Ro '. $bot->getNumeric());
 	
 

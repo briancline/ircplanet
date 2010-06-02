@@ -33,7 +33,7 @@
 	$duration = $pargs[2];
 	$reason = assemble($pargs, 3);
 	
-	if (!($duration_secs = convert_duration($duration))) {
+	if (!($duration_secs = convertDuration($duration))) {
 		$bot->notice($user, 'Invalid duration specified! See help for more details.');
 		return false;
 	}
@@ -46,7 +46,7 @@
 		return false;
 	}
 	
-	$gline = $this->add_gline($realname, $duration_secs, time(), $reason);
-	$this->enforce_gline($gline);
+	$gline = $this->addGline($realname, $duration_secs, time(), $reason);
+	$this->enforceGline($gline);
 	
 

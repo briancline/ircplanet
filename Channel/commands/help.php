@@ -35,7 +35,7 @@
 	if ($cmd_num_args > 0) {
 		$help_topic = assemble($pargs, 1);
 		$help_topic_first = $pargs[1];
-		$help_level = $this->get_command_level($help_topic_first);
+		$help_level = $this->getCommandLevel($help_topic_first);
 	}
 	
 	$res = db_query("select text from help where service = 'CS' and topic = '$help_topic' and minlevel <= $user_level");
@@ -43,7 +43,7 @@
 		$row = mysql_fetch_assoc($res);
 		$lines = explode("\n", $row['text']);
 		$spacing = str_repeat(' ', 30 - strlen($help_topic));
-		$help_syntax = $this->get_command_syntax($help_topic);
+		$help_syntax = $this->getCommandSyntax($help_topic);
 		
 		$bot->noticef($user, "%sHELP on %s %s %10s%s",
 			BOLD_START, $help_topic, $spacing, 'Level '. $help_level, BOLD_END);
@@ -55,7 +55,7 @@
 		}
 
 		foreach ($lines as $line) {
-			$line = str_replace("%N", $bot->get_nick(), $line);
+			$line = str_replace("%N", $bot->getNick(), $line);
 			$line = str_replace("%S", SERVER_NAME, $line);
 			$line = str_replace("%B", BOLD_START, $line);
 

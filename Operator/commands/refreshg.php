@@ -31,7 +31,7 @@
 
 	$gline_count = 0;
 	foreach ($this->glines as $gline_key => $gline) {
-		$this->enforce_gline($gline);
+		$this->enforceGline($gline);
 		$gline_count++;
 	}
 	

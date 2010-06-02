@@ -38,7 +38,7 @@
 		return false;
 	}
 	
-	if (!($duration_secs = convert_duration($duration))) {
+	if (!($duration_secs = convertDuration($duration))) {
 		$bot->notice($user, 'Invalid duration specified! See help for more details.');
 		return false;
 	}
@@ -51,7 +51,7 @@
 		return false;
 	}
 	
-	$gline = $this->add_gline($channel, $duration_secs, time(), $reason);
-	$this->enforce_gline($gline);
+	$gline = $this->addGline($channel, $duration_secs, time(), $reason);
+	$this->enforceGline($gline);
 	
 

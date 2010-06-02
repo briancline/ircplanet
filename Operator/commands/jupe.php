@@ -34,12 +34,12 @@
 	$last_mod = time();
 	$reason = assemble($pargs, 3);
 
-	if ($jupe = $this->get_jupe($server)) {
-		$bot->noticef($user, 'A jupe already exists for %s.', $jupe->get_server());
+	if ($jupe = $this->getJupe($server)) {
+		$bot->noticef($user, 'A jupe already exists for %s.', $jupe->getServer());
 		return false;
 	}
 	
-	if (!($duration_secs = convert_duration($duration))) {
+	if (!($duration_secs = convertDuration($duration))) {
 		$bot->notice($user, 'Invalid duration specified! See help for more details.');
 		return false;
 	}
@@ -52,9 +52,9 @@
 		return false;
 	}
 	
-	$jupe = $this->add_jupe($server, $duration_secs, $last_mod, $reason);
+	$jupe = $this->addJupe($server, $duration_secs, $last_mod, $reason);
 	
-	$this->sendf(FMT_JUPE_ACTIVE, SERVER_NUM, $jupe->get_server(), $duration_secs, 
-			$jupe->get_last_mod(), $jupe->get_reason());
+	$this->sendf(FMT_JUPE_ACTIVE, SERVER_NUM, $jupe->getServer(), $duration_secs, 
+			$jupe->getLastMod(), $jupe->getReason());
 	
 

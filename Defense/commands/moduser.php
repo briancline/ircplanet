@@ -33,15 +33,15 @@
 	$setting = strtoupper($pargs[2]);
 	$param = $pargs[3];
 	
-	if (!($acct = $this->get_account($acct_name))) {
+	if (!($acct = $this->getAccount($acct_name))) {
 		$bot->noticef($user, 'The account %s does not exist.', $acct_name);
 		return false;
 	}
 	
-	$curr_level = $this->get_user_level($acct->get_id());
+	$curr_level = $this->getUserLevel($acct->getId());
 	
 	if ($curr_level == 0) {
-		$bot->noticef($user, '%s does not have any existing access.', $acct->get_name());
+		$bot->noticef($user, '%s does not have any existing access.', $acct->getName());
 		return false;
 	}
 	
@@ -64,12 +64,12 @@
 		
 		if ($param >= $user_level) {
 			$bot->noticef($user, 'You cannot set %s\'s level higher than or equal to your own.',
-				$acct->get_name());
+				$acct->getName());
 			return false;
 		}
 		
-		db_query("update `ds_admins` set `level` = '$param' where `user_id` = '". $acct->get_id() ."'");
-		$bot->noticef($user, '%s\'s level has been changed from %d to %d.', $acct->get_name(), 
+		db_query("update `ds_admins` set `level` = '$param' where `user_id` = '". $acct->getId() ."'");
+		$bot->noticef($user, '%s\'s level has been changed from %d to %d.', $acct->getName(), 
 			$curr_level, $param);
 	
 	}

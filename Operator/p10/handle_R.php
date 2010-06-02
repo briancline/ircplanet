@@ -29,9 +29,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	$user = $this->get_user($numeric);
-	$server = $this->get_server($args[3]);
+	$user = $this->getUser($numeric);
+	$server = $this->getServer($args[3]);
 	
-	$this->report_event('STATS', $user, $flag, 'to', $server);
+	$this->reportEvent('STATS', $user, $flag, 'to', $server);
 
 

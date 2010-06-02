@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	$account = $this->get_account($user->get_account_name());
+	$account = $this->getAccount($user->getAccountName());
 	$option = strtoupper($pargs[1]);
 	$value = '';
 	$who = 'your';
@@ -39,7 +39,7 @@
 		$value = assemble($pargs, 2);
 	
 	if ($user_level >= 500 && $cmd_num_args > 1) {
-		$tmp_user = $this->get_account($pargs[1]);
+		$tmp_user = $this->getAccount($pargs[1]);
 		if ($tmp_user != null) {
 			$option = strtoupper($pargs[2]);
 			$value = '';
@@ -48,7 +48,7 @@
 			if ($cmd_num_args > 2)
 				$value = assemble($pargs, 3);
 			
-			$who = $Who = $account->get_name() ."'s";
+			$who = $Who = $account->getName() ."'s";
 		}
 	}
 	
@@ -58,7 +58,7 @@
 			return false;
 		}
 		
-		$account->set_email($value);
+		$account->setEmail($value);
 		$bot->noticef($user, '%s e-mail address has been updated.', $Who);
 	}
 	elseif ($option == 'INFO') {
@@ -67,7 +67,7 @@
 			return false;
 		}
 		
-		$account->set_info_line($value);
+		$account->setInfoLine($value);
 		$bot->noticef($user, '%s info line has been %s.', $Who,
 			empty($value) ? 'cleared' : 'updated');
 	}
@@ -77,13 +77,13 @@
 			return false;
 		}
 		
-		$account->set_fakehost($value);
+		$account->setFakehost($value);
 		$bot->noticef($user, '%s host has been %s.', $Who,
 			empty($value) ? 'cleared' : 'updated');
 	}
 	elseif ($option == 'AUTOOP') {
 		if (empty($value)) {
-			$value = !$account->auto_ops();
+			$value = !$account->autoOps();
 		}
 		else {
 			$value = strtoupper($value);
@@ -95,13 +95,13 @@
 			}
 		}
 		
-		$account->set_auto_op($value);
+		$account->setAutoOp($value);
 		$bot->noticef($user, 'Switched %s global auto op to %s.', $who,
 			$value ? 'ON' : 'OFF');
 	}
 	elseif ($option == 'AUTOVOICE') {
 		if (empty($value)) {
-			$value = !$account->auto_voices();
+			$value = !$account->autoVoices();
 		}
 		else {
 			$value = strtoupper($value);
@@ -113,13 +113,13 @@
 			}
 		}
 		
-		$account->set_auto_voice($value);
+		$account->setAutoVoice($value);
 		$bot->noticef($user, 'Switched %s global auto voice to %s.', $who,
 			$value ? 'ON' : 'OFF');
 	}
 	elseif ($option == 'ENFORCE') {
 		if (empty($value)) {
-			$value = !$account->enforces_nick();
+			$value = !$account->enforcesNick();
 		}
 		else {
 			$value = strtoupper($value);
@@ -131,13 +131,13 @@
 			}
 		}
 		
-		$account->set_enforce_nick($value);
+		$account->setEnforceNick($value);
 		$bot->noticef($user, 'Toggled %s %s nickname enforcement.', $who,
 			$value ? 'ON' : 'OFF');
 	}
 	elseif ($option == 'NOPURGE' && $user_level >= 500) {
 		if (empty($value)) {
-			$value = !$account->is_permanent();
+			$value = !$account->isPermanent();
 		}
 		else {
 			$value = strtoupper($value);
@@ -149,13 +149,13 @@
 			}
 		}
 		
-		$account->set_permanent($value);
+		$account->setPermanent($value);
 		$bot->noticef($user, 'Toggled %s %s nopurge flag.', $who,
 			$value ? 'ON' : 'OFF');
 	}
 	elseif ($option == 'SUSPEND' && $user_level >= 500) {
 		if (empty($value)) {
-			$value = !$account->is_suspended();
+			$value = !$account->isSuspended();
 		}
 		else {
 			$value = strtoupper($value);
@@ -167,7 +167,7 @@
 			}
 		}
 		
-		$account->set_suspend($value);
+		$account->setSuspend($value);
 		$bot->noticef($user, 'Toggled %s suspension for %s.', 
 			$value ? 'ON' : 'OFF', $who);
 	}

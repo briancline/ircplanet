@@ -9,6 +9,6 @@
 	}
 
 	for ($i = 1; $i < $argc; $i++) {
-		printf("%s: %s\n", $argv[$i], ip_to_base64($argv[$i]));
+		printf("%s: %s\n", $argv[$i], irc_ipToBase64($argv[$i]));
 	}
 

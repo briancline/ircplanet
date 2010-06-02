@@ -42,7 +42,7 @@
 			return false;
 		}
 		
-		$chan_reg->set_purpose($value);
+		$chan_reg->setPurpose($value);
 		$bot->notice($user, 'Updated channel purpose.');
 	}
 	
@@ -54,7 +54,7 @@
 			return false;
 		}
 		
-		$chan_reg->set_url($value);
+		$chan_reg->setUrl($value);
 		$bot->notice($user, 'Updated channel URL.');
 	}
 	
@@ -66,7 +66,7 @@
 			return false;
 		}
 		
-		$chan_reg->set_default_topic($value);
+		$chan_reg->setDefaultTopic($value);
 		$bot->topic($chan_name, $value);
 		$bot->notice($user, 'Updated default channel topic.');
 	}
@@ -79,8 +79,8 @@
 			return false;
 		}
 		
-		$value = $this->clean_modes($value);
-		$chan_reg->set_default_modes($value);
+		$value = $this->cleanModes($value);
+		$chan_reg->setDefaultModes($value);
 		$bot->mode($chan_name, $value);
 		$bot->noticef($user, 'Updated default channel modes to %s.', $value);
 	}
@@ -89,7 +89,7 @@
 	
 	elseif ($option == 'INFOLINES') {
 		if (empty($value)) {
-			$value = !$chan_reg->shows_info_lines();
+			$value = !$chan_reg->showsInfoLines();
 		}
 		else {
 			$value = strtoupper($value);
@@ -101,7 +101,7 @@
 			}
 		}
 		
-		$chan_reg->set_info_lines($value);
+		$chan_reg->setInfoLines($value);
 		$bot->noticef($user, 'Toggled display of channel info lines to %s.',
 			$value ? 'ON' : 'OFF');
 	}
@@ -110,7 +110,7 @@
 	
 	elseif ($option == 'AUTOOP') {
 		if (empty($value)) {
-			$value = !$chan_reg->auto_ops();
+			$value = !$chan_reg->autoOps();
 		}
 		else {
 			$value = strtoupper($value);
@@ -122,7 +122,7 @@
 			}
 		}
 		
-		$chan_reg->set_auto_op($value);
+		$chan_reg->setAutoOp($value);
 		$bot->noticef($user, 'Toggled channel auto op to %s.',
 			$value ? 'ON' : 'OFF');
 	}
@@ -131,7 +131,7 @@
 	
 	elseif ($option == 'AUTOOPALL') {
 		if (empty($value)) {
-			$value = !$chan_reg->auto_ops_all();
+			$value = !$chan_reg->autoOpsAll();
 		}
 		else {
 			$value = strtoupper($value);
@@ -143,7 +143,7 @@
 			}
 		}
 		
-		$chan_reg->set_auto_op_all($value);
+		$chan_reg->setAutoOpAll($value);
 		$bot->noticef($user, 'Toggled channel auto op everyone to %s.',
 			$value ? 'ON' : 'OFF');
 	}
@@ -152,7 +152,7 @@
 	
 	elseif ($option == 'AUTOVOICE') {
 		if (empty($value)) {
-			$value = !$chan_reg->auto_voices();
+			$value = !$chan_reg->autoVoices();
 		}
 		else {
 			$value = strtoupper($value);
@@ -164,7 +164,7 @@
 			}
 		}
 		
-		$chan_reg->set_auto_voice($value);
+		$chan_reg->setAutoVoice($value);
 		$bot->noticef($user, 'Toggled channel auto voice to %s.',
 			$value ? 'ON' : 'OFF');
 	}
@@ -173,7 +173,7 @@
 	
 	elseif ($option == 'AUTOVOICEALL') {
 		if (empty($value)) {
-			$value = !$chan_reg->auto_voices_all();
+			$value = !$chan_reg->autoVoicesAll();
 		}
 		else {
 			$value = strtoupper($value);
@@ -185,7 +185,7 @@
 			}
 		}
 		
-		$chan_reg->set_auto_voice_all($value);
+		$chan_reg->setAutoVoiceAll($value);
 		$bot->noticef($user, 'Toggled channel auto voice everyone to %s.',
 			$value ? 'ON' : 'OFF');
 	}
@@ -194,7 +194,7 @@
 	
 	elseif ($option == 'AUTOLIMIT') {
 		if (empty($value)) {
-			$value = !$chan_reg->auto_limits();
+			$value = !$chan_reg->autoLimits();
 		}
 		else {
 			$value = strtoupper($value);
@@ -206,7 +206,7 @@
 			}
 		}
 		
-		$chan_reg->set_auto_limit($value);
+		$chan_reg->setAutoLimit($value);
 		$bot->noticef($user, 'Toggled channel auto user limit to %s.',
 			$value ? 'ON' : 'OFF');
 	}
@@ -220,7 +220,7 @@
 			return false;
 		}
 		
-		$chan_reg->set_auto_limit_buffer($value);
+		$chan_reg->setAutoLimitBuffer($value);
 		$bot->noticef($user, 'Updated auto limit usercount buffer to %d users.', $value);
 	}
 	
@@ -233,7 +233,7 @@
 			return false;
 		}
 		
-		$chan_reg->set_auto_limit_wait($value);
+		$chan_reg->setAutoLimitWait($value);
 		$bot->noticef($user, 'Updated auto limit delay to %d seconds.', $value);
 	}
 	
@@ -241,7 +241,7 @@
 	
 	elseif ($option == 'STRICTOP') {
 		if (empty($value)) {
-			$value = !$chan_reg->strict_ops();
+			$value = !$chan_reg->strictOps();
 		}
 		else {
 			$value = strtoupper($value);
@@ -253,7 +253,7 @@
 			}
 		}
 		
-		$chan_reg->set_strict_op($value);
+		$chan_reg->setStrictOp($value);
 		$bot->noticef($user, 'Toggled channel strict ops to %s.',
 			$value ? 'ON' : 'OFF');
 	}
@@ -262,7 +262,7 @@
 	
 	elseif ($option == 'STRICTVOICE') {
 		if (empty($value)) {
-			$value = !$chan_reg->strict_voices();
+			$value = !$chan_reg->strictVoices();
 		}
 		else {
 			$value = strtoupper($value);
@@ -274,7 +274,7 @@
 			}
 		}
 		
-		$chan_reg->set_strict_voice($value);
+		$chan_reg->setStrictVoice($value);
 		$bot->noticef($user, 'Toggled channel strict voices to %s.',
 			$value ? 'ON' : 'OFF');
 	}
@@ -283,7 +283,7 @@
 	
 	elseif ($option == 'STRICTTOPIC') {
 		if (empty($value)) {
-			$value = !$chan_reg->strict_topic();
+			$value = !$chan_reg->strictTopic();
 		}
 		else {
 			$value = strtoupper($value);
@@ -295,7 +295,7 @@
 			}
 		}
 		
-		$chan_reg->set_strict_topic($value);
+		$chan_reg->setStrictTopic($value);
 		$bot->noticef($user, 'Toggled channel strict topic to %s.',
 			$value ? 'ON' : 'OFF');
 	}
@@ -304,7 +304,7 @@
 	
 	elseif ($option == 'STRICTMODES') {
 		if (empty($value)) {
-			$value = !$chan_reg->strict_modes();
+			$value = !$chan_reg->strictModes();
 		}
 		else {
 			$value = strtoupper($value);
@@ -316,7 +316,7 @@
 			}
 		}
 		
-		$chan_reg->set_strict_modes($value);
+		$chan_reg->setStrictModes($value);
 		$bot->noticef($user, 'Toggled channel strict modes to %s.',
 			$value ? 'ON' : 'OFF');
 	}
@@ -325,7 +325,7 @@
 	
 	elseif ($option == 'NOPURGE' && $user_admin_level >= 500) {
 		if (empty($value)) {
-			$value = !$chan_reg->is_permanent();
+			$value = !$chan_reg->isPermanent();
 		}
 		else {
 			$value = strtoupper($value);
@@ -337,7 +337,7 @@
 			}
 		}
 		
-		$chan_reg->set_permanent($value);
+		$chan_reg->setPermanent($value);
 		$bot->noticef($user, 'Toggled nopurge flag to %s.',
 			$value ? 'ON' : 'OFF');
 	}

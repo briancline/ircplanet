@@ -8,5 +8,5 @@
 		die();
 	}
 
-	printf("%s\n", int_to_base64($argv[1], $argv[2]));
+	printf("%s\n", irc_intToBase64($argv[1], $argv[2]));
 

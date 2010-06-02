@@ -34,7 +34,7 @@
 	$cmd_msg = assemble($args, 3);
 	$cmd_target = $privmsg_target;
 	
-	if (empty($chan_key) && array_key_exists($cmd_target, $this->users) && $this->users[$cmd_target]->is_bot()) {
+	if (empty($chan_key) && array_key_exists($cmd_target, $this->users) && $this->users[$cmd_target]->isBot()) {
 		$bot = $this->users[$cmd_target];
 		$is_private = true;
 	}
@@ -45,11 +45,11 @@
 	}
 	
 	if ($is_public || $is_private) {
-		$this->load_command_info();
+		$this->loadCommandInfo();
 
 		$user_numeric = $args[0];
-		$user = $this->get_user($user_numeric);
-		$pargs = line_get_args($cmd_msg, false);
+		$user = $this->getUser($user_numeric);
+		$pargs = lineGetArgs($cmd_msg, false);
 		$cmd_name = strtolower($pargs[0]);
 		
 		$last_char = substr($cmd_msg, strlen($cmd_msg) - 1);
@@ -64,10 +64,10 @@
 		$spoofed_ctcp = (!$is_ctcp && substr($cmd_name, 0, 5) == 'ctcp_');
 		$cmd_handler_file = CMD_HANDLER_DIR . $cmd_name . '.php';
 		
-		if (($this->command_exists($cmd_name) || $is_ctcp) && file_exists($cmd_handler_file) && !$spoofed_ctcp) {
-			$cmd_level = $this->get_command_level($cmd_name);
-			$cmd_syntax = $this->get_command_syntax($cmd_name);
-			$cmd_req_args = $this->get_command_arg_count($cmd_name);
+		if (($this->commandExists($cmd_name) || $is_ctcp) && file_exists($cmd_handler_file) && !$spoofed_ctcp) {
+			$cmd_level = $this->getCommandLevel($cmd_name);
+			$cmd_syntax = $this->getCommandSyntax($cmd_name);
+			$cmd_req_args = $this->getCommandArgCount($cmd_name);
 			$cmd_num_args = count($pargs) - 1;
 			
 			if ($cmd_num_args > 0)
@@ -88,8 +88,8 @@
 				$cmd_num_args = count($pargs) - 1;
 			}
 			
-			$user_admin_level = $this->get_admin_level($user);
-			$user_channel_level = $this->get_channel_level($chan_name, $user);
+			$user_admin_level = $this->getAdminLevel($user);
+			$user_channel_level = $this->getChannelLevel($chan_name, $user);
 			$user_level = $user_channel_level;
 			$user_super = false;
 			
@@ -108,7 +108,7 @@
 				if ($cmd_name != 'register' && $cmd_name != 'adminreg' 
 						&& !($cmd_name == 'access' && $chan_name == '*') 
 						&& preg_match("/<channel>/", $cmd_syntax) 
-						&& !($chan_reg = $this->get_channel_reg($chan_name)))
+						&& !($chan_reg = $this->getChannelReg($chan_name)))
 				{
 					$bot->noticef($user, '%s is not a registered channel.', $chan_name);
 					return false;
@@ -121,7 +121,7 @@
 				 * we reach this point then we should report a successful command to the
 				 * log channel.
 				 */
-				$this->report_command($user, $pargs);
+				$this->reportCommand($user, $pargs);
 			}
 			else {
 				$bot->noticef($user, "You do not have enough access to use that command!");

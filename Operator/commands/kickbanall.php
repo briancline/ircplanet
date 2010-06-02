@@ -29,30 +29,30 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if (!($chan = $this->get_channel($chan_name))) {
+	if (!($chan = $this->getChannel($chan_name))) {
 		$bot->noticef($user, "Nobody is on channel %s.", $chan_name);
 		return false;
 	}
 	
 	$reason = assemble($pargs, 2);
-	$users = $this->get_channel_users_by_mask($chan_name);
+	$users = $this->getChannelUsersByMask($chan_name);
 	
 	$deops = $masks = $kicks = array();
 	
 	foreach ($users as $numeric => $chan_user) {
-		if (!$chan_user->is_bot() && $chan_user != $user) {
-			if ($chan->is_op($numeric))
+		if (!$chan_user->isBot() && $chan_user != $user) {
+			if ($chan->isOp($numeric))
 				$deops[] = $numeric;
 			
-			$masks[] = $chan_user->get_host_mask();
+			$masks[] = $chan_user->getHostMask();
 			$kicks[] = $numeric;
 		}
 	}
 	
-	$this->deop($chan->get_name(), $deops);
-	$this->ban($chan->get_name(), $masks);
+	$this->deop($chan->getName(), $deops);
+	$this->ban($chan->getName(), $masks);
 	
 	foreach ($kicks as $kick_numeric)
-		$this->kick($chan->get_name(), $kick_numeric, $reason);
+		$this->kick($chan->getName(), $kick_numeric, $reason);
 
 

@@ -35,7 +35,7 @@
 	if ($cmd_num_args > 1)
 		$value = assemble($pargs, 2);
 	
-	$account = $this->get_account($user->get_account_name());
+	$account = $this->getAccount($user->getAccountName());
 	
 	if ($option == 'EMAIL') {
 		if (strlen($value) >= MAXLEN_USEREMAIL) {
@@ -43,7 +43,7 @@
 			return false;
 		}
 		
-		$account->set_email($value);
+		$account->setEmail($value);
 		$bot->notice($user, 'Your e-mail address has been updated.');
 	}
 	elseif ($option == 'INFO') {
@@ -52,13 +52,13 @@
 			return false;
 		}
 		
-		$account->set_info_line($value);
+		$account->setInfoLine($value);
 		$bot->noticef($user, 'Your info line has been %s.',
 			empty($value) ? 'cleared' : 'updated');
 	}
 	elseif ($option == 'AUTOOP') {
 		if (empty($value)) {
-			$value = !$account->auto_ops();
+			$value = !$account->autoOps();
 		}
 		else {
 			$value = strtoupper($value);
@@ -70,13 +70,13 @@
 			}
 		}
 		
-		$account->set_auto_op($value);
+		$account->setAutoOp($value);
 		$bot->noticef($user, 'Switched global auto op to %s.',
 			$value ? 'ON' : 'OFF');
 	}
 	elseif ($option == 'AUTOVOICE') {
 		if (empty($value)) {
-			$value = !$account->auto_voices();
+			$value = !$account->autoVoices();
 		}
 		else {
 			$value = strtoupper($value);
@@ -88,13 +88,13 @@
 			}
 		}
 		
-		$account->set_auto_voice($value);
+		$account->setAutoVoice($value);
 		$bot->noticef($user, 'Switched global auto voice to %s.',
 			$value ? 'ON' : 'OFF');
 	}
 	elseif ($option == 'ENFORCE') {
 		if (empty($value)) {
-			$value = !$account->enforces_nick();
+			$value = !$account->enforcesNick();
 		}
 		else {
 			$value = strtoupper($value);
@@ -106,7 +106,7 @@
 			}
 		}
 		
-		$account->set_enforce_nick($value);
+		$account->setEnforceNick($value);
 		$bot->noticef($user, 'Toggled %s nickname enforcement.',
 			$value ? 'ON' : 'OFF');
 	}

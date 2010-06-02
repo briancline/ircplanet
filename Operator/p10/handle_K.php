@@ -29,17 +29,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$user = $this->get_user($numeric);
-	$chan = $this->get_channel($args[2]);
+	$user = $this->getUser($numeric);
+	$chan = $this->getChannel($args[2]);
 	
 	$src_numeric = $args[0];
 	if (strlen($src_numeric) == 2)
-		$source = $this->get_server($src_numeric);
+		$source = $this->getServer($src_numeric);
 	else 
-		$source = $this->get_user($src_numeric);
+		$source = $this->getUser($src_numeric);
 	
 	$reason = ($num_args > 4) ? "($args[4])" : "";
 	
-	$this->report_event('KICK', $source, $chan, $user, $reason);
+	$this->reportEvent('KICK', $source, $chan, $user, $reason);
 
 

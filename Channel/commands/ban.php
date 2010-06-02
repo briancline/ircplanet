@@ -29,12 +29,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if (!($chan = $this->get_channel($chan_name))) {
+	if (!($chan = $this->getChannel($chan_name))) {
 		$bot->noticef($user, "Nobody is on channel %s.", $chan_name);
 		return false;
 	}
-	if (!$chan->is_on($bot->get_numeric())) {
-		$bot->noticef($user, 'I am not on %s.', $chan->get_name());
+	if (!$chan->isOn($bot->getNumeric())) {
+		$bot->noticef($user, 'I am not on %s.', $chan->getName());
 		return false;
 	}
 	
@@ -58,45 +58,45 @@
 		return false;
 	}
 	
-	if (!($duration_secs = convert_duration($duration))) {
+	if (!($duration_secs = convertDuration($duration))) {
 		$bot->notice($user, 'Invalid duration specified! See help for more details.');
 		return false;
 	}
 	
 	if (!preg_match('/[!@\.]/', $mask)) {
-		if (($tmp_user = $this->get_user_by_nick($mask)))
-			$mask = $tmp_user->get_host_mask();
+		if (($tmp_user = $this->getUserByNick($mask)))
+			$mask = $tmp_user->getHostMask();
 		else
 			$mask = $mask . '!*@*';
 	}
 	
-	$mask = fix_host_mask($mask);
+	$mask = fixHostMask($mask);
 	
 
-	if (($ban = $chan_reg->get_ban($mask))) {
-		$bot->noticef($user, 'A ban for %s already exists.', $ban->get_mask());
+	if (($ban = $chan_reg->getBan($mask))) {
+		$bot->noticef($user, 'A ban for %s already exists.', $ban->getMask());
 		return false;
 	}
 	
-	if (($ban = $chan_reg->count_matching_bans($mask))) {
+	if (($ban = $chan_reg->countMatchingBans($mask))) {
 		$bot->noticef($user, 'An existing ban for %s supercedes the one you are trying to set.',
-			$ban->get_mask());
+			$ban->getMask());
 		return false;
 	}
 	
 	$ban = new DB_Ban();
-	$ban->set_chan_id($chan_reg->get_id());
-	$ban->set_user_id($user->get_account_id());
-	$ban->set_mask($mask);
-	$ban->set_duration($duration_secs);
-	$ban->set_level($level);
-	$ban->set_reason($reason);
-	$ban->set_ts(time());
+	$ban->setChanId($chan_reg->getId());
+	$ban->setUserId($user->getAccountId());
+	$ban->setMask($mask);
+	$ban->setDuration($duration_secs);
+	$ban->setLevel($level);
+	$ban->setReason($reason);
+	$ban->setTs(time());
 	$ban->save();
-	$chan_reg->add_ban($ban);
+	$chan_reg->addBan($ban);
 	$chan_reg->save();
 	
-	$bot->ban($chan->get_name(), $mask);
-	$chan->add_ban($mask);
+	$bot->ban($chan->getName(), $mask);
+	$chan->addBan($mask);
 	
 

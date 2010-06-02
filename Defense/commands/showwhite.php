@@ -31,7 +31,7 @@
 
 	$count = 0;
 	foreach ($this->whitelist as $entry) {
-		$bot->noticef($user, ' %3d) %s', ++$count, $entry->get_mask());
+		$bot->noticef($user, ' %3d) %s', ++$count, $entry->getMask());
 	}
 	
 	$bot->noticef($user, 'Found %d whitelist entries.', $count);

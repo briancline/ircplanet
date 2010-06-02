@@ -30,14 +30,14 @@
  */
 
 	foreach ($channels as $chan_name) {
-		if ($this->is_badchan($chan_name)) {
-			$chan = $this->get_channel($chan_name);
-			$this->mode($chan->get_name(), '+s');
-			$chan->add_modes('s');
+		if ($this->isBadchan($chan_name)) {
+			$chan = $this->getChannel($chan_name);
+			$this->mode($chan->getName(), '+s');
+			$chan->addModes('s');
 		}
 	}
 
-	$user = $this->get_user($numeric);
-	$this->report_event('CREATE', $user, join(", ", $channels));
+	$user = $this->getUser($numeric);
+	$this->reportEvent('CREATE', $user, join(", ", $channels));
 
 

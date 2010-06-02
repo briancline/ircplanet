@@ -30,7 +30,7 @@
  */
 	
 	if ($cmd_num_args == 1) {
-		$user_name = $user->get_nick();
+		$user_name = $user->getNick();
 		$password = $pargs[1];
 	}
 	else {
@@ -38,34 +38,34 @@
 		$password = $pargs[2];
 	}
 	
-	if ($account = $this->get_account($user_name)) {
+	if ($account = $this->getAccount($user_name)) {
 		$password_md5 = md5($password);
 		
-		if ($account->get_password() != $password_md5) {
+		if ($account->getPassword() != $password_md5) {
 			$bot->notice($user, "Invalid password!");
 			return false;
 		}
-		elseif ($account->is_suspended()) {
+		elseif ($account->isSuspended()) {
 			$bot->noticef($user, "Your account is suspended.");
 			return false;
 		}
-		elseif ($user->is_logged_in()) {
-			$bot->notice($user, "You are already logged in as ". $user->get_account_name() ."!");
+		elseif ($user->isLoggedIn()) {
+			$bot->notice($user, "You are already logged in as ". $user->getAccountName() ."!");
 			return false;
 		}
 
-		$user_name = $account->get_name();
+		$user_name = $account->getName();
 		$bot->notice($user, "Authentication successful as $user_name!");
-		$this->sendf(FMT_ACCOUNT, SERVER_NUM, $user->get_numeric(), $user_name, $account->get_register_ts());
-		$user->set_account_name($user_name);
-		$user->set_account_id($account->get_id());
+		$this->sendf(FMT_ACCOUNT, SERVER_NUM, $user->getNumeric(), $user_name, $account->getRegisterTs());
+		$user->setAccountName($user_name);
+		$user->setAccountId($account->getId());
 		
-		if ($account->has_fakehost()) {
-			$this->sendf(FMT_FAKEHOST, SERVER_NUM, $user->get_numeric(), $account->get_fakehost());
+		if ($account->hasFakehost()) {
+			$this->sendf(FMT_FAKEHOST, SERVER_NUM, $user->getNumeric(), $account->getFakehost());
 			
-			if (!$user->has_mode(UMODE_HIDDENHOST)) {
+			if (!$user->hasMode(UMODE_HIDDENHOST)) {
 				$bot->noticef($user, 'Enable user mode +x (/mode %s +x) in order to cloak your host.',
-					$user->get_nick());
+					$user->getNick());
 			}
 		}
 	}

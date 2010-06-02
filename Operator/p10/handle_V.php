@@ -29,8 +29,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$user = $this->get_user($args[0]);
-	$server = $this->get_server($args[2]);
-	$this->report_event('VERSION', $user, $server);
+	$user = $this->getUser($args[0]);
+	$server = $this->getServer($args[2]);
+	$this->reportEvent('VERSION', $user, $server);
 
 

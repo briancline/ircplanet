@@ -29,14 +29,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if (!($reg = $this->get_channel_reg($chan_name))) {
+	if (!($reg = $this->getChannelReg($chan_name))) {
 		$bot->noticef($user, '%s is not registered!', $chan_name);
 		return false;
 	}
 	
 	$new_uid = $pargs[2];
 	
-	if ($new_user = $this->get_account($new_uid)) {
+	if ($new_user = $this->getAccount($new_uid)) {
 		$level = 100;
 		if ($cmd_num_args > 2)
 			$level = $pargs[3];
@@ -52,30 +52,30 @@
 			return false;
 		}
 
-		$existing_level = $this->get_channel_level_by_name($chan_name, $new_uid);
+		$existing_level = $this->getChannelLevelByName($chan_name, $new_uid);
 		if ($existing_level > 0) {
 			$bot->noticef($user, '%s already has level %d access on %s.',
-				$new_user->get_name(), $existing_level, $reg->get_name());
+				$new_user->getName(), $existing_level, $reg->getName());
 			return false;
 		}
 		
 		$new_access = new DB_Channel_Access();
-		$new_access->set_chan_id($reg->get_id());
-		$new_access->set_user_id($new_user->get_id());
-		$new_access->set_level($level);
+		$new_access->setChanId($reg->getId());
+		$new_access->setUserId($new_user->getId());
+		$new_access->setLevel($level);
 		$new_access->save();
-		$reg->add_access($new_access);
+		$reg->addAccess($new_access);
 		
 		$bot->noticef($user, '%s has been added to the %s access list at level %d.',
-			$new_user->get_name(), $reg->get_name(), $level);
+			$new_user->getName(), $reg->getName(), $level);
 		
 		foreach ($this->users as $numeric => $tmp_user) {
-			if ($tmp_user->is_logged_in() 
-					&& $tmp_user->get_account_id() == $new_user->get_id()
-					&& $tmp_user->get_nick() != $user->get_nick())
+			if ($tmp_user->isLoggedIn() 
+					&& $tmp_user->getAccountId() == $new_user->getId()
+					&& $tmp_user->getNick() != $user->getNick())
 			{
 				$bot->noticef($tmp_user, '%s has given you level %d access on %s.',
-					$user->get_nick(), $level, $reg->get_name());
+					$user->getNick(), $level, $reg->getName());
 			}
 		}
 	}

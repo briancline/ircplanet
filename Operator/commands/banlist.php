@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if (!($chan = $this->get_channel($chan_name))) {
+	if (!($chan = $this->getChannel($chan_name))) {
 		$bot->noticef($user, "Nobody is on channel %s.", $chan_name);
 		return false;
 	}
@@ -43,13 +43,13 @@
 	else
 		$mask = '*';
 	
-	$bans = $chan->get_matching_bans($mask);
+	$bans = $chan->getMatchingBans($mask);
 	
 	if (!$bans) {
 		if ($mask == '*')
-			$bot->noticef($user, 'The ban list for %s is empty.', $chan->get_name());
+			$bot->noticef($user, 'The ban list for %s is empty.', $chan->getName());
 		else
-			$bot->noticef($user, 'There are no bans on %s matching %s.', $chan->get_name(), $mask);
+			$bot->noticef($user, 'There are no bans on %s matching %s.', $chan->getName(), $mask);
 		
 		return false;
 	}

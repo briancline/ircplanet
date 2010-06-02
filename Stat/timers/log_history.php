@@ -34,15 +34,15 @@
 	$service_server_count = 0;
 	
 	foreach ($this->users as $num => $user) {
-		if ($user->is_service())
+		if ($user->isService())
 			$service_count++;
 		
-		if ($user->is_oper())
+		if ($user->isOper())
 			$oper_count++;
 	}
 	
 	foreach ($this->servers as $num => $serv) {
-		if ($serv->is_service())
+		if ($serv->isService())
 			$service_server_count++;
 	}
 	

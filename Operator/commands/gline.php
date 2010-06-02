@@ -33,15 +33,15 @@
 	$duration = $pargs[2];
 	$reason = assemble($pargs, 3);
 	
-	if ($tmp_user = $this->get_user_by_nick($mask)) {
-		$mask = $tmp_user->get_gline_mask();
+	if ($tmp_user = $this->getUserByNick($mask)) {
+		$mask = $tmp_user->getGlineMask();
 	}
 	elseif (!preg_match('/[@\.]/', $mask)) {
 		$bot->noticef($user, 'Gline masks must be in the ident@host form. Nick masks are not allowed.');
 		return false;
 	}
 	
-	$affected_hosts = $this->get_matching_userhost_count($mask);
+	$affected_hosts = $this->getMatchingUserhostCount($mask);
 	$affected_ratio = ($affected_hosts / count($this->users)) * 100;
 	
 	if ($mask == '*@*' || $mask == '*@*.*') {
@@ -49,7 +49,7 @@
 		return false;
 	}
 	
-	if (!($duration_secs = convert_duration($duration))) {
+	if (!($duration_secs = convertDuration($duration))) {
 		$bot->notice($user, 'Invalid duration specified! See help for more details.');
 		return false;
 	}
@@ -62,9 +62,9 @@
 		return false;
 	}
 	
-	$gline = $this->add_gline($mask, $duration_secs, time(), $reason);
-	$this->enforce_gline($gline);
+	$gline = $this->addGline($mask, $duration_secs, time(), $reason);
+	$this->enforceGline($gline);
 	
-	$mask = fix_host_mask($mask);
+	$mask = fixHostMask($mask);
 	
 
