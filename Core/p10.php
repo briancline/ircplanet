@@ -33,7 +33,7 @@
 	define( 'FMT_PASS',             "PASS :%s" );
 	// SERVER Operator.Services.Virtuanet.org 1 1130312160 1130312160 J10 Vs]]] +hs :Oper Services
 	// AE S Network.Services.Virtuanet.org 2 0 1116989941 P10 M[AB] +s :Network Services
-	define( 'FMT_SERVER_SELF',      "SERVER %s 1 [TS] [TS] J10 %s%s +%s :%s" );
+	define( 'FMT_SERVER_SELF',      "SERVER %s 1 %lu %lu J10 %s%s +%s :%s" );
 	define( 'FMT_SERVER',           "%s S %s %d 0 %ld P10 %s%s %s :%s" );
 	// M[ N Global 2 1116993608 Global Network.Services.Virtuanet.org +oik AAAAAA M[AAA :Global Services
 	define( 'FMT_NICK',             "%s N %s %d %ld %s %s +%s %s %s :%s" );

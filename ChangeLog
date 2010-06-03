@@ -1,3 +1,11 @@
+Brian Cline	<brian@ircplanet.net>	2010-06-03
+
+	* Core/service.php: Send time() as arguments to SERVER, and don't check
+	and transform every single outgoing line for "[TS]" where a timestamp
+	should go. Isn't even used except in SERVER, and doesn't make sense.
+	
+	* Core/p10.php: Change instances of [TS] in protocol format lines to %lu.
+
 Brian Cline	<brian@ircplanet.net>	2010-05-29
 
 	* Core/globals.php: Bump Core to v1.4.0.
