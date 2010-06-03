@@ -338,7 +338,7 @@
 			$maxusers = irc_intToBase64(SERVER_MAXUSERS, BASE64_MAXUSERLEN);
 			
 			$this->sendf(FMT_PASS, UPLINK_PASS);
-			$this->sendf(FMT_SERVER_SELF, SERVER_NAME, SERVER_NUM, $maxusers, SERVER_MODES, SERVER_DESC);
+			$this->sendf(FMT_SERVER_SELF, SERVER_NAME, time(), time(), SERVER_NUM, $maxusers, SERVER_MODES, SERVER_DESC);
 		}
 		
 
@@ -358,7 +358,6 @@
 		{
 			$args = func_get_args();
 			$format = array_shift($args);
-			$format = str_replace('[TS]', time(), $format);
 			
 			$buffer = vsprintf($format, $args);
 			$buffer = rtrim($buffer, " ");
