@@ -35,16 +35,14 @@
 	
 	$expired_glines = array();
 
-	foreach( $this->glines as $gline_key => $gline )
-	{
-		if( $gline->is_expired() )
-		{
-			debug( "*** Gline ". $gline->get_mask() ." has expired!" );
+	foreach ($this->glines as $gline_key => $gline) {
+		if ($gline->isExpired()) {
+			debug("*** Gline ". $gline->getMask() ." has expired!");
 			$expired_glines[] = $gline_key;
 		}
 	}
 	
-	foreach( $expired_glines as $gline_key )
-		$this->remove_gline( $gline_key );
+	foreach ($expired_glines as $gline_key)
+		$this->removeGline($gline_key);
 	
 

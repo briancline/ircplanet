@@ -29,39 +29,39 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	function is_server( $obj )
+	function isServer($obj)
 	{
-		return ( is_object($obj) && get_class($obj) == 'Server' );
+		return (is_object($obj) && get_class($obj) == 'Server');
 	}
 
-	function is_user( $obj )
+	function isUser($obj)
 	{
-		return ( is_object($obj) && (get_class($obj) == 'User' || get_class($obj) == 'Bot') );
+		return (is_object($obj) && (get_class($obj) == 'User' || get_class($obj) == 'Bot'));
 	}
 
-	function is_account( $obj )
+	function isAccount($obj)
 	{
-		return ( is_object($obj) && get_class($obj) == 'DB_User' );
+		return (is_object($obj) && get_class($obj) == 'DB_User');
 	}
 
-	function is_channel( $obj )
+	function isChannel($obj)
 	{
-		return ( is_object($obj) && get_class($obj) == 'Channel' );
+		return (is_object($obj) && get_class($obj) == 'Channel');
 	}
 	
-	function is_channel_record( $obj )
+	function isChannelRecord($obj)
 	{
-		return ( is_object($obj) && get_class($obj) == 'DB_Channel' );
+		return (is_object($obj) && get_class($obj) == 'DB_Channel');
 	}
 	
-	function is_ban_record( $obj )
+	function isBanRecord($obj)
 	{
-		return ( is_object($obj) && get_class($obj) == 'DB_Ban' );
+		return (is_object($obj) && get_class($obj) == 'DB_Ban');
 	}
 
-	function is_gline( $obj )
+	function isGline($obj)
 	{
-		return ( is_object($obj) && get_class($obj) == 'Gline' );
+		return (is_object($obj) && get_class($obj) == 'Gline');
 	}
 	
 	

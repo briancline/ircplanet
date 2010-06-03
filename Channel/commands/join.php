@@ -29,32 +29,29 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$chan = $this->get_channel( $chan_name );
+	$chan = $this->getChannel($chan_name);
 
-	if( $chan && $chan->is_on($bot->get_numeric()) )
-	{
-		$bot->noticef( $user, "I am already in %s.", $chan_name );
+	if ($chan && $chan->isOn($bot->getNumeric())) {
+		$bot->noticef($user, "I am already in %s.", $chan_name);
 		return false;
 	}
 
-	if( $chan )
-	{
+	if ($chan) {
 		/**
 		 * At least one other person is already in the channel, so
 		 * just issue a JOIN and op the bot.
 		 */
-		$bot->join( $chan->get_name() );
-		$this->mode( $chan->get_name(), '+Ro '. $bot->get_numeric() );
+		$bot->join($chan->getName());
+		$this->mode($chan->getName(), '+Ro '. $bot->getNumeric());
 	}
-	else
-	{
+	else {
 		/**
 		 * Nobody is in this channel, so it doesn't exist. Bot::join
 		 * will issue a CREATE in this case.
 		 */
-		$chan_reg = $this->get_channel_reg( $chan_name );
-		$bot->join( $chan_name, $chan_reg->get_create_ts() );
-		$bot->mode( $chan->get_name(), '+R' );
+		$chan_reg = $this->getChannelReg($chan_name);
+		$bot->join($chan_name, $chan_reg->getCreateTs());
+		$bot->mode($chan->getName(), '+R');
 	}
 	
 

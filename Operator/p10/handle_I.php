@@ -29,8 +29,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$user = $this->get_user($args[0]);
-	$chan = $this->get_channel($args[3]);
-	$this->report_event('INVITE', $user, $args[2], $chan);
+	$user = $this->getUser($args[0]);
+	$chan = $this->getChannel($args[3]);
+	$this->reportEvent('INVITE', $user, $args[2], $chan);
 
 

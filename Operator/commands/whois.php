@@ -29,53 +29,50 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if( !($target = $this->get_user_by_nick($pargs[1])) )
-	{
-		$bot->noticef( $user, 'There is no user named %s.', $pargs[1] );
+	if (!($target = $this->getUserByNick($pargs[1]))) {
+		$bot->noticef($user, 'There is no user named %s.', $pargs[1]);
 		return false;
 	}
 	
 	$acct_str = '';
-	if( $target->has_account_name() )
-	{
+	if ($target->hasAccountName()) {
 		$acct_str = ', logged in as ';
 		
-		if( !$target->is_logged_in() )
+		if (!$target->isLoggedIn())
 			$acct_str .= 'unknown account ';
 		
-		$acct_str = $target->get_account_name();
+		$acct_str = $target->getAccountName();
 		
-		if( $acct = $this->get_account($target->get_account_name()) )
-			$acct_str .= ' (Registered on '. get_date($acct->get_register_ts()) .')';
+		if ($acct = $this->getAccount($target->getAccountName()))
+			$acct_str .= ' (Registered on '. getDate($acct->getRegisterTs()) .')';
 	}
 	
-	$server = $this->get_server( $target->get_server_numeric() );
+	$server = $this->getServer($target->getServerNumeric());
 	
-	$channels = $target->get_channel_list();
+	$channels = $target->getChannelList();
 	$chan_list = '';
-	foreach( $channels as $chan_name )
-	{
-		$chan = $this->get_channel( $chan_name );
+	foreach ($channels as $chan_name) {
+		$chan = $this->getChannel($chan_name);
 		
-		if( $chan->is_voice($target->get_numeric()) )
+		if ($chan->isVoice($target->getNumeric()))
 			$chan_list .= '+';
 		
-		if( $chan->is_op($target->get_numeric()) )
+		if ($chan->isOp($target->getNumeric()))
 			$chan_list .= '@';
 		
-		$chan_list .= $chan->get_name() .' ';
+		$chan_list .= $chan->getName() .' ';
 	}
 	
-	$bot->noticef( $user, 'Nick:         %s (User modes +%s)', $target->get_nick(), $target->get_modes() );
-	if( $target->is_logged_in() )
-		$bot->noticef( $user, 'Account:      %s', $acct_str );
+	$bot->noticef($user, 'Nick:         %s (User modes +%s)', $target->getNick(), $target->getModes());
+	if ($target->isLoggedIn())
+		$bot->noticef($user, 'Account:      %s', $acct_str);
 	
-	if( $target->is_host_hidden() )
-		$bot->noticef( $user, 'Hidden host:  %s', $target->get_full_mask_safe() );
+	if ($target->isHostHidden())
+		$bot->noticef($user, 'Hidden host:  %s', $target->getFullMaskSafe());
 		
-	$bot->noticef( $user, 'Full mask:    %s [%s]', $target->get_full_mask(), $target->get_ip() );
-	$bot->noticef( $user, 'Channels:     %s', $chan_list );
-	$bot->noticef( $user, 'Server:       %s', $server->get_name() );
-	$bot->noticef( $user, 'Signed on:    '. get_date($target->get_signon_ts()) );
+	$bot->noticef($user, 'Full mask:    %s [%s]', $target->getFullMask(), $target->getIp());
+	$bot->noticef($user, 'Channels:     %s', $chan_list);
+	$bot->noticef($user, 'Server:       %s', $server->getName());
+	$bot->noticef($user, 'Signed on:    '. getDate($target->getSignonTs()));
 
 

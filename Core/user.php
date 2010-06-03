@@ -31,16 +31,16 @@
 
 	// User mode flags
 	$USER_MODES = array(
-		'd' => array( 'const' => 'UMODE_DEAF',         'uint' => 0x0001 ),
-		'i' => array( 'const' => 'UMODE_INVISIBLE',    'uint' => 0x0002 ),
-		'o' => array( 'const' => 'UMODE_OPER',         'uint' => 0x0004 ),
-		's' => array( 'const' => 'UMODE_SERVERMSG',    'uint' => 0x0008 ),
-		'w' => array( 'const' => 'UMODE_WALLOPS',      'uint' => 0x0010 ),
-		'k' => array( 'const' => 'UMODE_SERVICE',      'uint' => 0x0020 ),
-		'g' => array( 'const' => 'UMODE_HACKMSG',      'uint' => 0x0040 ),
-		'x' => array( 'const' => 'UMODE_HIDDENHOST',   'uint' => 0x0080 ),
-		'r' => array( 'const' => 'UMODE_REGISTERED',   'uint' => 0x0100 ),
-		'f' => array( 'const' => 'UMODE_FAKEHOST',     'uint' => 0x0200 )
+		'd' => array('const' => 'UMODE_DEAF',         'uint' => 0x0001),
+		'i' => array('const' => 'UMODE_INVISIBLE',    'uint' => 0x0002),
+		'o' => array('const' => 'UMODE_OPER',         'uint' => 0x0004),
+		's' => array('const' => 'UMODE_SERVERMSG',    'uint' => 0x0008),
+		'w' => array('const' => 'UMODE_WALLOPS',      'uint' => 0x0010),
+		'k' => array('const' => 'UMODE_SERVICE',      'uint' => 0x0020),
+		'g' => array('const' => 'UMODE_HACKMSG',      'uint' => 0x0040),
+		'x' => array('const' => 'UMODE_HIDDENHOST',   'uint' => 0x0080),
+		'r' => array('const' => 'UMODE_REGISTERED',   'uint' => 0x0100),
+		'f' => array('const' => 'UMODE_FAKEHOST',     'uint' => 0x0200)
 	);
 
 
@@ -62,7 +62,7 @@
 		var $last_spoke = START_TIME;
 		var $channels = array();
 		
-		function __construct( $num, $nick, $ident, $host, $ip, $start_ts, $desc, $modes = "", $account = "", $account_ts = 0 )
+		function __construct($num, $nick, $ident, $host, $ip, $start_ts, $desc, $modes = "", $account = "", $account_ts = 0)
 		{
 			$this->numeric = $num;
 			$this->nick = $nick;
@@ -73,197 +73,191 @@
 			$this->ip = $ip;
 			$this->start_ts = $start_ts;
 			$this->desc = $desc;
-			$this->add_modes( $modes );
+			$this->addModes($modes);
 		}
 		
-		function is_bot()              { return false; }
-		function is_service()          { return $this->has_mode(UMODE_SERVICE); }
-		function is_deaf()             { return $this->has_mode(UMODE_DEAF); }
-		function is_oper()             { return $this->has_mode(UMODE_OPER); }
-		function is_registered()       { return $this->has_mode(UMODE_REGISTERED); }
-		function is_host_hidden()      { return $this->has_mode(UMODE_HIDDENHOST); }
-		function is_local()            { return $this->get_server_numeric() == SERVER_NUM; }
-		function is_away()             { return $this->away_msg != ''; }
-		function is_logged_in()        { return $this->account_id > 0; }
-		function has_account_name()    { return strlen($this->account_name) > 0; }
-		function has_fakehost()        { return $this->has_mode(UMODE_FAKEHOST); }
+		function isBot()              { return false; }
+		function isService()          { return $this->hasMode(UMODE_SERVICE); }
+		function isDeaf()             { return $this->hasMode(UMODE_DEAF); }
+		function isOper()             { return $this->hasMode(UMODE_OPER); }
+		function isRegistered()       { return $this->hasMode(UMODE_REGISTERED); }
+		function isHostHidden()      { return $this->hasMode(UMODE_HIDDENHOST); }
+		function isLocal()            { return $this->getServerNumeric() == SERVER_NUM; }
+		function isAway()             { return $this->away_msg != ''; }
+		function isLoggedIn()        { return $this->account_id > 0; }
+		function hasAccountName()    { return strlen($this->account_name) > 0; }
+		function hasFakehost()        { return $this->hasMode(UMODE_FAKEHOST); }
 		
-		function get_nick()            { return $this->nick; }
-		function get_ident()           { return $this->ident; }
-		function get_host()            { return $this->host; }
-		function get_fakehost()        { return $this->fakehost; }
-		function get_ip()              { return $this->ip; }
-		function get_name()            { return $this->desc; }
-		function get_away()            { return $this->away_msg; }
-		function get_numeric()         { return $this->numeric; }
-		function get_server_numeric()  { return substr($this->numeric, 0, BASE64_SERVLEN); }
-		function get_account_name()    { return $this->account_name; }
-		function get_account_id()      { return $this->account_id; }
-		function get_account_ts()      { return $this->account_ts; }
-		function get_signon_ts()       { return $this->start_ts; }
-		function get_idle_time()       { return time() - $this->last_spoke; }
+		function getNick()            { return $this->nick; }
+		function getIdent()           { return $this->ident; }
+		function getHost()            { return $this->host; }
+		function getFakehost()        { return $this->fakehost; }
+		function getIp()              { return $this->ip; }
+		function getName()            { return $this->desc; }
+		function getAway()            { return $this->away_msg; }
+		function getNumeric()         { return $this->numeric; }
+		function getServerNumeric()  { return substr($this->numeric, 0, BASE64_SERVLEN); }
+		function getAccountName()    { return $this->account_name; }
+		function getAccountId()      { return $this->account_id; }
+		function getAccountTs()      { return $this->account_ts; }
+		function getSignonTs()       { return $this->start_ts; }
+		function getIdleTime()       { return time() - $this->last_spoke; }
 		
-		function set_nick($s)          { $this->nick = $s; }
-		function set_fakehost($s)      { $this->fakehost = $s; }
-		function set_account_id($i)    { $this->account_id = $i; }
-		function set_account_name($s)  { $this->account_name = $s; }
-		function set_account_ts($t)    { $this->account_ts = $t; }
-		function set_away($s = "")     { $this->away_msg = $s; }
+		function setNick($s)          { $this->nick = $s; }
+		function setFakehost($s)      { $this->fakehost = $s; }
+		function setAccountId($i)    { $this->account_id = $i; }
+		function setAccountName($s)  { $this->account_name = $s; }
+		function setAccountTs($t)    { $this->account_ts = $t; }
+		function setAway($s = "")     { $this->away_msg = $s; }
 		
 		
-		static function is_valid_mode( $mode )
+		static function isValidMode($mode)
 		{
 			global $USER_MODES;
-			return in_array( $mode, $USER_MODES );
+			return in_array($mode, $USER_MODES);
 		}
 		
-		static function is_valid_mode_int( $mode )
+		static function isValidModeInt($mode)
 		{
 			global $USER_MODES;
-			foreach( $USER_MODES as $c => $i )
-				if( $i['uint'] == $mode )
+			foreach ($USER_MODES as $c => $i)
+				if ($i['uint'] == $mode)
 					return true;
 			
 			return false;
 		}
 
-		function add_modes( $str )
+		function addModes($str)
 		{
 			global $USER_MODES;
-			foreach( $USER_MODES as $c => $i )
-				if( strpos($str, $c) !== false ) $this->add_mode( $i['uint'] );
+			foreach ($USER_MODES as $c => $i)
+				if (strpos($str, $c) !== false) $this->addMode($i['uint']);
 		}
 		
-		function add_mode( $mode )
+		function addMode($mode)
 		{
 			global $USER_MODES;
-			if( !is_int($mode) )
-				return $this->add_mode( $USER_MODES[$mode]['uint'] );
-			if( $this->is_valid_mode_int($mode) && !$this->has_mode($mode) )
+			if (!is_int($mode))
+				return $this->addMode($USER_MODES[$mode]['uint']);
+			if ($this->isValidModeInt($mode) && !$this->hasMode($mode))
 				$this->modes |= $mode;
 		}
 		
-		function remove_mode( $mode )
+		function removeMode($mode)
 		{
 			global $USER_MODES;
-			if( !is_int($mode) )
-				return $this->remove_mode( $USER_MODES[$mode]['uint'] );
-			if( $this->is_valid_mode_int($mode) && $this->has_mode($mode) )
+			if (!is_int($mode))
+				return $this->removeMode($USER_MODES[$mode]['uint']);
+			if ($this->isValidModeInt($mode) && $this->hasMode($mode))
 				$this->modes &= ~$mode;
 		}
 		
-		function has_mode( $mode )
+		function hasMode($mode)
 		{
 			global $USER_MODES;
-			if( !is_int($mode) )
-				return $this->has_mode( $USER_MODES[$mode]['uint'] );
+			if (!is_int($mode))
+				return $this->hasMode($USER_MODES[$mode]['uint']);
 			
-			return( ($this->modes & $mode) == $mode );
+			return(($this->modes & $mode) == $mode);
 		}
 		
-		function get_modes()
+		function getModes()
 		{
 			global $USER_MODES;
 
 			$modes = '';
-			foreach( $USER_MODES as $c => $i )
-				if( $this->has_mode($c) ) $modes .= $c;
+			foreach ($USER_MODES as $c => $i)
+				if ($this->hasMode($c)) $modes .= $c;
 			
 			return $modes;
 		}
 		
-		function get_full_mask()      { return $this->nick .'!'. $this->ident .'@'. $this->host; }
-		function get_full_ip_mask()   { return $this->nick .'!'. $this->ident .'@'. $this->ip; }
-		function get_full_mask_safe() { $mask = $this->nick .'!'. $this->ident .'@'. $this->get_host_safe(); }
+		function getFullMask()      { return $this->nick .'!'. $this->ident .'@'. $this->host; }
+		function getFullIpMask()   { return $this->nick .'!'. $this->ident .'@'. $this->ip; }
+		function getFullMaskSafe() { $mask = $this->nick .'!'. $this->ident .'@'. $this->getHostSafe(); }
 
-		function get_host_safe()
+		function getHostSafe()
 		{
-			if( $this->has_fakehost() )
-				return $this->get_fakehost();
-			elseif( $this->is_host_hidden() && $this->has_account_name() )
-				return $this->get_account_name() .'.'. HIDDEN_HOST;
+			if ($this->hasFakehost())
+				return $this->getFakehost();
+			elseif ($this->isHostHidden() && $this->hasAccountName())
+				return $this->getAccountName() .'.'. HIDDEN_HOST;
 				
-			return $this->get_host();
+			return $this->getHost();
 		}
 
-		function get_gline_host()    { return $this->ident .'@'. $this->host; }
-		function get_gline_ip()      { return $this->ident .'@'. $this->ip; }
-		function get_gline_mask()    { return substr( $this->get_host_mask(), 2 ); }
+		function getGlineHost()    { return $this->ident .'@'. $this->host; }
+		function getGlineIp()      { return $this->ident .'@'. $this->ip; }
+		function getGlineMask()    { return substr($this->getHostMask(), 2); }
 		
-		function get_host_mask()
+		function getHostMask()
 		{
-			$mask = '*!*'. right( $this->ident, IDENT_LEN ) .'@';
+			$mask = '*!*'. right($this->ident, IDENT_LEN) .'@';
 			$host = $this->host;
 			
-			if( $this->has_fakehost() ) {
+			if ($this->hasFakehost()) {
 				$host = $this->fakehost;
 			}
-			else if( $this->is_host_hidden() ) {
-				$host = $this->get_account_name() .'.'. HIDDEN_HOST;
+			elseif ($this->isHostHidden()) {
+				$host = $this->getAccountName() .'.'. HIDDEN_HOST;
 			}
 
-			$levels = explode( '.', $host );
-			$num_levels = count( $levels );
+			$levels = explode('.', $host);
+			$num_levels = count($levels);
 			
-			if( is_ip($host) )
-			{
-				$host = assemble( $levels, 0, 3, '.' );
+			if (isIp($host)) {
+				$host = assemble($levels, 0, 3, '.');
 				$host .= '.*';
 			}
-			else if( $num_levels > 2 )
-			{
-				for( $n = $num_levels - 1; $n > 0; $n-- )
-				{
-					if( preg_match('/[0-9]/', $levels[$n]) )
+			elseif ($num_levels > 2) {
+				for ($n = $num_levels - 1; $n > 0; $n--) {
+					if (preg_match('/[0-9]/', $levels[$n]))
 						break;
 				}
 				
 				$host = '*.';
-				$host .= assemble( $levels, $n + 1, -1, '.' );
+				$host .= assemble($levels, $n + 1, -1, '.');
 			}
 			
-			$mask = fix_host_mask( $mask );
+			$mask = fixHostMask($mask);
 			
 			return $mask . $host;
 		}
 		
-		function add_channel( $name )
+		function addChannel($name)
 		{
-			if(!in_array($name, $this->channels))
+			if (!in_array($name, $this->channels))
 				$this->channels[] = $name;
 		}
 		
-		function remove_channel( $name )
+		function removeChannel($name)
 		{
 			$channels = $this->channels;
-			for( $i = 0; $i < count($channels); ++$i )
-			{
-				if( $channels[$i] == $name )
-				{
-					unset( $channels[$i] );
+			for ($i = 0; $i < count($channels); ++$i) {
+				if ($channels[$i] == $name) {
+					unset($channels[$i]);
 					break;
 				}
 			}
 			
-			$this->channels = array_copy( $channels );
+			$this->channels = array_copy($channels);
 		}
 
-		function remove_all_channels()
+		function removeAllChannels()
 		{
 			$this->channels = array();
 		}
 		
-		function get_channel_list()
+		function getChannelList()
 		{
 			return $this->channels;
 		}
 	}
 
 
-	foreach( $USER_MODES as $c => $i )
-	{
-		if( !defined($i['const']) )
-			define( $i['const'], $i['uint'] );
+	foreach ($USER_MODES as $c => $i) {
+		if (!defined($i['const']))
+			define($i['const'], $i['uint']);
 	}
 	
 

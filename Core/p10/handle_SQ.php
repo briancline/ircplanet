@@ -30,20 +30,19 @@
  */
 
 	$source = $args[0];
-	$server = $this->get_server_by_name( $args[2] );
+	$server = $this->getServerByName($args[2]);
 	$reason = $args[4];
 	
-	if( $server->get_numeric() == UPLINK_NUM )
-	{
-		debug( "Uplink is squitting me! ($reason)" );
+	if ($server->getNumeric() == UPLINK_NUM) {
+		debug("Uplink is squitting me! ($reason)");
 		$this->close();
 	}
 
-	if( strlen($source) == BASE64_SERVLEN )
-		$source = $this->get_server( $source );
+	if (strlen($source) == BASE64_SERVLEN)
+		$source = $this->getServer($source);
 	else
-		$source = $this->get_user( $source );
+		$source = $this->getUser($source);
 	
-	$this->remove_server( $server->numeric );
+	$this->removeServer($server->numeric);
 	
 

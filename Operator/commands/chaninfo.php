@@ -31,20 +31,19 @@
 
 	$chan_name = $pargs[1];
 	
-	if( !($chan = $this->get_channel($chan_name)) )
-	{
-		$bot->noticef( $user, '%s does not exist!', $chan_name );
+	if (!($chan = $this->getChannel($chan_name))) {
+		$bot->noticef($user, '%s does not exist!', $chan_name);
 		return false;
 	}
 	
-	$bot->noticef( $user, "Channel:  %s (%d users, %d ops, %d voices)", 
-		$chan->get_name(), $chan->get_user_count(),
-		$chan->get_op_count(), $chan->get_voice_count() );
-	$bot->noticef( $user, "Modes:    +%s", $chan->get_modes() );
-	$bot->noticef( $user, "Created:  %s", date('D j M Y g:i:sa T', $chan->get_ts()) );
+	$bot->noticef($user, "Channel:  %s (%d users, %d ops, %d voices)", 
+		$chan->getName(), $chan->getUserCount(),
+		$chan->getOpCount(), $chan->getVoiceCount());
+	$bot->noticef($user, "Modes:    +%s", $chan->getModes());
+	$bot->noticef($user, "Created:  %s", date('D j M Y g:i:sa T', $chan->getTs()));
 	
-	$topic = $chan->get_topic();
-	if(!empty($topic))
-		$bot->noticef( $user, "Topic:    %s", $topic );
+	$topic = $chan->getTopic();
+	if (!empty($topic))
+		$bot->noticef($user, "Topic:    %s", $topic);
 	
 

@@ -39,18 +39,18 @@
 		protected $whitelist_id;
 		protected $mask;
 		
-		protected function record_construct() { }
-		protected function record_destruct()  { }
+		protected function recordConstruct() { }
+		protected function recordDestruct()  { }
 		
-		public function get_mask()        { return $this->mask; }
+		public function getMask()        { return $this->mask; }
 		
-		public function set_mask($s)      { $this->mask = $s; }
+		public function setMask($s)      { $this->mask = $s; }
 		
 		public function matches($host)
 		{
-			if(is_user($host)) {
-				return fnmatch($this->mask, $host->get_full_mask())
-					|| fnmatch($this->mask, $host->get_full_ip_mask());
+			if (isUser($host)) {
+				return fnmatch($this->mask, $host->getFullMask())
+					|| fnmatch($this->mask, $host->getFullIpMask());
 			}
 			else {
 				return fnmatch($this->mask, $host);

@@ -29,24 +29,21 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if( !($chan = $this->get_channel($chan_name)) )
-	{
-		$bot->noticef( $user, "Nobody is on channel %s.", $chan_name );
+	if (!($chan = $this->getChannel($chan_name))) {
+		$bot->noticef($user, "Nobody is on channel %s.", $chan_name);
 		return false;
 	}
-	if( !$chan->is_on($bot->get_numeric()) )
-	{
-		$bot->noticef( $user, 'I am not on %s.', $chan->get_name() );
+	if (!$chan->isOn($bot->getNumeric())) {
+		$bot->noticef($user, 'I am not on %s.', $chan->getName());
 		return false;
 	}
 	
-	$reason = assemble( $pargs, 2 );
-	$users = $this->get_channel_users_by_mask( $chan_name );
+	$reason = assemble($pargs, 2);
+	$users = $this->getChannelUsersByMask($chan_name);
 	
-	foreach( $users as $numeric => $chan_user )
-	{
-		if( !$chan_user->is_bot() && $chan_user != $user )
-			$bot->kick( $chan->get_name(), $numeric, $reason );
+	foreach ($users as $numeric => $chan_user) {
+		if (!$chan_user->isBot() && $chan_user != $user)
+			$bot->kick($chan->getName(), $numeric, $reason);
 	}
 	
 

@@ -29,28 +29,26 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if( !($chan = $this->get_channel($chan_name)) ) {
-		$bot->noticef( $user, 'Nobody is in %s.', $chan_name );
+	if (!($chan = $this->getChannel($chan_name))) {
+		$bot->noticef($user, 'Nobody is in %s.', $chan_name);
 		return false;
 	}
 	
 	$numerics = array();
-	foreach( $chan->users as $numeric => $chanuser )
-	{
-		$tmpuser = $this->get_user( $numeric );
+	foreach ($chan->users as $numeric => $chanuser) {
+		$tmpuser = $this->getUser($numeric);
 		
-		if( $chanuser->is_op() && !$tmpuser->is_bot() )
-		{
-			$chan->remove_op( $numeric );
+		if ($chanuser->isOp() && !$tmpuser->isBot()) {
+			$chan->removeOp($numeric);
 			$numerics[] = $numeric;
 		}
 	}
 	
-	if( empty($numerics) ) {
-		$bot->noticef( $user, 'Nobody in %s is opped.', $chan_name );
+	if (empty($numerics)) {
+		$bot->noticef($user, 'Nobody in %s is opped.', $chan_name);
 		return false;
 	}
 	
-	$this->deop( $chan->get_name(), $numerics );
+	$this->deop($chan->getName(), $numerics);
 	
 

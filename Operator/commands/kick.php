@@ -29,27 +29,25 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if( !($chan = $this->get_channel($chan_name)) )
-	{
-		$bot->noticef( $user, "Nobody is on channel %s.", $chan_name );
+	if (!($chan = $this->getChannel($chan_name))) {
+		$bot->noticef($user, "Nobody is on channel %s.", $chan_name);
 		return false;
 	}
 	
 	$nick = $pargs[2];
-	$reason = random_kick_reason();
+	$reason = randomKickReason();
 	
-	if( $cmd_num_args > 2 )
-		$reason = assemble( $pargs, 3 );
+	if ($cmd_num_args > 2)
+		$reason = assemble($pargs, 3);
 	
-	$tmp_user = $this->get_user_by_nick($nick);
-	if( !$tmp_user || !$chan->is_on($tmp_user->get_numeric()) )
-	{
-		$bot->noticef( $user, "The user %s%s%s was not found on channel %s.",
-			BOLD_START, $nick, BOLD_END, $chan->get_name() );
+	$tmp_user = $this->getUserByNick($nick);
+	if (!$tmp_user || !$chan->isOn($tmp_user->getNumeric())) {
+		$bot->noticef($user, "The user %s%s%s was not found on channel %s.",
+			BOLD_START, $nick, BOLD_END, $chan->getName());
 		return false;
 	}
 	
-	$numeric = $tmp_user->get_numeric();
-	$this->kick( $chan->get_name(), $numeric, $reason );
+	$numeric = $tmp_user->getNumeric();
+	$this->kick($chan->getName(), $numeric, $reason);
 	
 

@@ -29,8 +29,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	require( 'globals.php' );
-	require( '../Core/service.php' );
+	require('globals.php');
+	require('../Core/service.php');
 	
 	
 	class StatService extends Service
@@ -38,18 +38,18 @@
 		var $pending_events = array();
 		
 		
-		function service_construct()
+		function serviceConstruct()
 		{
-			$this->add_timer( true, 60, 'log_history.php' );
+			$this->addTimer(true, 60, 'log_history.php');
 		}
 		
 		
-		function service_destruct()
+		function serviceDestruct()
 		{
 		}
 		
 
-		function service_load()
+		function serviceLoad()
 		{
 			db_query("delete from stats_servers");
 			db_query("delete from stats_users");
@@ -58,64 +58,59 @@
 		}
 		
 		
-		function service_preburst()
+		function servicePreburst()
 		{
 		}
 		
 		
-		function service_postburst()
+		function servicePostburst()
 		{
-			$bot_num = $this->default_bot->get_numeric();
-			foreach( $this->default_bot->channels as $chan_name )
-			{
-				$chan = $this->get_channel( $chan_name );
+			$bot_num = $this->default_bot->getNumeric();
+			foreach ($this->default_bot->channels as $chan_name) {
+				$chan = $this->getChannel($chan_name);
 				
-				if( !$chan->is_op($bot_num) )
-					$this->op( $chan->get_name(), $bot_num );
+				if (!$chan->isOp($bot_num))
+					$this->op($chan->getName(), $bot_num);
 			}
 		}
 		
 		
-		function service_preread()
+		function servicePreread()
 		{
 		}
 		
 
-		function service_close( $reason = 'So long, and thanks for all the fish!' )
+		function serviceClose($reason = 'So long, and thanks for all the fish!')
 		{
-			foreach( $this->users as $numeric => $user )
-			{
-				if( $user->is_bot() )
-				{
-					$this->sendf( FMT_QUIT, $numeric, $reason );
-					$this->remove_user( $numeric );
+			foreach ($this->users as $numeric => $user) {
+				if ($user->isBot()) {
+					$this->sendf(FMT_QUIT, $numeric, $reason);
+					$this->removeUser($numeric);
 				}
 			}
 		}
 
 		
-		function service_main()
+		function serviceMain()
 		{
 		}
 		
 		
-		function get_user_level( $user_obj )
+		function getUserLevel($user_obj)
 		{
 			$acct_id = $user_obj;
 			
-			if( is_object($user_obj) && is_user($user_obj) )
-			{
-				if( !$user_obj->is_logged_in() )
+			if (is_object($user_obj) && isUser($user_obj)) {
+				if (!$user_obj->isLoggedIn())
 					return 0;
 				
-				$acct_id = $user_obj->get_account_id();
+				$acct_id = $user_obj->getAccountId();
 			}
 			
-			$res = db_query( "select `level` from `ss_admins` where user_id = ". $acct_id );
-			if( $res && mysql_num_rows($res) > 0 )
-			{
-				$level = mysql_result( $res, 0 );
-				mysql_free_result( $res );
+			$res = db_query("select `level` from `ss_admins` where user_id = ". $acct_id);
+			if ($res && mysql_num_rows($res) > 0) {
+				$level = mysql_result($res, 0);
+				mysql_free_result($res);
 				return $level;
 			}
 			

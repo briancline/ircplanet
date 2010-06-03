@@ -29,13 +29,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if( !($target = $this->get_user_by_nick($pargs[1])) )
-	{
-		$bot->noticef( $user, 'There is no user named %s.', $pargs[1] );
+	if (!($target = $this->getUserByNick($pargs[1]))) {
+		$bot->noticef($user, 'There is no user named %s.', $pargs[1]);
 		return false;
 	}
 	
-	$this->sendf( FMT_FAKEHOST, SERVER_NUM, $target->get_numeric(), $pargs[2] );
-	$target->add_mode( UMODE_FAKEHOST );
-	$target->set_fakehost( $pargs[2] );
+	$this->sendf(FMT_FAKEHOST, SERVER_NUM, $target->getNumeric(), $pargs[2]);
+	$target->addMode(UMODE_FAKEHOST);
+	$target->setFakehost($pargs[2]);
 	

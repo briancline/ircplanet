@@ -29,6 +29,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$this->report_event('QUIT', $user, "(". $args[2] .")");
+	$this->reportEvent('QUIT', $user, "(". $args[2] .")");
 
 

@@ -29,12 +29,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$user = $this->get_user($numeric);
+	$user = $this->getUser($numeric);
 	
-	foreach($channels as $chan_name)
-	{
+	foreach ($channels as $chan_name) {
 		db_queryf("delete from stats_channel_users where channel_name = '%s' and nick = '%s'", 
-			$chan_name, $user->get_nick());
+			$chan_name, $user->getNick());
 	}
 	
 

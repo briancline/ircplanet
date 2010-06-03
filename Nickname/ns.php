@@ -29,104 +29,99 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	require( 'globals.php' );
-	require( '../Core/service.php' );
-	require( SERVICE_DIR .'/db_badnick.php' );
+	require('globals.php');
+	require('../Core/service.php');
+	require(SERVICE_DIR .'/db_badnick.php');
 	
 	
 	class NicknameService extends Service
 	{
 		var $db_badnicks = array();
 
-		function service_construct()
+		function serviceConstruct()
 		{
 		}
 		
 		
-		function service_destruct()
+		function serviceDestruct()
 		{
 		}
 		
 
-		function service_load()
+		function serviceLoad()
 		{
-			$this->load_badnicks();
+			$this->loadBadnicks();
 		}
 		
 		
-		function service_preburst()
+		function servicePreburst()
 		{
 		}
 		
 		
-		function service_postburst()
+		function servicePostburst()
 		{
-			$bot_num = $this->default_bot->get_numeric();
-			foreach( $this->default_bot->channels as $chan_name )
-			{
-				$chan = $this->get_channel( $chan_name );
+			$bot_num = $this->default_bot->getNumeric();
+			foreach ($this->default_bot->channels as $chan_name) {
+				$chan = $this->getChannel($chan_name);
 				
-				if( !$chan->is_op($bot_num) )
-					$this->op( $chan->get_name(), $bot_num );
+				if (!$chan->isOp($bot_num))
+					$this->op($chan->getName(), $bot_num);
 			}
 		}
 		
 		
-		function service_preread()
+		function servicePreread()
 		{
 		}
 		
 
-		function service_close( $reason = 'So long, and thanks for all the fish!' )
+		function serviceClose($reason = 'So long, and thanks for all the fish!')
 		{
-			foreach( $this->users as $numeric => $user )
-			{
-				if( $user->is_bot() )
-				{
-					$this->sendf( FMT_QUIT, $numeric, $reason );
-					$this->remove_user( $numeric );
+			foreach ($this->users as $numeric => $user) {
+				if ($user->isBot()) {
+					$this->sendf(FMT_QUIT, $numeric, $reason);
+					$this->removeUser($numeric);
 				}
 			}
 		}
 
 		
-		function service_main()
+		function serviceMain()
 		{
 		}
 		
 		
-		function load_badnicks()
+		function loadBadnicks()
 		{
-			$res = db_query( 'select * from ns_badnicks order by badnick_id asc' );
-			while( $row = mysql_fetch_assoc($res) )
-			{
-				$badnick = new DB_BadNick( $row );
+			$res = db_query('select * from ns_badnicks order by badnick_id asc');
+			while ($row = mysql_fetch_assoc($res)) {
+				$badnick = new DB_BadNick($row);
 				
-				$badnick_key = strtolower( $badnick->get_mask() );
+				$badnick_key = strtolower($badnick->getMask());
 				$this->db_badnicks[$badnick_key] = $badnick;
 			}
 
-			debugf( 'Loaded %d badnicks.', count($this->db_badnicks) );
+			debugf('Loaded %d badnicks.', count($this->db_badnicks));
 		}
 
 
-		function get_user_level( $user_obj )
+		function getUserLevel($user_obj)
 		{
-			if( !is_object($user_obj) )
+			if (!is_object($user_obj))
 				return 0;
-			if( !is_account($user_obj) && (!is_user($user_obj) || !$user_obj->is_logged_in()) )
+			if (!isAccount($user_obj) && (!isUser($user_obj) || !$user_obj->isLoggedIn()))
 				return 0;
 
-			if( !is_account($user_obj) )
-				$account = $this->get_account( $user_obj->get_account_name() );
+			if (!isAccount($user_obj))
+				$account = $this->getAccount($user_obj->getAccountName());
 			else
 				$account = $user_obj;
 			
-			$res = db_query( "select `level` from `ns_admins` where user_id = ". $account->get_id() );
-			if( $res && mysql_num_rows($res) > 0 )
-			{
-				$level = mysql_result( $res, 0 );
-				mysql_free_result( $res );
+			$res = db_query("select `level` from `ns_admins` where user_id = ". $account->getId());
+			if ($res && mysql_num_rows($res) > 0) {
+				$level = mysql_result($res, 0);
+				mysql_free_result($res);
 				return $level;
 			}
 			
@@ -134,21 +129,20 @@
 		}
 
 
-		function get_badnick( $mask )
+		function getBadnick($mask)
 		{
-			$mask = strtolower( $mask );
-			if( array_key_exists($mask, $this->db_badnicks) )
+			$mask = strtolower($mask);
+			if (array_key_exists($mask, $this->db_badnicks))
 				return $this->db_badnicks[$mask];
 
 			return false;
 		}
 
 
-		function is_badnick( $nick_name )
+		function isBadnick($nick_name)
 		{
-			foreach( $this->db_badnicks as $b_key => $badnick )
-			{
-				if( $badnick->matches($nick_name) )
+			foreach ($this->db_badnicks as $b_key => $badnick) {
+				if ($badnick->matches($nick_name))
 					return true;
 			}
 
@@ -156,30 +150,30 @@
 		}
 
 
-		function add_badnick( $mask )
+		function addBadnick($mask)
 		{
-			if( $this->get_badnick($mask) != false )
+			if ($this->getBadnick($mask) != false)
 				return false;
 
 			$badnick = new DB_BadNick();
-			$badnick->set_mask( $mask );
+			$badnick->setMask($mask);
 			$badnick->save();
 
-			$key = strtolower( $mask );
+			$key = strtolower($mask);
 			$this->db_badnicks[$key] = $badnick;
 
 			return $this->db_badnicks[$key];
 		}
 
 
-		function remove_badnick( $mask )
+		function removeBadnick($mask)
 		{
-			$badnick = $this->get_badnick( $mask );
-			if( $badnick == false )
+			$badnick = $this->getBadnick($mask);
+			if ($badnick == false)
 				return false;
 
-			$key = strtolower( $mask );
-			unset( $this->db_badnicks[$key] );
+			$key = strtolower($mask);
+			unset($this->db_badnicks[$key]);
 			$badnick->delete();
 
 			return true;

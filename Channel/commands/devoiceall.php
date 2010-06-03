@@ -29,32 +29,30 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if( !($reg = $this->get_channel_reg($chan_name)) ) {
-		$bot->noticef( $user, '%s is not registered!', $chan_name );
+	if (!($reg = $this->getChannelReg($chan_name))) {
+		$bot->noticef($user, '%s is not registered!', $chan_name);
 		return false;
 	}
-	if( !($chan = $this->get_channel($chan_name)) ) {
-		$bot->noticef( $user, 'Nobody is in %s.', $chan_name );
+	if (!($chan = $this->getChannel($chan_name))) {
+		$bot->noticef($user, 'Nobody is in %s.', $chan_name);
 		return false;
 	}
-	if( !$chan->is_on($bot->get_numeric()) )
-	{
-		$bot->noticef( $user, 'I am not on %s.', $chan->get_name() );
+	if (!$chan->isOn($bot->getNumeric())) {
+		$bot->noticef($user, 'I am not on %s.', $chan->getName());
 		return false;
 	}
 	
 	$numerics = array();
-	foreach( $chan->users as $numeric => $chanuser )
-	{
-		if( $chanuser->is_voice() )
+	foreach ($chan->users as $numeric => $chanuser) {
+		if ($chanuser->isVoice())
 			$numerics[] = $numeric;
 	}
 	
-	if( empty($numerics) ) {
-		$bot->noticef( $user, 'Nobody in %s is voiced.', $chan->get_name() );
+	if (empty($numerics)) {
+		$bot->noticef($user, 'Nobody in %s is voiced.', $chan->getName());
 		return false;
 	}
 	
-	$bot->devoice( $chan->get_name(), $numerics );
+	$bot->devoice($chan->getName(), $numerics);
 	
 

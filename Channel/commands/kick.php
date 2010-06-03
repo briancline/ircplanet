@@ -29,38 +29,34 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if( !($chan = $this->get_channel($chan_name)) )
-	{
-		$bot->noticef( $user, "Nobody is on channel %s.", $chan_name );
+	if (!($chan = $this->getChannel($chan_name))) {
+		$bot->noticef($user, "Nobody is on channel %s.", $chan_name);
 		return false;
 	}
-	if( !$chan->is_on($bot->get_numeric()) )
-	{
-		$bot->noticef( $user, 'I am not on %s.', $chan->get_name() );
+	if (!$chan->isOn($bot->getNumeric())) {
+		$bot->noticef($user, 'I am not on %s.', $chan->getName());
 		return false;
 	}
 	
 	$nick = $pargs[2];
-	$reason = random_kick_reason();
+	$reason = randomKickReason();
 	
-	if( $cmd_num_args > 2 )
-		$reason = assemble( $pargs, 3 );
+	if ($cmd_num_args > 2)
+		$reason = assemble($pargs, 3);
 	
-	$tmp_user = $this->get_user_by_nick($nick);
-	if( !$tmp_user || !$chan->is_on($tmp_user->get_numeric()) )
-	{
-		$bot->noticef( $user, "The user %s%s%s was not found on channel %s.",
-			BOLD_START, $nick, BOLD_END, $chan->get_name() );
+	$tmp_user = $this->getUserByNick($nick);
+	if (!$tmp_user || !$chan->isOn($tmp_user->getNumeric())) {
+		$bot->noticef($user, "The user %s%s%s was not found on channel %s.",
+			BOLD_START, $nick, BOLD_END, $chan->getName());
 		return false;
 	}
 	
-	if( $tmp_user->is_service() )
-	{
-		$bot->notice( $user, 'You cannot kick a service bot.' );
+	if ($tmp_user->isService()) {
+		$bot->notice($user, 'You cannot kick a service bot.');
 		return false;
 	}
 	
-	$numeric = $tmp_user->get_numeric();
-	$bot->kick( $chan->get_name(), $numeric, $reason );
+	$numeric = $tmp_user->getNumeric();
+	$bot->kick($chan->getName(), $numeric, $reason);
 	
 

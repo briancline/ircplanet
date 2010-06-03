@@ -30,8 +30,8 @@
  */
 
 	$CHANNELUSER_MODES = array(
-		'o' => array( 'const' => 'CUMODE_OP',          'uint' => 0x0001 ),
-		'v' => array( 'const' => 'CUMODE_VOICE',       'uint' => 0x0002 )
+		'o' => array('const' => 'CUMODE_OP',          'uint' => 0x0001),
+		'v' => array('const' => 'CUMODE_VOICE',       'uint' => 0x0002)
 	);
 	
 
@@ -41,92 +41,91 @@
 		var $modes = 0;
 		var $oplevel = 0;
 		
-		function __construct( $numeric, $modes, $oplevel = 0 )
+		function __construct($numeric, $modes, $oplevel = 0)
 		{
 			$this->numeric = $numeric;
-			$this->add_modes( $modes );
-			$this->set_oplevel( $oplevel );
+			$this->addModes($modes);
+			$this->setOplevel($oplevel);
 		}
 		
 		
-		static function is_valid_mode( $mode )
+		static function isValidMode($mode)
 		{
 			global $CHANNELUSER_MODES;
-			return in_array( $mode, $CHANNELUSER_MODES );
+			return in_array($mode, $CHANNELUSER_MODES);
 		}
 		
-		static function is_valid_mode_int( $mode )
+		static function isValidModeInt($mode)
 		{
 			global $CHANNELUSER_MODES;
-			foreach( $CHANNELUSER_MODES as $c => $i )
-				if( $i['uint'] == $mode )
+			foreach ($CHANNELUSER_MODES as $c => $i)
+				if ($i['uint'] == $mode)
 					return true;
 			
 			return false;
 		}
 
-		function add_modes( $str )
+		function addModes($str)
 		{
 			global $CHANNELUSER_MODES;
-			foreach( $CHANNELUSER_MODES as $c => $i )
-				if( strpos($str, $c) !== false ) $this->add_mode( $i['uint'] );
+			foreach ($CHANNELUSER_MODES as $c => $i)
+				if (strpos($str, $c) !== false) $this->addMode($i['uint']);
 		}
 		
-		function add_mode( $mode )
+		function addMode($mode)
 		{
 			global $CHANNELUSER_MODES;
-			if( !is_int($mode) )
-				return $this->add_mode( $CHANNELUSER_MODES[$mode]['uint'] );
-			if( $this->is_valid_mode_int($mode) && !$this->has_mode($mode) )
+			if (!is_int($mode))
+				return $this->addMode($CHANNELUSER_MODES[$mode]['uint']);
+			if ($this->isValidModeInt($mode) && !$this->hasMode($mode))
 				$this->modes |= $mode;
 		}
 		
-		function remove_mode( $mode )
+		function removeMode($mode)
 		{
 			global $CHANNELUSER_MODES;
-			if( !is_int($mode) )
-				return $this->remove_mode( $CHANNELUSER_MODES[$mode]['uint'] );
-			if( $this->is_valid_mode_int($mode) && $this->has_mode($mode) )
+			if (!is_int($mode))
+				return $this->removeMode($CHANNELUSER_MODES[$mode]['uint']);
+			if ($this->isValidModeInt($mode) && $this->hasMode($mode))
 				$this->modes &= ~$mode;
 		}
 		
-		function clear_modes()
+		function clearModes()
 		{
 			$this->modes = 0;
 		}
 		
-		function has_mode( $mode )
+		function hasMode($mode)
 		{
 			global $CHANNELUSER_MODES;
-			if( !is_int($mode) )
-				return $this->has_mode( $CHANNELUSER_MODES[$mode]['uint'] );
+			if (!is_int($mode))
+				return $this->hasMode($CHANNELUSER_MODES[$mode]['uint']);
 			
-			return( ($this->modes & $mode) == $mode );
+			return(($this->modes & $mode) == $mode);
 		}
 		
-		function get_modes()
+		function getModes()
 		{
 			global $CHANNELUSER_MODES;
 
 			$modes = '';
-			foreach( $CHANNELUSER_MODES as $c => $i )
-				if( $this->has_mode($c) ) $modes .= $c;
+			foreach ($CHANNELUSER_MODES as $c => $i)
+				if ($this->hasMode($c)) $modes .= $c;
 			
 			return $modes;
 		}
 		
-		function is_op()         { return $this->has_mode( CUMODE_OP ); }
-		function is_voice()      { return $this->has_mode( CUMODE_VOICE ); }
-		function get_oplevel()   { return $this->oplevel; }
+		function isOp()         { return $this->hasMode(CUMODE_OP); }
+		function isVoice()      { return $this->hasMode(CUMODE_VOICE); }
+		function getOplevel()   { return $this->oplevel; }
 		
-		function set_oplevel($v) { $this->oplevel = $v; }
+		function setOplevel($v) { $this->oplevel = $v; }
 	}
 
 
-	foreach( $CHANNELUSER_MODES as $c => $i )
-	{
-		if( !defined($i['const']) )
-			define( $i['const'], $i['uint'] );
+	foreach ($CHANNELUSER_MODES as $c => $i) {
+		if (!defined($i['const']))
+			define($i['const'], $i['uint']);
 	}
 
 

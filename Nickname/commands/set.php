@@ -29,181 +29,156 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	$account = $this->get_account( $user->get_account_name() );
-	$option = strtoupper( $pargs[1] );
+	$account = $this->getAccount($user->getAccountName());
+	$option = strtoupper($pargs[1]);
 	$value = '';
 	$who = 'your';
 	$Who = ucfirst($who);
 
-	if( $cmd_num_args > 1 )
-		$value = assemble( $pargs, 2 );
+	if ($cmd_num_args > 1)
+		$value = assemble($pargs, 2);
 	
-	if($user_level >= 500 && $cmd_num_args > 1)
-	{
-		$tmp_user = $this->get_account($pargs[1]);
-		if($tmp_user != null)
-		{
+	if ($user_level >= 500 && $cmd_num_args > 1) {
+		$tmp_user = $this->getAccount($pargs[1]);
+		if ($tmp_user != null) {
 			$option = strtoupper($pargs[2]);
 			$value = '';
 			$account = $tmp_user;
 			
-			if($cmd_num_args > 2)
+			if ($cmd_num_args > 2)
 				$value = assemble($pargs, 3);
 			
-			$who = $Who = $account->get_name() ."'s";
+			$who = $Who = $account->getName() ."'s";
 		}
 	}
 	
-	if( $option == 'EMAIL' )
-	{
-		if( strlen($value) >= MAXLEN_USEREMAIL )
-		{
-			$bot->notice( $user, 'That email address is too long. Please try something shorter.' );
+	if ($option == 'EMAIL') {
+		if (strlen($value) >= MAXLEN_USEREMAIL) {
+			$bot->notice($user, 'That email address is too long. Please try something shorter.');
 			return false;
 		}
 		
-		$account->set_email( $value );
-		$bot->noticef( $user, '%s e-mail address has been updated.', $Who );
+		$account->setEmail($value);
+		$bot->noticef($user, '%s e-mail address has been updated.', $Who);
 	}
-	else if( $option == 'INFO' )
-	{
-		if( strlen($value) >= MAXLEN_USERINFOLINE )
-		{
-			$bot->notice( $user, 'That infoline is too long. Please try something shorter.' );
+	elseif ($option == 'INFO') {
+		if (strlen($value) >= MAXLEN_USERINFOLINE) {
+			$bot->notice($user, 'That infoline is too long. Please try something shorter.');
 			return false;
 		}
 		
-		$account->set_info_line( $value );
-		$bot->noticef( $user, '%s info line has been %s.', $Who,
-			empty($value) ? 'cleared' : 'updated' );
+		$account->setInfoLine($value);
+		$bot->noticef($user, '%s info line has been %s.', $Who,
+			empty($value) ? 'cleared' : 'updated');
 	}
-	else if( $option == 'HOST' && $user_level >= 500 )
-	{
-		if( strlen($value) >= MAXLEN_FAKEHOST )
-		{
-			$bot->notice( $user, 'That host is too long. Please try something shorter.' );
+	elseif ($option == 'HOST' && $user_level >= 500) {
+		if (strlen($value) >= MAXLEN_FAKEHOST) {
+			$bot->notice($user, 'That host is too long. Please try something shorter.');
 			return false;
 		}
 		
-		$account->set_fakehost( $value );
-		$bot->noticef( $user, '%s host has been %s.', $Who,
-			empty($value) ? 'cleared' : 'updated' );
+		$account->setFakehost($value);
+		$bot->noticef($user, '%s host has been %s.', $Who,
+			empty($value) ? 'cleared' : 'updated');
 	}
-	else if( $option == 'AUTOOP' )
-	{
-		if( empty($value) )
-		{
-			$value = !$account->auto_ops();
+	elseif ($option == 'AUTOOP') {
+		if (empty($value)) {
+			$value = !$account->autoOps();
 		}
-		else
-		{
+		else {
 			$value = strtoupper($value);
-			if ( $value == 'ON' ) $value = true;
-			else if( $value == 'OFF' ) $value = false;
+			if ($value == 'ON') $value = true;
+			elseif ($value == 'OFF') $value = false;
 			else {
-				$bot->notice( $user, 'Value must either be ON or OFF.' );
+				$bot->notice($user, 'Value must either be ON or OFF.');
 				return false;
 			}
 		}
 		
-		$account->set_auto_op( $value );
-		$bot->noticef( $user, 'Switched %s global auto op to %s.', $who,
-			$value ? 'ON' : 'OFF' );
+		$account->setAutoOp($value);
+		$bot->noticef($user, 'Switched %s global auto op to %s.', $who,
+			$value ? 'ON' : 'OFF');
 	}
-	else if( $option == 'AUTOVOICE' )
-	{
-		if( empty($value) )
-		{
-			$value = !$account->auto_voices();
+	elseif ($option == 'AUTOVOICE') {
+		if (empty($value)) {
+			$value = !$account->autoVoices();
 		}
-		else
-		{
+		else {
 			$value = strtoupper($value);
-			if ( $value == 'ON' ) $value = true;
-			else if( $value == 'OFF' ) $value = false;
+			if ($value == 'ON') $value = true;
+			elseif ($value == 'OFF') $value = false;
 			else {
-				$bot->notice( $user, 'Value must either be ON or OFF.' );
+				$bot->notice($user, 'Value must either be ON or OFF.');
 				return false;
 			}
 		}
 		
-		$account->set_auto_voice( $value );
-		$bot->noticef( $user, 'Switched %s global auto voice to %s.', $who,
-			$value ? 'ON' : 'OFF' );
+		$account->setAutoVoice($value);
+		$bot->noticef($user, 'Switched %s global auto voice to %s.', $who,
+			$value ? 'ON' : 'OFF');
 	}
-	else if( $option == 'ENFORCE' )
-	{
-		if( empty($value) )
-		{
-			$value = !$account->enforces_nick();
+	elseif ($option == 'ENFORCE') {
+		if (empty($value)) {
+			$value = !$account->enforcesNick();
 		}
-		else
-		{
+		else {
 			$value = strtoupper($value);
-			if ( $value == 'ON' ) $value = true;
-			else if( $value == 'OFF' ) $value = false;
+			if ($value == 'ON') $value = true;
+			elseif ($value == 'OFF') $value = false;
 			else {
-				$bot->notice( $user, 'Value must either be ON or OFF.' );
+				$bot->notice($user, 'Value must either be ON or OFF.');
 				return false;
 			}
 		}
 		
-		$account->set_enforce_nick( $value );
-		$bot->noticef( $user, 'Toggled %s %s nickname enforcement.', $who,
-			$value ? 'ON' : 'OFF' );
+		$account->setEnforceNick($value);
+		$bot->noticef($user, 'Toggled %s %s nickname enforcement.', $who,
+			$value ? 'ON' : 'OFF');
 	}
-	else if( $option == 'NOPURGE' && $user_level >= 500 )
-	{
-		if( empty($value) )
-		{
-			$value = !$account->is_permanent();
+	elseif ($option == 'NOPURGE' && $user_level >= 500) {
+		if (empty($value)) {
+			$value = !$account->isPermanent();
 		}
-		else
-		{
+		else {
 			$value = strtoupper($value);
-			if ( $value == 'ON' ) $value = true;
-			else if( $value == 'OFF' ) $value = false;
+			if ($value == 'ON') $value = true;
+			elseif ($value == 'OFF') $value = false;
 			else {
-				$bot->notice( $user, 'Value must either be ON or OFF.' );
+				$bot->notice($user, 'Value must either be ON or OFF.');
 				return false;
 			}
 		}
 		
-		$account->set_permanent( $value );
-		$bot->noticef( $user, 'Toggled %s %s nopurge flag.', $who,
-			$value ? 'ON' : 'OFF' );
+		$account->setPermanent($value);
+		$bot->noticef($user, 'Toggled %s %s nopurge flag.', $who,
+			$value ? 'ON' : 'OFF');
 	}
-	else if( $option == 'SUSPEND' && $user_level >= 500 )
-	{
-		if( empty($value) )
-		{
-			$value = !$account->is_suspended();
+	elseif ($option == 'SUSPEND' && $user_level >= 500) {
+		if (empty($value)) {
+			$value = !$account->isSuspended();
 		}
-		else
-		{
+		else {
 			$value = strtoupper($value);
-			if ( $value == 'ON' ) $value = true;
-			else if( $value == 'OFF' ) $value = false;
+			if ($value == 'ON') $value = true;
+			elseif ($value == 'OFF') $value = false;
 			else {
-				$bot->notice( $user, 'Value must either be ON or OFF.' );
+				$bot->notice($user, 'Value must either be ON or OFF.');
 				return false;
 			}
 		}
 		
-		$account->set_suspend( $value );
-		$bot->noticef( $user, 'Toggled %s suspension for %s.', 
-			$value ? 'ON' : 'OFF', $who );
+		$account->setSuspend($value);
+		$bot->noticef($user, 'Toggled %s suspension for %s.', 
+			$value ? 'ON' : 'OFF', $who);
 	}
-	else if( $option == 'PASSWORD' )
-	{
-		$bot->noticef( $user, 'Please use the %sNEWPASS%s command to change %s password.',
-			BOLD_START, BOLD_END, $who );
+	elseif ($option == 'PASSWORD') {
+		$bot->noticef($user, 'Please use the %sNEWPASS%s command to change %s password.',
+			BOLD_START, BOLD_END, $who);
 		return false;
 	}
-	else
-	{
-		$bot->noticef( $user, '%s%s%s is not a valid option!',
-			BOLD_START, $option, BOLD_END );
+	else {
+		$bot->noticef($user, '%s%s%s is not a valid option!',
+			BOLD_START, $option, BOLD_END);
 		return false;
 	}
 	

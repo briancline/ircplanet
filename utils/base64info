@@ -3,33 +3,33 @@
 
 	require(dirname(__FILE__) .'/../Core/p10.php');
 
-	if($argc < 2) {
+	if ($argc < 2) {
 		printf("Usage: %s <base64 string> [base64 string [...]]\n", $argv[0]);
 		die();
 	}
 
-	for($i = 1; $i < $argc; $i++) {
+	for ($i = 1; $i < $argc; $i++) {
 		$n = $argv[$i];
 		$ip = (strlen($n) == 6);
 		$user = (strlen($n) == 5);
 		$server = (strlen($n) == 2);
 		
-		printf("%-10s  Int:      %ld\n", $n, base64_to_int($n));
+		printf("%-10s  Int:      %ld\n", $n, irc_base64ToInt($n));
 
-		if($ip) {
-			printf("%-10s  IP:       %s\n", '', base64_to_ip($n));
+		if ($ip) {
+			printf("%-10s  IP:       %s\n", '', irc_base64ToIp($n));
 		}
-		elseif($user || $server) {
+		elseif ($user || $server) {
 			$servNum = substr($n, 0, 2);
-			printf("%-10s  Server:   %-4s (%ld)\n", '', $servNum, base64_to_int($servNum));
+			printf("%-10s  Server:   %-4s (%ld)\n", '', $servNum, irc_base64ToInt($servNum));
 
-			if($user) {
+			if ($user) {
 				$userNum = substr($n, 2);
-				printf("%-10s  User:     %-4s (%ld)\n", '', $userNum, base64_to_int($userNum));
+				printf("%-10s  User:     %-4s (%ld)\n", '', $userNum, irc_base64ToInt($userNum));
 			}
 		}
 
-		if($argc > 2) {
+		if ($argc > 2) {
 			printf("\n");
 		}
 	}

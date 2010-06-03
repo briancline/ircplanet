@@ -29,15 +29,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	$this->remove_channel_reg( $chan_reg );
+	$this->removeChannelReg($chan_reg);
 	$chan_reg->delete();
 	
 	$reason = 'So long, and thanks for all the fish!';		
 	
-	if( ($chan = $this->get_channel($chan_name)) && $chan->is_on($bot->get_numeric()) )
-	{
-		$bot->mode( $chan_name, '-R' );
-		$bot->part( $chan_name, $reason );
+	if (($chan = $this->getChannel($chan_name)) && $chan->isOn($bot->getNumeric())) {
+		$bot->mode($chan_name, '-R');
+		$bot->part($chan_name, $reason);
 	}
 
 

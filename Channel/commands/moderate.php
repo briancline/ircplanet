@@ -29,33 +29,30 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if( !($reg = $this->get_channel_reg($chan_name)) ) {
-		$bot->noticef( $user, '%s is not registered!', $chan_name );
+	if (!($reg = $this->getChannelReg($chan_name))) {
+		$bot->noticef($user, '%s is not registered!', $chan_name);
 		return false;
 	}
-	if( !($chan = $this->get_channel($chan_name)) ) {
-		$bot->noticef( $user, 'Nobody is in %s.', $chan_name );
+	if (!($chan = $this->getChannel($chan_name))) {
+		$bot->noticef($user, 'Nobody is in %s.', $chan_name);
 		return false;
 	}
-	if( !$chan->is_on($bot->get_numeric()) )
-	{
-		$bot->noticef( $user, 'I am not on %s.', $chan->get_name() );
+	if (!$chan->isOn($bot->getNumeric())) {
+		$bot->noticef($user, 'I am not on %s.', $chan->getName());
 		return false;
 	}
 	
-//	$bot->mode( $chan_name, '+m' );
-	$this->sendf( FMT_MODE_NOTS, $bot->get_numeric(), $chan->get_name(), '+m' );
-	$chan->add_mode( 'm' );
+//	$bot->mode($chan_name, '+m');
+	$this->sendf(FMT_MODE_NOTS, $bot->getNumeric(), $chan->getName(), '+m');
+	$chan->addMode('m');
 	
-	foreach( $chan->users as $numeric => $chanuser )
-	{
-		if( !$chanuser->is_voice() && !$chanuser->is_op() )
-		{
-			$chan->add_voice( $numeric );
+	foreach ($chan->users as $numeric => $chanuser) {
+		if (!$chanuser->isVoice() && !$chanuser->isOp()) {
+			$chan->addVoice($numeric);
 			$numerics[] = $numeric;
 		}
 	}
 	
-	$bot->voice( $chan->get_name(), $numerics );
+	$bot->voice($chan->getName(), $numerics);
 	
 

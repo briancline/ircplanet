@@ -29,30 +29,29 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if(!$target || !$target->is_bot())
+	if (!$target || !$target->isBot())
 		return false;
 	
-	$chan = $this->get_channel( $chan_name );
-	$reg = $this->get_channel_reg( $chan_name );
+	$chan = $this->getChannel($chan_name);
+	$reg = $this->getChannelReg($chan_name);
 
-	$adm_level = $this->get_admin_level( $user );
-	$req_level = $this->get_command_level( 'JOIN' );
-	$chan_access = $this->get_channel_access( $chan_name, $user );
+	$adm_level = $this->getAdminLevel($user);
+	$req_level = $this->getCommandLevel('JOIN');
+	$chan_access = $this->getChannelAccess($chan_name, $user);
 	
-	if( !$reg || !$chan || (!$chan_access && !$adm_level) )
+	if (!$reg || !$chan || (!$chan_access && !$adm_level))
 		return false;
-	if( $chan_access && ($chan_access->get_level() < $req_level))
+	if ($chan_access && ($chan_access->getLevel() < $req_level))
 		return false;
-	if( !$chan_access && $adm_level < $req_level )
+	if (!$chan_access && $adm_level < $req_level)
 		return false;
 	
-	if( $chan->is_on($target->get_numeric()) )
-	{
-		$target->noticef( $user, "I'm already on %s!", $chan->get_name() );
+	if ($chan->isOn($target->getNumeric())) {
+		$target->noticef($user, "I'm already on %s!", $chan->getName());
 		return false;
 	}
 	
-	$target->join( $chan->get_name() );
-	$this->op( $chan->get_name(), $target->get_numeric() );
+	$target->join($chan->getName());
+	$this->op($chan->getName(), $target->getNumeric());
 	
 

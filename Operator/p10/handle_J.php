@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$user = $this->get_user($numeric);
-	$this->report_event('JOIN', $user, join(", ", $channels));
+	$user = $this->getUser($numeric);
+	$this->reportEvent('JOIN', $user, join(", ", $channels));
 
 

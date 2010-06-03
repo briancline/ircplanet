@@ -39,15 +39,15 @@
 		protected $chan_mask;
 		protected $create_date;
 		
-		protected function record_construct() { }
-		protected function record_destruct()  { }
+		protected function recordConstruct() { }
+		protected function recordDestruct()  { }
 
-		function __toString()                 { return $this->get_mask(); }
+		function __toString()                 { return $this->getMask(); }
 		
-		public function get_mask()            { return $this->chan_mask; }
-		public function get_set_ts()          { return $this->create_date; }
+		public function getMask()            { return $this->chan_mask; }
+		public function getSetTs()          { return $this->create_date; }
 		
-		public function set_mask($s)          { $this->chan_mask = $s; }
+		public function setMask($s)          { $this->chan_mask = $s; }
 		
 		public function matches( $chan_name )
 		{

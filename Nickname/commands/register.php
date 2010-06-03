@@ -30,69 +30,62 @@
  */
 	
 	$numeric = $args[0];
-	$user = $this->get_user( $numeric );
-	$user_name = $user->get_nick();
+	$user = $this->getUser($numeric);
+	$user_name = $user->getNick();
 	$password = $pargs[1];
 	$email = $pargs[2];
 	
-	if( !$user->is_logged_in() )
-	{
-		if( !is_valid_email($email) )
-		{
-			$bot->notice( $user, "You have specified an invalid e-mail address. ".
-				"Please try again." );
+	if (!$user->isLoggedIn()) {
+		if (!isValidEmail($email)) {
+			$bot->notice($user, "You have specified an invalid e-mail address. ".
+				"Please try again.");
 			return false;
 		}
 		
-		if( $account = $this->get_account_by_email($email) )
-		{
-			$bot->notice( $user, "That e-mail address is already associated ".
-				"with a registered nickname." );
+		if ($account = $this->getAccountByEmail($email)) {
+			$bot->notice($user, "That e-mail address is already associated ".
+				"with a registered nickname.");
 			return false;
 		}
 		
-		if( $account = $this->get_account($user_name) )
-		{
-			$bot->noticef( $user,
+		if ($account = $this->getAccount($user_name)) {
+			$bot->noticef($user,
 				"The nickname %s%s%s has already been registered. Please choose another.",
-				BOLD_START, $user_name, BOLD_END );
+				BOLD_START, $user_name, BOLD_END);
 			return false;
 		}
 
-		if( $this->is_badnick($user_name) )
-		{
-			$bot->noticef( $user, 'You are not allowed to register that nickname.' );
+		if ($this->isBadnick($user_name)) {
+			$bot->noticef($user, 'You are not allowed to register that nickname.');
 			return false;
 		}
 		
-		$password_md5 = md5( $password );
+		$password_md5 = md5($password);
 		
 		$account = new DB_User();
-		$account->set_name( $user->get_nick() );
-		$account->set_register_ts( time() );
-		$account->set_password( $password_md5 );
-		$account->set_email( $email );
-		$account->set_auto_op( true );
-		$account->set_auto_voice( true );
-		$account->update_lastseen();
+		$account->setName($user->getNick());
+		$account->setRegisterTs(time());
+		$account->setPassword($password_md5);
+		$account->setEmail($email);
+		$account->setAutoOp(true);
+		$account->setAutoVoice(true);
+		$account->updateLastseen();
 		$account->save();
 		
-		$this->add_account( $account );
+		$this->addAccount($account);
 		
-		if( !$user->has_account_name() )
-		{
-			$this->sendf( FMT_ACCOUNT, SERVER_NUM, $numeric, $user_name, $account->get_register_ts() );
-			$user->set_account_name( $user_name );
-			$user->set_account_id( $account->get_id() );
+		if (!$user->hasAccountName()) {
+			$this->sendf(FMT_ACCOUNT, SERVER_NUM, $numeric, $user_name, $account->getRegisterTs());
+			$user->setAccountName($user_name);
+			$user->setAccountId($account->getId());
 		}
 		
-		$bot->noticef( $user,
+		$bot->noticef($user,
 			"Your account, %s%s%s, has been registered. You are now logged in.",
-			BOLD_START, $user_name, BOLD_END );
+			BOLD_START, $user_name, BOLD_END);
 	}
-	else
-	{
-		$bot->notice( $user, "You have already registered your nick and logged in." );
+	else {
+		$bot->notice($user, "You have already registered your nick and logged in.");
 	}
 
 

@@ -31,43 +31,37 @@
 
 	$numerics = array();
 
-	$chan = $this->get_channel( $chan_name );
-	if( !$chan )
-	{
-		$bot->noticef( $user, "Nobody is on channel %s.", $chan_name );
+	$chan = $this->getChannel($chan_name);
+	if (!$chan) {
+		$bot->noticef($user, "Nobody is on channel %s.", $chan_name);
 		return false;
 	}
 	
-	if( $cmd_num_args == 1 )
-	{
-		$numerics[] = $user->get_numeric();
+	if ($cmd_num_args == 1) {
+		$numerics[] = $user->getNumeric();
 	}
-	else
-	{
-		for( $i = 2; $i < count($pargs); ++$i )
-		{
+	else {
+		for ($i = 2; $i < count($pargs); ++$i) {
 			$nick = $pargs[$i];
-			$tmp_user = $this->get_user_by_nick($nick);
+			$tmp_user = $this->getUserByNick($nick);
 			
-			if( !$tmp_user || !$chan->is_on($tmp_user->get_numeric()) )
-			{
-				$bot->noticef( $user, "The user %s%s%s was not found on channel %s.",
-					BOLD_START, $nick, BOLD_END, $chan->get_name() );
+			if (!$tmp_user || !$chan->isOn($tmp_user->getNumeric())) {
+				$bot->noticef($user, "The user %s%s%s was not found on channel %s.",
+					BOLD_START, $nick, BOLD_END, $chan->getName());
 				continue;
 			}
 			
-			if( $tmp_user->is_bot() )
-			{
-				$bot->noticef( $user, "The %s%s%s service cannot be deopped.",
-					BOLD_START, $tmp_user->get_nick(), BOLD_END );
+			if ($tmp_user->isBot()) {
+				$bot->noticef($user, "The %s%s%s service cannot be deopped.",
+					BOLD_START, $tmp_user->getNick(), BOLD_END);
 				continue;
 			}
 			
-			$numerics[] = $tmp_user->get_numeric();
-			$chan->remove_op( $tmp_user->get_numeric() );
+			$numerics[] = $tmp_user->getNumeric();
+			$chan->removeOp($tmp_user->getNumeric());
 		}
 	}
 	
-	$this->deop( $chan->get_name(), $numerics );
+	$this->deop($chan->getName(), $numerics);
 
 

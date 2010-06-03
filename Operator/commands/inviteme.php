@@ -29,17 +29,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$channels = array( EVENT_CHANNEL, COMMAND_CHANNEL );
+	$channels = array(EVENT_CHANNEL, COMMAND_CHANNEL);
 	
-	foreach( $channels as $chan_name )
-	{
-		if( !($chan = $this->get_channel($chan_name)) )
+	foreach ($channels as $chan_name) {
+		if (!($chan = $this->getChannel($chan_name)))
 			continue;
 		
-		if( $chan->is_on( $user->get_numeric()) )
+		if ($chan->isOn($user->getNumeric()))
 			continue;
 		
-		$bot->invite( $user->get_nick(), $chan->get_name() );
+		$bot->invite($user->getNick(), $chan->getName());
 	}
 
 

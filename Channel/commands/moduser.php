@@ -29,114 +29,99 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if( !($reg = $this->get_channel_reg($chan_name)) ) {
-		$bot->noticef( $user, '%s is not registered!', $chan_name );
+	if (!($reg = $this->getChannelReg($chan_name))) {
+		$bot->noticef($user, '%s is not registered!', $chan_name);
 		return false;
 	}
 	
 	$mod_uid = $pargs[2];
-	$option = strtoupper( $pargs[3] );
+	$option = strtoupper($pargs[3]);
 	$value = '';
 	
-	if( $cmd_num_args >= 4 )
-		$value = assemble( $pargs, 4 );
+	if ($cmd_num_args >= 4)
+		$value = assemble($pargs, 4);
 	
-	if( $mod_user = $this->get_account($mod_uid) )
-	{
-		if( (!$access = $this->get_channel_access_account($chan_name, $mod_user)) )
-		{
-			$bot->noticef( $user, '%s is not in the %s access list.',
-				$mod_user->get_name(), $reg->get_name() );
+	if ($mod_user = $this->getAccount($mod_uid)) {
+		if ((!$access = $this->getChannelAccessAccount($chan_name, $mod_user))) {
+			$bot->noticef($user, '%s is not in the %s access list.',
+				$mod_user->getName(), $reg->getName());
 			return false;
 		}
 		
-		if( $option == 'LEVEL' )
-		{
+		if ($option == 'LEVEL') {
 			$new_level = $value;
-			if( $new_level < 1 || $new_level > 500 )
-			{
-				$bot->notice( $user, 'Access level must range from 1 to 500.' );
+			if ($new_level < 1 || $new_level > 500) {
+				$bot->notice($user, 'Access level must range from 1 to 500.');
 				return false;
 			}
 			
-			$access->set_level( $new_level );
-			$bot->noticef( $user, '%s\'s level on %s has has been changed to %d.',
-				$mod_user->get_name(), $reg->get_name(), $new_level );
+			$access->setLevel($new_level);
+			$bot->noticef($user, '%s\'s level on %s has has been changed to %d.',
+				$mod_user->getName(), $reg->getName(), $new_level);
 		}
-		else if( $option == 'AUTOOP' )
-		{
-			if( empty($value) )
-			{
-				$value = !$access->auto_ops();
+		elseif ($option == 'AUTOOP') {
+			if (empty($value)) {
+				$value = !$access->autoOps();
 			}
-			else
-			{
+			else {
 				$value = strtoupper($value);
-				if ( $value == 'ON' ) $value = true;
-				else if( $value == 'OFF' ) $value = false;
+				if ($value == 'ON') $value = true;
+				elseif ($value == 'OFF') $value = false;
 				else {
-					$bot->notice( $user, 'Value must either be ON or OFF.' );
+					$bot->notice($user, 'Value must either be ON or OFF.');
 					return false;
 				}
 			}
 			
-			$access->set_auto_op( $value );
-			$bot->noticef( $user, '%s\'s auto-op on %s has been toggled %s.',
-				$mod_user->get_name(), $reg->get_name(), $value ? 'ON' : 'OFF' );
+			$access->setAutoOp($value);
+			$bot->noticef($user, '%s\'s auto-op on %s has been toggled %s.',
+				$mod_user->getName(), $reg->getName(), $value ? 'ON' : 'OFF');
 		}
-		else if( $option == 'AUTOVOICE' )
-		{
-			if( empty($value) )
-			{
-				$value = !$access->auto_voices();
+		elseif ($option == 'AUTOVOICE') {
+			if (empty($value)) {
+				$value = !$access->autoVoices();
 			}
-			else
-			{
+			else {
 				$value = strtoupper($value);
-				if ( $value == 'ON' ) $value = true;
-				else if( $value == 'OFF' ) $value = false;
+				if ($value == 'ON') $value = true;
+				elseif ($value == 'OFF') $value = false;
 				else {
-					$bot->notice( $user, 'Value must either be ON or OFF.' );
+					$bot->notice($user, 'Value must either be ON or OFF.');
 					return false;
 				}
 			}
 			
-			$access->set_auto_voice( $value );
-			$bot->noticef( $user, '%s\'s auto-voice on %s has been toggled %s.',
-				$mod_user->get_name(), $reg->get_name(), $value ? 'ON' : 'OFF' );
+			$access->setAutoVoice($value);
+			$bot->noticef($user, '%s\'s auto-voice on %s has been toggled %s.',
+				$mod_user->getName(), $reg->getName(), $value ? 'ON' : 'OFF');
 		}
-		else if( $option == 'PROTECT' )
-		{
-			if( empty($value) )
-			{
-				$value = !$access->is_protected();
+		elseif ($option == 'PROTECT') {
+			if (empty($value)) {
+				$value = !$access->isProtected();
 			}
-			else
-			{
-				$value = strtoupper( $value );
-				if( $value == 'ON' ) $value = true;
-				else if( $value == 'OFF' ) $value = false;
+			else {
+				$value = strtoupper($value);
+				if ($value == 'ON') $value = true;
+				elseif ($value == 'OFF') $value = false;
 				else {
-					$bot->notice( $user, 'Value must either be ON or OFF.' );
+					$bot->notice($user, 'Value must either be ON or OFF.');
 					return false;
 				}
 			}
 
-			$access->set_protect( $value );
-			$bot->noticef( $user, '%s\'s protection on %s has been toggled %s.',
-				$mod_user->get_name(), $reg->get_name(), $value ? 'ON' : 'OFF' );
+			$access->setProtect($value);
+			$bot->noticef($user, '%s\'s protection on %s has been toggled %s.',
+				$mod_user->getName(), $reg->getName(), $value ? 'ON' : 'OFF');
 		}
-		else
-		{
-			$bot->noticef( $user, '%s%s%s is not a valid setting!', BOLD_START, $option, BOLD_END );
+		else {
+			$bot->noticef($user, '%s%s%s is not a valid setting!', BOLD_START, $option, BOLD_END);
 			return false;
 		}
 		
 		$access->save();
 	}
-	else
-	{
-		$bot->noticef( $user, 'Account %s does not exist.', $mod_uid );
+	else {
+		$bot->noticef($user, 'Account %s does not exist.', $mod_uid);
 		return false;
 	}
 	

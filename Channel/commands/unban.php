@@ -29,57 +29,49 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if( !($chan = $this->get_channel($chan_name)) )
-	{
-		$bot->noticef( $user, "Nobody is on channel %s.", $chan_name );
+	if (!($chan = $this->getChannel($chan_name))) {
+		$bot->noticef($user, "Nobody is on channel %s.", $chan_name);
 		return false;
 	}
-	if( !$chan->is_on($bot->get_numeric()) )
-	{
-		$bot->noticef( $user, 'I am not on %s.', $chan->get_name() );
+	if (!$chan->isOn($bot->getNumeric())) {
+		$bot->noticef($user, 'I am not on %s.', $chan->getName());
 		return false;
 	}
 	
 	$mask = $pargs[2];
 
-	if( !preg_match('/[!@\.]/', $mask) )
-	{
-		if( ($tmp_user = $this->get_user_by_nick($mask)) )
-			$mask = $tmp_user->get_host_mask();
+	if (!preg_match('/[!@\.]/', $mask)) {
+		if (($tmp_user = $this->getUserByNick($mask)))
+			$mask = $tmp_user->getHostMask();
 		else
 			$mask = $mask . '!*@*';
 	}
 	
-	$ban = $chan_reg->get_ban( $mask );
-	$active = $chan->has_ban( $mask );
+	$ban = $chan_reg->getBan($mask);
+	$active = $chan->hasBan($mask);
 
-	if( !$ban && !$active )
-	{
-		$bot->noticef( $user, 'There is no ban for %s on %s.', $mask, $chan_reg->get_name() );
+	if (!$ban && !$active) {
+		$bot->noticef($user, 'There is no ban for %s on %s.', $mask, $chan_reg->getName());
 		return false;
 	}
 	
-	if( $ban )
-	{
-		if( $ban->get_level() > $user_level )
-		{
-			$bot->noticef( $user, 'You cannot remove a ban with a level higher than your own.' );
+	if ($ban) {
+		if ($ban->getLevel() > $user_level) {
+			$bot->noticef($user, 'You cannot remove a ban with a level higher than your own.');
 			return false;
 		}
 		
-		$mask = $ban->get_mask();
-		$bot->unban( $chan->get_name(), $mask );
-		$chan_reg->remove_ban( $mask );
+		$mask = $ban->getMask();
+		$bot->unban($chan->getName(), $mask);
+		$chan_reg->removeBan($mask);
 		$chan_reg->save();
 	}
 	
-	if( $active )
-	{
-		$bot->unban( $chan->get_name(), $mask );
+	if ($active) {
+		$bot->unban($chan->getName(), $mask);
 	}
-	else
-	{
-		$bot->noticef( $user, 'The ban for %s has been removed.', $mask );
+	else {
+		$bot->noticef($user, 'The ban for %s has been removed.', $mask);
 	}
 	
 

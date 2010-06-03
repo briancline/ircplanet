@@ -30,7 +30,7 @@
  */
 	
 	$numeric = $args[0];
-	$user = $this->get_user($numeric);
-	$this->remove_user( $numeric );
+	$user = $this->getUser($numeric);
+	$this->removeUser($numeric);
 	
 

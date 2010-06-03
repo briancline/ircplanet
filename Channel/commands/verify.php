@@ -29,20 +29,19 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$target_nick = $pargs[1];
-	$target = $this->get_user_by_nick( $target_nick );
+	$targetNick = $pargs[1];
+	$target = $this->getUserByNick($targetNick);
 	
-	if( !$target )
-	{
-		$bot->noticef( $user, 'There is no user with the nick %s.', $target_nick );
+	if (!$target) {
+		$bot->noticef($user, 'There is no user with the nick %s.', $targetNick);
 		return false;
 	}
 	
-	if( $target->is_logged_in() && $this->get_admin_level($target) >= 501 )
+	if ($target->isLoggedIn() && $this->getAdminLevel($target) >= 501)
 		$result_text = 'is';
 	else
 		$result_text = 'is not';
 	
-	$bot->noticef( $user, '%H %s a verified channel service representative.', 
-		$target, $result_text );
+	$bot->noticef($user, '%H %s a verified channel service representative.', 
+		$target, $result_text);
 

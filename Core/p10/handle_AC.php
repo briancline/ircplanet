@@ -29,21 +29,20 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	include( CORE_TIMER_DIR .'refresh_data.php' );
+	include(CORE_TIMER_DIR .'refresh_data.php');
 
-	$user = $this->get_user( $args[2] );
-	$user->add_mode( UMODE_REGISTERED );
-	$user->set_account_name( $args[3] );
+	$user = $this->getUser($args[2]);
+	$user->addMode(UMODE_REGISTERED);
+	$user->setAccountName($args[3]);
 
-	if( $account = $this->get_account($args[3]) )
-	{
-		$user->set_account_id( $account->get_id() );
-		$account->update_lastseen();
+	if ($account = $this->getAccount($args[3])) {
+		$user->setAccountId($account->getId());
+		$account->updateLastseen();
 		$account->save();
 	}
 
-	if( $num_args > 4 ) {
-		$user->set_account_ts( $args[4] );
+	if ($num_args > 4) {
+		$user->setAccountTs($args[4]);
 	}
 
 

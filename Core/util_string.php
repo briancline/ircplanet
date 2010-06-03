@@ -29,27 +29,27 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	function right( $str, $len )
+	function right($str, $len)
 	{
-		return substr( $str, (-1 * $len) );
+		return substr($str, (-1 * $len));
 	}
 	
 	
-	function is_valid_email( $email )
+	function isValidEmail($email)
 	{
-		$b = preg_match( '/^[a-z0-9._\-%]+@[a-z0-9._\-]+\.[a-z]{2,4}$/i', $email );
+		$b = preg_match('/^[a-z0-9._\-%]+@[a-z0-9._\-]+\.[a-z]{2,4}$/i', $email);
 		
 		return $b;
 	}
 	
 	
-	function is_ip( $s )
+	function isIp($s)
 	{
-		return preg_match( '/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $s );
+		return preg_match('/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $s);
 	}
 
 
-	function is_private_ip( $ip )
+	function isPrivateIp($ip)
 	{
 		$private_ranges = array(
 			'0.0.0.0/8',	  // Self-identification
@@ -63,14 +63,13 @@
 			'192.168.0.0/16'  // Private networks
 		);
 		
-		foreach( $private_ranges as $range )
-		{
-			list( $range_start, $range_mask ) = explode( '/', $range );
-			$tmp_mask = 0xffffffff << ( 32 - $range_mask );
-			$tmp_range_mask = ip2long( $range_start ) & $tmp_mask;
-			$tmp_ip_mask = ip2long( $ip ) & $tmp_mask;
+		foreach ($private_ranges as $range) {
+			list($range_start, $range_mask) = explode('/', $range);
+			$tmp_mask = 0xffffffff << (32 - $range_mask);
+			$tmp_range_mask = ip2long($range_start) & $tmp_mask;
+			$tmp_ip_mask = ip2long($ip) & $tmp_mask;
 
-			if( $tmp_ip_mask == $tmp_range_mask )
+			if ($tmp_ip_mask == $tmp_range_mask)
 				return true;
 		}
 
@@ -78,38 +77,37 @@
 	}
 
 
-	function fix_host_mask( $mask )
+	function fixHostMask($mask)
 	{
-		$ex_pos = strpos( $mask, '!' );
-		$at_pos = strpos( $mask, '@' );
-		$ident = substr( $mask, $ex_pos + 1, $at_pos - $ex_pos - 1 );
+		$ex_pos = strpos($mask, '!');
+		$at_pos = strpos($mask, '@');
+		$ident = substr($mask, $ex_pos + 1, $at_pos - $ex_pos - 1);
 		
-		if( strlen($ident) > IDENT_LEN )
-		{
+		if (strlen($ident) > IDENT_LEN) {
 			$mask = substr($mask, 0, $ex_pos) .'!*'. right($ident, IDENT_LEN - 1) . substr($mask, $at_pos);
 		}
 		
 		return $mask;
 	}
 	
-	function fix_nick_host_mask( $mask )
+	function fixNickHostMask($mask)
 	{
-		$ex_pos = strpos( $mask, '!' );
-		$at_pos = strpos( $mask, '@' );
+		$ex_pos = strpos($mask, '!');
+		$at_pos = strpos($mask, '@');
 		
-		if( $at_pos === false ) {
+		if ($at_pos === false) {
 			$mask = '*@'. $mask;
 			$at_pos = 1;
 		}
 		
-		if( $ex_pos === false ) {
+		if ($ex_pos === false) {
 			$mask = '*!'. $mask;
 			$ex_pos = 1;
-			$at_pos = strpos( $mask, '@' );
+			$at_pos = strpos($mask, '@');
 		}
 		
-		$ident = substr( $mask, $ex_pos + 1, $at_pos - $ex_pos - 1 );
-		if( strlen($ident) > IDENT_LEN ) {
+		$ident = substr($mask, $ex_pos + 1, $at_pos - $ex_pos - 1);
+		if (strlen($ident) > IDENT_LEN) {
 			$mask = substr($mask, 0, $ex_pos) .'!*'. right($ident, IDENT_LEN - 1) . substr($mask, $at_pos);
 		}
 		
@@ -117,24 +115,21 @@
 	}
 	
 
-	function line_num_args( $s )
+	function lineNumArgs($s)
 	{
 		$tokens = 1;
 		$s = trim($s);
-		$len = strlen( $s );
+		$len = strlen($s);
 		
-		if($len == 0)
+		if ($len == 0)
 			return 0;
 		
-		for( $i = 0; $i < strlen($s) - 1; ++$i )
-		{
-			if( $s[$i] == ' ' && $s[$i + 1] == ':' )
-			{
+		for ($i = 0; $i < strlen($s) - 1; ++$i) {
+			if ($s[$i] == ' ' && $s[$i + 1] == ':') {
 				$tokens++;
 				break;
 			}
-			else if( $s[$i] == ' ' )
-			{
+			elseif ($s[$i] == ' ') {
 				$tokens++;
 			}
 		}
@@ -143,32 +138,28 @@
 	}
 	
 	
-	function line_get_args( $s, $stop_at_colon = true )
+	function lineGetArgs($s, $stop_at_colon = true)
 	{
 		$start = 0;
 		$tokens = array();
-		$s = trim( $s );
-		$len = strlen( $s );
+		$s = trim($s);
+		$len = strlen($s);
 		
-		if( $len == 0 )
+		if ($len == 0)
 			return 0;
 		
-		for( $i = 0; $i < $len; ++$i )
-		{
-			if( $stop_at_colon && ($s[$i] == ' ' && $i < ($len - 1) && $s[$i + 1] == ':') )
-			{
-				$tokens[] = substr( $s, $start, $i - $start );
-				$tokens[] = substr( $s, $i + 2 );
+		for ($i = 0; $i < $len; ++$i) {
+			if ($stop_at_colon && ($s[$i] == ' ' && $i < ($len - 1) && $s[$i + 1] == ':')) {
+				$tokens[] = substr($s, $start, $i - $start);
+				$tokens[] = substr($s, $i + 2);
 				break;
 			}
-			else if( $s[$i] == ' ' )
-			{
-				$tokens[] = substr( $s, $start, $i - $start );
+			elseif ($s[$i] == ' ') {
+				$tokens[] = substr($s, $start, $i - $start);
 				$start = $i + 1;
 			}
-			else if( $i == ($len - 1) )
-			{
-				$tokens[] = substr( $s, $start );
+			elseif ($i == ($len - 1)) {
+				$tokens[] = substr($s, $start);
 			}
 		}
 		
@@ -176,16 +167,16 @@
 	}
 	
 	
-	function get_pretty_size( $bytes )
+	function getPrettySize($bytes)
 	{
-		$units = array( 'bytes', 'KB', 'MB', 'GB', 'TB', 'PB' );
+		$units = array('bytes', 'KB', 'MB', 'GB', 'TB', 'PB');
 		$precision = 2;
 		
-		for( $i = 0; $bytes >= 1024; ++$i )
+		for ($i = 0; $bytes >= 1024; ++$i)
 			$bytes /= 1024;
 		
-		if( $i > 0 )
-			$bytes = sprintf( '%0.'. $precision .'f', $bytes );
+		if ($i > 0)
+			$bytes = sprintf('%0.'. $precision .'f', $bytes);
 		
 		return ($bytes .' '. $units[$i]);
 	}
@@ -222,7 +213,7 @@
 	 *        For accounts:  account name.
 	 *  
 	 * Examples:
-	 *    sprintf('%s', $user_obj->get_nick());    // Nick name
+	 *    sprintf('%s', $user_obj->getNick());    // Nick name
 	 *    irc_sprintf('%H', $user_obj);            // Nick name
 	 *    irc_sprintf('[%'#-13H]', $user_obj);     // Nick name, left-aligned in brackets
 	 *                                                and padded with hash symbols
@@ -230,39 +221,38 @@
 	 * The following are totally equivalent; the latter saves much space and provides
 	 * visual feedback as to what each argument corresponds to (numeric, channel, etc):
 	 *    
-	 *    sprintf('%s M %s +o %s %ld', $user_obj->get_numeric(), $chan_obj->get_name, 
-	 *            $user2_obj->get_numeric(), time());
+	 *    sprintf('%s M %s +o %s %ld', $user_obj->getNumeric(), $chan_obj->getName, 
+	 *            $user2_obj->getNumeric(), time());
 	 *    
-	 *    irc_sprintf('%N M %C +o %N %ld', $user_obj, $chan_obj, $user2_obj, time() );
+	 *    irc_sprintf('%N M %C +o %N %ld', $user_obj, $chan_obj, $user2_obj, time());
 	 * 
 	 */
-	function irc_sprintf( $format )
+	function irc_sprintf($format)
 	{
 		$args = func_get_args(); // Get array of all function arguments for vsprintf
-		array_shift( $args );    // Pop the format argument from the top
+		array_shift($args);    // Pop the format argument from the top
 		
-		return irc_vsprintf( $format, $args );
+		return irc_vsprintf($format, $args);
 	}
 	
 	/**
 	 * irc_vsprintf: Identical to vsprintf, except extended to allow the IRC-specific
 	 * conversion specifiers documented with irc_sprintf.
 	 */ 
-	function irc_vsprintf( $format, $args )
+	function irc_vsprintf($format, $args)
 	{
 		$std_types = 'bcdeufFosxX';
 		$custom_types = 'ACHNU';
 
-		$len = strlen( $format );
+		$len = strlen($format);
 		$arg_index = -1;
 		$pct_count = 0;
 
-		for( $i = 0; $i < $len - 1; $i++ )
-		{
+		for ($i = 0; $i < $len - 1; $i++) {
 			$char = $format[$i];
 			$next = $format[$i + 1];
 
-			if( $char == '%' )
+			if ($char == '%')
 				$pct_count++;
 			else
 				$pct_count = 0;
@@ -272,7 +262,7 @@
 			 * if we do and the following character is a '%', indicating that
 			 * vsprintf will simply substitute a percent sign.
 			 */
-			if( $pct_count != 1 || $next == '%' )
+			if ($pct_count != 1 || $next == '%')
 				continue;
 
 			// Found a spec; hold its place
@@ -285,14 +275,12 @@
 			 * attempt to find the type of spec this is. The formatting flags will
 			 * be preserved, so we'll ignore them.
 			 */
-			for( $j = $i + 1; $j < $len; $j++ )
-			{
+			for ($j = $i + 1; $j < $len; $j++) {
 				$tmp_char = $format[$j];
-				$is_std_type = ( false !== strpos($std_types, $tmp_char) );
-				$is_cust_type = ( false !== strpos($custom_types, $tmp_char) );
+				$is_std_type = (false !== strpos($std_types, $tmp_char));
+				$is_cust_type = (false !== strpos($custom_types, $tmp_char));
 
-				if( $is_std_type || $is_cust_type )
-				{
+				if ($is_std_type || $is_cust_type) {
 					// Found a valid standard or custom flag, mark its place and stop
 					$type = $tmp_char;
 					$arg_index++;
@@ -302,18 +290,16 @@
 			}
 
 			// If we found a custom type in this spec, process it accordingly
-			if( $is_cust_type )
-			{
+			if ($is_cust_type) {
 				$arg_obj = $args[$arg_index];
 				$cust_text = '';
 
-				switch( $type )
-				{
+				switch ($type) {
 					/**
 					 * %A: Flat array to string conversion
 					 */
 					case 'A':
-						$cust_text = implode( ' ', $arg_obj );
+						$cust_text = implode(' ', $arg_obj);
 						break;
 
 
@@ -322,12 +308,12 @@
 					 */
 					case 'C':
 					case 'H':
-						if( is_user($arg_obj) )
-							$cust_text = $arg_obj->get_nick();
-						elseif( is_channel($arg_obj) || is_server($arg_obj) )
-							$cust_text = $arg_obj->get_name();
-						elseif( is_gline($arg_obj) )
-							$cust_text = $arg_obj->get_mask();
+						if (isUser($arg_obj))
+							$cust_text = $arg_obj->getNick();
+						elseif (isChannel($arg_obj) || isServer($arg_obj))
+							$cust_text = $arg_obj->getName();
+						elseif (isGline($arg_obj))
+							$cust_text = $arg_obj->getMask();
 
 						break;
 
@@ -336,8 +322,8 @@
 					 * %N: ircu P10 numeric of given object
 					 */
 					case 'N':
-						if( is_user($arg_obj) || is_server($arg_obj) )
-							$cust_text = $arg_obj->get_numeric();
+						if (isUser($arg_obj) || isServer($arg_obj))
+							$cust_text = $arg_obj->getNumeric();
 
 						break;
 
@@ -346,10 +332,10 @@
 					 * %U: Account name of user or account object
 					 */
 					case 'U':
-						if( is_user($arg_obj) )
-							$cust_text = $arg_obj->get_account_name();
-						elseif( is_account($arg_obj) )
-							$cust_text = $arg_obj->get_name();
+						if (isUser($arg_obj))
+							$cust_text = $arg_obj->getAccountName();
+						elseif (isAccount($arg_obj))
+							$cust_text = $arg_obj->getName();
 
 						break;
 
@@ -378,11 +364,11 @@
 		}
 
 		// vsprintf takes care of the standard flags.
-		return vsprintf( $format, $args );
+		return vsprintf($format, $args);
 	}
 	
 
-	function random_kick_reason()
+	function randomKickReason()
 	{
 		$ban_reasons = array(
 			"Don't let the door hit you on the way out!",

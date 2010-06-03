@@ -36,7 +36,7 @@
 		var $lastmod_ts;
 		var $reason;
 		
-		function __construct( $mask, $duration, $lastmod, $reason )
+		function __construct($mask, $duration, $lastmod, $reason)
 		{
 			$this->mask = $mask;
 			$this->expire_ts = time() + $duration;
@@ -44,19 +44,19 @@
 			$this->reason = $reason;
 		}
 		
-		function get_mask()          { return $this->mask; }
-		function get_expire_ts()     { return $this->expire_ts; }
-		function get_lastmod_ts()    { return $this->lastmod_ts; }
-		function get_duration()      { return $this->expire_ts - time(); }
-		function get_reason()        { return $this->reason; }
-		function is_expired()        { return (time() >= $this->expire_ts); }
+		function getMask()          { return $this->mask; }
+		function getExpireTs()     { return $this->expire_ts; }
+		function getLastmodTs()    { return $this->lastmod_ts; }
+		function getDuration()      { return $this->expire_ts - time(); }
+		function getReason()        { return $this->reason; }
+		function isExpired()        { return (time() >= $this->expire_ts); }
 		
-		function matches( $host )
+		function matches($host)
 		{
-			if( is_object($host) )
-				return fnmatch( $this->mask, $host->get_gline_host() );
+			if (is_object($host))
+				return fnmatch($this->mask, $host->getGlineHost());
 			else
-				return fnmatch( $this->mask, $host );
+				return fnmatch($this->mask, $host);
 		}
 		
 		function __toString() { return $this->mask; }

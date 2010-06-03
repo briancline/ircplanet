@@ -29,29 +29,26 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if( !($chan = $this->get_channel($chan_name)) )
-	{
-		$bot->noticef( $user, "Nobody is on channel %s.", $chan_name );
+	if (!($chan = $this->getChannel($chan_name))) {
+		$bot->noticef($user, "Nobody is on channel %s.", $chan_name);
 		return false;
 	}
 	
 	$mask = $pargs[2];
 	
-	if( !preg_match('/[!@\.]/', $mask) )
-	{
-		if( ($tmp_user = $this->get_user_by_nick($mask)) )
-			$mask = $tmp_user->get_host_mask();
+	if (!preg_match('/[!@\.]/', $mask)) {
+		if (($tmp_user = $this->getUserByNick($mask)))
+			$mask = $tmp_user->getHostMask();
 		else
 			$mask = $mask . '!*@*';
 	}
 	
-	$mask = fix_host_mask( $mask );
-	if( !$chan->has_ban($mask) )
-	{
-		$bot->noticef( $user, '%s is not banned on %s.', $mask, $chan_name );
+	$mask = fixHostMask($mask);
+	if (!$chan->hasBan($mask)) {
+		$bot->noticef($user, '%s is not banned on %s.', $mask, $chan_name);
 		return false;
 	}
 	
-	$this->unban( $chan->get_name(), $mask );
+	$this->unban($chan->getName(), $mask);
 	
 

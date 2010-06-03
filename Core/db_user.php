@@ -57,48 +57,48 @@
 		protected $auto_voice = 0;
 		protected $enforce_nick = 0;
 		
-		protected function record_construct()
+		protected function recordConstruct()
 		{
-			if(func_num_args() == 0)
+			if (func_num_args() == 0)
 				return;
 			
 			$name = func_get_arg(0);
 		}
 		
-		protected function record_destruct()
+		protected function recordDestruct()
 		{
 			
 		}
 		
-		public function get_id()             { return $this->account_id; }
-		public function get_name()           { return $this->name; }
-		public function get_password()       { return $this->password; }
-		public function get_email()          { return $this->email; }
-		public function get_info_line()      { return $this->info_line; }
-		public function get_fakehost()       { return $this->fakehost; }
-		public function get_register_ts()    { return $this->create_date; }
-		public function get_lastseen_ts()    { return $this->lastseen_ts; }
+		public function getId()             { return $this->account_id; }
+		public function getName()           { return $this->name; }
+		public function getPassword()       { return $this->password; }
+		public function getEmail()          { return $this->email; }
+		public function getInfoLine()      { return $this->info_line; }
+		public function getFakehost()       { return $this->fakehost; }
+		public function getRegisterTs()    { return $this->create_date; }
+		public function getLastseenTs()    { return $this->lastseen_ts; }
 		
-		public function has_info_line()      { return !empty($this->info_line); }
-		public function has_fakehost()       { return !empty($this->fakehost); }
-		public function is_suspended()       { return 1 == $this->suspend; }
-		public function is_permanent()       { return 1 == $this->no_purge; }
-		public function auto_ops()           { return 1 == $this->auto_op; }
-		public function auto_voices()        { return 1 == $this->auto_voice; }
-		public function enforces_nick()      { return 1 == $this->enforce_nick; }
+		public function hasInfoLine()      { return !empty($this->info_line); }
+		public function hasFakehost()       { return !empty($this->fakehost); }
+		public function isSuspended()       { return 1 == $this->suspend; }
+		public function isPermanent()       { return 1 == $this->no_purge; }
+		public function autoOps()           { return 1 == $this->auto_op; }
+		public function autoVoices()        { return 1 == $this->auto_voice; }
+		public function enforcesNick()      { return 1 == $this->enforce_nick; }
 		
-		public function set_name($s)         { $this->name = $s; }
-		public function set_password($s)     { $this->password = $s; }
-		public function set_email($s)        { $this->email = $s; }
-		public function set_info_line($s)    { $this->info_line = $s; }
-		public function set_fakehost($s)     { $this->fakehost = $s; }
-		public function set_register_ts($t)  { $this->register_ts = $t; }
-		public function set_suspend($b)      { $this->suspend = $b ? 1 : 0; }
-		public function set_permanent($b)    { $this->no_purge = $b ? 1 : 0; }
-		public function set_auto_op($b)      { $this->auto_op = $b ? 1 : 0; }
-		public function set_auto_voice($b)   { $this->auto_voice = $b ? 1 : 0; }
-		public function set_enforce_nick($b) { $this->enforce_nick = $b ? 1 : 0; }
-		public function update_lastseen()    { $this->lastseen_ts = time(); }
+		public function setName($s)         { $this->name = $s; }
+		public function setPassword($s)     { $this->password = $s; }
+		public function setEmail($s)        { $this->email = $s; }
+		public function setInfoLine($s)    { $this->info_line = $s; }
+		public function setFakehost($s)     { $this->fakehost = $s; }
+		public function setRegisterTs($t)  { $this->register_ts = $t; }
+		public function setSuspend($b)      { $this->suspend = $b ? 1 : 0; }
+		public function setPermanent($b)    { $this->no_purge = $b ? 1 : 0; }
+		public function setAutoOp($b)      { $this->auto_op = $b ? 1 : 0; }
+		public function setAutoVoice($b)   { $this->auto_voice = $b ? 1 : 0; }
+		public function setEnforceNick($b) { $this->enforce_nick = $b ? 1 : 0; }
+		public function updateLastseen()    { $this->lastseen_ts = time(); }
 	}
 
 

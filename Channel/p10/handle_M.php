@@ -31,13 +31,12 @@
 	
 	$source = $args[0];
 	$target = $args[2];
-	$target_is_chan = ( $target[0] == '#' );
+	$target_is_chan = ($target[0] == '#');
 	
-	if( strlen($source) == 5 )
-		$source = $this->get_user( $source );
+	if (strlen($source) == 5)
+		$source = $this->getUser($source);
 	
-	if( is_user($source) && !$source->is_service() && $target_is_chan && $this->is_channel_registered($target) )
-	{
+	if (isUser($source) && !$source->isService() && $target_is_chan && $this->isChannelRegistered($target)) {
 		$bans_to_check = array();
 		$users_to_check = array();
 		$users_to_reop = array();
@@ -46,79 +45,72 @@
 		$arg_index = 3;
 		$modes = $args[3];
 
-		for( $i = 0; $i < strlen($modes); $i++ )
-		{
+		for ($i = 0; $i < strlen($modes); $i++) {
 			$mode = $modes[$i];
 			
-			if( $mode == 'o' || $mode == 'v' || $mode == 'b' || $mode == 'l' || $mode == 'k' )
+			if ($mode == 'o' || $mode == 'v' || $mode == 'b' || $mode == 'l' || $mode == 'k')
 				$arg_index++;
 			
-			if( $mode == '-' )
+			if ($mode == '-')
 				$mode_sub = true;
 			
-			if( !$mode_sub && $mode == 'b' )
+			if (!$mode_sub && $mode == 'b')
 				$bans_to_check[] = $args[$arg_index];
 				
-			if( $mode_sub && ($mode == 'o' || $mode == 'v') )
-				$users_to_check[] = $this->get_user( $args[$arg_index] );
+			if ($mode_sub && ($mode == 'o' || $mode == 'v'))
+				$users_to_check[] = $this->getUser($args[$arg_index]);
 		}
 
-		$source_access = $this->get_channel_access( $target, $source );
-		$act_users = $this->get_active_channel_users( $target );
+		$source_access = $this->getChannelAccess($target, $source);
+		$act_users = $this->getActiveChannelUsers($target);
 		
-		foreach( $act_users as $tmp_user )
-		{
-			$tmp_access = $this->get_channel_access( $target, $tmp_user );
+		foreach ($act_users as $tmp_user) {
+			$tmp_access = $this->getChannelAccess($target, $tmp_user);
 
-			foreach( $bans_to_check as $tmp_mask )
-			{
-				if( fnmatch($tmp_mask, $tmp_user->get_full_mask()) 
-					|| fnmatch($tmp_mask, $tmp_user->get_full_ip_mask()) )
+			foreach ($bans_to_check as $tmp_mask) {
+				if (fnmatch($tmp_mask, $tmp_user->getFullMask()) 
+						|| fnmatch($tmp_mask, $tmp_user->getFullIpMask()))
 				{
 					$deop_source = true;
-					$bot->unban( $target, $tmp_mask );
+					$bot->unban($target, $tmp_mask);
 				}
 			}
 		}
 		
-		foreach( $users_to_check as $tmp_target )
-		{
-			if( !is_user($tmp_target) || !$tmp_user->is_logged_in() )
+		foreach ($users_to_check as $tmp_target) {
+			if (!isUser($tmp_target) || !$tmp_user->isLoggedIn())
 				continue;
 			
-			$tmp_access = $this->get_channel_access( $target, $tmp_target );
-			if( $tmp_access == false )
+			$tmp_access = $this->getChannelAccess($target, $tmp_target);
+			if ($tmp_access == false)
 				continue;
 
-			if( $tmp_access->is_protected() && 
-				(!$source_access || $source_access->get_level() <= $tmp_target->get_level()) )
+			if ($tmp_access->isProtected() && 
+					(!$source_access || $source_access->getLevel() <= $tmp_target->getLevel()))
 			{
 				$users_to_reop[] = $tmp_target;
 				$deop_source = true;
 			}
 		}
 		
-		if( !empty($users_to_reop) )
-		{
+		if (!empty($users_to_reop)) {
 			$mode_buf = '';
 			$mode_arg_buf = '';
 			
-			if( $deop_source )
-			{
+			if ($deop_source) {
 				$mode_buf = '-o';
-				$mode_arg_buf = $source->get_numeric() .' ';
+				$mode_arg_buf = $source->getNumeric() .' ';
 			}
 			
 			$mode_buf .= '+';
-			foreach( $users_to_reop as $tmp_user )
-			{
+			foreach ($users_to_reop as $tmp_user) {
 				$mode_buf .= 'o';
-				$mode_arg_buf .= $tmp_user->get_numeric() .' ';
+				$mode_arg_buf .= $tmp_user->getNumeric() .' ';
 			}
 			
 			$mode_change = $mode_buf .' '. $mode_arg_buf;
 			
-			$this->default_bot->mode( $target, $mode_change );
+			$this->default_bot->mode($target, $mode_change);
 		}
 	}
 

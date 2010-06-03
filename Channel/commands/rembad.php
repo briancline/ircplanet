@@ -31,13 +31,12 @@
 	
 	$chan_mask = $pargs[1];
 	
-	if( !($badchan = $this->get_badchan($chan_mask)) )
-	{
-		$bot->noticef( $user, 'There is no badchan entry with that name.' );
+	if (!($badchan = $this->getBadchan($chan_mask))) {
+		$bot->noticef($user, 'There is no badchan entry with that name.');
 		return false;
 	}
 
-	$this->remove_badchan( $chan_mask );
-	$bot->noticef( $user, '%s has been removed from the bad channels list.', $chan_mask );
+	$this->removeBadchan($chan_mask);
+	$bot->noticef($user, '%s has been removed from the bad channels list.', $chan_mask);
 
 
