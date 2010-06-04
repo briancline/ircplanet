@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	$bot->noticef( $user->numeric, "%sSOUND Twat? I cunt hear you!%s",
-		CTCP_START, CTCP_END );
+	$bot->noticef($user->numeric, "%sSOUND Twat? I cunt hear you!%s",
+		CTCP_START, CTCP_END);
 
 

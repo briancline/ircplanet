@@ -29,6 +29,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	debug( "*** Notice from uplink: ". $args[2] );
+	debug("*** Notice from uplink: ". $args[2]);
 	
 

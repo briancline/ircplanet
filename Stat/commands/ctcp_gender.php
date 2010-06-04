@@ -29,8 +29,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	$bot->noticef( $user->numeric, "%sGENDER She's a man, baby!%s",
+	$bot->noticef($user->numeric, "%sGENDER She's a man, baby!%s",
 		CTCP_START,
-		CTCP_END );
+		CTCP_END);
 
 

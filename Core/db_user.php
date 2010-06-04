@@ -29,10 +29,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	define( 'MAXLEN_USERINFOLINE', 150 );
-	define( 'MAXLEN_USERNAME',      20 );
-	define( 'MAXLEN_USEREMAIL',    100 );
-	define( 'MAXLEN_FAKEHOST',      63 );
+	define('MAXLEN_USERINFOLINE', 150);
+	define('MAXLEN_USERNAME',      20);
+	define('MAXLEN_USEREMAIL',    100);
+	define('MAXLEN_FAKEHOST',      63);
 	
 	require_once('db_record.php');
 	

@@ -66,13 +66,13 @@
 	define('BOLD_START',          BOLD_CHAR);
 	define('BOLD_END',            BOLD_CHAR);
 
-	define('NOTIFY_ACCOUNT',        'A' );
-	define('NOTIFY_CHANNEL',        'C' );
+	define('NOTIFY_ACCOUNT',        'A');
+	define('NOTIFY_CHANNEL',        'C');
 	define('NOTIFY_CHANNEL_ACCESS', 'CA');
 
-	define('NOTIFY_LOAD',           'L' );
-	define('NOTIFY_RELOAD',         'R' );
-	define('NOTIFY_DELETE',         'D' );
+	define('NOTIFY_LOAD',           'L');
+	define('NOTIFY_RELOAD',         'R');
+	define('NOTIFY_DELETE',         'D');
 
 
 	function debug($s)

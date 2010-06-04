@@ -1,5 +1,10 @@
 Brian Cline	<brian@ircplanet.net>	2010-06-03
 
+	* (scragglers): Apparently some of the automated reformatting didn't
+	happen in some files.
+
+Brian Cline	<brian@ircplanet.net>	2010-06-03
+
 	* (all): Merge in changes from the code-reformat branch. This basically
 	puts into place a new coding standard (to be documented later) and makes
 	all code consistent in its formatting.
