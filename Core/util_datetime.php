@@ -82,7 +82,7 @@
 	}
 	
 	
-	function getDate($ts)
+	function irc_getDateTime($ts)
 	{
 		return date('D j M Y H:i:s', $ts);
 	}

@@ -43,7 +43,7 @@
 	
 	$bot->noticef($user, 'Channel Information for %s', $chan->getName());
 	$bot->noticef($user, str_repeat('-', 50));
-	$bot->noticef($user, 'Register date:    %s', getDate($chan->getRegisterTs()));
+	$bot->noticef($user, 'Register date:    %s', irc_getDateTime($chan->getRegisterTs()));
 	$bot->noticef($user, 'Channel purpose:  %s', $chan->getPurpose());
 	$bot->noticef($user, 'Default modes:    +%s', $chan->getDefaultModes());
 	$bot->noticef($user, 'Default topic:    %s', $chan->getDefaultTopic());

@@ -44,7 +44,7 @@
 		$acct_str = $target->getAccountName();
 		
 		if ($acct = $this->getAccount($target->getAccountName()))
-			$acct_str .= ' (Registered on '. getDate($acct->getRegisterTs()) .')';
+			$acct_str .= ' (Registered on '. irc_getDateTime($acct->getRegisterTs()) .')';
 	}
 	
 	$server = $this->getServer($target->getServerNumeric());
@@ -73,6 +73,6 @@
 	$bot->noticef($user, 'Full mask:    %s [%s]', $target->getFullMask(), $target->getIp());
 	$bot->noticef($user, 'Channels:     %s', $chan_list);
 	$bot->noticef($user, 'Server:       %s', $server->getName());
-	$bot->noticef($user, 'Signed on:    '. getDate($target->getSignonTs()));
+	$bot->noticef($user, 'Signed on:    '. irc_getDateTime($target->getSignonTs()));
 
 

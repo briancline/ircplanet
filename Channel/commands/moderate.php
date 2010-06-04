@@ -42,9 +42,7 @@
 		return false;
 	}
 	
-//	$bot->mode($chan_name, '+m');
-	$this->sendf(FMT_MODE_NOTS, $bot->getNumeric(), $chan->getName(), '+m');
-	$chan->addMode('m');
+	$bot->mode($chan_name, '+m');
 	
 	foreach ($chan->users as $numeric => $chanuser) {
 		if (!$chanuser->isVoice() && !$chanuser->isOp()) {
@@ -53,6 +51,6 @@
 		}
 	}
 	
-	$bot->voice($chan->getName(), $numerics);
-	
-
+	if (!empty($numerics)) {
+		$bot->voice($chan->getName(), $numerics);
+	}

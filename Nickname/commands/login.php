@@ -56,10 +56,11 @@
 
 		$user_name = $account->getName();
 		$bot->notice($user, "Authentication successful as $user_name!");
-		$this->sendf(FMT_ACCOUNT, SERVER_NUM, $user->getNumeric(), $user_name, $account->getRegisterTs());
-		$user->setAccountName($user_name);
-		$user->setAccountId($account->getId());
 		
+		/**
+		 * Always send the AC token last as it will activate the default hidden host
+		 * unless a fakehost is already set.
+		 */
 		if ($account->hasFakehost()) {
 			$this->sendf(FMT_FAKEHOST, SERVER_NUM, $user->getNumeric(), $account->getFakehost());
 			
@@ -68,6 +69,10 @@
 					$user->getNick());
 			}
 		}
+
+		$this->sendf(FMT_ACCOUNT, SERVER_NUM, $user->getNumeric(), $user_name, $account->getRegisterTs());
+		$user->setAccountName($user_name);
+		$user->setAccountId($account->getId());
 	}
 	else {
 		$bot->notice($user, "No such account!");

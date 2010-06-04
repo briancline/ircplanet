@@ -1276,7 +1276,9 @@
 					}
 					
 					if (++$mode_count == MAX_MODES_PER_LINE || $i == strlen($modes) - 1) {
-						$outgoing[] = irc_sprintf("%s M %s %s %A", $source, $target, $tmp_modes, $tmp_args);
+						$outgoing[] = irc_sprintf("%s M %s %s%s%A", $source, $target, $tmp_modes, 
+							count($tmp_args) > 0 ? ' ' : '', 
+							$tmp_args);
 						$mode_count = 0;
 						$tmp_modes = $tmp_pol;
 						$tmp_args = array();

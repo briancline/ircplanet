@@ -37,7 +37,7 @@
 		protected $ban_id;
 		protected $chan_id;
 		protected $user_id;
-		protected $setTs = 0;
+		protected $set_ts = 0;
 		protected $expire_ts = 0;
 		protected $level = 75;
 		protected $mask;
@@ -48,7 +48,7 @@
 		
 		public function getUserId()         { return $this->user_id; }
 		public function getChanId()         { return $this->chan_id; }
-		public function getSetTs()          { return $this->setTs; }
+		public function getSetTs()          { return $this->set_ts; }
 		public function getExpireTs()       { return $this->expire_ts; }
 		public function getLevel()           { return $this->level; }
 		public function getMask()            { return $this->mask; }
@@ -56,7 +56,7 @@
 		
 		public function setChanId($n)       { $this->chan_id = $n; }
 		public function setUserId($n)       { $this->user_id = $n; }
-		public function setTs($n)            { $this->setTs = $n; }
+		public function setTs($n)            { $this->set_ts = $n; }
 		public function setDuration($n)      { $this->expire_ts = time() + $n; }
 		public function setMask($s)          { $this->mask = fixHostMask($s); }
 		public function setLevel($n)         { $this->level = $n; }

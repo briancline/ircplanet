@@ -70,8 +70,8 @@
 		protected $auto_limit_wait = 30;
 		protected $strict_op = 0;
 		protected $strict_voice = 0;
-		protected $strictModes = 0;
-		protected $strictTopic = 0;
+		protected $strict_modes = 0;
+		protected $strict_topic = 0;
 		protected $no_op = 0;
 		protected $no_voice = 0;
 		
@@ -118,8 +118,8 @@
 		function autoLimits()             { return 1 == $this->auto_limit; }
 		function strictOps()              { return 1 == $this->strict_op; }
 		function strictVoices()           { return 1 == $this->strict_voice; }
-		function strictModes()            { return 1 == $this->strictModes; }
-		function strictTopic()            { return 1 == $this->strictTopic; }
+		function strictModes()            { return 1 == $this->strict_modes; }
+		function strictTopic()            { return 1 == $this->strict_topic; }
 		function noOps()                  { return 1 == $this->no_op; }
 		function noVoices()               { return 1 == $this->no_voice; }
 		
@@ -157,8 +157,8 @@
 		function setAutoLimitWait($n)   { $this->auto_limit_wait = $n; }
 		function setStrictOp($b)         { $this->strict_op = $b ? 1 : 0; }
 		function setStrictVoice($b)      { $this->strict_voice = $b ? 1 : 0; }
-		function setStrictModes($b)      { $this->strictModes = $b ? 1 : 0; }
-		function setStrictTopic($b)      { $this->strictTopic = $b ? 1 : 0; }
+		function setStrictModes($b)      { $this->strict_modes = $b ? 1 : 0; }
+		function setStrictTopic($b)      { $this->strict_topic = $b ? 1 : 0; }
 		function setNoOp($b)             { $this->no_op = $b ? 1 : 0; }
 		function setNoVoice($b)          { $this->no_voice = $b ? 1 : 0; }
 		

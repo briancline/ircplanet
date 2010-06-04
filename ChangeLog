@@ -1,4 +1,41 @@
-Brian Cline	<brian@ircplanet.net>	2010-06-03
+Brian Cline	<brian@ircplanet.net>	2010-06-04
+
+	* Core/util_datetime.php: Change the name of getDate to irc_getDateTime
+	as it conflicts with a PHP function.
+
+	* Channel/commands/chaninfo.php: Switch to irc_getDateTime.
+
+	* Operator/commands/whois.php: Same.
+
+	* Operator/commands/settime.php: Same.
+
+	* Channel/db_channel.php: Fix some accidental replacements of column
+	names from the recent reformatting.
+
+	* Channel/db_ban.php: Same.
+
+	* Operator/db_gline.php: Same.
+
+	* Operator/db_jupe.php: Same.
+
+	* Nickname/commands/login.php: Send FA before AC, otherwise ircu goes
+	through the subsequent motions twice if user mode +x is already set.
+	
+	* Nickname/commands/ghost.php: Same.
+	
+	* Channel/timers/expire_channels.php: Use Bot::part instead of sending
+	out a raw FMT_PART.
+	
+	* Core/service.php: Stop inserting an extraneous space before the 
+	timestamp in a MODE line if there are no mode arguments.
+	
+	* Channel/commands/moderate.php: Start using Bot::mode instead of sending
+	out a raw FMT_MODE, and don't attempt to send out a mode change for +v
+	if there's nobody to voice.
+	
+	* {Core,Channel,Nickname,Operator}/*globals.php: Bump versions.
+	
+Brian Cline	<brian@ircplanet.net>	2010-06-04
 
 	* (scragglers): Apparently some of the automated reformatting didn't
 	happen in some files.

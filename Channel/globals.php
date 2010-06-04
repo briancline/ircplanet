@@ -32,7 +32,7 @@
 	define('SERVICE_NAME',           'Channel Service');
 	define('SERVICE_VERSION_MAJOR',  1);
 	define('SERVICE_VERSION_MINOR',  7);
-	define('SERVICE_VERSION_REV',    0);
+	define('SERVICE_VERSION_REV',    1);
 	
 	define('SERVICE_DIR',          dirname(__FILE__));
 	define('SERVICE_CONFIG_FILE',  SERVICE_DIR .'/cs.ini');

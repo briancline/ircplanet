@@ -81,10 +81,6 @@
 	}
 	else {
 		$bot->noticef($user, "%s has been disconnected. You are now logged in.", $targetNick);
-		$this->sendf(FMT_ACCOUNT, SERVER_NUM, $user->getNumeric(), $user_name, $account->getRegisterTs());
-		$user->setAccountName($user_name);
-		$user->setAccountId($account->getId());
-		
 		if ($account->hasFakehost()) {
 			$this->sendf(FMT_FAKEHOST, SERVER_NUM, $user->getNumeric(), $account->getFakehost());
 			
@@ -93,6 +89,10 @@
 					$user->getNick());
 			}
 		}
+
+		$this->sendf(FMT_ACCOUNT, SERVER_NUM, $user->getNumeric(), $user_name, $account->getRegisterTs());
+		$user->setAccountName($user_name);
+		$user->setAccountId($account->getId());
 	}
 	
 

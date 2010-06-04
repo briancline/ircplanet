@@ -35,7 +35,7 @@
 		protected $_key_field = 'gline_id';
 		
 		protected $gline_id;
-		protected $setTs = 0;
+		protected $set_ts = 0;
 		protected $expire_ts = 0;
 		protected $mask;
 		protected $reason;
@@ -43,14 +43,14 @@
 		protected function recordConstruct() { }
 		protected function recordDestruct()  { }
 		
-		public function getSetTs()          { return $this->setTs; }
+		public function getSetTs()          { return $this->set_ts; }
 		public function getExpireTs()       { return $this->expire_ts; }
 		public function getRemainingSecs()  { return $this->getExpireTs() - time(); }
 		public function getMask()            { return $this->mask; }
 		public function getReason()          { return $this->reason; }
 		public function isExpired()          { return $this->expire_ts < time(); }
 		
-		public function setTs($n)            { $this->setTs = $n; }
+		public function setTs($n)            { $this->set_ts = $n; }
 		public function setDuration($n)      { $this->expire_ts = time() + $n; }
 		public function setMask($s)          { $this->mask = fixHostMask($s); }
 		public function setReason($s)        { $this->reason = $s; }
