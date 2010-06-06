@@ -55,11 +55,18 @@
 				$bot->op($chan_name, $user->getNumeric());
 			elseif ($reg->autoVoicesAll())
 				$bot->voice($chan_name, $user->getNumeric());
+			
+			$reg->setLastActivityTime(time());
+			if (time() - $reg->getLastAutoTopicTime() >= (30 * 60)) {
+				$bot->topic($chan_name, $reg->getDefaultTopic());
+				$reg->setLastTopic($reg->getDefaultTopic());
+				$reg->setLastAutoTopicTime(time());
+			}
 		}
 	}
 	
 	if ($user->isLoggedIn() && ($account = $this->getAccount($user->getAccountName())) && $reg && !$kicked) {
-		if (	($lev = $this->getChannelAccess($chan_name, $user))) {
+		if (($lev = $this->getChannelAccess($chan_name, $user))) {
 			$level = $lev->getLevel();
 			if ($level >= 100 && $account->autoOps() && $reg->autoOps() && $lev->autoOps()) {
 				$bot->op($chan_name, $user->getNumeric());

@@ -70,11 +70,7 @@
 	define('FMT_SETTIME',          "%s SE %ld :%s");
 	define('FMT_KILL',             "%s D %s :%s (%s)");
 	define('FMT_FAKEHOST',         "%s FA %s %s");
-	
-	if (TOPIC_BURSTING)
-		define('FMT_TOPIC',        "%s T %s %ld %ld :%s");
-	else
-		define('FMT_TOPIC',        "%s T %s :%s");
+	define('FMT_TOPIC',            "%s T %s %ld %ld :%s");
 	
 	define('FMT_NOSUCHNICK',       "%s 401 %s %s :No such nick");
 	

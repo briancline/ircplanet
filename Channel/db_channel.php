@@ -45,8 +45,8 @@
 	{
 		protected $_table_name = 'channels';
 		protected $_key_field = 'channel_id';
-		protected $_exclude_from_insert = array('levels', 'bans');
-		protected $_exclude_from_update = array('levels', 'bans');
+		protected $_exclude_from_insert = array('levels', 'bans', 'lastActivityTime', 'lastAutoTopicTime', 'lastTopic');
+		protected $_exclude_from_update = array('levels', 'bans', 'lastActivityTime', 'lastAutoTopicTime', 'lastTopic');
 		protected $_insert_timestamp_field = 'create_date';
 		protected $_update_timestamp_field = 'update_date';
 		
@@ -68,15 +68,21 @@
 		protected $auto_limit = 0;
 		protected $auto_limit_buffer = 5;
 		protected $auto_limit_wait = 30;
+		protected $auto_topic = 0;
 		protected $strict_op = 0;
 		protected $strict_voice = 0;
 		protected $strict_modes = 0;
 		protected $strict_topic = 0;
+		protected $topic_lock = 0;
 		protected $no_op = 0;
 		protected $no_voice = 0;
 		
 		protected $levels = array();
 		protected $bans = array();
+		
+		protected $lastActivityTime = 0;
+		protected $lastAutoTopicTime = 0;
+		protected $lastTopic = '';
 		
 		function recordConstruct($args)
 		{
@@ -106,61 +112,73 @@
 		}
 		
 
-		function hasDefaultTopic()       { return !empty($this->def_topic); }
-		function hasDefaultModes()       { return !empty($this->def_modes); }
-		function showsInfoLines()        { return 1 == $this->info_lines; }
+		function hasDefaultTopic()        { return !empty($this->def_topic); }
+		function hasDefaultModes()        { return !empty($this->def_modes); }
+		function showsInfoLines()         { return 1 == $this->info_lines; }
 		function isSuspended()            { return 1 == $this->suspend; }
 		function isPermanent()            { return 1 == $this->no_purge; }
 		function autoOps()                { return 1 == $this->auto_op; }
-		function autoOpsAll()            { return 1 == $this->auto_op_all; }
+		function autoOpsAll()             { return 1 == $this->auto_op_all; }
 		function autoVoices()             { return 1 == $this->auto_voice; }
-		function autoVoicesAll()         { return 1 == $this->auto_voice_all; }
+		function autoVoicesAll()          { return 1 == $this->auto_voice_all; }
 		function autoLimits()             { return 1 == $this->auto_limit; }
+		function autoTopic()              { return 1 == $this->auto_topic; }
 		function strictOps()              { return 1 == $this->strict_op; }
 		function strictVoices()           { return 1 == $this->strict_voice; }
 		function strictModes()            { return 1 == $this->strict_modes; }
 		function strictTopic()            { return 1 == $this->strict_topic; }
+		function topicLock()              { return 1 == $this->topic_lock; }
 		function noOps()                  { return 1 == $this->no_op; }
 		function noVoices()               { return 1 == $this->no_voice; }
 		
 		function getId()                  { return $this->channel_id; }
 		function getName()                { return $this->name; }
-		function getRegisterTs()         { return $this->register_ts; }
-		function getCreateTs()           { return $this->create_ts; }
+		function getRegisterTs()          { return $this->register_ts; }
+		function getCreateTs()            { return $this->create_ts; }
 		function getPurpose()             { return $this->purpose; }
 		function getUrl()                 { return $this->url; }
-		function getDefaultTopic()       { return $this->def_topic; }
-		function getDefaultModes()       { return $this->def_modes; }
-		function getAutoLimitBuffer()   { return $this->auto_limit_buffer; }
-		function getAutoLimitWait()     { return $this->auto_limit_wait; }
+		function getDefaultTopic()        { return $this->def_topic; }
+		function getDefaultModes()        { return $this->def_modes; }
+		function getAutoLimitBuffer()     { return $this->auto_limit_buffer; }
+		function getAutoLimitWait()       { return $this->auto_limit_wait; }
 		
 		function getLevels()              { return $this->levels; }
 		
-		function hasPendingAutolimit()   { return isset($this->_alimit_pending) && $this->_alimit_pending; }
-		function setPendingAutolimit($b) { $this->_alimit_pending = $b; }
+		function isActive()               { return time() - $this->lastActivityTime <= (30 * 60); }
+		function setLastActivityTime($n)  { $this->lastActivityTime = $n; }
+		function getLastAutoTopicTime()   { return $this->lastAutoTopicTime; }
+		function setLastAutoTopicTime($n) { $this->lastAutoTopicTime = $n; }
 		
-		function setCreateTs($n)         { $this->create_ts = $n; }
-		function setRegisterDate($d)     { $this->register_date = $d; }
+		function getLastTopic()           { return $this->lastTopic; }
+		function setLastTopic($s)         { $this->lastTopic = $s; }
+		
+		function hasPendingAutolimit()    { return isset($this->_alimit_pending) && $this->_alimit_pending; }
+		function setPendingAutolimit($b)  { $this->_alimit_pending = $b; }
+		
+		function setCreateTs($n)          { $this->create_ts = $n; }
+		function setRegisterDate($d)      { $this->register_date = $d; }
 		function setPurpose($s)           { $this->purpose = $s; }
 		function setUrl($s)               { $this->url = $s; }
-		function setDefaultTopic($s)     { $this->def_topic = $s; }
-		function setDefaultModes($s)     { $this->def_modes = $s; }
-		function setInfoLines($b)        { $this->info_lines = $b ? 1 : 0; }
+		function setDefaultTopic($s)      { $this->def_topic = $s; }
+		function setDefaultModes($s)      { $this->def_modes = $s; }
+		function setInfoLines($b)         { $this->info_lines = $b ? 1 : 0; }
 		function setSuspend($b)           { $this->suspend = $b ? 1 : 0; }
 		function setPermanent($b)         { $this->no_purge = $b ? 1 : 0; }
-		function setAutoOp($b)           { $this->auto_op = $b ? 1 : 0; }
-		function setAutoOpAll($b)       { $this->auto_op_all = $b ? 1 : 0; }
-		function setAutoVoice($b)        { $this->auto_voice = $b ? 1 : 0; }
-		function setAutoVoiceAll($b)    { $this->auto_voice_all = $b ? 1 : 0; }
-		function setAutoLimit($b)        { $this->auto_limit = $b ? 1 : 0; }
-		function setAutoLimitBuffer($n) { $this->auto_limit_buffer = $n; }
-		function setAutoLimitWait($n)   { $this->auto_limit_wait = $n; }
-		function setStrictOp($b)         { $this->strict_op = $b ? 1 : 0; }
-		function setStrictVoice($b)      { $this->strict_voice = $b ? 1 : 0; }
-		function setStrictModes($b)      { $this->strict_modes = $b ? 1 : 0; }
-		function setStrictTopic($b)      { $this->strict_topic = $b ? 1 : 0; }
-		function setNoOp($b)             { $this->no_op = $b ? 1 : 0; }
-		function setNoVoice($b)          { $this->no_voice = $b ? 1 : 0; }
+		function setAutoOp($b)            { $this->auto_op = $b ? 1 : 0; }
+		function setAutoOpAll($b)         { $this->auto_op_all = $b ? 1 : 0; }
+		function setAutoVoice($b)         { $this->auto_voice = $b ? 1 : 0; }
+		function setAutoVoiceAll($b)      { $this->auto_voice_all = $b ? 1 : 0; }
+		function setAutoLimit($b)         { $this->auto_limit = $b ? 1 : 0; }
+		function setAutoLimitBuffer($n)   { $this->auto_limit_buffer = $n; }
+		function setAutoLimitWait($n)     { $this->auto_limit_wait = $n; }
+		function setAutoTopic($b)         { $this->auto_topic = $b ? 1 : 0; }
+		function setStrictOp($b)          { $this->strict_op = $b ? 1 : 0; }
+		function setStrictVoice($b)       { $this->strict_voice = $b ? 1 : 0; }
+		function setStrictModes($b)       { $this->strict_modes = $b ? 1 : 0; }
+		function setStrictTopic($b)       { $this->strict_topic = $b ? 1 : 0; }
+		function setTopicLock($b)         { $this->topic_lock = $b ? 1 : 0; }
+		function setNoOp($b)              { $this->no_op = $b ? 1 : 0; }
+		function setNoVoice($b)           { $this->no_voice = $b ? 1 : 0; }
 		
 		
 		function addAccess($access_obj)

@@ -147,6 +147,7 @@
 			
 			$this->addTimer(true, 300, 'save_data.php');
 			$this->addTimer(true, 30, 'expire_channels.php');
+			$this->addTimer(true, 60, 'auto_topic.php');
 		}
 		
 		
@@ -175,6 +176,7 @@
 				
 				if ($dbchan->hasDefaultTopic()) {
 					$deftopic = $dbchan->getDefaultTopic();
+					$dbchan->setLastTopic($dbchan->getDefaultTopic());
 					$chan->setTopic($deftopic);
 				}
 				

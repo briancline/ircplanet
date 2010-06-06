@@ -67,6 +67,7 @@
 		}
 		
 		$chan_reg->setDefaultTopic($value);
+		$chan_reg->setLastTopic($value);
 		$bot->topic($chan_name, $value);
 		$bot->notice($user, 'Updated default channel topic.');
 	}
@@ -235,6 +236,48 @@
 		
 		$chan_reg->setAutoLimitWait($value);
 		$bot->noticef($user, 'Updated auto limit delay to %d seconds.', $value);
+	}
+	
+	
+	
+	elseif ($option == 'AUTOTOPIC') {
+		if (empty($value)) {
+			$value = !$chan_reg->autoTopic();
+		}
+		else {
+			$value = strtoupper($value);
+			if ($value == 'ON') $value = true;
+			elseif ($value == 'OFF') $value = false;
+			else {
+				$bot->notice($user, 'Value must either be ON or OFF.');
+				return false;
+			}
+		}
+		
+		$chan_reg->setAutoTopic($value);
+		$bot->noticef($user, 'Toggled channel auto topic %s.',
+			$value ? 'ON' : 'OFF');
+	}
+	
+	
+	
+	elseif ($option == 'TOPICLOCK') {
+		if (empty($value)) {
+			$value = !$chan_reg->topicLock();
+		}
+		else {
+			$value = strtoupper($value);
+			if ($value == 'ON') $value = true;
+			elseif ($value == 'OFF') $value = false;
+			else {
+				$bot->notice($user, 'Value must either be ON or OFF.');
+				return false;
+			}
+		}
+		
+		$chan_reg->setTopicLock($value);
+		$bot->noticef($user, 'Toggled channel topic lock %s.',
+			$value ? 'ON' : 'OFF');
 	}
 	
 	

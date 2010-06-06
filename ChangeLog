@@ -1,3 +1,39 @@
+Brian Cline	<brian@ircplanet.net>	2010-06-05
+
+	* db_schema.sql: Add auto_topic and topic_lock fields, and help text
+	for each.
+	
+	* Core/p10.php: Topic bursting is part of ircu proper now, so no need
+	to account for both formats anymore.
+	
+	* Core/bot.php: No longer check for TOPIC_BURSTING.
+	
+	* Channel/p10/handle_T.php: Add handler for TOPIC messages so we can
+	perform the necessary topic lock checks.
+	
+	* Channel/p10/handle_J.php: Check autotopic conditions upon channel joins.
+	
+	* Channel/commands/topic.php: Keep track of prior topic internally in
+	case we ever need to reset it via topiclock.
+	
+	* Channel/commands/rdeftopic.php: Same.
+
+	* Channel/commands/set.php: Add options for AUTOTOPIC and TOPICLOCK.
+	Also keep track of prior topic internally in case we ever need to reset 
+	it via topiclock.
+	
+	* Channel/timers/auto_topic.php: Add timer for autotopic resets.
+	
+	* Channel/db_channel.php: Add mechanisms to track last "activity" time
+	(currently just the last JOIN time), last topic that was set, and last
+	time the auto topic was set. Additionally, add necessary accessors and
+	mutators for these internal properties, as well as the new auto_topic
+	and topic_lock columns on the back end. Also fix a bunch of residual
+	spacing issues from the recent code reformat.
+	
+	* Channel/cs.php: Add the auto topic timer, and keep track of the prior
+	topic internally upon load in case it ever needs a topiclock reset.
+
 Brian Cline	<brian@ircplanet.net>	2010-06-04
 
 	* Core/util_datetime.php: Change the name of getDate to irc_getDateTime

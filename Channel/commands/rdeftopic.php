@@ -40,7 +40,7 @@
 		return false;
 	}
 
-	$def_topic = $chan_reg->getDefaultTopic();
-	$bot->topic($chan_name, $def_topic, $chan->getTs());
+	$chan_reg->setLastTopic($chan_reg->getDefaultTopic());
+	$bot->topic($chan_name, $chan_reg->getDefaultTopic(), $chan->getTs());
 	
 

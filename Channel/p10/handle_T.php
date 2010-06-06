@@ -29,27 +29,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	if (!($chan = $this->getChannel($chan_name))) {
-		$bot->noticef($user, "Nobody is on channel %s.", $chan_name);
-		return false;
-	}
-	if (!$chan->isOn($bot->getNumeric())) {
-		$bot->noticef($user, 'I am not on %s.', $chan->getName());
+	$sourceNumeric = $args[0];
+	$sourceUser = $this->getUser($sourceNumeric);
+	
+	if (!($dbChan = $this->getChannelReg($chan_name))
+			|| !($chan = $this->getChannel($chan_name))
+			|| !$chan->isOp($bot->getNumeric())) {
 		return false;
 	}
 	
-	if ($cmd_num_args < 2) {
-		$bot->noticef($user, 'Topic on %s%s%s is currently: %s',
-			BOLD_START, $chan->getName(), BOLD_END,
-			$chan->getTopic());
+	if ($sourceUser && $dbChan->topicLock()) {
+		$bot->topic($chan_name, $dbChan->getLastTopic());
 	}
 	else {
-		$new_topic = assemble($pargs, 2);
-		$chan_reg = $this->getChannelReg($chan->getName());
-		$chan_reg->setLastTopic($new_topic);
-		$bot->topic($chan->getName(), $new_topic, $chan->getTs());
-		$chan->topic = $new_topic;
-//		$chan->setTopic($new_topic);
+		$dbChan->setLastTopic($chan->getTopic());
 	}
-	
-
