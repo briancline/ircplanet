@@ -38,7 +38,7 @@
 		$bot = $this->users[$cmd_target];
 		$is_private = true;
 	}
-	if (!empty($chan_key) && $cmd_msg[0] == '!') {
+	if (!empty($chan_key) && $cmd_msg[0] == COMMAND_CHAR) {
 		$cmd_msg = substr($cmd_msg, 1);
 		$bot = $this->default_bot;
 		$is_public = true;

@@ -1,3 +1,20 @@
+Brian Cline	<brian@ircplanet.net>	2010-06-10
+
+	* Channel/cs.ini: Add command_char setting.
+
+	* Defense/ds.ini: Same.
+	
+	* Nickname/ns.ini: Same.
+	
+	* Operator/os.ini: Same.
+	
+	* Stats/ss.ini: Same.
+	
+	* {Channel,Defense,Nickname,Operator,Stats}/p10/handle_P.php:
+	Start using the new command_char setting when detecting publicly sent
+	commands that are prefixed with it. Useful if you have multiple non-deaf
+	bots in a single channel.
+
 Brian Cline	<brian@ircplanet.net>	2010-06-05
 
 	* db_schema.sql: Add auto_topic and topic_lock fields, and help text
