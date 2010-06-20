@@ -31,34 +31,34 @@
 
 	class Jupe
 	{
-		var $server;
-		var $expire_ts;
-		var $last_mod;
-		var $reason;
-		var $active;
+		protected $server;
+		protected $expire_ts;
+		protected $last_mod;
+		protected $reason;
+		protected $active;
 		
-		function __construct($server, $duration, $last_mod, $reason)
+		function __construct($server, $duration, $last_mod, $reason, $active = true)
 		{
 			$this->server = $server;
 			$this->expire_ts = time() + $duration;
 			$this->last_mod = $last_mod;
 			$this->reason = $reason;
-			$this->active = true;
+			$this->active = $active;
 		}
 		
 		function getServer()        { return $this->server; }
-		function getExpireTs()     { return $this->expire_ts; }
+		function getExpireTs()      { return $this->expire_ts; }
 		function getDuration()      { return $this->expire_ts - time(); }
-		function getLastMod()      { return $this->last_mod; }
+		function getLastMod()       { return $this->last_mod; }
 		function getReason()        { return $this->reason; }
 		function isExpired()        { return (time() >= $this->expire_ts); }
 		function isActive()         { return $this->active; }
 
 		function setDuration($n)    { $this->expire_ts = time() + $n; }
-		function setLastMod($n)    { $this->last_mod = $n; }
+		function setLastMod($n)     { $this->last_mod = $n; }
 		function setReason($s)      { $this->reason = $s; }
-		function activate()          { $this->active = true; }
-		function deactivate()        { $this->active = false; }
+		function activate()         { $this->active = true; }
+		function deactivate()       { $this->active = false; }
 		
 		function __toString()        { return $this->server; }
 

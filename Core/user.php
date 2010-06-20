@@ -158,7 +158,7 @@
 			if (!is_int($mode))
 				return $this->hasMode($USER_MODES[$mode]['uint']);
 			
-			return(($this->modes & $mode) == $mode);
+			return (($this->modes & $mode) == $mode);
 		}
 		
 		function getModes()
@@ -172,7 +172,7 @@
 			return $modes;
 		}
 		
-		function getFullMask()      { return $this->nick .'!'. $this->ident .'@'. $this->host; }
+		function getFullMask()     { return $this->nick .'!'. $this->ident .'@'. $this->host; }
 		function getFullIpMask()   { return $this->nick .'!'. $this->ident .'@'. $this->ip; }
 		function getFullMaskSafe() { $mask = $this->nick .'!'. $this->ident .'@'. $this->getHostSafe(); }
 

@@ -37,31 +37,42 @@
 		protected $gline_id;
 		protected $set_ts = 0;
 		protected $expire_ts = 0;
+		protected $lastmod_ts = 0;
 		protected $mask;
 		protected $reason;
+		protected $active = 0;
 		
 		protected function recordConstruct() { }
 		protected function recordDestruct()  { }
 		
-		public function getSetTs()          { return $this->set_ts; }
-		public function getExpireTs()       { return $this->expire_ts; }
-		public function getRemainingSecs()  { return $this->getExpireTs() - time(); }
+		public function getSetTs()           { return $this->set_ts; }
+		public function getExpireTs()        { return $this->expire_ts; }
+		public function getLastMod()         { return $this->lastmod_ts; }
+		public function getRemainingSecs()   { return $this->getExpireTs() - time(); }
 		public function getMask()            { return $this->mask; }
 		public function getReason()          { return $this->reason; }
-		public function isExpired()          { return $this->expire_ts < time(); }
+		public function isActive()           { return 1 == $this->active; }
+		public function isExpired()          { return (time() >= $this->expire_ts); }
+		public function isRealName()         { return '$R' == substr($this->mask, 0, 2); }
+		public function isChannel()          { return '#' == $this->mask[0]; }
 		
 		public function setTs($n)            { $this->set_ts = $n; }
 		public function setDuration($n)      { $this->expire_ts = time() + $n; }
+		public function setLastMod($n)       { $this->lastmod_ts = $n; }
 		public function setMask($s)          { $this->mask = fixHostMask($s); }
 		public function setReason($s)        { $this->reason = $s; }
+		public function setActive()          { $this->active = 1; }
+		public function setInactive()        { $this->active = 0; }
 		
 		public function matches($host)
 		{
-			if (is_object($host))
+			if (isUser($host) || isBot($host)) {
 				return fnmatch($this->mask, $host->getGlineHost()) 
-					|| fnmatch($this->mask, $host->getGlineIp);
-			else
+					|| fnmatch($this->mask, $host->getGlineIp());
+			}
+			else {
 				return fnmatch($this->mask, $host);
+			}
 		}	
 	}
 	

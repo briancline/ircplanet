@@ -98,12 +98,6 @@
 		
 		function servicePostburst()
 		{
-			foreach ($this->db_glines as $key => $db_gline) {
-				$this->addGline($db_gline->getMask(), $db_gline->getRemainingSecs(), 
-						$db_gline->getSetTs(), $db_gline->getReason());
-				$this->enforceGline($db_gline->getMask());
-			}
-			
 			$bot_num = $this->default_bot->getNumeric();
 			foreach ($this->default_bot->channels as $chan_name) {
 				$chan = $this->getChannel($chan_name);
@@ -156,6 +150,9 @@
 
 				$gline_key = strtolower($gline->getMask());
 				$this->db_glines[$gline_key] = $gline;
+				
+				$this->addGline($gline->getMask(), $gline->getRemainingSecs(), 
+					$gline->getLastMod(), $gline->getReason(), $gline->isActive());
 			}
 
 			debugf('Loaded %d g-lines.', count($this->db_glines));
@@ -217,31 +214,46 @@
 
 
 
-		function serviceAddGline($host, $duration, $lastmod, $reason)
+		function serviceAddGline($serviceGline)
 		{
-			if ($this->getDbGline($host))
-				return false;
+			if ($this->getDbGline($serviceGline->getMask())) {
+				return $this->serviceChangeGline($serviceGline);
+			}
 
-			$gline = new DB_Gline();
-			$gline->setTs($lastmod);
-			$gline->setMask($host);
-			$gline->setDuration($duration);
-			$gline->setReason($reason);
-			$gline->save();
+			$db_gline = new DB_Gline();
+			$db_gline->setTs($serviceGline->getLastMod());
+			$db_gline->setMask($serviceGline->getMask());
+			$db_gline->setDuration($serviceGline->getDuration());
+			$db_gline->setReason($serviceGline->getReason());
+			$db_gline->setActive($serviceGline->isActive() ? 1 : 0);
+			$db_gline->save();
 
-			$gline_key = strtolower($host);
-			$this->db_glines[$gline_key] = $gline;
+			$gline_key = strtolower($serviceGline->getMask());
+			$this->db_glines[$gline_key] = $db_gline;
+		}
+		
+		
+		function serviceChangeGline($serviceGline)
+		{
+			if (!($db_gline = $this->getDbGline($serviceGline->getMask()))) {
+				return $this->serviceAddGline($serviceGline);
+			}
+			
+			$db_gline->setTs($serviceGline->getLastMod());
+			$db_gline->setDuration($serviceGline->getDuration());
+			$db_gline->setReason($serviceGline->getReason());
+			$db_gline->setActive($serviceGline->isActive() ? 1 : 0);
+			$db_gline->save();
 		}
 
 
 		function serviceRemoveGline($host)
 		{
-			$gline = $this->getDbGline($host);
-
-			if (!$gline)
+			if (!($db_gline = $this->getDbGline($host))) {
 				return false;
+			}
 			
-			$gline->delete();
+			$db_gline->delete();
 			$gline_key = strtolower($host);
 			unset($this->db_glines[$gline_key]);
 		}

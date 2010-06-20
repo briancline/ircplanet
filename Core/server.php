@@ -134,7 +134,7 @@
 			global $SERVER_FLAGS;
 			if (!is_int($mode))
 				return $this->hasMode($SERVER_FLAGS[$mode]['uint']);
-			return(($this->modes & $mode) == $mode);
+			return (($this->modes & $mode) == $mode);
 		}
 		
 		function addUser($numeric)

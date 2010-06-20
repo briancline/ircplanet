@@ -29,22 +29,33 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$add = ($args[3][0] == '+');
+	$active = ($args[3][0] == '+');
+	$mask = substr($args[3], 1);
+	$duration = $args[4];
+	$lastmod = ($num_args >= 7 ? $args[5] : 0);
+	$lifetime = ($num_args >= 8 ? $args[6] : 0);
+	$reason = $args[$num_args - 1];
 	
-	if ($add) {
-		$mask = substr($args[3], 1);
-		$duration = $args[4];
-		$reason = $args[$num_args - 1];
-		$lastmod = 0;
+	$gline = $this->getGline($mask);
 
-		if ($num_args >= 7)
-			$lastmod = $args[5];
+	if ($gline && $lastmod > $gline->getLastMod()) {
+		if ($active) {
+			debugf('*** Re-activating G-line %s', $gline->getMask());
+			$gline->setActive();
+		}
+		else {
+			debugf('*** De-activating G-line %s', $gline->getMask());
+			$gline->setInactive();
+		}
 		
-		$this->addGline($mask, $duration, $lastmod, $reason);
+		$gline->setDuration($duration);
+		$gline->setLastMod($lastmod);
+		$gline->setReason($reason);
+		
+		if (method_exists($this, 'serviceChangeGline')) {
+			$this->serviceChangeGline($gline);
+		}
 	}
-	else {
-		$mask = substr($args[3], 1);
-		$this->removeGline($mask);
+	elseif (!$gline) {
+		$this->addGline($mask, $duration, $lastmod, $reason, $active);
 	}
-	
-

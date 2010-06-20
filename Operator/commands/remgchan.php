@@ -30,12 +30,12 @@
  */
 
 	$channel = $pargs[1];
-	$lastmod_ts = time();
 	
 	if ($gline = $this->getGline($channel)) {
-		$lastmod_ts = $gline->getLastmodTs();
-		$this->removeGline($channel);
+		$gline->setInactive();
+		$gline->setLastMod(time());
+		$this->enforceGline($gline);
 	}
-	
-	$this->sendf(FMT_GLINE_REMOVE, SERVER_NUM, $channel, $lastmod_ts);
-
+	else {
+		$this->sendf(FMT_GLINE_INACTIVE, SERVER_NUM, $channel, 1, time());
+	}

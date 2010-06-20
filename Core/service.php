@@ -374,6 +374,9 @@
 		
 		function burstGlines()
 		{
+			foreach ($this->glines as $mask => $gline) {
+				$this->enforceGline($gline);
+			}
 		}
 		
 		
@@ -550,14 +553,15 @@
 		}
 		
 		
-		function addGline($host, $duration, $lastmod, $reason = "")
+		function addGline($host, $duration, $lastmod, $reason = '', $active = true)
 		{
 			$gline_key = strtolower($host);
-			$this->glines[$gline_key] = new GLine($host, $duration, $lastmod, $reason);
+			$this->glines[$gline_key] = new Gline($host, $duration, $lastmod, $reason, $active);
 			
-			if (method_exists($this, 'serviceAddGline'))
-				$this->serviceAddGline($host, $duration, $lastmod, $reason);
-
+			if (method_exists($this, 'serviceAddGline')) {
+				$this->serviceAddGline($this->glines[$gline_key]);
+			}
+			
 			return $this->glines[$gline_key];
 		}
 
@@ -577,9 +581,15 @@
 			if (!isGline($gline) && !($gline = $this->getGline($gline)))
 				return false;
 			
-			$this->sendf(FMT_GLINE_ADD, SERVER_NUM, $gline->getMask(), 
-				$gline->getDuration(), $gline->getLastmodTs(), 
+			$format = FMT_GLINE_ACTIVE;
+			if (!$gline->isActive()) {
+				$format = FMT_GLINE_INACTIVE;
+			}
+			
+			$this->sendf($format, SERVER_NUM, $gline->getMask(), 
+				$gline->getDuration(), $gline->getLastMod(), 
 				$gline->getReason());
+			
 			return true;
 		}
 		

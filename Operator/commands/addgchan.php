@@ -51,7 +51,14 @@
 		return false;
 	}
 	
-	$gline = $this->addGline($channel, $duration_secs, time(), $reason);
-	$this->enforceGline($gline);
+	if ($gline = $this->getGline($channel)) {
+		$gline->setDuration($duration_secs);
+		$gline->setReason($reason);
+		$gline->setLastMod(time());
+		$gline->setActive();
+	}
+	else {
+		$gline = $this->addGline($channel, $duration_secs, time(), $reason);
+	}
 	
-
+	$this->enforceGline($gline);

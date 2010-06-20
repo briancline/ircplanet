@@ -1,3 +1,83 @@
+Brian Cline	<brian@ircplanet.net>	2010-06-18
+
+	* Channel/p10/handle_O.php: Fix formatting.
+	
+	* Core/bot.php: Fix formatting.
+	
+	* Core/channel.php: Fix formatting.
+	
+	* Core/channeluser.php: Fix formatting.
+	
+	* Core/gline.php: Protect member variables and publicize methods. Add
+	active field to indicate whether a g-line is activated. Add several
+	convenience methods, including the necessary mutator methods now that
+	everything is protected. Also, fix a bit of an oversight where matches()
+	was not checking against the user's IP address if we pass it a user 
+	object.
+	
+	* Core/jupe.php: Fix some spacing, add an active field, and several 
+	methods around the active field.
+	
+	* Core/p10.php: Update the FMT lines for g-lines and jupes to be
+	more accurate (i.e., no reason necessary when deactivating an existing 
+	g-line or jupe).
+	
+	* Core/p10/handle_GL.php: Completely reworked to use the new g-line
+	methods and properly handle newer style g-lines.
+	
+	* Core/server.php: Burst g-lines when we burst with the uplink. Add 
+	provisions for g-line active/inactive flag. Pass Gline objects to the
+	optional serviceAddGline event handler instead of bits and pieces of it.
+	
+	* Core/service.php: Burst g-lines from memory using the newly reworked
+	Service::enforceGline method.
+	
+	* Core/timers/expire_glines.php: Formatting tweaks.
+	
+	* Core/user.php: Formatting tweaks.
+	
+	* Core/util_db.php: Temporarily enable DB logging until this set of
+	g-line, jupe, and (upcoming) mute changes are complete. Need to make
+	sure everything's getting saved/changed/deleted properly in the DB when it
+	occurs on the network.
+	
+	* Core/util_obj.php: Add isBot() method to return whether or not the 
+	provided object is an internal service bot.
+	
+	* Operator/commands/addgchan.php: Allow modification of existing g-lines,
+	and also revert existing de-activated g-lines to an active status if
+	an oper requests a g-line for the same mask be set. The duration and
+	reason will both be changed to whatever is specified.
+	
+	* Operator/commands/addgname.php: Same.
+	
+	* Operator/commands/gline.php: Same.
+	
+	* Operator/commands/remgchan.php: Set a g-line to be inactive instead
+	of removing it from memory, as ircu will not remove it from memory
+	until its expiration, or its lifetime timestamp, whichever is larger.
+	
+	* Operator/commands/remgline.php: Same.
+	
+	* Operator/commands/remgname.php: Same.
+	
+	* Operator/db_gline.php: Add lastmod_ts and active columns to correspond
+	to the new DB columns, and a few convenience methods to match the newer
+	Gline convenience methods. Also perform the same fix against the matches()
+	method to make sure we check the IP mask in addition to the host mask.
+	
+	* Operator/os.php: Don't send a set of g-lines after burst; have Service
+	do it during burst by simply adding them to memory when we load them.
+	Update serviceAddGline to account for all the new g-line changes, and
+	implement serviceChangeGline so we can save changes on the back end to 
+	existing g-lines. Also, minor rework of part of serviceRemoveGline.
+	
+	* Operator/p10/handle_GL.php: Reworked to detect the active flag on 
+	its own.
+	
+	* db_schema.sql: Add the lastmod_ts and active columns to the os_glines 
+	table.
+	
 Brian Cline	<brian@ircplanet.net>	2010-06-10
 
 	* Channel/cs.ini: Add command_char setting.

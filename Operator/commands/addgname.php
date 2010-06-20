@@ -46,7 +46,14 @@
 		return false;
 	}
 	
-	$gline = $this->addGline($realname, $duration_secs, time(), $reason);
-	$this->enforceGline($gline);
+	if ($gline = $this->getGline($realname)) {
+		$gline->setDuration($duration_secs);
+		$gline->setReason($reason);
+		$gline->setLastMod(time());
+		$gline->setActive();
+	}
+	else {
+		$gline = $this->addGline($realname, $duration_secs, time(), $reason);
+	}
 	
-
+	$this->enforceGline($gline);

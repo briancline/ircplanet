@@ -30,13 +30,12 @@
  */
 
 	$mask = $pargs[1];
-	$lastmod_ts = time();
 	
 	if ($gline = $this->getGline($mask)) {
-		$lastmod_ts = $gline->getLastmodTs();
-		$this->removeGline($mask);
+		$gline->setInactive();
+		$gline->setLastMod(time());
+		$this->enforceGline($gline);
 	}
-	
-	$this->sendf(FMT_GLINE_REMOVE, SERVER_NUM, $mask, $lastmod_ts);
-	
-
+	else {
+		$this->sendf(FMT_GLINE_INACTIVE, SERVER_NUM, $mask, 1, time());
+	}

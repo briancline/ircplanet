@@ -167,7 +167,7 @@
 			foreach ($CHANNEL_MODES as $c => $i)
 				if (strpos($modes, $c) !== false) $imodes |= $i['uint'];
 			
-			return($imodes == $this->modes);
+			return ($imodes == $this->modes);
 		}
 		
 
@@ -227,7 +227,7 @@
 			if (!is_int($mode))
 				return $this->hasMode($CHANNEL_MODES[$mode]['uint']);
 			
-			return(($this->modes & $mode) == $mode);
+			return (($this->modes & $mode) == $mode);
 		}
 		
 		function getModes()
@@ -369,16 +369,16 @@
 			unset($this->users[$numeric]);
 		}
 		
-		function addOp($numeric)         { if($this->isOn($numeric)) $this->users[$numeric]->addMode(CUMODE_OP); }
-		function removeOp($numeric)      { if($this->isOn($numeric)) $this->users[$numeric]->removeMode(CUMODE_OP); }
-		function addVoice($numeric)      { if($this->isOn($numeric)) $this->users[$numeric]->addMode(CUMODE_VOICE); }
-		function removeVoice($numeric)   { if($this->isOn($numeric)) $this->users[$numeric]->removeMode(CUMODE_VOICE); }
+		function addOp($numeric)         { if ($this->isOn($numeric)) $this->users[$numeric]->addMode(CUMODE_OP); }
+		function removeOp($numeric)      { if ($this->isOn($numeric)) $this->users[$numeric]->removeMode(CUMODE_OP); }
+		function addVoice($numeric)      { if ($this->isOn($numeric)) $this->users[$numeric]->addMode(CUMODE_VOICE); }
+		function removeVoice($numeric)   { if ($this->isOn($numeric)) $this->users[$numeric]->removeMode(CUMODE_VOICE); }
 		
-		function setOplevel($numeric, $level)  { if($this->isOp($numeric)) $this->users[$numeric]->setOplevel($level) ; }
+		function setOplevel($numeric, $level)  { if ($this->isOp($numeric)) $this->users[$numeric]->setOplevel($level) ; }
 		
-		function isOn($numeric)     { return(array_key_exists($numeric, $this->users)); }
-		function isOp($numeric)     { return($this->isOn($numeric) && $this->users[$numeric]->isOp()); }
-		function isVoice($numeric)  { return($this->isOn($numeric) && $this->users[$numeric]->isVoice()); }
+		function isOn($numeric)     { return (array_key_exists($numeric, $this->users)); }
+		function isOp($numeric)     { return ($this->isOn($numeric) && $this->users[$numeric]->isOp()); }
+		function isVoice($numeric)  { return ($this->isOn($numeric) && $this->users[$numeric]->isVoice()); }
 		
 		
 		function getUserList()

@@ -38,6 +38,11 @@
 	{
 		return (is_object($obj) && (get_class($obj) == 'User' || get_class($obj) == 'Bot'));
 	}
+	
+	function isBot($obj)
+	{
+		return (is_object($obj) && get_class($obj) == 'Bot');
+	}
 
 	function isAccount($obj)
 	{

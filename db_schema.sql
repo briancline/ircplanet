@@ -459,8 +459,10 @@ DROP TABLE IF EXISTS `os_glines`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `os_glines` (
   `gline_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `set_ts` int(11) NOT NULL DEFAULT '0',
   `expire_ts` int(11) NOT NULL DEFAULT '0',
+  `lastmod_ts` int(11) NOT NULL DEFAULT '0',
   `mask` varchar(100) NOT NULL DEFAULT '',
   `reason` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`gline_id`)

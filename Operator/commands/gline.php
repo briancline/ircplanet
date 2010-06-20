@@ -62,9 +62,14 @@
 		return false;
 	}
 	
-	$gline = $this->addGline($mask, $duration_secs, time(), $reason);
+	if ($gline = $this->getGline($mask)) {
+		$gline->setDuration($duration_secs);
+		$gline->setReason($reason);
+		$gline->setLastMod(time());
+		$gline->setActive();
+	}
+	else {
+		$gline = $this->addGline($mask, $duration_secs, time(), $reason);
+	}
+	
 	$this->enforceGline($gline);
-	
-	$mask = fixHostMask($mask);
-	
-

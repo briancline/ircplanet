@@ -37,12 +37,12 @@
 
 	foreach ($this->glines as $gline_key => $gline) {
 		if ($gline->isExpired()) {
-			debug("*** Gline ". $gline->getMask() ." has expired!");
+			debugf('*** Removing expired G-line %s', $gline->getMask());
 			$expired_glines[] = $gline_key;
 		}
 	}
 	
-	foreach ($expired_glines as $gline_key)
+	foreach ($expired_glines as $gline_key) {
 		$this->removeGline($gline_key);
+	}
 	
-

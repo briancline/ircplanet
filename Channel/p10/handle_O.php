@@ -37,7 +37,7 @@
 	$channel_pattern = '/^\|IPSVC\|C\|(R|D)\|[0-9]+\|$/';
 	$access_pattern = '/^\|IPSVC\|CA\|(R|D)\|[0-9]+\|[0-9]+\|$/';
 
-   	if(!$user->isService())
+   	if (!$user->isService())
 		return false;
 
 	if (preg_match($account_pattern, $cmd_msg)) {

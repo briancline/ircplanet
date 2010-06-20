@@ -130,7 +130,7 @@
 			if (!$chan)
 				return;
 			
-			if($chan_ts == 0)
+			if ($chan_ts == 0)
 				$chan_ts = $chan->getTs();
 			
 			$this->net->sendf(FMT_TOPIC, $this->getNumeric(), $chan_name, $chan_ts, time(), $topic);

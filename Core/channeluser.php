@@ -101,7 +101,7 @@
 			if (!is_int($mode))
 				return $this->hasMode($CHANNELUSER_MODES[$mode]['uint']);
 			
-			return(($this->modes & $mode) == $mode);
+			return (($this->modes & $mode) == $mode);
 		}
 		
 		function getModes()
