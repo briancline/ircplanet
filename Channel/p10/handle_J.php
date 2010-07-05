@@ -57,7 +57,7 @@
 				$bot->voice($chan_name, $user->getNumeric());
 			
 			$reg->setLastActivityTime(time());
-			if (time() - $reg->getLastAutoTopicTime() >= (30 * 60)) {
+			if ($reg->autoTopic() && time() - $reg->getLastAutoTopicTime() >= (30 * 60)) {
 				$bot->topic($chan_name, $reg->getDefaultTopic());
 				$reg->setLastTopic($reg->getDefaultTopic());
 				$reg->setLastAutoTopicTime(time());
