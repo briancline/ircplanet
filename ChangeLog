@@ -1,5 +1,12 @@
 Brian Cline	<brian@ircplanet.net>	2010-08-03
 
+	* Core/p10.php: Add XQUERY and XREPLY token formats.
+
+	* Nickname/p10/handle_XQ.php: Add an XQUERY handler to catch IAuth-related
+	requests to log in unintroduced users. Very much proof-of-concept stuff.
+
+Brian Cline	<brian@ircplanet.net>	2010-08-03
+
 	* Defense/ds.php: Don't check the blacklist database for private IPs.
 
 Brian Cline	<brian@ircplanet.net>	2010-07-05

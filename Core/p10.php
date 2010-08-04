@@ -71,6 +71,8 @@
 	define('FMT_KILL',             "%s D %s :%s (%s)");
 	define('FMT_FAKEHOST',         "%s FA %s %s");
 	define('FMT_TOPIC',            "%s T %s %ld %ld :%s");
+	define('FMT_XQUERY',           '%s XQ %s %s :%s');
+	define('FMT_XREPLY',           '%s XR %s %s :%s');
 	
 	define('FMT_NOSUCHNICK',       "%s 401 %s %s :No such nick");
 	
