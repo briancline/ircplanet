@@ -1,3 +1,7 @@
+Brian Cline	<brian@ircplanet.net>	2010-08-03
+
+	* Defense/ds.php: Don't check the blacklist database for private IPs.
+
 Brian Cline	<brian@ircplanet.net>	2010-07-05
 
 	* Channel/p10/handle_J.php: Only do auto topic stuff if it's enabled

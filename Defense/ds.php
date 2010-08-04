@@ -178,7 +178,7 @@
 
 		function isBlacklistedDb($ip)
 		{
-			if (!defined('BLACK_GLINE'))
+			if (!defined('BLACK_GLINE') || isPrivateIp($ip))
 				return false;
 			
 			$res = db_query(sprintf(
