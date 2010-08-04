@@ -32,6 +32,7 @@
 	$nick = $args[2];
 
 	if ($num_args > 4) {
+		$user = $this->getUser($numeric);
 	}
 	else {
 		$user = $this->getUser($args[0]);
@@ -39,7 +40,6 @@
 	
 	
 	if (($account = $this->getAccount($nick)) && $account->getName() != $user->getAccountName()) {
-		$user = $this->getUser($numeric);
 		$notice = "The nick ". BOLD_START . $nick . BOLD_END ." is registered.";
 		
 		if ($user->isLoggedIn()) {
@@ -55,7 +55,7 @@
 			$this->addTimer(false, 60, 'enforce.php', $user->getNumeric(), $account->getName());
 		}
 	}
-	elseif ($user->isLoggedIn() && $account = $this->getAccount($user->getAccountName()) 
+	elseif ($user->isLoggedIn() && ($account = $this->getAccount($user->getAccountName())) 
 			&& $account->hasFakehost() && !$user->hasFakehost()) {
 		$this->sendf(FMT_FAKEHOST, SERVER_NUM, $user->getNumeric(), $account->getFakehost());
 	}

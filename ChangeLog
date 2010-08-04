@@ -1,5 +1,9 @@
 Brian Cline	<brian@ircplanet.net>	2010-08-03
 
+	* Nickname/p10/handle_N.php: Oops. Crash bug, fixed.
+
+Brian Cline	<brian@ircplanet.net>	2010-08-03
+
 	* Nickname/p10/handle_N.php: Set a user's fakehost if they are introduced
 	to the network with an account name already set but no fakehost applied
 	(only if they have a fakehost associated with their account). This is 
