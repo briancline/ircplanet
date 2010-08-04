@@ -1,5 +1,13 @@
 Brian Cline	<brian@ircplanet.net>	2010-08-03
 
+	* Nickname/p10/handle_N.php: Set a user's fakehost if they are introduced
+	to the network with an account name already set but no fakehost applied
+	(only if they have a fakehost associated with their account). This is 
+	useful when using IAuth to log users into their accounts at connect time 
+	but when you don't want IAuth touching their real hostname and IP address.
+
+Brian Cline	<brian@ircplanet.net>	2010-08-03
+
 	* Core/p10.php: Add XQUERY and XREPLY token formats.
 
 	* Nickname/p10/handle_XQ.php: Add an XQUERY handler to catch IAuth-related
