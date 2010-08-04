@@ -55,5 +55,9 @@
 			$this->addTimer(false, 60, 'enforce.php', $user->getNumeric(), $account->getName());
 		}
 	}
+	elseif ($user->isLoggedIn() && $account = $this->getAccount($user->getAccountName()) 
+			&& $account->hasFakehost() && !$user->hasFakehost()) {
+		$this->sendf(FMT_FAKEHOST, SERVER_NUM, $user->getNumeric(), $account->getFakehost());
+	}
 
 
