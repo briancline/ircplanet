@@ -37,11 +37,22 @@
 	$desc = $args[$num_args - 1];
 	$modes = '';
 	
-	if ($args[$num_args - 2][0] == '+')
+	if ($args[$num_args - 2][0] == '+') {
 		$modes = $args[$num_args - 2];
+	}
 	
 	$server = $this->addServer($uplink, $numeric, $name, $desc, $start_ts, $max_users, $modes);
-
+	
+	if (function_exists('setproctitle')) {
+		global $argv;
+		$procTitle = sprintf('%s: %s@%s (connected to %s)',
+			implode(' ', $argv),
+			BOT_NICK, SERVER_NAME,
+			$server->getName());
+		debugf('Setting process title to [%s]', $procTitle);
+		setproctitle($procTitle);
+	}
+	
 	if (!defined('UPLINK_NUM')) {
 		define('UPLINK_NUM', $numeric);
 	}

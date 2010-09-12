@@ -1,3 +1,21 @@
+Brian Cline	<brian@ircplanet.net>	2010-09-11
+
+	* Core/p10/handle_SERVER.php: Set the process title to include the bot's
+	nick, server name, and uplink server name. Requires the "proctitle" PECL
+	extension (`pecl install proctitle`). If the proctitle extension is not
+	present, the process title will remain at whatever the system sets it to.
+	
+	* Channel/cs.ini: Enclose command character in quotes to prevent PHP from
+	wigging out.
+	
+	* Defense/ds.ini: Same.
+	
+	* Nickname/ns.ini: Same.
+	
+	* Operator/os.ini: Same.
+	
+	* Stat/ss.ini: Same.
+
 Brian Cline	<brian@ircplanet.net>	2010-08-03
 
 	* Nickname/p10/handle_N.php: Oops. Crash bug, fixed.
