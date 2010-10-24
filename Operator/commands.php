@@ -64,8 +64,10 @@
 	$this->setCommandInfo('invite',         200,   1, false, '<channel> [nick1 [nick2 ...]]');
 	$this->setCommandInfo('kickban',        200,   2, false, '<channel> <nick|hostmask> [reason]');
 	$this->setCommandInfo('mode',           200,   2, false, '<channel> <modes>');
+	$this->setCommandInfo('mute',           200,   3, false, '<mask> <duration> <reason>');
 	$this->setCommandInfo('remgchan',       200,   1, false, '<channel>');
 	$this->setCommandInfo('remgline',       200,   1, false, '<mask>');
+	$this->setCommandInfo('remmute',        200,   1, false, '<mask>');
 	$this->setCommandInfo('remgname',       200,   1, false, '<realname>');
 	$this->setCommandInfo('unban',          200,   2, false, '<channel> <hostmask>');
 	

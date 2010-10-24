@@ -84,6 +84,21 @@
 			$bot->noticef($user, '       Expires:  %s', $exp_date);
 		}
 	}
+	elseif ($option == 'MUTES') {
+		if (count($this->mutes) == 0) {
+			$bot->notice($user, 'There are no mutes.');
+			return false;
+		}
+
+		$n = 0;
+		foreach ($this->mutes as $mute_key => $mute) {
+			$exp_date = date('D d M H:i:s Y', $mute->getExpireTs());
+
+			$bot->noticef($user, '  %2d) Mask:     %s', ++$n, $mute->getMask());
+			$bot->noticef($user, '       Reason:   %s', $mute->getReason());
+			$bot->noticef($user, '       Expires:  %s', $exp_date);
+		}
+	}
 	elseif ($option == 'JUPES') {
 		if (count($this->jupes) == 0) {
 			$bot->notice($user, 'There are no jupes.');
