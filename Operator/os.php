@@ -32,6 +32,7 @@
 	require('globals.php');
 	require('../Core/service.php');
 	require(SERVICE_DIR .'/db_gline.php');
+	require(SERVICE_DIR .'/db_mute.php');
 	require(SERVICE_DIR .'/db_badchan.php');
 	require(SERVICE_DIR .'/db_jupe.php');
 	
@@ -40,6 +41,7 @@
 	{
 		var $pending_events = array();
 		var $db_glines = array();
+		var $db_mutes = array();
 		var $db_jupes = array();
 		var $db_badchans = array();
 
@@ -56,6 +58,8 @@
 		function serviceLoad()
 		{
 			$this->loadGlines();
+			$this->loadMutes();
+			$this->loadJupes();
 			$this->loadBadchans();
 
 			if (defined('TOR_GLINE') && TOR_GLINE == true) {
@@ -159,6 +163,28 @@
 		}
 
 
+		function loadMutes()
+		{
+			$res = db_query('select * from os_mutes order by mute_id asc');
+			while ($row = mysql_fetch_assoc($res)) {
+				$mute = new DB_Mute($row);
+
+				if ($mute->isExpired()) {
+					$mute->delete();
+					continue;
+				}
+
+				$mute_key = strtolower($mute->getMask());
+				$this->db_mutes[$mute_key] = $mute;
+
+				$this->addMute($mute->getMask(), $mute->getRemainingSecs(), 
+					$mute->getLastMod(), $mute->getReason(), $mute->isActive());
+			}
+
+			debugf('Loaded %d mutes.', count($this->db_mutes));
+		}
+
+
 		function loadJupes()
 		{
 			$res = db_query('select * from os_jupes order by jupe_id asc');
@@ -197,6 +223,16 @@
 			$gline_key = strtolower($host);
 			if (array_key_exists($gline_key, $this->db_glines))
 				return $this->db_glines[$gline_key];
+
+			return false;
+		}
+
+
+		function getDbMute($host)
+		{
+			$mute_key = strtolower($host);
+			if (array_key_exists($mute_key, $this->db_mutes))
+				return $this->db_mutes[$mute_key];
 
 			return false;
 		}
@@ -256,6 +292,51 @@
 			$db_gline->delete();
 			$gline_key = strtolower($host);
 			unset($this->db_glines[$gline_key]);
+		}
+
+
+		function serviceAddMute($serviceMute)
+		{
+			if ($this->getDbMute($serviceMute->getMask())) {
+				return $this->serviceChangeMute($serviceMute);
+			}
+
+			$db_mute = new DB_Mute();
+			$db_mute->setTs($serviceMute->getLastMod());
+			$db_mute->setMask($serviceMute->getMask());
+			$db_mute->setDuration($serviceMute->getDuration());
+			$db_mute->setReason($serviceMute->getReason());
+			$db_mute->setActive($serviceMute->isActive() ? 1 : 0);
+			$db_mute->save();
+
+			$mute_key = strtolower($serviceMute->getMask());
+			$this->db_mutes[$mute_key] = $db_mute;
+		}
+
+
+		function serviceChangeMute($serviceMute)
+		{
+			if (!($db_mute = $this->getDbMute($serviceMute->getMask()))) {
+				return $this->serviceAddMute($serviceMute);
+			}
+
+			$db_mute->setTs($serviceMute->getLastMod());
+			$db_mute->setDuration($serviceMute->getDuration());
+			$db_mute->setReason($serviceMute->getReason());
+			$db_mute->setActive($serviceMute->isActive() ? 1 : 0);
+			$db_mute->save();
+		}
+
+
+		function serviceRemoveMute($host)
+		{
+			if (!($db_mute = $this->getDbMute($host))) {
+				return false;
+			}
+
+			$db_mute->delete();
+			$mute_key = strtolower($host);
+			unset($this->db_mutes[$mute_key]);
 		}
 
 

@@ -65,6 +65,8 @@
 	define('FMT_INVITE',           "%s I %s :%s");
 	define('FMT_GLINE_ACTIVE',     '%s GL * +%s %ld %ld :%s');
 	define('FMT_GLINE_INACTIVE',   '%s GL * -%s %ld %ld');
+	define('FMT_MUTE_ACTIVE',      '%s MT * +%s %ld %ld :%s');
+	define('FMT_MUTE_INACTIVE',    '%s MT * -%s %ld %ld');
 	define('FMT_JUPE_ACTIVE',      '%s JU * +%s %ld %ld :%s');
 	define('FMT_JUPE_INACTIVE',    '%s JU * -%s %ld %ld');
 	define('FMT_SETTIME',          "%s SE %ld :%s");

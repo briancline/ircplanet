@@ -469,6 +469,21 @@ CREATE TABLE `os_glines` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+DROP TABLE IF EXISTS `os_mutes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `os_mutes` (
+  `mute_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `set_ts` int(11) NOT NULL DEFAULT '0',
+  `expire_ts` int(11) NOT NULL DEFAULT '0',
+  `lastmod_ts` int(11) NOT NULL DEFAULT '0',
+  `mask` varchar(100) NOT NULL DEFAULT '',
+  `reason` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`mute_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 --
 -- Table structure for table `stats_channel_users`
 --

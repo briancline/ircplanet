@@ -41,6 +41,7 @@
 	require_once(CORE_DIR .'/server.php');
 	require_once(CORE_DIR .'/channel.php');
 	require_once(CORE_DIR .'/gline.php');
+	require_once(CORE_DIR .'/mute.php');
 	require_once(CORE_DIR .'/jupe.php');
 	require_once(CORE_DIR .'/user.php');
 	require_once(CORE_DIR .'/bot.php');
@@ -68,6 +69,7 @@
 		var $channels = array();
 		var $accounts = array();
 		var $glines = array();
+		var $mutes = array();
 		var $jupes = array();
 		
 		var $bots = array();
@@ -113,6 +115,7 @@
 				SERVICE_VERSION_MAJOR .'.'. SERVICE_VERSION_MINOR .'.'. SERVICE_VERSION_REV);
 			
 			$this->addTimer(true, 5, 'expire_glines.php');
+			$this->addTimer(true, 5, 'expire_mutes.php');
 			$this->addTimer(true, 5, 'expire_jupes.php');
 			$this->addTimer(true, 5, 'refresh_data.php');
 			
@@ -380,6 +383,14 @@
 		}
 		
 		
+		function burstMutes()
+		{
+			foreach ($this->mutes as $mask => $mute) {
+				$this->enforceMute($mute);
+			}
+		}
+		
+		
 		function burstServers()
 		{
 			foreach ($this->servers as $num => $s) {
@@ -607,6 +618,60 @@
 		}
 		
 		
+		function addMute($host, $duration, $lastmod, $reason = '', $active = true)
+		{
+			$mute_key = strtolower($host);
+			$this->mutes[$mute_key] = new Mute($host, $duration, $lastmod, $reason, $active);
+
+			if (method_exists($this, 'serviceAddMute')) {
+				$this->serviceAddMute($this->mutes[$mute_key]);
+			}
+
+			return $this->mutes[$mute_key];
+		}
+
+
+		function getMute($host)
+		{
+			$mute_key = strtolower($host);
+			if (array_key_exists($mute_key, $this->mutes))
+				return $this->mutes[$mute_key];
+
+			return false;
+		}
+
+
+		function enforceMute($mute)
+		{
+			if (!isMute($mute) && !($mute = $this->getMute($mute)))
+				return false;
+
+			$format = FMT_MUTE_ACTIVE;
+			if (!$mute->isActive()) {
+				$format = FMT_MUTE_INACTIVE;
+			}
+
+			$this->sendf($format, SERVER_NUM, $mute->getMask(), 
+				$mute->getDuration(), $mute->getLastMod(), 
+				$mute->getReason());
+
+			return true;
+		}
+
+
+		function removeMute($host)
+		{
+			$mute_key = strtolower($host);
+			if (!array_key_exists($mute_key, $this->mutes))
+				return;
+
+			unset($this->mutes[$mute_key]);
+
+			if (method_exists($this, 'serviceRemoveMute'))
+				$this->serviceRemoveMute($host);
+		}
+
+
 		function addJupe($server, $duration, $last_mod, $reason)
 		{
 			$jupe_key = strtolower($server);
