@@ -1,3 +1,8 @@
+Brian Cline	<brian@ircplanet.net>	2010-10-29
+
+	* Operator/commands/mute.php: Adequately embarrassing typo. Yes, I regex'd
+	my code. Deal with it.
+
 Brian Cline	<brian@ircplanet.net>	2010-10-23
 
 	* Channel/cs.ini: Add optional kick_on_ban option, which will kick any

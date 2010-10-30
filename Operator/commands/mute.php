@@ -36,7 +36,7 @@
 	if ($tmpUser = $this->getUserByNick($mask)) {
 		$mask = $tmpUser->getMuteMask();
 	}
-	elseif (!pregMatch('/[@\.]/', $mask)) {
+	elseif (!preg_match('/[@\.]/', $mask)) {
 		$bot->noticef($user, 'Mute masks must be in the ident@host form. Nick masks are not allowed.');
 		return false;
 	}
