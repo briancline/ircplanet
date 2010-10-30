@@ -1,5 +1,9 @@
 Brian Cline	<brian@ircplanet.net>	2010-10-29
 
+	* Core/util_obj.php: Forgot to add isMute().
+
+Brian Cline	<brian@ircplanet.net>	2010-10-29
+
 	* Operator/commands/mute.php: Adequately embarrassing typo. Yes, I regex'd
 	my code. Deal with it.
 

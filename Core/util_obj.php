@@ -69,5 +69,9 @@
 		return (is_object($obj) && get_class($obj) == 'Gline');
 	}
 	
+	function isMute($obj)
+	{
+		return (is_object($obj) && get_class($obj) == 'Mute');
+	}
 	
 
