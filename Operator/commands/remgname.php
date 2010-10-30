@@ -34,6 +34,7 @@
 	if ($gline = $this->getGline($realname)) {
 		$gline->setInactive();
 		$gline->setLastMod(time());
+		$gline->save();
 		$this->enforceGline($gline);
 	}
 	else {

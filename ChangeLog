@@ -1,5 +1,10 @@
 Brian Cline	<brian@ircplanet.net>	2010-10-29
 
+	* Core/util_obj.php: Apparently mutes and glines were never being saved
+	when deactivated.
+
+Brian Cline	<brian@ircplanet.net>	2010-10-29
+
 	* Core/util_obj.php: Forgot to add isMute().
 
 Brian Cline	<brian@ircplanet.net>	2010-10-29

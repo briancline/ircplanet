@@ -34,6 +34,7 @@
 	if ($mute = $this->getMute($mask)) {
 		$mute->setInactive();
 		$mute->setLastMod(time());
+		$mute->save();
 		$this->enforceMute($mute);
 	}
 	else {
