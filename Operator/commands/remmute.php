@@ -34,8 +34,13 @@
 	if ($mute = $this->getMute($mask)) {
 		$mute->setInactive();
 		$mute->setLastMod(time());
-		$mute->save();
 		$this->enforceMute($mute);
+
+		if ($dbMute = $this->getDbMute($mask)) {
+			$dbMute->setInactive();
+			$dbMute->setLastMod(time());
+			$dbMute->save();
+		}
 	}
 	else {
 		$this->sendf(FMT_MUTE_INACTIVE, SERVER_NUM, $mask, 1, time());
