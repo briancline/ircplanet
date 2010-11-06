@@ -9,10 +9,22 @@ Brian Cline	<brian@ircplanet.net>	2010-11-06
 	
 	* Operator/commands/mute.php: Same with mutes.
 
+Brian Cline	<brian@ircplanet.net>	2010-11-02
+
+	* Operator/commands/remgline.php: Fix bug in last commit.
+
+	* Operator/commands/remgname.php: Same.
+
+	* Operator/commands/remmute.php: Same.
+
 Brian Cline	<brian@ircplanet.net>	2010-10-29
 
-	* Core/util_obj.php: Apparently mutes and glines were never being saved
-	when deactivated.
+	* Operator/commands/remgline.php: Apparently mutes and glines were never 
+	being saved when deactivated.
+
+	* Operator/commands/remgname.php: Same.
+
+	* Operator/commands/remmute.php: Same.
 
 Brian Cline	<brian@ircplanet.net>	2010-10-29
 

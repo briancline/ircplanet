@@ -34,8 +34,13 @@
 	if ($gline = $this->getGline($mask)) {
 		$gline->setInactive();
 		$gline->setLastMod(time());
-		$gline->save();
 		$this->enforceGline($gline);
+
+		if ($dbGline = $this->getDbGline($mask)) {
+			$dbGline->setInactive();
+			$dbGline->setLastMod(time());
+			$dbGline->save();
+		}
 	}
 	else {
 		$this->sendf(FMT_GLINE_INACTIVE, SERVER_NUM, $mask, 1, time());
