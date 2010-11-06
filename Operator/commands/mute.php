@@ -67,6 +67,8 @@
 		$mute->setReason($reason);
 		$mute->setLastMod(time());
 		$mute->setActive();
+		
+		$this->serviceAddMute($mute);
 	}
 	else {
 		$mute = $this->addMute($mask, $durationSecs, time(), $reason);

@@ -56,6 +56,8 @@
 		$gline->setReason($reason);
 		$gline->setLastMod(time());
 		$gline->setActive();
+		
+		$this->serviceAddGline($gline);
 	}
 	else {
 		$gline = $this->addGline($channel, $duration_secs, time(), $reason);

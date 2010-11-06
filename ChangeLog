@@ -1,3 +1,14 @@
+Brian Cline	<brian@ircplanet.net>	2010-11-06
+
+	* Operator/commands/addgchan.php: Make sure to update the database with
+	any changes to existing g-lines.
+	
+	* Operator/commands/addgname.php: Same.
+	
+	* Operator/commands/gline.php: Same.
+	
+	* Operator/commands/mute.php: Same with mutes.
+
 Brian Cline	<brian@ircplanet.net>	2010-10-29
 
 	* Core/util_obj.php: Apparently mutes and glines were never being saved
