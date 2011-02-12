@@ -1,5 +1,9 @@
 Brian Cline	<brian@ircplanet.net>	2011-02-12
 
+	* Core/core_globals.php: Bump version revision.
+
+Brian Cline	<brian@ircplanet.net>	2011-02-12
+
 	* Core/network.ini: Added to keep track of network-level settings, like
 	the network name, nick length, account length, and hidden host suffix.
 	Things that definitely needed to come out of the core_globals.php file.
