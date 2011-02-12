@@ -99,13 +99,14 @@
 	$bot->ban($chan->getName(), $mask);
 	$chan->addBan($mask);
 	
+	if (empty($reason)) {
+		$reason = 'Banned';
+	}
+	
 	if (defined('KICK_ON_BAN') && KICK_ON_BAN) {
-		$matchingUsers = $this->getChannelUsersByMask($chan_name);
+		$matchingUsers = $this->getChannelUsersByMask($chan_name, $ban->getMask());
 		foreach ($matchingUsers as $numeric => $chanUser) {
-			if (!$chanUser->isBot() && $chanUser != $user 
-					&& ($ban->matches($chanUser->getFullMaskSafe()) 
-						|| $ban->matches($chanUser->getFullMask()) 
-						|| $ban->matches($chanUser->getFullIpMask()))) {
+			if (!$chanUser->isBot() && $chanUser != $user) {
 				$bot->kick($chan->getName(), $numeric, $reason);
 			}
 		}

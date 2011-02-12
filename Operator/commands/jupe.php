@@ -52,9 +52,6 @@
 		return false;
 	}
 	
-	$jupe = $this->addJupe($server, $duration_secs, $last_mod, $reason);
+	$jupe = $this->addJupe($server, $duration_secs, time(), $last_mod, $reason);
 	
-	$this->sendf(FMT_JUPE_ACTIVE, SERVER_NUM, $jupe->getServer(), $duration_secs, 
-			$jupe->getLastMod(), $jupe->getReason());
-	
-
+	$this->enforceJupe($jupe);	

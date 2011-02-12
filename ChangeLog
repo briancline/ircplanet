@@ -1,5 +1,29 @@
 Brian Cline	<brian@ircplanet.net>	2011-02-12
 
+	* Channel/commands/ban.php: Add a reason of "Banned" when kicking people
+	and kick_on_ban is enabled, and remove redundant code from the kick_on_ban
+	block that is already performed in Service::getChannelUsersByMask.
+	
+	* Core/service.php: Remove a debug message.
+	
+	* Operator/commands/jupe.php: Add the origination timestamp to the addJupe
+	call. Also remove unnecessary sendf code since we already have the
+	Service::enforceJupe method to handle that for us.
+	
+	* Operator/commands/mute.php: Add the origination timestamp to the addMute
+	call.
+	
+	* Operator/commands/remmute.php: Add empty reason when issuing an overriding
+	mute deactivation on mutes we know nothing about.
+	
+	* Core/core_globals.php: Bump version revision.
+	
+	* Channel/globals.php: Bump version revision.
+	
+	* Operator/globals.php: Bump version revision.
+
+Brian Cline	<brian@ircplanet.net>	2011-02-12
+
 	* Core/core_globals.php: Bump version revision.
 
 	* Core/gline.php: Add origination timestamp variable. Previously forgot.

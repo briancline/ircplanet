@@ -794,7 +794,6 @@
 		
 		function getChannelUsersByMask($name, $mask = '*')
 		{
-			debugf('Mask is %s', $mask);
 			$chan = $this->getChannel($name);
 			$numerics = array();
 			

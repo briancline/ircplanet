@@ -71,7 +71,7 @@
 		$this->serviceAddMute($mute);
 	}
 	else {
-		$mute = $this->addMute($mask, $durationSecs, time(), $reason);
+		$mute = $this->addMute($mask, $durationSecs, time(), time(), $reason);
 	}
 	
 	$this->enforceMute($mute);
