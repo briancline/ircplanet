@@ -1,5 +1,12 @@
 Brian Cline	<brian@ircplanet.net>	2011-02-12
 
+	* Nickname/commands/set.php: Allow admins to reset user passwords with
+	SET nickname PASSWORD newpassword123.
+	
+	* Nickname/globals.php: Bump version.
+
+Brian Cline	<brian@ircplanet.net>	2011-02-12
+
 	* Core/core_globals.php: Bump version revision.
 
 Brian Cline	<brian@ircplanet.net>	2011-02-12

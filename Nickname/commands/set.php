@@ -171,6 +171,12 @@
 		$bot->noticef($user, 'Toggled %s suspension for %s.', 
 			$value ? 'ON' : 'OFF', $who);
 	}
+	elseif ($option == 'PASSWORD' && $user_level >= 500) {
+		$password_md5 = md5($value);
+		$account->setPassword($password_md5);
+
+		$bot->notice($user, '%s password has been changed.', $who);
+	}
 	elseif ($option == 'PASSWORD') {
 		$bot->noticef($user, 'Please use the %sNEWPASS%s command to change %s password.',
 			BOLD_START, BOLD_END, $who);
