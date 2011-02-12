@@ -57,5 +57,5 @@
 		}
 	}
 	elseif (!$gline) {
-		$this->addGline($mask, $duration, $lastmod, $reason, $active);
+		$this->addGline($mask, $duration, time(), $lastmod, $reason, $active);
 	}

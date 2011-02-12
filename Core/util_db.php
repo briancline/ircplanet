@@ -32,7 +32,7 @@
 	require_once("core_globals.php");
 	
 
-	function db_query($query, $log = true, $fix_bad_connection = true)
+	function db_query($query, $log = false, $fix_bad_connection = true)
 	{
 		$result = mysql_query($query);
 		$error = mysql_error();

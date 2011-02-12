@@ -61,6 +61,7 @@
 		public function setReason($s)        { $this->reason = $s; }
 		public function setActive()          { $this->active = 1; }
 		public function setInactive()        { $this->active = 0; }
+		public function setActiveState($b)   { $this->active = ($b ? 1 : 0); }
 		
 		public function matches($host)
 		{

@@ -87,7 +87,7 @@
 		foreach ($users as $numeric) {
 			$tmp_user = $this->getUser($numeric);
 			if ($tmp_user != $user && !$tmp_user->isBot()) {
-				$gline = $this->addGline($tmp_user->getGlineMask(), $gline_duration, time(), 
+				$gline = $this->addGline($tmp_user->getGlineMask(), $gline_duration, time(), time(), 
 					"Channel g-line for ". $chan->getName());
 				$this->enforceGline($gline);
 			}

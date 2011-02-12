@@ -37,10 +37,11 @@
 		protected $reason;
 		protected $active = false;
 		
-		public function __construct($mask, $duration, $lastmod, $reason, $active = true)
+		public function __construct($mask, $duration, $set, $lastmod, $reason, $active = true)
 		{
 			$this->mask = $mask;
 			$this->expire_ts = time() + $duration;
+			$this->set_ts = $set;
 			$this->lastmod_ts = $lastmod;
 			$this->reason = $reason;
 			$this->active = $active;
@@ -49,6 +50,7 @@
 		public function __toString()       { return $this->mask; }
 		
 		public function getMask()          { return $this->mask; }
+		public function getSetTs()         { return $this->set_ts; }
 		public function getExpireTs()      { return $this->expire_ts; }
 		public function getLastMod()       { return $this->lastmod_ts; }
 		public function getDuration()      { return $this->expire_ts - time(); }
@@ -58,6 +60,7 @@
 		public function isRealName()       { return '$R' == substr($this->mask, 0, 2); }
 		public function isChannel()        { return '#' == $this->mask[0]; }
 		
+		public function setTs($n)          { $this->set_ts = $n; }
 		public function setDuration($n)    { $this->expire_ts = time() + $n; }
 		public function setLastMod($n)     { $this->lastmod_ts = $n; }
 		public function setReason($s)      { $this->reason = $s; }

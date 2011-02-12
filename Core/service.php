@@ -564,10 +564,10 @@
 		}
 		
 		
-		function addGline($host, $duration, $lastmod, $reason = '', $active = true)
+		function addGline($host, $duration, $set, $lastmod, $reason = '', $active = true)
 		{
 			$gline_key = strtolower($host);
-			$this->glines[$gline_key] = new Gline($host, $duration, $lastmod, $reason, $active);
+			$this->glines[$gline_key] = new Gline($host, $duration, $set, $lastmod, $reason, $active);
 			
 			if (method_exists($this, 'serviceAddGline')) {
 				$this->serviceAddGline($this->glines[$gline_key]);
@@ -598,8 +598,8 @@
 			}
 			
 			$this->sendf($format, SERVER_NUM, $gline->getMask(), 
-				$gline->getDuration(), $gline->getLastMod(), 
-				$gline->getReason());
+				$gline->getDuration(), $gline->getSetTs(),
+				$gline->getLastMod(), $gline->getReason());
 			
 			return true;
 		}
@@ -782,20 +782,28 @@
 		
 		function getChannelUsersByMask($name, $mask = '*')
 		{
+			debugf('Mask is %s', $mask);
 			$chan = $this->getChannel($name);
 			$numerics = array();
 			
-			if (!$chan)
+			if (!$chan) {
 				return false;
+			}
 			
 			foreach ($chan->users as $numeric => $chan_user) {
 				$user = $this->getUser($numeric);
-				if ($user && ($mask == '*' || fnmatch($mask, $user->getFullMask())))
+				if ($user && ($mask == '*' 
+							|| fnmatch($mask, $user->getFullMask()) 
+							|| fnmatch($mask, $user->getFullIpMask()) 
+							|| fnmatch($mask, $user->getFullMaskSafe())))
+				{
 					$numerics[$numeric] = $user;
+				}
 			}
 			
-			if (count($numerics) == 0)
+			if (count($numerics) == 0) {
 				return false;
+			}
 			
 			return $numerics;
 		}

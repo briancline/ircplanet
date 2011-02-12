@@ -60,7 +60,7 @@
 		$this->serviceAddGline($gline);
 	}
 	else {
-		$gline = $this->addGline($channel, $duration_secs, time(), $reason);
+		$gline = $this->addGline($channel, $duration_secs, time(), time(), $reason);
 	}
 	
 	$this->enforceGline($gline);

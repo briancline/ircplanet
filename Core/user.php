@@ -174,14 +174,16 @@
 		
 		function getFullMask()     { return $this->nick .'!'. $this->ident .'@'. $this->host; }
 		function getFullIpMask()   { return $this->nick .'!'. $this->ident .'@'. $this->ip; }
-		function getFullMaskSafe() { $mask = $this->nick .'!'. $this->ident .'@'. $this->getHostSafe(); }
+		function getFullMaskSafe() { return $this->nick .'!'. $this->ident .'@'. $this->getHostSafe(); }
 
 		function getHostSafe()
 		{
-			if ($this->hasFakehost())
+			if ($this->hasFakehost()) {
 				return $this->getFakehost();
-			elseif ($this->isHostHidden() && $this->hasAccountName())
+			}
+			elseif ($this->isHostHidden() && $this->hasAccountName()) {
 				return $this->getAccountName() .'.'. HIDDEN_HOST;
+			}
 				
 			return $this->getHost();
 		}

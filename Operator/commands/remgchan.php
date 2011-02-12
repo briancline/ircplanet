@@ -37,5 +37,5 @@
 		$this->enforceGline($gline);
 	}
 	else {
-		$this->sendf(FMT_GLINE_INACTIVE, SERVER_NUM, $channel, 1, time());
+		$this->sendf(FMT_GLINE_INACTIVE, SERVER_NUM, $channel, 1, time(), '');
 	}

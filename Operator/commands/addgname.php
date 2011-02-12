@@ -55,7 +55,7 @@
 		$this->serviceAddGline($gline);
 	}
 	else {
-		$gline = $this->addGline($realname, $duration_secs, time(), $reason);
+		$gline = $this->addGline($realname, $duration_secs, time(), time(), $reason);
 	}
 	
 	$this->enforceGline($gline);

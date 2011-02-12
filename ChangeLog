@@ -1,3 +1,58 @@
+Brian Cline	<brian@ircplanet.net>	2011-02-12
+
+	* Core/core_globals.php: Bump version revision.
+
+	* Core/gline.php: Bring g-line class up to date to accept an originating
+	timestamp.
+	
+	* Core/p10.php: Update FMT_GLINE, FMT_MUTE, and FMT_JUPE formats to accept
+	an additional timestamp, in accordance with what is now being done in ircu.
+	
+	* Core/p10/handle_GL.php: Pass originating timestamp in new gline arguments.
+	
+	* Core/service.php: Allow originating timestamp to be passed in
+	Service::addGline. Send it out when broadcasting a g-line. Also fix a bug in
+	Service::getChannelUsersByMask where we weren't checking the fakehost or
+	hidden host of a user when determining which ones in a channel matched the
+	given mask.
+	
+	* Core/user.php: Fix a rather embarrassing bug causing User::getFullMaskSafe,
+	which is responsible for returning a user's hidden or fake host, or their
+	actual host, in that order.
+	
+	* Core/util_db.php: Don't log database queries by default.
+	
+	* Defense/ds.php: Start providing origination timestamps on new g-lines.
+	
+	* Defense/globals.php: Bump version revision.
+	
+	* Operator/commands/addgchan.php: Same.
+	
+	* Operator/commands/addgname.php: Same.
+	
+	* Operator/commands/clearchan.php: Same.
+	
+	* Operator/commands/remgchan.php: Provide an empty reason when sending out
+	an overriding g-line deactivation.
+	
+	* Operator/commands/remgline.php: Same.
+	
+	* Operator/commands/remgname.php: Same.
+	
+	* Operator/db_gline.php: Provide mutator to set whether g-line is active.
+	
+	* Operator/db_jupe.php: Same.
+	
+	* Operator/db_mute.php: Same.
+	
+	* Operator/globals.php: Bump version revision.
+	
+	* Operator/os.php: Start providing origination timestamps and lastmod 
+	timestamps on g-lines when adding them to memory or into the database.
+	
+	* Operator/p10/handle_N.php: Start providing origination timestamps on
+	g-lines for excessive clones, Tor hosts, or compromised hosts.
+
 Brian Cline	<brian@ircplanet.net>	2010-11-26
 
 	* tada.wav.

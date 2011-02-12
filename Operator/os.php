@@ -156,7 +156,8 @@
 				$this->db_glines[$gline_key] = $gline;
 				
 				$this->addGline($gline->getMask(), $gline->getRemainingSecs(), 
-					$gline->getLastMod(), $gline->getReason(), $gline->isActive());
+					$gline->getSetTs(), $gline->getLastMod(), 
+					$gline->getReason(), $gline->isActive());
 			}
 
 			debugf('Loaded %d g-lines.', count($this->db_glines));
@@ -257,11 +258,12 @@
 			}
 
 			$db_gline = new DB_Gline();
-			$db_gline->setTs($serviceGline->getLastMod());
+			$db_gline->setTs($serviceGline->getSetTs());
+			$db_gline->setLastMod($serviceGline->getLastMod());
 			$db_gline->setMask($serviceGline->getMask());
 			$db_gline->setDuration($serviceGline->getDuration());
 			$db_gline->setReason($serviceGline->getReason());
-			$db_gline->setActive($serviceGline->isActive() ? 1 : 0);
+			$db_gline->setActiveState($serviceGline->isActive() ? 1 : 0);
 			$db_gline->save();
 
 			$gline_key = strtolower($serviceGline->getMask());
@@ -275,10 +277,11 @@
 				return $this->serviceAddGline($serviceGline);
 			}
 			
-			$db_gline->setTs($serviceGline->getLastMod());
+			$db_gline->setTs($serviceGline->getSetTs());
+			$db_gline->setLastMod($serviceGline->getLastMod());
 			$db_gline->setDuration($serviceGline->getDuration());
 			$db_gline->setReason($serviceGline->getReason());
-			$db_gline->setActive($serviceGline->isActive() ? 1 : 0);
+			$db_gline->setActiveState($serviceGline->isActive() ? 1 : 0);
 			$db_gline->save();
 		}
 
@@ -302,11 +305,11 @@
 			}
 
 			$db_mute = new DB_Mute();
-			$db_mute->setTs($serviceMute->getLastMod());
+			$db_mute->setTs($serviceMute->getSetTs());
 			$db_mute->setMask($serviceMute->getMask());
 			$db_mute->setDuration($serviceMute->getDuration());
 			$db_mute->setReason($serviceMute->getReason());
-			$db_mute->setActive($serviceMute->isActive() ? 1 : 0);
+			$db_mute->setActiveState($serviceMute->isActive() ? 1 : 0);
 			$db_mute->save();
 
 			$mute_key = strtolower($serviceMute->getMask());
@@ -320,10 +323,10 @@
 				return $this->serviceAddMute($serviceMute);
 			}
 
-			$db_mute->setTs($serviceMute->getLastMod());
+			$db_mute->setTs($serviceMute->getSetTs());
 			$db_mute->setDuration($serviceMute->getDuration());
 			$db_mute->setReason($serviceMute->getReason());
-			$db_mute->setActive($serviceMute->isActive() ? 1 : 0);
+			$db_mute->setActiveState($serviceMute->isActive() ? 1 : 0);
 			$db_mute->save();
 		}
 
@@ -351,9 +354,9 @@
 			$db_jupe->setServer($jupe->getServer());
 			$db_jupe->setDuration($jupe->getExpireTs() - time());
 			$db_jupe->setLastMod($jupe->getLastMod());
-			$db_jupe->setTs(time());
+			$db_jupe->setTs($jupe->getSetTs());
 			$db_jupe->setReason($jupe->getReason());
-			$db_jupe->setActive($jupe->isActive());
+			$db_jupe->setActiveState($jupe->isActive() ? 1 : 0);
 			$db_jupe->save();
 
 			$jupe_key = strtolower($server);
