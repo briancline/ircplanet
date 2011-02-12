@@ -30,26 +30,32 @@
  */
 
 	$active = ($args[3][0] == '+');
-
 	$server = substr($args[3], 1);
 	$duration = $args[4];
-	$last_mod = $args[5];
-	$reason = $args[6];
+	$lastmod = ($num_args >= 7 ? $args[5] : 0);
+	$lifetime = ($num_args >= 8 ? $args[6] : 0);
+	$reason = $args[$num_args - 1];
 
-	if ($jupe = $this->getJupe($server)) {
+	$jupe = $this->getJupe($server);
+
+	if ($jupe && $lastmod > $jupe->getLastMod()) {
+		if ($active) {
+			debugf('*** Re-activating jupe %s', $jupe->getServer());
+			$gline->setActive();
+		}
+		else {
+			debugf('*** De-activating jupe %s', $jupe->getServer());
+			$gline->setInactive();
+		}
+		
 		$jupe->setDuration($duration);
-		$jupe->setLastMod($last_mod);
+		$jupe->setLastMod($lastmod);
 		$jupe->setReason($reason);
+		
+		if (method_exists($this, 'serviceChangeJupe')) {
+			$this->serviceChangeJupe($jupe);
+		}
 	}
 	else {
-		$jupe = $this->addJupe($server, $duration, $last_mod, $reason);
+		$jupe = $this->addJupe($server, $duration, time(), $lastmod, $reason, $active);
 	}
-
-	if ($active)
-		$jupe->activate();
-	else
-		$jupe->deactivate();
-
-	print_r($this->jupes);
-	
-

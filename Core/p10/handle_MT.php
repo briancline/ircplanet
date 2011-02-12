@@ -57,5 +57,5 @@
 		}
 	}
 	elseif (!$mute) {
-		$this->addMute($mask, $duration, $lastmod, $reason, $active);
+		$mute = $this->addMute($mask, $duration, time(), $lastmod, $reason, $active);
 	}

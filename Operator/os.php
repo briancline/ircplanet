@@ -179,7 +179,8 @@
 				$this->db_mutes[$mute_key] = $mute;
 
 				$this->addMute($mute->getMask(), $mute->getRemainingSecs(), 
-					$mute->getLastMod(), $mute->getReason(), $mute->isActive());
+					$mute->getSetTs(), $mute->getLastMod(), 
+					$mute->getReason(), $mute->isActive());
 			}
 
 			debugf('Loaded %d mutes.', count($this->db_mutes));
@@ -199,6 +200,10 @@
 
 				$jupe_key = strtolower($jupe->getServer());
 				$this->db_jupes[$jupe_key] = $jupe;
+				
+				$this->addJupe($jupe->getServer(), $jupe->getRemainingSecs(),
+					$jupe->getSetTs(), $jupe->getLastMod(),
+					$jupe->getReason(), $jupe->isActive());
 			}
 
 			debugf('Loaded %d jupes.', count($this->db_jupes));
@@ -306,6 +311,7 @@
 
 			$db_mute = new DB_Mute();
 			$db_mute->setTs($serviceMute->getSetTs());
+			$db_mute->setLastMod($serviceMute->getLastMod());
 			$db_mute->setMask($serviceMute->getMask());
 			$db_mute->setDuration($serviceMute->getDuration());
 			$db_mute->setReason($serviceMute->getReason());
@@ -324,6 +330,7 @@
 			}
 
 			$db_mute->setTs($serviceMute->getSetTs());
+			$db_mute->setLastMod($serviceMute->getLastMod());
 			$db_mute->setDuration($serviceMute->getDuration());
 			$db_mute->setReason($serviceMute->getReason());
 			$db_mute->setActiveState($serviceMute->isActive() ? 1 : 0);
@@ -343,35 +350,48 @@
 		}
 
 
-		function serviceAddJupe($server, $duration, $last_mod, $reason)
+		function serviceAddJupe($serviceJupe)
 		{
-			$jupe = $this->getDbJupe($server);
+			if ($this->getDbJupe($serviceJupe->getServer())) {
+				return $this->serviceChangeJupe($serviceJupe);
+			}
 			
-			if (!$jupe)
-				return false;
-
 			$db_jupe = new DB_Jupe();
-			$db_jupe->setServer($jupe->getServer());
-			$db_jupe->setDuration($jupe->getExpireTs() - time());
-			$db_jupe->setLastMod($jupe->getLastMod());
 			$db_jupe->setTs($jupe->getSetTs());
+			$db_jupe->setLastMod($jupe->getLastMod());
+			$db_jupe->setServer($jupe->getServer());
+			$db_jupe->setDuration($jupe->getDuration());
 			$db_jupe->setReason($jupe->getReason());
 			$db_jupe->setActiveState($jupe->isActive() ? 1 : 0);
 			$db_jupe->save();
 
-			$jupe_key = strtolower($server);
+			$jupe_key = strtolower($serviceJupe->getServer());
 			$this->db_jupes[$jupe_key] = $jupe;
+		}
+
+
+		function serviceChangeJupe($serviceJupe)
+		{
+			if (!($db_jupe = $this->getDbJupe($serviceJupe->getServer()))) {
+				return $this->serviceAddJupe($serviceJupe);
+			}
+
+			$db_jupe->setTs($serviceJupe->getSetTs());
+			$db_jupe->setLastMod($serviceJupe->getLastMod());
+			$db_jupe->setDuration($serviceJupe->getDuration());
+			$db_jupe->setReason($serviceJupe->getReason());
+			$db_jupe->setActiveState($serviceJupe->isActive() ? 1 : 0);
+			$db_jupe->save();
 		}
 
 
 		function serviceRemoveJupe($server)
 		{
-			$jupe = $this->getDbJupe($server);
-
-			if (!$jupe)
+			if (!($db_jupe = $this->getDbJupe($server))) {
 				return false;
-			
-			$jupe->delete();
+			}
+
+			$db_jupe->delete();
 			$jupe_key = strtolower($server);
 			unset($this->db_jupes[$jupe_key]);
 		}

@@ -35,33 +35,31 @@
 		protected $_key_field = 'jupe_id';
 		
 		protected $jupe_id;
-		protected $active;
 		protected $set_ts = 0;
 		protected $expire_ts = 0;
-		protected $last_mod_ts = 0;
+		protected $lastmod_ts = 0;
 		protected $server;
 		protected $reason;
-		
+		protected $active = 0;
+
 		protected function recordConstruct() { }
 		protected function recordDestruct()  { }
 		
-		public function getSetTs()          { return $this->set_ts; }
-		public function getExpireTs()       { return $this->expire_ts; }
-		public function getLastMod()        { return $this->last_mod; }
-		public function getRemainingSecs()  { return $this->getExpireTs() - time(); }
+		public function getSetTs()           { return $this->set_ts; }
+		public function getExpireTs()        { return $this->expire_ts; }
+		public function getLastMod()         { return $this->lastmod_ts; }
+		public function getRemainingSecs()   { return $this->getExpireTs() - time(); }
 		public function getServer()          { return $this->server; }
 		public function getReason()          { return $this->reason; }
-		public function isExpired()          { return $this->expire_ts < time(); }
-		public function isActive()           { return $this->active == 1; }
-		
+		public function isActive()           { return 1 == $this->active; }
+		public function isExpired()          { return (time() >= $this->expire_ts); }
+
 		public function setTs($n)            { $this->set_ts = $n; }
 		public function setDuration($n)      { $this->expire_ts = time() + $n; }
-		public function setLastMod($n)      { $this->last_mod_ts = $n; }
+		public function setLastMod($n)       { $this->lastmod_ts = $n; }
 		public function setServer($s)        { $this->server = $s; }
 		public function setReason($s)        { $this->reason = $s; }
 		public function setActive()          { $this->active = 1; }
-		public function setInactive()        { $this->inactive = 1; }
+		public function setInactive()        { $this->active = 0; }
 		public function setActiveState($b)   { $this->active = ($b ? 1 : 0); }
 	}
-	
-

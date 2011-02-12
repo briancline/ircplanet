@@ -32,41 +32,55 @@
 	class Jupe
 	{
 		protected $server;
+		protected $set_ts;
 		protected $expire_ts;
-		protected $last_mod;
+		protected $lastmod_ts;
 		protected $reason;
-		protected $active;
+		protected $active = false;
 		
-		function __construct($server, $duration, $last_mod, $reason, $active = true)
+		public function __construct($server, $duration, $set, $lastmod, $reason, $active = true)
 		{
 			$this->server = $server;
 			$this->expire_ts = time() + $duration;
-			$this->last_mod = $last_mod;
+			$this->set_ts = $set;
+			$this->lastmod_ts = $lastmod;
 			$this->reason = $reason;
 			$this->active = $active;
 		}
 		
-		function getServer()        { return $this->server; }
-		function getExpireTs()      { return $this->expire_ts; }
-		function getDuration()      { return $this->expire_ts - time(); }
-		function getLastMod()       { return $this->last_mod; }
-		function getReason()        { return $this->reason; }
-		function isExpired()        { return (time() >= $this->expire_ts); }
-		function isActive()         { return $this->active; }
-
-		function setDuration($n)    { $this->expire_ts = time() + $n; }
-		function setLastMod($n)     { $this->last_mod = $n; }
-		function setReason($s)      { $this->reason = $s; }
-		function activate()         { $this->active = true; }
-		function deactivate()       { $this->active = false; }
+		public function __toString()       { return $this->server; }
 		
-		function __toString()        { return $this->server; }
+		public function getServer()        { return $this->server; }
+		public function getSetTs()         { return $this->set_ts; }
+		public function getExpireTs()      { return $this->expire_ts; }
+		public function getLastMod()       { return $this->lastmod_ts; }
+		public function getDuration()      { return $this->expire_ts - time(); }
+		public function getReason()        { return $this->reason; }
+		public function isActive()         { return 1 == $this->active; }
+		public function isExpired()        { return (time() >= $this->expire_ts); }
 
-		function expireNow()
+		public function setTs($n)          { $this->set_ts = $n; }
+		public function setDuration($n)    { $this->expire_ts = time() + $n; }
+		public function setLastMod($n)     { $this->lastmod_ts = $n; }
+		public function setReason($s)      { $this->reason = $s; }
+		public function setActive()        { $this->active = 1; }
+		public function setInactive()      { $this->active = 0; }
+		
+		public function expireNow()
 		{
 			$this->active = false;
 			$this->expire_ts = time();
-			$this->last_mod = time();
+			$this->lastmod_ts = time();
+		}
+
+		public function matches($server)
+		{
+			if (isServer($host)) {
+				return fnmatch($this->server, $server->getName());
+			}
+			else {
+				return fnmatch($this->server, $server);
+			}
 		}
 	}
 

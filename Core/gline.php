@@ -32,6 +32,7 @@
 	class Gline
 	{
 		protected $mask;
+		protected $set_ts;
 		protected $expire_ts;
 		protected $lastmod_ts;
 		protected $reason;

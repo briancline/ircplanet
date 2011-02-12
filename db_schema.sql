@@ -40,7 +40,7 @@ CREATE TABLE `accounts` (
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`account_id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 PACK_KEYS=1 COMMENT='User accounts';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 PACK_KEYS=1 COMMENT='User accounts';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +62,7 @@ CREATE TABLE `channel_access` (
   PRIMARY KEY (`access_id`),
   KEY `chan_id` (`chan_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Channel Access Records';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Channel Access Records';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -83,7 +83,7 @@ CREATE TABLE `channel_bans` (
   `reason` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`ban_id`),
   KEY `chan_id` (`chan_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +125,7 @@ CREATE TABLE `channels` (
   `no_voice` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`channel_id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Registered Channels';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Registered Channels';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,7 +139,7 @@ CREATE TABLE `cs_admins` (
   `user_id` int(11) NOT NULL DEFAULT '0',
   `level` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Nickserv Admins';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Nickserv Admins';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -154,7 +154,7 @@ CREATE TABLE `cs_badchans` (
   `chan_mask` varchar(50) NOT NULL,
   `create_date` datetime DEFAULT NULL,
   PRIMARY KEY (`badchan_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='CS Bad Channels';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='CS Bad Channels';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -168,7 +168,7 @@ CREATE TABLE `ds_admins` (
   `user_id` int(11) NOT NULL DEFAULT '0',
   `level` int(11) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Defense Service Admins';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Defense Service Admins';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -184,7 +184,7 @@ CREATE TABLE `ds_whitelist` (
   `create_date` datetime NOT NULL,
   `update_date` datetime NOT NULL,
   PRIMARY KEY (`whitelist_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -200,7 +200,7 @@ CREATE TABLE `help` (
   `topic` varchar(20) NOT NULL DEFAULT '',
   `text` text NOT NULL,
   PRIMARY KEY (`service`,`topic`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Commands Help';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Commands Help';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -403,7 +403,7 @@ CREATE TABLE `ns_admins` (
   `user_id` int(11) NOT NULL DEFAULT '0',
   `level` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Nickserv Admins';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Nickserv Admins';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -418,7 +418,7 @@ CREATE TABLE `ns_badnicks` (
   `nick_mask` varchar(50) NOT NULL,
   `create_date` datetime DEFAULT NULL,
   PRIMARY KEY (`badnick_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Bad Nick Words/Masks';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Bad Nick Words/Masks';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -432,7 +432,7 @@ CREATE TABLE `os_admins` (
   `user_id` int(11) NOT NULL DEFAULT '0',
   `level` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Operserv Admins';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Operserv Admins';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -447,7 +447,7 @@ CREATE TABLE `os_badchans` (
   `chan_mask` varchar(50) NOT NULL,
   `create_date` datetime DEFAULT NULL,
   PRIMARY KEY (`badchan_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Bad Channel Words/Masks';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Bad Channel Words/Masks';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -466,8 +466,31 @@ CREATE TABLE `os_glines` (
   `mask` varchar(100) NOT NULL DEFAULT '',
   `reason` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`gline_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `os_jupes`
+--
+
+DROP TABLE IF EXISTS `os_jupes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `os_jupes` (
+  `jupe_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `set_ts` int(11) NOT NULL DEFAULT '0',
+  `expire_ts` int(11) NOT NULL DEFAULT '0',
+  `lastmod_ts` int(11) NOT NULL DEFAULT '0',
+  `server` varchar(100) NOT NULL DEFAULT '',
+  `reason` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`jupe_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `os_mutes`
+--
 
 DROP TABLE IF EXISTS `os_mutes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -481,7 +504,7 @@ CREATE TABLE `os_mutes` (
   `mask` varchar(100) NOT NULL DEFAULT '',
   `reason` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`mute_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -496,7 +519,7 @@ CREATE TABLE `stats_channel_users` (
   `nick` varchar(15) NOT NULL,
   `is_op` smallint(5) unsigned NOT NULL,
   `is_voice` smallint(5) unsigned NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -511,7 +534,7 @@ CREATE TABLE `stats_channels` (
   `topic` varchar(255) NOT NULL,
   `modes` varchar(45) NOT NULL,
   PRIMARY KEY (`channel_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -530,7 +553,7 @@ CREATE TABLE `stats_history` (
   `opers` int(10) unsigned NOT NULL,
   `services` int(10) unsigned NOT NULL,
   `service_servers` int(10) unsigned NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -547,7 +570,7 @@ CREATE TABLE `stats_servers` (
   `max_users` int(10) unsigned NOT NULL,
   `is_service` smallint(5) unsigned NOT NULL,
   PRIMARY KEY (`server_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -567,7 +590,7 @@ CREATE TABLE `stats_users` (
   `account` varchar(15) NOT NULL,
   `signon_date` datetime DEFAULT NULL,
   PRIMARY KEY (`nick`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

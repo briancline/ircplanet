@@ -2,6 +2,36 @@ Brian Cline	<brian@ircplanet.net>	2011-02-12
 
 	* Core/core_globals.php: Bump version revision.
 
+	* Core/gline.php: Add origination timestamp variable. Previously forgot.
+	
+	* Core/jupe.php: Reworked to match gline internals.
+	
+	* Core/p10/handle_GL.php: Hang on to the returned g-line from addGline
+	in case any service-level GL handlers need it.
+	
+	* Core/p10/handle_JU.php: Bring up to date to match the new Jupe class.
+	
+	* Core/p10/handle_MT.php: Bring up to date to match the new Mute class.
+	
+	* Core/service.php: Bring up to date to match the new Jupe class, with 
+	similar changes to some of the Core-level mute internals. Also bring some
+	code up to date with recent code standards, bit by bit.
+	
+	* Operator/db_jupe.php: Bring up to date to match the new Jupe class and
+	table structure.
+	
+	* Operator/os.php: Bring up to date to match new changes to Jupe and Mute
+	internals.
+	
+	* Operator/core_globals.php: Bump version revision.
+
+	* db_schema.sql: Change all tables to UTF-8, and add the oddly missing
+	os_jupes table. All this time...
+	
+Brian Cline	<brian@ircplanet.net>	2011-02-12
+
+	* Core/core_globals.php: Bump version revision.
+
 	* Core/gline.php: Bring g-line class up to date to accept an originating
 	timestamp.
 	

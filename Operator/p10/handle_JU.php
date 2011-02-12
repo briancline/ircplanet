@@ -28,16 +28,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
+	$active = ('+' == $args[3][0]);
+	$server = $this->getServer($args[0]);
+	$jupe = $this->getJupe($mask);
 	
-	define('SERVICE_NAME',           'Operator Service');
-	define('SERVICE_VERSION_MAJOR',  1);
-	define('SERVICE_VERSION_MINOR',  5);
-	define('SERVICE_VERSION_REV',    3);
-	
-	define('SERVICE_DIR',            dirname(__FILE__));
-	define('SERVICE_CONFIG_FILE',    SERVICE_DIR .'/os.ini');
-	define('SERVICE_HANDLER_DIR',    SERVICE_DIR .'/p10/');
-	define('SERVICE_TIMER_DIR',      SERVICE_DIR .'/timers/');
-	define('CMD_HANDLER_DIR',        SERVICE_DIR .'/commands/');
-	
+	if ($jupe) {
+		$serverName = $jupe->getServer();
+		if ($active)
+			$mask = "+$serverName";
+		else
+			$mask = "-$serverName";
+		
+		$this->reportEvent('JUPE', $server, $mask, '('. $jupe->getReason() .')');
+	}
+
 

@@ -580,8 +580,9 @@
 		function getGline($host)
 		{
 			$gline_key = strtolower($host);
-			if (array_key_exists($gline_key, $this->glines))
+			if (array_key_exists($gline_key, $this->glines)) {
 				return $this->glines[$gline_key];
+			}
 			
 			return false;
 		}
@@ -589,8 +590,9 @@
 		
 		function enforceGline($gline)
 		{
-			if (!isGline($gline) && !($gline = $this->getGline($gline)))
+			if (!isGline($gline) && !($gline = $this->getGline($gline))) {
 				return false;
+			}
 			
 			$format = FMT_GLINE_ACTIVE;
 			if (!$gline->isActive()) {
@@ -608,20 +610,22 @@
 		function removeGline($host)
 		{
 			$gline_key = strtolower($host);
-			if (!array_key_exists($gline_key, $this->glines))
+			if (!array_key_exists($gline_key, $this->glines)) {
 				return;
+			}
 			
 			unset($this->glines[$gline_key]);
 
-			if (method_exists($this, 'serviceRemoveGline'))
+			if (method_exists($this, 'serviceRemoveGline')) {
 				$this->serviceRemoveGline($host);
+			}
 		}
 		
 		
-		function addMute($host, $duration, $lastmod, $reason = '', $active = true)
+		function addMute($host, $duration, $set, $lastmod, $reason = '', $active = true)
 		{
 			$mute_key = strtolower($host);
-			$this->mutes[$mute_key] = new Mute($host, $duration, $lastmod, $reason, $active);
+			$this->mutes[$mute_key] = new Mute($host, $duration, $set, $lastmod, $reason, $active);
 
 			if (method_exists($this, 'serviceAddMute')) {
 				$this->serviceAddMute($this->mutes[$mute_key]);
@@ -634,8 +638,9 @@
 		function getMute($host)
 		{
 			$mute_key = strtolower($host);
-			if (array_key_exists($mute_key, $this->mutes))
+			if (array_key_exists($mute_key, $this->mutes)) {
 				return $this->mutes[$mute_key];
+			}
 
 			return false;
 		}
@@ -643,8 +648,9 @@
 
 		function enforceMute($mute)
 		{
-			if (!isMute($mute) && !($mute = $this->getMute($mute)))
+			if (!isMute($mute) && !($mute = $this->getMute($mute))) {
 				return false;
+			}
 
 			$format = FMT_MUTE_ACTIVE;
 			if (!$mute->isActive()) {
@@ -652,8 +658,8 @@
 			}
 
 			$this->sendf($format, SERVER_NUM, $mute->getMask(), 
-				$mute->getDuration(), $mute->getLastMod(), 
-				$mute->getReason());
+				$mute->getDuration(), $mute->getSetTs(),
+				$mute->getLastMod(), $mute->getReason());
 
 			return true;
 		}
@@ -662,23 +668,26 @@
 		function removeMute($host)
 		{
 			$mute_key = strtolower($host);
-			if (!array_key_exists($mute_key, $this->mutes))
+			if (!array_key_exists($mute_key, $this->mutes)) {
 				return;
+			}
 
 			unset($this->mutes[$mute_key]);
 
-			if (method_exists($this, 'serviceRemoveMute'))
+			if (method_exists($this, 'serviceRemoveMute')) {
 				$this->serviceRemoveMute($host);
+			}
 		}
 
 
-		function addJupe($server, $duration, $last_mod, $reason)
+		function addJupe($server, $duration, $set, $lastmod, $reason = '', $active = true)
 		{
 			$jupe_key = strtolower($server);
-			$this->jupes[$jupe_key] = new Jupe($server, $duration, $last_mod, $reason);
+			$this->jupes[$jupe_key] = new Jupe($server, $duration, $set, $lastmod, $reason, $active);
 
-			if (method_exists($this, 'serviceAddJupe'))
-				$this->serviceAddJupe($server, $duration, $last_mod, $reason);
+			if (method_exists($this, 'serviceAddJupe')) {
+				$this->serviceAddJupe($this->jupes[$jupe_key]);
+			}
 
 			return $this->jupes[$jupe_key];
 		}
@@ -687,8 +696,9 @@
 		function getJupe($server)
 		{
 			$jupe_key = strtolower($server);
-			if (array_key_exists($jupe_key, $this->jupes))
+			if (array_key_exists($jupe_key, $this->jupes)) {
 				return $this->jupes[$jupe_key];
+			}
 
 			return false;
 		}
@@ -697,13 +707,15 @@
 		function removeJupe($server)
 		{
 			$jupe_key = strtolower($server);
-			if (!array_key_exists($jupe_key, $this->jupes))
+			if (!array_key_exists($jupe_key, $this->jupes)) {
 				return;
+			}
 
 			unset($this->jupes[$jupe_key]);
 
-			if (method_exists($this, 'serviceRemoveJupe'))
+			if (method_exists($this, 'serviceRemoveJupe')) {
 				$this->serviceRemoveJupe($server);
+			}
 		}
 
 		
