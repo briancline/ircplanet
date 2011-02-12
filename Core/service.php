@@ -54,6 +54,7 @@
 	{
 		var $debug = true;
 		
+		var $networkConfig;
 		var $config;
 		var $sock;
 		var $db;
@@ -90,7 +91,7 @@
 			
 			if (!defined('SERVICE_CONFIG_FILE'))
 				define('SERVICE_CONFIG_FILE', 'service.ini');
-				
+			
 			/**
 			 * The following methods are required for child classes. A service cannot exist
 			 * if it does not implement these methods.
@@ -160,11 +161,21 @@
 		
 		function loadConfig()
 		{
+			if (!file_exists(NETWORK_CONFIG_FILE)) {
+				die('Cannot find network configuration file.');
+			}
+			
 			if (!file_exists(SERVICE_CONFIG_FILE)) {
 				die('Cannot find service configuration file.');
 			}
-			
+
+			$this->networkConfig = parse_ini_file(NETWORK_CONFIG_FILE);
 			$this->config = parse_ini_file(SERVICE_CONFIG_FILE);
+			
+			/** Network level config overrides service level config **/
+			foreach ($this->networkConfig as $var => $value) {
+				$this->config[$var] = $value;
+			}
 			
 			foreach ($this->config as $conf_var => $conf_val) {
 				$conf_var = strtolower($conf_var);

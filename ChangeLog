@@ -1,5 +1,17 @@
 Brian Cline	<brian@ircplanet.net>	2011-02-12
 
+	* Core/network.ini: Added to keep track of network-level settings, like
+	the network name, nick length, account length, and hidden host suffix.
+	Things that definitely needed to come out of the core_globals.php file.
+	Anything setting defined in network.ini will override its equal in any
+	service-level ini file. So, for instance, providing a db_host in the
+	Channel/cs.ini file and providing it in Core/network.ini will cause the
+	channel service to use the db_host provided in Core/network.ini.
+	
+	* Core/service.php: Add provisions for new Core-level network.ini file.
+
+Brian Cline	<brian@ircplanet.net>	2011-02-12
+
 	* Channel/commands/ban.php: Add a reason of "Banned" when kicking people
 	and kick_on_ban is enabled, and remove redundant code from the kick_on_ban
 	block that is already performed in Service::getChannelUsersByMask.

@@ -45,11 +45,8 @@
 	define('P10_DIR',             CORE_DIR .'/p10/');
 	define('CORE_TIMER_DIR',      CORE_DIR .'/timers/');
 	
-	define('NICK_LEN',            15);
 	define('IDENT_LEN',           10);
 	define('HOST_LEN',            64);
-	define('ACCOUNT_LEN',         NICK_LEN);
-	define('HIDDEN_HOST',         'users.ircplanet.net');
 	define('TOPIC_BURSTING',      true);
 	
 	define('SOCKET_TIMEOUT',       5);
@@ -73,6 +70,8 @@
 	define('NOTIFY_LOAD',           'L');
 	define('NOTIFY_RELOAD',         'R');
 	define('NOTIFY_DELETE',         'D');
+	
+	define('NETWORK_CONFIG_FILE',   CORE_DIR .'/network.ini');
 
 
 	function debug($s)
