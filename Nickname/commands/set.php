@@ -175,7 +175,7 @@
 		$password_md5 = md5($value);
 		$account->setPassword($password_md5);
 
-		$bot->notice($user, '%s password has been changed.', $who);
+		$bot->noticef($user, '%s password has been changed.', $who);
 	}
 	elseif ($option == 'PASSWORD') {
 		$bot->noticef($user, 'Please use the %sNEWPASS%s command to change %s password.',
