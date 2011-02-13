@@ -43,5 +43,5 @@
 		}
 	}
 	else {
-		$this->sendf(FMT_GLINE_INACTIVE, SERVER_NUM, $mask, 1, time(), '');
+		$this->sendf(FMT_GLINE_INACTIVE, SERVER_NUM, $mask, 1, time(), time(), '');
 	}

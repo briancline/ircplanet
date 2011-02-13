@@ -463,6 +463,7 @@ CREATE TABLE `os_glines` (
   `set_ts` int(11) NOT NULL DEFAULT '0',
   `expire_ts` int(11) NOT NULL DEFAULT '0',
   `lastmod_ts` int(11) NOT NULL DEFAULT '0',
+  `lifetime_ts` int(11) NOT NULL DEFAULT '0',
   `mask` varchar(100) NOT NULL DEFAULT '',
   `reason` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`gline_id`)
@@ -501,6 +502,7 @@ CREATE TABLE `os_mutes` (
   `set_ts` int(11) NOT NULL DEFAULT '0',
   `expire_ts` int(11) NOT NULL DEFAULT '0',
   `lastmod_ts` int(11) NOT NULL DEFAULT '0',
+  `lifetime_ts` int(11) NOT NULL DEFAULT '0',
   `mask` varchar(100) NOT NULL DEFAULT '',
   `reason` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`mute_id`)

@@ -38,10 +38,10 @@
 
 		if ($dbGline = $this->getDbGline($realname)) {
 			$dbGline->setInactive();
-			$dbGline->setLastMod(time());
+			$dbGline->updateLastMod();
 			$dbGline->save();
 		}
 	}
 	else {
-		$this->sendf(FMT_GLINE_INACTIVE, SERVER_NUM, $realname, 1, time(), '');
+		$this->sendf(FMT_GLINE_INACTIVE, SERVER_NUM, $realname, 1, time(), time(), '');
 	}

@@ -56,6 +56,7 @@
 	
 	$maxTime = 2147483647;
 	$expireTime = time() + $durationSecs;
+	$lifetime = $expireTime;
 	
 	if ($expireTime > $maxTime || $expireTime < 0) {
 		$bot->noticef($user, 'The duration you specified is too large. Please try something more sensible.');
@@ -65,13 +66,13 @@
 	if ($mute = $this->getMute($mask)) {
 		$mute->setDuration($durationSecs);
 		$mute->setReason($reason);
-		$mute->setLastMod(time());
+		$mute->updateLastMod();
 		$mute->setActive();
 		
 		$this->serviceAddMute($mute);
 	}
 	else {
-		$mute = $this->addMute($mask, $durationSecs, time(), time(), $reason);
+		$mute = $this->addMute($mask, $durationSecs, time(), time(), $lifetime, $reason);
 	}
 	
 	$this->enforceMute($mute);

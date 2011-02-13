@@ -50,6 +50,7 @@
 		
 		$mute->setDuration($duration);
 		$mute->setLastMod($lastmod);
+		$mute->setLifetime($lifetime);
 		$mute->setReason($reason);
 		
 		if (method_exists($this, 'serviceChangeMute')) {
@@ -57,5 +58,5 @@
 		}
 	}
 	elseif (!$mute) {
-		$mute = $this->addMute($mask, $duration, time(), $lastmod, $reason, $active);
+		$mute = $this->addMute($mask, $duration, time(), $lastmod, $lifetime, $reason, $active);
 	}

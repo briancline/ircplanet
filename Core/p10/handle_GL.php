@@ -50,6 +50,7 @@
 		
 		$gline->setDuration($duration);
 		$gline->setLastMod($lastmod);
+		$gline->setLifetime($lifetime);
 		$gline->setReason($reason);
 		
 		if (method_exists($this, 'serviceChangeGline')) {
@@ -57,5 +58,5 @@
 		}
 	}
 	elseif (!$gline) {
-		$gline = $this->addGline($mask, $duration, time(), $lastmod, $reason, $active);
+		$gline = $this->addGline($mask, $duration, time(), $lastmod, $lifetime, $reason, $active);
 	}

@@ -36,8 +36,8 @@
 	$expiredMutes = array();
 
 	foreach ($this->mutes as $muteKey => $mute) {
-		if ($mute->isExpired()) {
-			debugf('*** Removing expired G-line %s', $mute->getMask());
+		if ($mute->hasExceededLifetime()) {
+			debugf('*** Removing expired mute %s', $mute->getMask());
 			$expiredMutes[] = $muteKey;
 		}
 	}

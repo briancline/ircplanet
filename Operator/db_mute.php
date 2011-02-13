@@ -38,6 +38,7 @@
 		protected $set_ts = 0;
 		protected $expire_ts = 0;
 		protected $lastmod_ts = 0;
+		protected $lifetime_ts = 0;
 		protected $mask;
 		protected $reason;
 		protected $active = 0;
@@ -48,6 +49,7 @@
 		public function getSetTs()           { return $this->set_ts; }
 		public function getExpireTs()        { return $this->expire_ts; }
 		public function getLastMod()         { return $this->lastmod_ts; }
+		public function getLifetime()        { return $this->lifetime_ts; }
 		public function getRemainingSecs()   { return $this->getExpireTs() - time(); }
 		public function getMask()            { return $this->mask; }
 		public function getReason()          { return $this->reason; }
@@ -57,6 +59,7 @@
 		public function setTs($n)            { $this->set_ts = $n; }
 		public function setDuration($n)      { $this->expire_ts = time() + $n; }
 		public function setLastMod($n)       { $this->lastmod_ts = $n; }
+		public function setLifetime($n)      { $this->lifetime_ts = $n; }
 		public function setMask($s)          { $this->mask = fixHostMask($s); }
 		public function setReason($s)        { $this->reason = $s; }
 		public function setActive()          { $this->active = 1; }

@@ -575,10 +575,10 @@
 		}
 		
 		
-		function addGline($host, $duration, $set, $lastmod, $reason = '', $active = true)
+		function addGline($host, $duration, $set, $lastmod, $lifetime, $reason = '', $active = true)
 		{
 			$gline_key = strtolower($host);
-			$this->glines[$gline_key] = new Gline($host, $duration, $set, $lastmod, $reason, $active);
+			$this->glines[$gline_key] = new Gline($host, $duration, $set, $lastmod, $lifetime, $reason, $active);
 			
 			if (method_exists($this, 'serviceAddGline')) {
 				$this->serviceAddGline($this->glines[$gline_key]);
@@ -611,8 +611,8 @@
 			}
 			
 			$this->sendf($format, SERVER_NUM, $gline->getMask(), 
-				$gline->getDuration(), $gline->getSetTs(),
-				$gline->getLastMod(), $gline->getReason());
+				$gline->getDuration(), $gline->getLastMod(),
+				$gline->getLifetime(), $gline->getReason());
 			
 			return true;
 		}
@@ -633,10 +633,10 @@
 		}
 		
 		
-		function addMute($host, $duration, $set, $lastmod, $reason = '', $active = true)
+		function addMute($host, $duration, $set, $lastmod, $lifetime, $reason = '', $active = true)
 		{
 			$mute_key = strtolower($host);
-			$this->mutes[$mute_key] = new Mute($host, $duration, $set, $lastmod, $reason, $active);
+			$this->mutes[$mute_key] = new Mute($host, $duration, $set, $lastmod, $lifetime, $reason, $active);
 
 			if (method_exists($this, 'serviceAddMute')) {
 				$this->serviceAddMute($this->mutes[$mute_key]);
@@ -669,8 +669,8 @@
 			}
 
 			$this->sendf($format, SERVER_NUM, $mute->getMask(), 
-				$mute->getDuration(), $mute->getSetTs(),
-				$mute->getLastMod(), $mute->getReason());
+				$mute->getDuration(), $mute->getLastMod(),
+				$mute->getLifetime(), $mute->getReason());
 
 			return true;
 		}

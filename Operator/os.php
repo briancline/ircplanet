@@ -156,7 +156,7 @@
 				$this->db_glines[$gline_key] = $gline;
 				
 				$this->addGline($gline->getMask(), $gline->getRemainingSecs(), 
-					$gline->getSetTs(), $gline->getLastMod(), 
+					$gline->getSetTs(), $gline->getLastMod(), $gline->getLifetime(),
 					$gline->getReason(), $gline->isActive());
 			}
 
@@ -179,7 +179,7 @@
 				$this->db_mutes[$mute_key] = $mute;
 
 				$this->addMute($mute->getMask(), $mute->getRemainingSecs(), 
-					$mute->getSetTs(), $mute->getLastMod(), 
+					$mute->getSetTs(), $mute->getLastMod(), $mute->getLifetime(), 
 					$mute->getReason(), $mute->isActive());
 			}
 
@@ -265,6 +265,7 @@
 			$db_gline = new DB_Gline();
 			$db_gline->setTs($serviceGline->getSetTs());
 			$db_gline->setLastMod($serviceGline->getLastMod());
+			$db_gline->setLifetime($serviceGline->getLifetime());
 			$db_gline->setMask($serviceGline->getMask());
 			$db_gline->setDuration($serviceGline->getDuration());
 			$db_gline->setReason($serviceGline->getReason());
@@ -284,6 +285,7 @@
 			
 			$db_gline->setTs($serviceGline->getSetTs());
 			$db_gline->setLastMod($serviceGline->getLastMod());
+			$db_gline->setLifetime($serviceGline->getLifetime());
 			$db_gline->setDuration($serviceGline->getDuration());
 			$db_gline->setReason($serviceGline->getReason());
 			$db_gline->setActiveState($serviceGline->isActive() ? 1 : 0);
@@ -312,6 +314,7 @@
 			$db_mute = new DB_Mute();
 			$db_mute->setTs($serviceMute->getSetTs());
 			$db_mute->setLastMod($serviceMute->getLastMod());
+			$db_mute->setLifetime($serviceMute->getLifetime());
 			$db_mute->setMask($serviceMute->getMask());
 			$db_mute->setDuration($serviceMute->getDuration());
 			$db_mute->setReason($serviceMute->getReason());
@@ -331,6 +334,7 @@
 
 			$db_mute->setTs($serviceMute->getSetTs());
 			$db_mute->setLastMod($serviceMute->getLastMod());
+			$db_mute->setLifetime($serviceMute->getLifetime());
 			$db_mute->setDuration($serviceMute->getDuration());
 			$db_mute->setReason($serviceMute->getReason());
 			$db_mute->setActiveState($serviceMute->isActive() ? 1 : 0);

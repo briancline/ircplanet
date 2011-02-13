@@ -36,7 +36,7 @@
 	$expired_glines = array();
 
 	foreach ($this->glines as $gline_key => $gline) {
-		if ($gline->isExpired()) {
+		if ($gline->hasExceededLifetime()) {
 			debugf('*** Removing expired G-line %s', $gline->getMask());
 			$expired_glines[] = $gline_key;
 		}

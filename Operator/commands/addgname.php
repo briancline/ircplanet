@@ -40,6 +40,7 @@
 	
 	$max_ts = 2147483647;
 	$expire_ts = time() + $duration_secs;
+	$lifetime = $expire_ts;
 	
 	if ($expire_ts > $max_ts || $expire_ts < 0) {
 		$bot->noticef($user, 'The duration you specified is too large. Please try something more sensible.');
@@ -49,13 +50,13 @@
 	if ($gline = $this->getGline($realname)) {
 		$gline->setDuration($duration_secs);
 		$gline->setReason($reason);
-		$gline->setLastMod(time());
+		$gline->updateLastMod();
 		$gline->setActive();
 		
 		$this->serviceAddGline($gline);
 	}
 	else {
-		$gline = $this->addGline($realname, $duration_secs, time(), time(), $reason);
+		$gline = $this->addGline($realname, $duration_secs, time(), time(), $lifetime, $reason);
 	}
 	
 	$this->enforceGline($gline);

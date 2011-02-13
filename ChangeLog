@@ -1,5 +1,72 @@
 Brian Cline	<brian@ircplanet.net>	2011-02-12
 
+	* Core/gline.php: Implement the lifetime timestamp. Honestly not sure 
+	how I missed this, as I remember reading quite thoroughly the documentation
+	in my own modified distribution of 2.10.12.13... Added the necessary 
+	variable and accessors/mutators, modifying some existing ones as needed
+	to ensure expiration never exceeds lifetime.
+	
+	* Core/mute.php: Since mutes are essentially the same as g-lines, except
+	less severe and unannounced to the affected users, all changes to g-lines
+	were applied to mutes.
+	
+	* Core/p10/handle_GL.php: Keep track of lifetime.
+	
+	* Core/p10/handle_MT.php: Same.
+	
+	* Core/service.php: Require, keep track of, and correct the broadcast
+	parameters to include lifetimes for g-line and mute objects in memory.
+	
+	* Core/timers/expire_glines.php: Only remove a g-line from memory if its
+	lifetime has been exceeded, not expiration time.
+	
+	* Core/timers/expire_mutes.php: Same.
+	
+	* Core/core_globals.php: Bump version.
+	
+	* Defense/ds.php: Provide lifetime for new g-lines.
+	
+	* Defense/globals.php: Bump version.
+	
+	* Operator/commands/addgchan.php: Provide lifetime on channel g-lines.
+	
+	* Operator/commands/addgname.php: Same for realname g-lines.
+	
+	* Operator/commands/clearchan.php: Same for mass g-lines.
+	
+	* Operator/commands/gline.php: Same for vanilla g-lines.
+	
+	* Operator/commands/mute.php: Same for mutes.
+	
+	* Operator/commands/remgchan.php: Provide lifetime of right now when 
+	broadcasting a deactivation message for a channel g-line we know nothing of.
+	
+	* Operator/commands/remgline.php: Same for vanilla g-lines.
+	
+	* Operator/commands/remgname.php: Same for realname g-lines.
+	
+	* Operator/commands/remmute.php: Same for mutes.
+	
+	* Operator/commands/show.php: Enhanced to show lastmod and lifetime times 
+	for g-lines and mutes.
+	
+	* Operator/db_gline.php: Track lifetime timestamps.
+	
+	* Operator/db_mute.php: Same.
+	
+	* Operator/os.php: Load lifetime timestamps when loading g-lines and mutes
+	into memory from the database. Also, persist them in the database when
+	g-lines and mutes are changed or added and the service is notified.
+	
+	* Operator/p10/handle_N.php: Provide lifetime for g-lines on clones, Tor 
+	nodes, or compromised hosts.
+	
+	* Operator/globals.php: Bump version.
+	
+	* db_schema.sql: Add lifetime_ts to the os_glines and os_mutes tables.
+
+Brian Cline	<brian@ircplanet.net>	2011-02-12
+
 	* Nickname/commands/set.php: Allow admins to reset user passwords with
 	SET nickname PASSWORD newpassword123.
 	

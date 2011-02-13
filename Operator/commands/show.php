@@ -78,10 +78,16 @@
 		$n = 0;
 		foreach ($this->glines as $gline_key => $gline) {
 			$exp_date = date('D d M H:i:s Y', $gline->getExpireTs());
+			$lifetime_date = date('D d M H:i:s Y', $gline->getLifetime());
+			$lastmod_date = date('D d M H:i:s Y', $gline->getLastMod());
 
 			$bot->noticef($user, '  %2d) Mask:     %s', ++$n, $gline->getMask());
 			$bot->noticef($user, '       Reason:   %s', $gline->getReason());
+			$bot->noticef($user, '       Updated:  %s', $lastmod_date);
 			$bot->noticef($user, '       Expires:  %s', $exp_date);
+			if ($gline->getExpireTs() != $gline->getLifetime()) {
+				$bot->noticef($user, '       Lifetime: %s', $lifetime_date);
+			}
 		}
 	}
 	elseif ($option == 'MUTES') {
@@ -93,10 +99,16 @@
 		$n = 0;
 		foreach ($this->mutes as $mute_key => $mute) {
 			$exp_date = date('D d M H:i:s Y', $mute->getExpireTs());
+			$lifetime_date = date('D d M H:i:s Y', $mute->getLifetime());
+			$lastmod_date = date('D d M H:i:s Y', $mute->getLastMod());
 
 			$bot->noticef($user, '  %2d) Mask:     %s', ++$n, $mute->getMask());
 			$bot->noticef($user, '       Reason:   %s', $mute->getReason());
+			$bot->noticef($user, '       Updated:  %s', $lastmod_date);
 			$bot->noticef($user, '       Expires:  %s', $exp_date);
+			if ($mute->getExpireTs() != $mute->getLifetime()) {
+				$bot->noticef($user, '       Lifetime: %s', $lifetime_date);
+			}
 		}
 	}
 	elseif ($option == 'JUPES') {
