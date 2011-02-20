@@ -29,11 +29,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-	$req_wildcard = ('*' == $chan_name);
-	$is_admin = (0 < $user_admin_level);
+	$requestedWildcard = ('*' == $chan_name);
+	$userIsAdmin = (0 < $user_admin_level);
 
 	if (!($reg = $this->getChannelReg($chan_name)) 
-			&& !($is_admin && $req_wildcard))
+			&& !($userIsAdmin && $requestedWildcard))
 	{
 		$bot->noticef($user, '%s is not registered!', $chan_name);
 		return false;
@@ -41,20 +41,37 @@
 	
 	$n = 0;
 	$users = array();
-	$user_mask = $pargs[2];
+	$userMask = $pargs[2];
 	
 	$channels = array();
-	if ($req_wildcard && $is_admin) {
-		// If an admin requests all channels, point to db_channels.
-		$channels = $this->db_channels;
-		$tmp_account = $this->getAccount($user_mask);
+	if ($requestedWildcard && $userIsAdmin) {
+		/** Admin user requested a wildcard search. **/
+		$tmpAccount = $this->getAccount($userMask);
 
-		if (!$tmp_account) {
-			$bot->noticef($user, 'There is no user account named %s.', $user_mask);
+		if (!$tmpAccount) {
+			$bot->noticef($user, 'There is no user account named %s.', $userMask);
 			return false;
 		}
 
-		$search_id = $tmp_account->getId();
+		$channels = $this->db_channels;
+		$searchId = $tmpAccount->getId();
+	}
+	elseif ($requestedWildcard) {
+		/** Normal user requested a wildcard search. **/
+		$tmpAccount = $this->getAccount($userMask);
+		$userAccount = $this->getAccount($user->getAccountName());
+		
+		if (!$tmpAccount) {
+			$bot->noticef($user, 'There is no user account named %s.', $userMask);
+			return false;
+		}
+		elseif (!$userAccount || $tmpAccount->getId() != $userAccount->getId()) {
+			$bot->noticef($user, 'You can only search multiple channels for your own access records.');
+			return false;
+		}
+		
+		$channels = $this->db_channels;
+		$searchId = $tmpAccount->getId();
 	}
 	else {
 		/**
@@ -64,19 +81,21 @@
 		$channels = array($reg);
 	}
 	
-	foreach ($channels as $tmp_reg) {
-		if ($req_wildcard && $is_admin && $tmp_reg->getLevelById($tmp_account->getId()) == 0)
+	foreach ($channels as $tmpReg) {
+		if ($requestedWildcard && $tmpReg->getLevelById($tmpAccount->getId()) == 0) {
 			continue;
+		}
 
-		foreach ($tmp_reg->getLevels() as $user_id => $access) {
-			$tmpuser = $this->getAccountById($user_id);
+		foreach ($tmpReg->getLevels() as $userId => $access) {
+			$tmpuser = $this->getAccountById($userId);
 			
-			if (!$tmpuser)
+			if (!$tmpuser) {
 				continue;
+			}
 			
 			$tmpname = $tmpuser->getName();
 			
-			if (strtolower($tmpname) == strtolower($user_mask) || fnmatch($user_mask, $tmpname)) {
+			if (strtolower($tmpname) == strtolower($userMask) || fnmatch($userMask, $tmpname)) {
 				$users[] = $access;
 				$n++;
 			}
@@ -84,26 +103,28 @@
 	}
 
 	if (count($users) > 0) {
-		$user_num = 0;
+		$userNum = 0;
+		
 		for ($i = 500; $i > 0; $i--) {
 			foreach ($users as $access) {
 				$level = $access->getLevel();
+				
 				if ($level == $i) {
 					$tmpuser = $this->getAccountById($access->getUserId());
 					$last_ts = $tmpuser->getLastseenTs();
 
-					if ($req_wildcard && $is_admin) {
-						$tmp_reg = $this->getChannelRegById($access->getChanId());
+					if ($requestedWildcard) {
+						$tmpReg = $this->getChannelRegById($access->getChanId());
 
 						$bot->noticef($user, '%3d) Channel: %s%s%s', 
-							++$user_num, BOLD_START, $tmp_reg->getName(), BOLD_END);
+							++$userNum, BOLD_START, $tmpReg->getName(), BOLD_END);
 						$bot->noticef($user, '     User:    %s%-20s%s     Level: %s%3d%s', 
 							BOLD_START, $tmpuser->getName(), BOLD_END,
 							BOLD_START, $level, BOLD_END);
 					}
 					else {
 						$bot->noticef($user, '%3d) User:  %s%-20s%s     Level: %s%3d%s', 
-							++$user_num,
+							++$userNum,
 							BOLD_START, $tmpuser->getName(), BOLD_END,
 							BOLD_START, $level, BOLD_END);
 					}
@@ -119,7 +140,5 @@
 			}
 		}
 	}
-		
-	$bot->noticef($user, 'Found %d records matching your search.', $n);
 	
-
+	$bot->noticef($user, 'Found %d records matching your search.', $n);

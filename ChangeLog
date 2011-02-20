@@ -1,3 +1,10 @@
+Brian Cline	<brian@ircplanet.net>	2011-02-20
+
+	* Channel/commands/access.php: Allow users to search the entire channel 
+	database - ONLY for their own access records. Admins are still able to
+	search the entire database for any/all records. Bring file up to date with
+	newer coding standards.
+
 Brian Cline	<brian@ircplanet.net>	2011-02-12
 
 	* Core/gline.php: Implement the lifetime timestamp. Honestly not sure 
