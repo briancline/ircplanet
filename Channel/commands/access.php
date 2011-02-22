@@ -32,9 +32,7 @@
 	$requestedWildcard = ('*' == $chan_name);
 	$userIsAdmin = (0 < $user_admin_level);
 
-	if (!($reg = $this->getChannelReg($chan_name)) 
-			&& !($userIsAdmin && $requestedWildcard))
-	{
+	if (!$requestedWildcard && !($reg = $this->getChannelReg($chan_name))) {
 		$bot->noticef($user, '%s is not registered!', $chan_name);
 		return false;
 	}

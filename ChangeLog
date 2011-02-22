@@ -1,3 +1,8 @@
+Brian Cline	<brian@ircplanet.net>	2011-02-21
+
+	* Channel/commands/access.php: Fix bug from last commit. Prior patch now
+	works as expected.
+
 Brian Cline	<brian@ircplanet.net>	2011-02-20
 
 	* Channel/commands/access.php: Allow users to search the entire channel 
