@@ -50,7 +50,7 @@
 	 * AE B #testchan 1131291938 +stinlk 69 w00t3rz AEBFo:o
 	 */
 	
-	$hasModes = ($args[4][0] == '+');
+	$hasModes = (count($args) >= 5 && $args[4][0] == '+');
 	if ($hasModes) {
 		$userlist_pos++;
 		$modes_pos = 4;

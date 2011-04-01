@@ -1,3 +1,9 @@
+Brian Cline	<brian@ircplanet.net>	2011-03-31
+
+	* Core/p10/handle_B.php: Fix a bug where empty channels on their way to
+	a DESTRUCT were causing an array index warning to be generated at burst
+	time.
+
 Brian Cline	<brian@ircplanet.net>	2011-02-21
 
 	* Channel/commands/access.php: Fix bug from last commit. Prior patch now
