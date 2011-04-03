@@ -16,8 +16,6 @@ checkServiceState()
 	PID=$SERVICESROOT/$1/$2.pid
 	LOG=$SERVICESROOT/$1/$2.log
 
-	echo Checking $PID
-	
 	if [ -f $PID ] && ps -p `cat $PID` >/dev/null 2>&1; then
 		return
 	elif [ -f $PID ]; then
