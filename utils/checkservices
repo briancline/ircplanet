@@ -1,0 +1,40 @@
+#!/bin/sh
+
+SERVICESROOT=$HOME/dev/ircplanet
+LOGARCHIVE=$SERVICESROOT/logs
+NOW=`date '+%Y%m%d%H%M%S'`
+
+if [ -f $SERVICESROOT/maint ]; then
+	exit
+fi
+
+checkServiceState()
+{
+	# $1 = Directory (Operator)
+	# $2 = App name (os)
+
+	PID=$SERVICESROOT/$1/$2.pid
+	LOG=$SERVICESROOT/$1/$2.log
+
+	echo Checking $PID
+	
+	if [ -f $PID ] && ps -p `cat $PID` >/dev/null 2>&1; then
+		return
+	elif [ -f $PID ]; then
+		echo $1 service not running at `cat $PID`!
+		if [ -f $LOG ] && [ -d $LOGARCHIVE ]; then
+			echo Moving $LOG to $LOGARCHIVE/$NOW-$2.log
+		fi
+
+		echo Restarting $1 service...
+		cd $SERVICESROOT/$1
+		./$2
+	fi
+}
+
+checkServiceState Operator os
+checkServiceState Nickname ns
+checkServiceState Channel cs
+checkServiceState Defense ds
+checkServiceState Stat ss
+

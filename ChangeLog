@@ -1,3 +1,29 @@
+Brian Cline	<brian@ircplanet.net>	2011-04-03
+
+	* Core/service.php: Write the process PID out to SERVICE_PID_FILE.
+	
+	* utils/checkservices: Add script to check runtime status of each service.
+	If a PID file was found and the PID within the file is not still running, 
+	optionally move the last log file to an archive directory (the location of 
+	which can be set in the script), and finally restart the service in 
+	question. Ideal for cron jobs for automagically restarting any services 
+	that unexpectedly die. Additionally, if a file called "maint" is present in
+	the services root directory, no action is taken -- thus, if one wishes to 
+	perform services maintenance without worrying about a cron job interfering 
+	and potentially attempting to restart a service that's currently under 
+	maintenance, temporarily creating this file will cause the script to 
+	cooperate.
+	
+	* Channel/globals.php: Add SERVICE_PID_FILE global.
+
+	* Defense/globals.php: Add SERVICE_PID_FILE global.
+
+	* Nickname/globals.php: Add SERVICE_PID_FILE global.
+
+	* Operator/globals.php: Add SERVICE_PID_FILE global.
+
+	* Stat/globals.php: Add SERVICE_PID_FILE global.
+
 Brian Cline	<brian@ircplanet.net>	2011-03-31
 
 	* Core/p10/handle_B.php: Fix a bug where empty channels on their way to

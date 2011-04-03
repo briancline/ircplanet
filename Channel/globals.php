@@ -36,6 +36,7 @@
 	
 	define('SERVICE_DIR',          dirname(__FILE__));
 	define('SERVICE_CONFIG_FILE',  SERVICE_DIR .'/cs.ini');
+	define('SERVICE_PID_FILE',     SERVICE_DIR .'/cs.pid');
 	define('SERVICE_HANDLER_DIR',  SERVICE_DIR .'/p10/');
 	define('CMD_HANDLER_DIR',      SERVICE_DIR .'/commands/');
 	define('SERVICE_TIMER_DIR',    SERVICE_DIR .'/timers/');

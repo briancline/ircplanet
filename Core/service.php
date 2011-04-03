@@ -115,6 +115,8 @@
 			define('SERVICE_VERSION', SERVICE_NAME .' v'.
 				SERVICE_VERSION_MAJOR .'.'. SERVICE_VERSION_MINOR .'.'. SERVICE_VERSION_REV);
 			
+			file_put_contents(SERVICE_PID_FILE, getmypid());
+			
 			$this->addTimer(true, 5, 'expire_glines.php');
 			$this->addTimer(true, 5, 'expire_mutes.php');
 			$this->addTimer(true, 5, 'expire_jupes.php');
