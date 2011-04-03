@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SERVICESROOT=$HOME/dev/ircplanet
+SERVICESROOT=$HOME/ircplanet
 LOGARCHIVE=$SERVICESROOT/logs
 NOW=`date '+%Y%m%d%H%M%S'`
 
