@@ -29,8 +29,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 	
-	$source = $args[1];
+	$source = $args[0];
 	$routingToken = $args[3];
+	$pargs = explode(' ', $args[4]);
 	$command = $pargs[0];
 
 	switch ($command) {
@@ -43,12 +44,12 @@
 			$password = md5($pargs[2]);
 
 			if (!($account = $this->getAccount($userName)) || $password != $account->getPassword()) {
-				$this->sendf(FMT_XREPLY, SERVER_NUM, $source, $routing, 'RC=0');
+				$this->sendf(FMT_XREPLY, SERVER_NUM, $source, $routingToken, 'RC=0');
 				return false;
 			}
 
 			$response = sprintf('RC=1 AC=%s HN=%s', $account->getName(), $account->getFakehost());
-			$this->sendf(FMT_XREPLY, SERVER_NUM, $source, $routing, $response);
+			$this->sendf(FMT_XREPLY, SERVER_NUM, $source, $routingToken, $response);
 
 			break;
 

@@ -1,5 +1,10 @@
 Brian Cline	<brian@ircplanet.net>	2011-08-06
 
+	* Nickname/p10/handle_XQ.php: Fix several longstanding bugs in NS's XQUERY
+	handler.
+
+Brian Cline	<brian@ircplanet.net>	2011-08-06
+
 	* Core/core_globals.php: Add CORE_LIB_DIR define.
 	
 	* Core/network.ini: Add SMTP_* defines to the network-level configuration,
