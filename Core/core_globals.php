@@ -42,6 +42,7 @@
 	                               CORE_VERSION_REV);
 
 	define('CORE_DIR',            dirname(__FILE__));
+	define('CORE_LIB_DIR',        CORE_DIR .'/lib/');
 	define('P10_DIR',             CORE_DIR .'/p10/');
 	define('CORE_TIMER_DIR',      CORE_DIR .'/timers/');
 	

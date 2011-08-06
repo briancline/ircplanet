@@ -1,3 +1,21 @@
+Brian Cline	<brian@ircplanet.net>	2011-08-06
+
+	* Core/core_globals.php: Add CORE_LIB_DIR define.
+	
+	* Core/network.ini: Add SMTP_* defines to the network-level configuration,
+	in order for the mailer to know which host and credentials are needed to
+	send messages.
+	
+	* Core/email.php: Add Email class, which is simply an abstract wrapper
+	around the PHPMailer class. This allows the mailer to be easily switched
+	out in the future should the need arise.
+	
+	* Core/lib/phpmailer/LICENSE: Add file.
+	
+	* Core/lib/phpmailer/class.phpmailer.php: Add file.
+	
+	* Core/lib/phpmailer/class.smtp.php: Add file.
+
 Brian Cline	<brian@ircplanet.net>	2011-04-03
 
 	* Core/service.php: Write the process PID out to SERVICE_PID_FILE.
