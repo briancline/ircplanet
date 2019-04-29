@@ -35,7 +35,9 @@
 	$infoline = '';
 	
 	if ($reg) {
-		if (($ban = $reg->getMatchingBan($user->getFullMask()))) {
+		if (($ban = $reg->getMatchingBan($user->getFullMask()))
+				|| ($ban = $reg->getMatchingBan($user->getFullMaskSafe()))
+				|| ($ban = $reg->getMatchingBan($user->getFullIpMask()))) {
 			$reason = $ban->getReason();
 			if (empty($reason))
 				$reason = 'Banned';
